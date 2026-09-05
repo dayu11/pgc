@@ -1,4 +1,4 @@
-# black-expose-363321ff
+# black-expose-ae581bb8
 
 **Repository:** black  
 **Chain:** expose  
@@ -6,7 +6,7 @@
 
 ## Task
 
-`Line` is defined at `src/black/lines.py:44` (class).
+`Line` is defined at `src/black/lines.py:44` (class). Propose the one-line change to `src/black/__init__.py` that makes `from black import Line` resolve to this definition; give the exact line to append.
 
 *Declared semantics:* A module is a .py file; source roots are the repository root and, if present, src/ and lib/. `from M import N` binds N to M's single module-level binding of N, else to the submodule M/N, else to the single star-import source of M that exports N; bindings take effect in source order. A module exports N if its literal __all__ lists N or, without __all__, if N is public and bound in it. A class derives from a definition when a base written as a bare name or `module.Name` resolves to it. A call site is `name(...)` where the bare name refers to the module-level binding (not a parameter or local). Multiple bindings, non-literal __all__, external star imports and dynamic namespace code make a name ambiguous; tasks never ask about ambiguous names.
 

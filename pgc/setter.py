@@ -218,16 +218,23 @@ OP_TEXT = {
 
 
 def compose_text(head: str, ops: list, stats: dict, tgt: Target) -> str:
+    """head: the resolve question or the definition statement; ops: every operation after it."""
     parts = [head]
+    question = head.endswith("`path:line`.")
     for i, op in enumerate(ops):
-        lead = "Then" if i == 0 and head.endswith("`path:line`.") else ("Then" if i > 0 else "First,")
+        lead = "Then " if (i > 0 or question) else ""
         if op in OP_TEXT:
-            parts.append(f"{lead} {OP_TEXT[op]}")
+            sent = OP_TEXT[op]
         elif op == "not_overriding":
-            parts.append(f"Among those subclasses, which do not define `{stats['not_overriding']['method']}` themselves? Same format.")
+            sent = f"among those subclasses, which do not define `{stats['not_overriding']['method']}` themselves? Same format."
         elif op == "expose":
             pkg = stats["expose"]["package"]
-            parts.append(f"{lead} propose the one-line change to `{pkg}` that makes `from {pkg.rsplit('/', 1)[0].split('/')[-1]} import {tgt.name}` resolve to this definition; give the exact line to append.")
+            sent = (f"propose the one-line change to `{pkg}` that makes `from {pkg.rsplit('/', 1)[0].split('/')[-1]} import {tgt.name}` "
+                    f"resolve to this definition; give the exact line to append.")
+        else:
+            continue
+        text = lead + sent
+        parts.append(text[0].upper() + text[1:])
     return " ".join(parts)
 
 
@@ -243,7 +250,7 @@ def generate(name: str, snap: Snapshot, ix: Index, per_repo: int, seed: int, max
         return stats_cache[tgt.key()]
 
     def add(chain, head_text, ops, tgt, kind, base_floor, base_skel, given):
-        st = stats_for(tgt, kind) if ops else {}
+        st = stats_for(tgt, kind)
         if any(op not in st and op != "resolve" for op in ops):
             return
         steps = list(chain)
@@ -266,7 +273,7 @@ def generate(name: str, snap: Snapshot, ix: Index, per_repo: int, seed: int, max
             return
         family = steps[-1]["op"]
         skel["chain"] = "→".join(s["op"] for s in steps)
-        text = compose_text(head_text, ops, st, tgt)
+        text = compose_text(head_text, [s_["op"] for s_ in steps if s_["op"] != "resolve"], st, tgt)
         pool.append({"family": family, "repo": name, "chain": steps, "given": given, "text": text, "semantics": SEMANTICS,
                      "oracle": {"target": tgt.to_json(), "steps": oracle}, "skeleton": skel, "floor": floor})
 

@@ -1,4 +1,4 @@
-# flask-not_overriding-1895faee
+# flask-not_overriding-56f25cef
 
 **Repository:** flask  
 **Chain:** resolve → subclasses → not_overriding  
@@ -6,7 +6,7 @@
 
 ## Task
 
-In `tests/test_json_tag.py` line 8, `JSONTag` is imported from `flask.json.tag`. Which definition does the module-level name `JSONTag` actually refer to? Give `path:line`. Then list every class that derives from it directly, as `path:line:ClassName`, making sure each base name really resolves to this definition. Among those subclasses, which do not define `to_python` themselves? Same format.
+In `tests/test_json_tag.py` line 8, `JSONTag` is imported from `flask.json.tag`. Which definition does the module-level name `JSONTag` actually refer to? Give `path:line`. Then list every class that derives from it directly, as `path:line:ClassName`, making sure each base name really resolves to this definition. Then among those subclasses, which do not define `to_python` themselves? Same format.
 
 *Declared semantics:* A module is a .py file; source roots are the repository root and, if present, src/ and lib/. `from M import N` binds N to M's single module-level binding of N, else to the submodule M/N, else to the single star-import source of M that exports N; bindings take effect in source order. A module exports N if its literal __all__ lists N or, without __all__, if N is public and bound in it. A class derives from a definition when a base written as a bare name or `module.Name` resolves to it. A call site is `name(...)` where the bare name refers to the module-level binding (not a parameter or local). Multiple bindings, non-literal __all__, external star imports and dynamic namespace code make a name ambiguous; tasks never ask about ambiguous names.
 

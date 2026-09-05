@@ -47,28 +47,6 @@
    "answer_ok": true
   },
   {
-   "id": "attrs-importers-b2c2ecb5",
-   "repo": "attrs",
-   "family": "importers",
-   "chain": "importers",
-   "cell": "chain=importers|decoy_sources=2+|importers=5|star=False",
-   "floor": 25,
-   "calls_search": 29,
-   "calls_greedy": 29,
-   "stopped": "certificate",
-   "stopped_greedy": "certificate",
-   "replay_ok": true,
-   "world_ok": true,
-   "world_checks": 166,
-   "greedy_world_ok": true,
-   "adherence": {
-    "first": 1,
-    "open-ended": 1,
-    "followed": 27
-   },
-   "answer_ok": true
-  },
-  {
    "id": "attrs-importers-fc1b6d66",
    "repo": "attrs",
    "family": "importers",
@@ -88,6 +66,28 @@
     "open-ended": 5,
     "deviated": 1,
     "followed": 17
+   },
+   "answer_ok": true
+  },
+  {
+   "id": "attrs-importers-febeeaed",
+   "repo": "attrs",
+   "family": "importers",
+   "chain": "importers",
+   "cell": "chain=importers|decoy_sources=2+|importers=5|star=False",
+   "floor": 25,
+   "calls_search": 29,
+   "calls_greedy": 29,
+   "stopped": "certificate",
+   "stopped_greedy": "certificate",
+   "replay_ok": true,
+   "world_ok": true,
+   "world_checks": 166,
+   "greedy_world_ok": true,
+   "adherence": {
+    "first": 1,
+    "open-ended": 1,
+    "followed": 27
    },
    "answer_ok": true
   },
@@ -134,7 +134,7 @@
    "answer_ok": true
   },
   {
-   "id": "black-callers-2595670c",
+   "id": "black-callers-5643f155",
    "repo": "black",
    "family": "callers",
    "chain": "callers",
@@ -179,27 +179,6 @@
    "answer_ok": true
   },
   {
-   "id": "black-expose-363321ff",
-   "repo": "black",
-   "family": "expose",
-   "chain": "expose",
-   "cell": "chain=expose|package_depth=2|star_sources=0",
-   "floor": 2,
-   "calls_search": 2,
-   "calls_greedy": 2,
-   "stopped": "certificate",
-   "stopped_greedy": "certificate",
-   "replay_ok": true,
-   "world_ok": true,
-   "world_checks": 8,
-   "greedy_world_ok": true,
-   "adherence": {
-    "first": 1,
-    "open-ended": 1
-   },
-   "answer_ok": true
-  },
-  {
    "id": "black-expose-3f3627c9",
    "repo": "black",
    "family": "expose",
@@ -218,6 +197,27 @@
     "first": 1,
     "open-ended": 3,
     "deviated": 1
+   },
+   "answer_ok": true
+  },
+  {
+   "id": "black-expose-ae581bb8",
+   "repo": "black",
+   "family": "expose",
+   "chain": "expose",
+   "cell": "chain=expose|package_depth=2|star_sources=0",
+   "floor": 2,
+   "calls_search": 2,
+   "calls_greedy": 2,
+   "stopped": "certificate",
+   "stopped_greedy": "certificate",
+   "replay_ok": true,
+   "world_ok": true,
+   "world_checks": 8,
+   "greedy_world_ok": true,
+   "adherence": {
+    "first": 1,
+    "open-ended": 1
    },
    "answer_ok": true
   },
@@ -243,7 +243,7 @@
    "answer_ok": true
   },
   {
-   "id": "black-subclasses-1ffaaa76",
+   "id": "black-subclasses-5d71e34f",
    "repo": "black",
    "family": "subclasses",
    "chain": "subclasses",
@@ -335,7 +335,7 @@
    "answer_ok": true
   },
   {
-   "id": "click-not_overriding-87cc99b7",
+   "id": "click-not_overriding-341ad931",
    "repo": "click",
    "family": "not_overriding",
    "chain": "resolve\u2192subclasses\u2192not_overriding",
@@ -471,7 +471,7 @@
    "answer_ok": true
   },
   {
-   "id": "flask-not_overriding-1895faee",
+   "id": "flask-not_overriding-56f25cef",
    "repo": "flask",
    "family": "not_overriding",
    "chain": "resolve\u2192subclasses\u2192not_overriding",
@@ -584,29 +584,7 @@
    "answer_ok": true
   },
   {
-   "id": "httpx-not_overriding-e47ffae3",
-   "repo": "httpx",
-   "family": "not_overriding",
-   "chain": "subclasses\u2192not_overriding",
-   "cell": "chain=subclasses\u2192not_overriding|decoy_classes=0|overriders=2-3|subclasses=4-8",
-   "floor": 19,
-   "calls_search": 15,
-   "calls_greedy": 15,
-   "stopped": "certificate",
-   "stopped_greedy": "certificate",
-   "replay_ok": true,
-   "world_ok": true,
-   "world_checks": 73,
-   "greedy_world_ok": true,
-   "adherence": {
-    "first": 1,
-    "open-ended": 2,
-    "followed": 12
-   },
-   "answer_ok": true
-  },
-  {
-   "id": "httpx-not_overriding-f3ad6f92",
+   "id": "httpx-not_overriding-11c569aa",
    "repo": "httpx",
    "family": "not_overriding",
    "chain": "subclasses\u2192not_overriding",
@@ -624,6 +602,28 @@
     "first": 1,
     "open-ended": 2,
     "followed": 6
+   },
+   "answer_ok": true
+  },
+  {
+   "id": "httpx-not_overriding-b8de02f4",
+   "repo": "httpx",
+   "family": "not_overriding",
+   "chain": "subclasses\u2192not_overriding",
+   "cell": "chain=subclasses\u2192not_overriding|decoy_classes=0|overriders=2-3|subclasses=4-8",
+   "floor": 19,
+   "calls_search": 15,
+   "calls_greedy": 15,
+   "stopped": "certificate",
+   "stopped_greedy": "certificate",
+   "replay_ok": true,
+   "world_ok": true,
+   "world_checks": 73,
+   "greedy_world_ok": true,
+   "adherence": {
+    "first": 1,
+    "open-ended": 2,
+    "followed": 12
    },
    "answer_ok": true
   },
@@ -649,7 +649,7 @@
    "answer_ok": true
   },
   {
-   "id": "httpx-subclasses-ce1b6953",
+   "id": "httpx-subclasses-048b000f",
    "repo": "httpx",
    "family": "subclasses",
    "chain": "subclasses",
@@ -740,7 +740,7 @@
    "answer_ok": true
   },
   {
-   "id": "pytest-not_overriding-6142ae49",
+   "id": "pytest-not_overriding-220410b7",
    "repo": "pytest",
    "family": "not_overriding",
    "chain": "subclasses\u2192not_overriding",
@@ -784,7 +784,7 @@
    "answer_ok": true
   },
   {
-   "id": "pytest-subclasses-7309d690",
+   "id": "pytest-subclasses-ed33f383",
    "repo": "pytest",
    "family": "subclasses",
    "chain": "subclasses",
@@ -801,6 +801,28 @@
    "adherence": {
     "first": 1,
     "open-ended": 1
+   },
+   "answer_ok": true
+  },
+  {
+   "id": "requests-callers-bd3035c7",
+   "repo": "requests",
+   "family": "callers",
+   "chain": "callers",
+   "cell": "call_sites=5-12|caller_modules=2-3|chain=callers|false_positive_modules=0",
+   "floor": 7,
+   "calls_search": 8,
+   "calls_greedy": 8,
+   "stopped": "certificate",
+   "stopped_greedy": "certificate",
+   "replay_ok": true,
+   "world_ok": true,
+   "world_checks": 42,
+   "greedy_world_ok": true,
+   "adherence": {
+    "first": 1,
+    "open-ended": 1,
+    "followed": 6
    },
    "answer_ok": true
   },
@@ -829,49 +851,6 @@
    "answer_ok": true
   },
   {
-   "id": "requests-callers-f14c2704",
-   "repo": "requests",
-   "family": "callers",
-   "chain": "callers",
-   "cell": "call_sites=5-12|caller_modules=2-3|chain=callers|false_positive_modules=0",
-   "floor": 7,
-   "calls_search": 8,
-   "calls_greedy": 8,
-   "stopped": "certificate",
-   "stopped_greedy": "certificate",
-   "replay_ok": true,
-   "world_ok": true,
-   "world_checks": 42,
-   "greedy_world_ok": true,
-   "adherence": {
-    "first": 1,
-    "open-ended": 1,
-    "followed": 6
-   },
-   "answer_ok": true
-  },
-  {
-   "id": "requests-expose-92e3294d",
-   "repo": "requests",
-   "family": "expose",
-   "chain": "expose",
-   "cell": "chain=expose|package_depth=2|star_sources=0",
-   "floor": 2,
-   "calls_search": 2,
-   "calls_greedy": 2,
-   "stopped": "certificate",
-   "stopped_greedy": "certificate",
-   "replay_ok": true,
-   "world_ok": true,
-   "world_checks": 8,
-   "greedy_world_ok": true,
-   "adherence": {
-    "first": 1,
-    "open-ended": 1
-   },
-   "answer_ok": true
-  },
-  {
    "id": "requests-expose-f79ae652",
    "repo": "requests",
    "family": "expose",
@@ -890,6 +869,27 @@
     "first": 1,
     "open-ended": 3,
     "deviated": 1
+   },
+   "answer_ok": true
+  },
+  {
+   "id": "requests-expose-f884498d",
+   "repo": "requests",
+   "family": "expose",
+   "chain": "expose",
+   "cell": "chain=expose|package_depth=2|star_sources=0",
+   "floor": 2,
+   "calls_search": 2,
+   "calls_greedy": 2,
+   "stopped": "certificate",
+   "stopped_greedy": "certificate",
+   "replay_ok": true,
+   "world_ok": true,
+   "world_checks": 8,
+   "greedy_world_ok": true,
+   "adherence": {
+    "first": 1,
+    "open-ended": 1
    },
    "answer_ok": true
   },
@@ -939,7 +939,7 @@
    "answer_ok": true
   },
   {
-   "id": "rich-callers-e62f0078",
+   "id": "rich-callers-6a96a00f",
    "repo": "rich",
    "family": "callers",
    "chain": "callers",
@@ -1006,7 +1006,7 @@
    "answer_ok": true
   },
   {
-   "id": "rich-not_overriding-dad6cd7e",
+   "id": "rich-not_overriding-3356c407",
    "repo": "rich",
    "family": "not_overriding",
    "chain": "resolve\u2192subclasses\u2192not_overriding",

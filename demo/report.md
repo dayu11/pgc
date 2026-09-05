@@ -66,68 +66,68 @@ Distinct skeleton cells among chosen tasks: 43 of 48 tasks.
 |---|---|---|---|---|---|---|---|---|
 | [attrs-callers-139c336d](traces/attrs-callers-139c336d.md) | resolve→callers | 10 | 11 | 11 | certificate | ok | ok | alias=False|call_sites=5-12|caller_modules=2-3|chain=resolve→callers|decoys=0|false_positive_modules=3+|hops=2|relative=False|star=False |
 | [attrs-callers-8516d5f7](traces/attrs-callers-8516d5f7.md) | resolve→callers | 8 | 7 | 7 | certificate | ok | ok | alias=False|call_sites=13+|caller_modules=2-3|chain=resolve→callers|decoys=0|false_positive_modules=1-2|hops=2|relative=True|star=False |
-| [attrs-importers-b2c2ecb5](traces/attrs-importers-b2c2ecb5.md) | importers | 25 | 29 | 29 | certificate | ok | ok | chain=importers|decoy_sources=2+|importers=5|star=False |
 | [attrs-importers-fc1b6d66](traces/attrs-importers-fc1b6d66.md) | resolve→importers | 23 | 24 | 24 | certificate | ok | ok | alias=False|chain=resolve→importers|decoy_sources=2+|decoys=0|hops=3|importers=5|relative=False|star=True |
+| [attrs-importers-febeeaed](traces/attrs-importers-febeeaed.md) | importers | 25 | 29 | 29 | certificate | ok | ok | chain=importers|decoy_sources=2+|importers=5|star=False |
 | [attrs-resolve-4f2016a5](traces/attrs-resolve-4f2016a5.md) | resolve | 3 | 5 | 5 | certificate | ok | ok | alias=False|chain=resolve|decoys=1|hops=3|relative=False|star=False |
 | [attrs-resolve-d9bafc19](traces/attrs-resolve-d9bafc19.md) | resolve | 2 | 2 | 2 | certificate | ok | ok | alias=True|chain=resolve|decoys=1|hops=2|relative=True|star=False |
-| [black-callers-2595670c](traces/black-callers-2595670c.md) | callers | 6 | 8 | 8 | certificate | ok | ok | call_sites=5-12|caller_modules=2-3|chain=callers|false_positive_modules=1-2 |
+| [black-callers-5643f155](traces/black-callers-5643f155.md) | callers | 6 | 8 | 8 | certificate | ok | ok | call_sites=5-12|caller_modules=2-3|chain=callers|false_positive_modules=1-2 |
 | [black-callers-622092b7](traces/black-callers-622092b7.md) | resolve→callers | 6 | 6 | 6 | certificate | ok | ok | alias=False|call_sites=5-12|caller_modules=1|chain=resolve→callers|decoys=0|false_positive_modules=1-2|hops=2|relative=False|star=False |
-| [black-expose-363321ff](traces/black-expose-363321ff.md) | expose | 2 | 2 | 2 | certificate | ok | ok | chain=expose|package_depth=2|star_sources=0 |
 | [black-expose-3f3627c9](traces/black-expose-3f3627c9.md) | resolve→expose | 4 | 5 | 5 | certificate | ok | ok | alias=False|chain=resolve→expose|decoys=1|hops=2|package_depth=2|relative=False|star=False|star_sources=0 |
+| [black-expose-ae581bb8](traces/black-expose-ae581bb8.md) | expose | 2 | 2 | 2 | certificate | ok | ok | chain=expose|package_depth=2|star_sources=0 |
 | [black-resolve-7179dc2f](traces/black-resolve-7179dc2f.md) | resolve | 3 | 5 | 5 | certificate | ok | ok | alias=False|chain=resolve|decoys=0|hops=3|relative=False|star=False |
-| [black-subclasses-1ffaaa76](traces/black-subclasses-1ffaaa76.md) | subclasses | 5 | 9 | 9 | certificate | ok | ok | chain=subclasses|decoy_classes=0|subclasses=3 |
+| [black-subclasses-5d71e34f](traces/black-subclasses-5d71e34f.md) | subclasses | 5 | 9 | 9 | certificate | ok | ok | chain=subclasses|decoy_classes=0|subclasses=3 |
 | [click-callers-81a79b57](traces/click-callers-81a79b57.md) | resolve→callers | 18 | 19 | 19 | certificate | ok | ok | alias=False|call_sites=13+|caller_modules=4+|chain=resolve→callers|decoys=0|false_positive_modules=1-2|hops=2|relative=False|star=False |
 | [click-importers-0cd70ca7](traces/click-importers-0cd70ca7.md) | resolve→importers | 8 | 8 | 8 | certificate | ok | ok | alias=False|chain=resolve→importers|decoy_sources=0|decoys=0|hops=2|importers=5|relative=False|star=False |
 | [click-importers-4d466025](traces/click-importers-4d466025.md) | resolve→importers | 12 | 11 | 11 | certificate | ok | ok | alias=False|chain=resolve→importers|decoy_sources=0|decoys=0|hops=2|importers=6-12|relative=True|star=False |
-| [click-not_overriding-87cc99b7](traces/click-not_overriding-87cc99b7.md) | resolve→subclasses→not_overriding | 8 | 7 | 7 | certificate | ok | ok | alias=False|chain=resolve→subclasses→not_overriding|decoy_classes=0|decoys=0|hops=2|overriders=1|relative=False|star=False|subclasses=3 |
+| [click-not_overriding-341ad931](traces/click-not_overriding-341ad931.md) | resolve→subclasses→not_overriding | 8 | 7 | 7 | certificate | ok | ok | alias=False|chain=resolve→subclasses→not_overriding|decoy_classes=0|decoys=0|hops=2|overriders=1|relative=False|star=False|subclasses=3 |
 | [click-subclasses-1c5ae2a6](traces/click-subclasses-1c5ae2a6.md) | resolve→subclasses | 6 | 5 | 5 | certificate | ok | ok | alias=False|chain=resolve→subclasses|decoy_classes=0|decoys=0|hops=2|relative=False|star=False|subclasses=4-8 |
 | [click-subclasses-7ada152a](traces/click-subclasses-7ada152a.md) | resolve→subclasses | 5 | 3 | 3 | certificate | ok | ok | alias=False|chain=resolve→subclasses|decoy_classes=0|decoys=0|hops=2|relative=True|star=False|subclasses=4-8 |
 | [flask-callers-aad1e92e](traces/flask-callers-aad1e92e.md) | resolve→callers | 7 | 7 | 7 | certificate | ok | ok | alias=False|call_sites=5-12|caller_modules=2-3|chain=resolve→callers|decoys=0|false_positive_modules=0|hops=2|relative=True|star=False |
 | [flask-expose-4411289d](traces/flask-expose-4411289d.md) | resolve→expose | 4 | 5 | 5 | certificate | ok | ok | alias=False|chain=resolve→expose|decoys=2+|hops=2|package_depth=3+|relative=True|star=False|star_sources=0 |
 | [flask-importers-4322d92d](traces/flask-importers-4322d92d.md) | resolve→importers | 11 | 11 | 11 | certificate | ok | ok | alias=False|chain=resolve→importers|decoy_sources=0|decoys=0|hops=2|importers=6-12|relative=False|star=False |
-| [flask-not_overriding-1895faee](traces/flask-not_overriding-1895faee.md) | resolve→subclasses→not_overriding | 14 | 13 | 13 | certificate | ok | ok | alias=False|chain=resolve→subclasses→not_overriding|decoy_classes=0|decoys=0|hops=2|overriders=4+|relative=False|star=False|subclasses=4-8 |
+| [flask-not_overriding-56f25cef](traces/flask-not_overriding-56f25cef.md) | resolve→subclasses→not_overriding | 14 | 13 | 13 | certificate | ok | ok | alias=False|chain=resolve→subclasses→not_overriding|decoy_classes=0|decoys=0|hops=2|overriders=4+|relative=False|star=False|subclasses=4-8 |
 | [flask-resolve-b12c910a](traces/flask-resolve-b12c910a.md) | resolve | 2 | 2 | 2 | certificate | ok | ok | alias=False|chain=resolve|decoys=1|hops=2|relative=True|star=False |
 | [flask-subclasses-d6d1d981](traces/flask-subclasses-d6d1d981.md) | resolve→subclasses | 7 | 5 | 5 | certificate | ok | ok | alias=False|chain=resolve→subclasses|decoy_classes=0|decoys=0|hops=2|relative=True|star=False|subclasses=3 |
 | [httpx-callers-0d2d38f8](traces/httpx-callers-0d2d38f8.md) | resolve→callers | 8 | 8 | 8 | certificate | ok | ok | alias=False|call_sites=13+|caller_modules=2-3|chain=resolve→callers|decoys=0|false_positive_modules=1-2|hops=2|relative=False|star=False |
 | [httpx-callers-a475b389](traces/httpx-callers-a475b389.md) | resolve→callers | 11 | 9 | 9 | certificate | ok | ok | alias=False|call_sites=5-12|caller_modules=2-3|chain=resolve→callers|decoys=0|false_positive_modules=1-2|hops=2|relative=True|star=False |
-| [httpx-not_overriding-e47ffae3](traces/httpx-not_overriding-e47ffae3.md) | subclasses→not_overriding | 19 | 15 | 15 | certificate | ok | ok | chain=subclasses→not_overriding|decoy_classes=0|overriders=2-3|subclasses=4-8 |
-| [httpx-not_overriding-f3ad6f92](traces/httpx-not_overriding-f3ad6f92.md) | subclasses→not_overriding | 11 | 9 | 9 | certificate | ok | ok | chain=subclasses→not_overriding|decoy_classes=0|overriders=1|subclasses=3 |
+| [httpx-not_overriding-11c569aa](traces/httpx-not_overriding-11c569aa.md) | subclasses→not_overriding | 11 | 9 | 9 | certificate | ok | ok | chain=subclasses→not_overriding|decoy_classes=0|overriders=1|subclasses=3 |
+| [httpx-not_overriding-b8de02f4](traces/httpx-not_overriding-b8de02f4.md) | subclasses→not_overriding | 19 | 15 | 15 | certificate | ok | ok | chain=subclasses→not_overriding|decoy_classes=0|overriders=2-3|subclasses=4-8 |
 | [httpx-resolve-f733f017](traces/httpx-resolve-f733f017.md) | resolve | 2 | 2 | 2 | certificate | ok | ok | alias=False|chain=resolve|decoys=0|hops=2|relative=True|star=False |
-| [httpx-subclasses-ce1b6953](traces/httpx-subclasses-ce1b6953.md) | subclasses | 3 | 2 | 2 | certificate | ok | ok | chain=subclasses|decoy_classes=0|subclasses=3 |
+| [httpx-subclasses-048b000f](traces/httpx-subclasses-048b000f.md) | subclasses | 3 | 2 | 2 | certificate | ok | ok | chain=subclasses|decoy_classes=0|subclasses=3 |
 | [pytest-callers-5bdeb4fd](traces/pytest-callers-5bdeb4fd.md) | resolve→callers | 7 | 7 | 7 | certificate | ok | ok | alias=False|call_sites=5-12|caller_modules=1|chain=resolve→callers|decoys=0|false_positive_modules=1-2|hops=2|relative=False|star=False |
 | [pytest-expose-c2e38ec1](traces/pytest-expose-c2e38ec1.md) | resolve→expose | 5 | 9 | 9 | certificate | ok | ok | alias=False|chain=resolve→expose|decoys=0|hops=3|package_depth=2|relative=False|star=False|star_sources=0 |
 | [pytest-importers-dd54ab7d](traces/pytest-importers-dd54ab7d.md) | resolve→importers | 8 | 8 | 8 | certificate | ok | ok | alias=False|chain=resolve→importers|decoy_sources=0|decoys=0|hops=2|importers=5|relative=True|star=False |
-| [pytest-not_overriding-6142ae49](traces/pytest-not_overriding-6142ae49.md) | subclasses→not_overriding | 21 | 25 | 24 | certificate | ok | ok | chain=subclasses→not_overriding|decoy_classes=1|overriders=2-3|subclasses=4-8 |
+| [pytest-not_overriding-220410b7](traces/pytest-not_overriding-220410b7.md) | subclasses→not_overriding | 21 | 25 | 24 | certificate | ok | ok | chain=subclasses→not_overriding|decoy_classes=1|overriders=2-3|subclasses=4-8 |
 | [pytest-resolve-8d655d35](traces/pytest-resolve-8d655d35.md) | resolve | 2 | 4 | 4 | certificate | ok | ok | alias=True|chain=resolve|decoys=1|hops=2|relative=False|star=False |
-| [pytest-subclasses-7309d690](traces/pytest-subclasses-7309d690.md) | subclasses | 3 | 2 | 2 | certificate | ok | ok | chain=subclasses|decoy_classes=0|subclasses=4-8 |
+| [pytest-subclasses-ed33f383](traces/pytest-subclasses-ed33f383.md) | subclasses | 3 | 2 | 2 | certificate | ok | ok | chain=subclasses|decoy_classes=0|subclasses=4-8 |
+| [requests-callers-bd3035c7](traces/requests-callers-bd3035c7.md) | callers | 7 | 8 | 8 | certificate | ok | ok | call_sites=5-12|caller_modules=2-3|chain=callers|false_positive_modules=0 |
 | [requests-callers-ca8381db](traces/requests-callers-ca8381db.md) | resolve→callers | 14 | 14 | 14 | certificate | ok | ok | alias=False|call_sites=13+|caller_modules=2-3|chain=resolve→callers|decoys=0|false_positive_modules=1-2|hops=2|relative=True|star=False |
-| [requests-callers-f14c2704](traces/requests-callers-f14c2704.md) | callers | 7 | 8 | 8 | certificate | ok | ok | call_sites=5-12|caller_modules=2-3|chain=callers|false_positive_modules=0 |
-| [requests-expose-92e3294d](traces/requests-expose-92e3294d.md) | expose | 2 | 2 | 2 | certificate | ok | ok | chain=expose|package_depth=2|star_sources=0 |
 | [requests-expose-f79ae652](traces/requests-expose-f79ae652.md) | resolve→expose | 4 | 5 | 5 | certificate | ok | ok | alias=False|chain=resolve→expose|decoys=0|hops=2|package_depth=2|relative=False|star=False|star_sources=0 |
+| [requests-expose-f884498d](traces/requests-expose-f884498d.md) | expose | 2 | 2 | 2 | certificate | ok | ok | chain=expose|package_depth=2|star_sources=0 |
 | [requests-importers-8ad279df](traces/requests-importers-8ad279df.md) | resolve→importers | 12 | 11 | 11 | certificate | ok | ok | alias=False|chain=resolve→importers|decoy_sources=0|decoys=0|hops=2|importers=6-12|relative=True|star=False |
 | [requests-subclasses-0433d150](traces/requests-subclasses-0433d150.md) | resolve→subclasses | 5 | 3 | 3 | certificate | ok | ok | alias=False|chain=resolve→subclasses|decoy_classes=0|decoys=0|hops=2|relative=True|star=False|subclasses=9+ |
-| [rich-callers-e62f0078](traces/rich-callers-e62f0078.md) | callers | 11 | 11 | 11 | certificate | ok | ok | call_sites=5-12|caller_modules=4+|chain=callers|false_positive_modules=0 |
+| [rich-callers-6a96a00f](traces/rich-callers-6a96a00f.md) | callers | 11 | 11 | 11 | certificate | ok | ok | call_sites=5-12|caller_modules=4+|chain=callers|false_positive_modules=0 |
 | [rich-expose-c75345a7](traces/rich-expose-c75345a7.md) | resolve→expose | 4 | 4 | 4 | certificate | ok | ok | alias=False|chain=resolve→expose|decoys=0|hops=2|package_depth=2|relative=True|star=False|star_sources=0 |
 | [rich-importers-8d923e06](traces/rich-importers-8d923e06.md) | resolve→importers | 18 | 17 | 17 | certificate | ok | ok | alias=False|chain=resolve→importers|decoy_sources=0|decoys=0|hops=2|importers=13+|relative=False|star=False |
-| [rich-not_overriding-dad6cd7e](traces/rich-not_overriding-dad6cd7e.md) | resolve→subclasses→not_overriding | 17 | 11 | 11 | certificate | ok | ok | alias=False|chain=resolve→subclasses→not_overriding|decoy_classes=0|decoys=0|hops=2|overriders=1|relative=True|star=False|subclasses=4-8 |
+| [rich-not_overriding-3356c407](traces/rich-not_overriding-3356c407.md) | resolve→subclasses→not_overriding | 17 | 11 | 11 | certificate | ok | ok | alias=False|chain=resolve→subclasses→not_overriding|decoy_classes=0|decoys=0|hops=2|overriders=1|relative=True|star=False|subclasses=4-8 |
 | [rich-resolve-380ccb11](traces/rich-resolve-380ccb11.md) | resolve | 2 | 4 | 4 | certificate | ok | ok | alias=False|chain=resolve|decoys=1|hops=2|relative=False|star=False |
 | [rich-subclasses-5ddce5e1](traces/rich-subclasses-5ddce5e1.md) | resolve→subclasses | 7 | 4 | 4 | certificate | ok | ok | alias=False|chain=resolve→subclasses|decoy_classes=0|decoys=0|hops=2|relative=False|star=False|subclasses=3 |
 
 ## Sample thought
 
-From `attrs-importers-b2c2ecb5`, step 1:
+From `attrs-importers-febeeaed`, step 1:
 
 > Starting from the definition of `fields` at `src/attr/_make.py:1924`. Then I have to find every module-level import of that definition, which means a complete search, not a sample.
 >
 > Next I will search the whole tree for imports of `fields` and star imports in one go; the search has to be complete before I can call the set final. Maybe nothing turns up. If it fits under the cap or it caps, I follow whatever it opens up.
 
-From `attrs-importers-b2c2ecb5`, step 2:
+From `attrs-importers-febeeaed`, step 2:
 
 > 20 matching lines anywhere for imports of `fields` or star imports, in `src/attr/__init__.py`, `src/attr/_funcs.py`, `src/attrs/__init__.py`, `src/attrs/__init__.pyi` and 13 more files, and the search was under the cap, so that is the complete set there.
 >
 > Let me look at `tests/test_validators.py`'s top-level names for `fields`; its outline names every import of the symbol exactly, aliases included. Almost certainly the outline shows what I need. If the outline is too long to fit, I will look at `src/attr/__init__.py`'s top-level names for `fields`.
 
-From `attrs-importers-b2c2ecb5`, step 3:
+From `attrs-importers-febeeaed`, step 3:
 
 > The test module `tests/test_validators.py`: line 14 imports it from `attr`.
 >

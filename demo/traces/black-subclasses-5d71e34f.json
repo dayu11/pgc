@@ -17,7 +17,7 @@
    "name": "Grammar",
    "def_kind": "class"
   },
-  "text": "`Grammar` is defined at `src/blib2to3/pgen2/grammar.py:31` (class).",
+  "text": "`Grammar` is defined at `src/blib2to3/pgen2/grammar.py:31` (class). List every class that derives from it directly, as `path:line:ClassName`, making sure each base name really resolves to this definition.",
   "semantics": "A module is a .py file; source roots are the repository root and, if present, src/ and lib/. `from M import N` binds N to M's single module-level binding of N, else to the submodule M/N, else to the single star-import source of M that exports N; bindings take effect in source order. A module exports N if its literal __all__ lists N or, without __all__, if N is public and bound in it. A class derives from a definition when a base written as a bare name or `module.Name` resolves to it. A call site is `name(...)` where the bare name refers to the module-level binding (not a parameter or local). Multiple bindings, non-literal __all__, external star imports and dynamic namespace code make a name ambiguous; tasks never ask about ambiguous names.",
   "skeleton": {
    "subclasses": "3",
@@ -25,7 +25,7 @@
    "chain": "subclasses"
   },
   "floor": 5,
-  "id": "black-subclasses-1ffaaa76",
+  "id": "black-subclasses-5d71e34f",
   "cell": "chain=subclasses|decoy_classes=0|subclasses=3"
  },
  "seed": 0,

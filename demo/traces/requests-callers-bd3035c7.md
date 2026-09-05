@@ -1,4 +1,4 @@
-# requests-callers-f14c2704
+# requests-callers-bd3035c7
 
 **Repository:** requests  
 **Chain:** callers  
@@ -6,7 +6,7 @@
 
 ## Task
 
-`PreparedRequest` is defined at `src/requests/models.py:378` (class).
+`PreparedRequest` is defined at `src/requests/models.py:378` (class). List every call site of it: bare-name calls whose module-level binding resolves to this definition, as `path:line`.
 
 *Declared semantics:* A module is a .py file; source roots are the repository root and, if present, src/ and lib/. `from M import N` binds N to M's single module-level binding of N, else to the submodule M/N, else to the single star-import source of M that exports N; bindings take effect in source order. A module exports N if its literal __all__ lists N or, without __all__, if N is public and bound in it. A class derives from a definition when a base written as a bare name or `module.Name` resolves to it. A call site is `name(...)` where the bare name refers to the module-level binding (not a parameter or local). Multiple bindings, non-literal __all__, external star imports and dynamic namespace code make a name ambiguous; tasks never ask about ambiguous names.
 
