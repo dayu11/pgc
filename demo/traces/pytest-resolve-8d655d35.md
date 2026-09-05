@@ -1,0 +1,1070 @@
+# pytest-resolve-8d655d35
+
+**Repository:** pytest  
+**Chain:** resolve  
+**Seed:** 0, prior 8e41e8743065d192, floor 2
+
+## Task
+
+In `testing/typing_raises_group.py` line 8, `Failed` is imported from `_pytest.main` as `main_Failed`. Which definition does the module-level name `main_Failed` actually refer to? Give `path:line`.
+
+*Declared semantics:* A module is a .py file; source roots are the repository root and, if present, src/ and lib/. `from M import N` binds N to M's single module-level binding of N, else to the submodule M/N, else to the single star-import source of M that exports N; bindings take effect in source order. A module exports N if its literal __all__ lists N or, without __all__, if N is public and bound in it. A class derives from a definition when a base written as a bare name or `module.Name` resolves to it. A call site is `name(...)` where the bare name refers to the module-level binding (not a parameter or local). Multiple bindings, non-literal __all__, external star imports and dynamic namespace code make a name ambiguous; tasks never ask about ambiguous names.
+
+## Step 1
+
+I need to find what `main_Failed` really is in `testing/typing_raises_group.py`: line 8 imports it from `_pytest.main`, so the definition is at least one hop away.
+
+Next I will check `testing/typing_raises_group.py` for any other binding of `main_Failed` besides the import on line 8; almost certainly the import is the only one, and then `_pytest.main` is the place to follow.
+
+**Call:** `symbols('testing/typing_raises_group.py', 'main_Failed')`
+
+**Response**: outcome `reexport`
+
+```
+module testing/typing_raises_group.py lines=241 dynamic=no all=none
+8 from main_Failed <- _pytest.main Failed
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "bindings",
+   "key": [
+    "bindings",
+    "testing/typing_raises_group.py",
+    "main_Failed"
+   ],
+   "desc": "check the top-level names of `testing/typing_raises_group.py` for `main_Failed`"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "symbols('testing/typing_raises_group.py', 'main_Failed')",
+   "key": "[\"symbols\", [\"testing/typing_raises_group.py\", \"main_Failed\"]]",
+   "v1": [
+    112899819,
+    38706800
+   ],
+   "v2": [
+    112899819,
+    38706800
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     1,
+     100
+    ],
+    "reexport": [
+     93,
+     100
+    ],
+    "star": [
+     1,
+     100
+    ],
+    "none": [
+     1,
+     20
+    ]
+   },
+   "serves": [
+    [
+     "bindings",
+     "testing/typing_raises_group.py",
+     "main_Failed"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('testing/typing_raises_group.py')",
+   "key": "[\"symbols\", [\"testing/typing_raises_group.py\"]]",
+   "v1": [
+    19620664413,
+    6464035600
+   ],
+   "v2": [
+    19620664413,
+    6464035600
+   ],
+   "p_cap": [
+    99,
+    835
+   ],
+   "forecast": {
+    "def": [
+     184,
+     20875
+    ],
+    "reexport": [
+     17112,
+     20875
+    ],
+    "star": [
+     184,
+     20875
+    ],
+    "none": [
+     184,
+     4175
+    ],
+    "cap": [
+     99,
+     835
+    ]
+   },
+   "serves": [
+    [
+     "bindings",
+     "testing/typing_raises_group.py",
+     "main_Failed"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "symbols('testing/typing_raises_group.py', 'main_Failed')",
+  "key": "[\"symbols\", [\"testing/typing_raises_group.py\", \"main_Failed\"]]",
+  "provenance": "module `testing/typing_raises_group.py` (task), name `main_Failed` (task)",
+  "v2": [
+   112899819,
+   38706800
+  ]
+ },
+ "forecast": {
+  "def": [
+   1,
+   100
+  ],
+  "reexport": [
+   93,
+   100
+  ],
+  "star": [
+   1,
+   100
+  ],
+  "none": [
+   1,
+   20
+  ]
+ },
+ "plan": {
+  "def": "done",
+  "reexport": "continue",
+  "star": "continue",
+  "none": "done"
+ },
+ "hedges": [
+  {
+   "outcome": "reexport",
+   "word": "almost certainly",
+   "p": [
+    93,
+    100
+   ]
+  }
+ ],
+ "adherence": null,
+ "facts": [
+  {
+   "kind": "outline",
+   "step": 1,
+   "path": "testing/typing_raises_group.py",
+   "filter": "main_Failed",
+   "header": {
+    "lines": 241,
+    "dynamic": false,
+    "all_status": "none",
+    "all_line": null
+   },
+   "bindings": [
+    {
+     "module": "testing/typing_raises_group.py",
+     "name": "main_Failed",
+     "line": 8,
+     "kind": "from",
+     "src": "_pytest.main",
+     "src_name": "Failed",
+     "conditional": false,
+     "col": 0,
+     "bases": []
+    }
+   ],
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "phase": "resolve",
+  "step": 1,
+  "of": 1,
+  "chain": [
+   [
+    "testing/typing_raises_group.py",
+    "main_Failed",
+    "reexport",
+    [
+     "_pytest.main",
+     null
+    ]
+   ]
+  ]
+ }
+}
+```
+</details>
+
+## Step 2
+
+The test module `testing/typing_raises_group.py` does not define `main_Failed` itself; line 8 imports it from `_pytest.main` under the name `Failed`.
+
+So far: `testing/typing_raises_group.py` takes `main_Failed` from `_pytest.main`, which I still have to locate.
+
+Let me list `./` to see what lives there; the listing settles whether the import is a module, a package, or not here at all. Very likely the listing fits. If the listing is too long, I will outline `_pytest/main.py` directly, which both checks that the file exists and shows me `Failed`. I could outline `_pytest/main.py` directly, which both checks that the file exists and shows me `Failed` instead, but it costs more calls in expectation.
+
+**Call:** `ls('.')`
+
+**Response**: outcome `complete`
+
+```
+.github/
+.pre-commit-config.yaml
+.readthedocs.yaml
+CHANGELOG.rst
+CODE_OF_CONDUCT.md
+CONTRIBUTING.rst
+OPENCOLLECTIVE.rst
+README.rst
+RELEASING.rst
+SECURITY.md
+TIDELIFT.rst
+bench/
+changelog/
+codecov.yml
+doc/
+extra/
+pyproject.toml
+scripts/
+src/
+testing/
+tox.ini
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "module_path",
+   "key": [
+    "module_path",
+    "testing/typing_raises_group.py",
+    "_pytest.main"
+   ],
+   "desc": "find where `_pytest.main` (imported by `testing/typing_raises_group.py`) lives"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "ls('.')",
+   "key": "[\"ls\", [\".\"]]",
+   "v1": [
+    5201,
+    2778
+   ],
+   "v2": [
+    61929950320999,
+    31988350796688
+   ],
+   "p_cap": [
+    2,
+    9
+   ],
+   "forecast": {
+    "complete": [
+     7,
+     9
+    ],
+    "cap": [
+     2,
+     9
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "testing/typing_raises_group.py",
+     "_pytest.main"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('_pytest/main.py', 'Failed')",
+   "key": "[\"symbols\", [\"_pytest/main.py\", \"Failed\"]]",
+   "v1": [
+    16534434977535,
+    7108522399264
+   ],
+   "v2": [
+    47315949810685,
+    21325567197792
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     6116229,
+     18365048
+    ],
+    "reexport": [
+     13869,
+     2295631
+    ],
+    "star": [
+     13869,
+     18365048
+    ],
+    "none": [
+     152559,
+     9182524
+    ],
+    "missing": [
+     25040,
+     38909
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "testing/typing_raises_group.py",
+     "_pytest.main"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('_pytest/main/__init__.py', 'Failed')",
+   "key": "[\"symbols\", [\"_pytest/main/__init__.py\", \"Failed\"]]",
+   "v1": [
+    1096473894549,
+    363305822789
+   ],
+   "v2": [
+    6233209091449,
+    2179834936734
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     79488,
+     18248321
+    ],
+    "reexport": [
+     582912,
+     18248321
+    ],
+    "star": [
+     13248,
+     18248321
+    ],
+    "none": [
+     211968,
+     18248321
+    ],
+    "missing": [
+     259115,
+     272363
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "testing/typing_raises_group.py",
+     "_pytest.main"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+Failed\\\\b', '.')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+Failed\\\\b\", \".\"]]",
+   "v1": [
+    1407,
+    463
+   ],
+   "v2": [
+    7979,
+    2778
+   ],
+   "p_cap": [
+    1,
+    35
+   ],
+   "forecast": {
+    "zero": [
+     1,
+     35
+    ],
+    "mid": [
+     33,
+     35
+    ],
+    "cap": [
+     1,
+     35
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "testing/typing_raises_group.py",
+     "_pytest.main"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "ls('.')",
+  "key": "[\"ls\", [\".\"]]",
+  "provenance": "`_pytest.main` imported by `testing/typing_raises_group.py` should live under `.`",
+  "v2": [
+   61929950320999,
+   31988350796688
+  ]
+ },
+ "forecast": {
+  "complete": [
+   7,
+   9
+  ],
+  "cap": [
+   2,
+   9
+  ]
+ },
+ "plan": {
+  "complete": "continue",
+  "cap": "[\"symbols\", [\"_pytest/main.py\", \"Failed\"]]"
+ },
+ "hedges": [
+  {
+   "outcome": "complete",
+   "word": "very likely",
+   "p": [
+    7,
+    9
+   ]
+  }
+ ],
+ "adherence": {
+  "planned": "continue",
+  "status": "open-ended"
+ },
+ "facts": [
+  {
+   "kind": "listing",
+   "step": 2,
+   "dir": ".",
+   "entries": [
+    ".github/",
+    ".pre-commit-config.yaml",
+    ".readthedocs.yaml",
+    "CHANGELOG.rst",
+    "CODE_OF_CONDUCT.md",
+    "CONTRIBUTING.rst",
+    "OPENCOLLECTIVE.rst",
+    "README.rst",
+    "RELEASING.rst",
+    "SECURITY.md",
+    "TIDELIFT.rst",
+    "bench/",
+    "changelog/",
+    "codecov.yml",
+    "doc/",
+    "extra/",
+    "pyproject.toml",
+    "scripts/",
+    "src/",
+    "testing/",
+    "tox.ini"
+   ],
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "phase": "resolve",
+  "step": 1,
+  "of": 1,
+  "chain": [
+   [
+    "testing/typing_raises_group.py",
+    "main_Failed",
+    "reexport",
+    [
+     "_pytest.main",
+     null
+    ]
+   ]
+  ]
+ }
+}
+```
+</details>
+
+## Step 3
+
+`./` has 21 entries: there is no `_pytest` here.
+
+So far: `testing/typing_raises_group.py` takes `main_Failed` from `_pytest.main`, which I still have to locate.
+
+I'll search the whole tree for `class Failed`/`def Failed`; that shows where the definition lives and whether the name is reused. Almost certainly it fits under the cap. If it caps or nothing turns up, I will list `src/` to see what lives there. I could list `src/` to see what lives there instead, but it costs more calls in expectation.
+
+**Call:** `grep('^\\s*(?:async\\s+)?(?:def|class)\\s+Failed\\b', '.')`
+
+**Response**: outcome `mid`
+
+```
+src/_pytest/main.py:520:class Failed(Exception):
+src/_pytest/outcomes.py:59:class Failed(OutcomeException):
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "module_path",
+   "key": [
+    "module_path",
+    "testing/typing_raises_group.py",
+    "_pytest.main"
+   ],
+   "desc": "find where `_pytest.main` (imported by `testing/typing_raises_group.py`) lives"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+Failed\\\\b', '.')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+Failed\\\\b\", \".\"]]",
+   "v1": [
+    33966,
+    16205
+   ],
+   "v2": [
+    578348,
+    275485
+   ],
+   "p_cap": [
+    1,
+    35
+   ],
+   "forecast": {
+    "zero": [
+     1,
+     35
+    ],
+    "mid": [
+     33,
+     35
+    ],
+    "cap": [
+     1,
+     35
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "testing/typing_raises_group.py",
+     "_pytest.main"
+    ]
+   ]
+  },
+  {
+   "call": "ls('src')",
+   "key": "[\"ls\", [\"src\"]]",
+   "v1": [
+    16511,
+    7871
+   ],
+   "v2": [
+    578811,
+    275485
+   ],
+   "p_cap": [
+    1,
+    17
+   ],
+   "forecast": {
+    "complete": [
+     16,
+     17
+    ],
+    "cap": [
+     1,
+     17
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "testing/typing_raises_group.py",
+     "_pytest.main"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/_pytest/main.py', 'Failed')",
+   "key": "[\"symbols\", [\"src/_pytest/main.py\", \"Failed\"]]",
+   "v1": [
+    16534434977535,
+    7108522399264
+   ],
+   "v2": [
+    117570928940281,
+    49759656794848
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     6116229,
+     18365048
+    ],
+    "reexport": [
+     13869,
+     2295631
+    ],
+    "star": [
+     13869,
+     18365048
+    ],
+    "none": [
+     152559,
+     9182524
+    ],
+    "missing": [
+     25040,
+     38909
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "testing/typing_raises_group.py",
+     "_pytest.main"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+Failed\\\\b', 'src')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+Failed\\\\b\", \"src\"]]",
+   "v1": [
+    337433,
+    116676
+   ],
+   "v2": [
+    2401849,
+    816732
+   ],
+   "p_cap": [
+    1,
+    252
+   ],
+   "forecast": {
+    "zero": [
+     107,
+     126
+    ],
+    "mid": [
+     37,
+     252
+    ],
+    "cap": [
+     1,
+     252
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "testing/typing_raises_group.py",
+     "_pytest.main"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/_pytest/main/__init__.py', 'Failed')",
+   "key": "[\"symbols\", [\"src/_pytest/main/__init__.py\", \"Failed\"]]",
+   "v1": [
+    1096473894549,
+    363305822789
+   ],
+   "v2": [
+    8233478369,
+    2679811127
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     79488,
+     18248321
+    ],
+    "reexport": [
+     582912,
+     18248321
+    ],
+    "star": [
+     13248,
+     18248321
+    ],
+    "none": [
+     211968,
+     18248321
+    ],
+    "missing": [
+     259115,
+     272363
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "testing/typing_raises_group.py",
+     "_pytest.main"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+Failed\\\\b', '.')",
+  "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+Failed\\\\b\", \".\"]]",
+  "provenance": "a `def`/`class Failed` statement would reveal the module file; `Failed` task",
+  "v2": [
+   578348,
+   275485
+  ]
+ },
+ "forecast": {
+  "zero": [
+   1,
+   35
+  ],
+  "mid": [
+   33,
+   35
+  ],
+  "cap": [
+   1,
+   35
+  ]
+ },
+ "plan": {
+  "zero": "[\"ls\", [\"src\"]]",
+  "mid": "continue",
+  "cap": "[\"ls\", [\"src\"]]"
+ },
+ "hedges": [
+  {
+   "outcome": "mid",
+   "word": "almost certainly",
+   "p": [
+    33,
+    35
+   ]
+  }
+ ],
+ "adherence": {
+  "planned": "continue",
+  "status": "open-ended"
+ },
+ "facts": [
+  {
+   "kind": "grep",
+   "step": 3,
+   "pattern": "^\\s*(?:async\\s+)?(?:def|class)\\s+Failed\\b",
+   "scope": ".",
+   "hits": [
+    [
+     "src/_pytest/main.py",
+     520
+    ],
+    [
+     "src/_pytest/outcomes.py",
+     59
+    ]
+   ],
+   "capped": false
+  }
+ ],
+ "goal_state": {
+  "phase": "resolve",
+  "step": 1,
+  "of": 1,
+  "chain": [
+   [
+    "testing/typing_raises_group.py",
+    "main_Failed",
+    "reexport",
+    [
+     "_pytest.main",
+     "src/_pytest/main.py"
+    ]
+   ],
+   [
+    "src/_pytest/main.py",
+    "Failed",
+    "open",
+    null
+   ]
+  ]
+ }
+}
+```
+</details>
+
+## Step 4
+
+`Failed` is defined 2 times: `src/_pytest/main.py`, `src/_pytest/outcomes.py`. Only one of them can be the one this import means, so the import chain decides.
+
+So far: `testing/typing_raises_group.py` takes `main_Failed` from `_pytest.main`; `src/_pytest/main.py` is next.
+
+I'll look at `src/_pytest/main.py`'s top-level names for `Failed`; that settles what the name means there. Almost certainly it is defined right there. If the name is not bound there, that finishes it; if it is re-exported from somewhere else, I follow whatever it opens up. I could outline all of `src/_pytest/main.py` instead, but it is more likely to hit the cap.
+
+**Call:** `symbols('src/_pytest/main.py', 'Failed')`
+
+**Response**: outcome `def`
+
+```
+module src/_pytest/main.py lines=1240 dynamic=no all=none
+520 class Failed (Exception)
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "bindings",
+   "key": [
+    "bindings",
+    "src/_pytest/main.py",
+    "Failed"
+   ],
+   "desc": "check the top-level names of `src/_pytest/main.py` for `Failed`"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "symbols('src/_pytest/main.py', 'Failed')",
+   "key": "[\"symbols\", [\"src/_pytest/main.py\", \"Failed\"]]",
+   "v1": [
+    1643363,
+    1548272
+   ],
+   "v2": [
+    1643363,
+    1548272
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     47,
+     50
+    ],
+    "reexport": [
+     1,
+     50
+    ],
+    "star": [
+     1,
+     100
+    ],
+    "none": [
+     3,
+     100
+    ]
+   },
+   "serves": [
+    [
+     "bindings",
+     "src/_pytest/main.py",
+     "Failed"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/_pytest/main.py')",
+   "key": "[\"symbols\", [\"src/_pytest/main.py\"]]",
+   "v1": [
+    1525487033,
+    1292807120
+   ],
+   "v2": [
+    1525487033,
+    1292807120
+   ],
+   "p_cap": [
+    99,
+    835
+   ],
+   "forecast": {
+    "def": [
+     17296,
+     20875
+    ],
+    "reexport": [
+     368,
+     20875
+    ],
+    "star": [
+     184,
+     20875
+    ],
+    "none": [
+     552,
+     20875
+    ],
+    "cap": [
+     99,
+     835
+    ]
+   },
+   "serves": [
+    [
+     "bindings",
+     "src/_pytest/main.py",
+     "Failed"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "symbols('src/_pytest/main.py', 'Failed')",
+  "key": "[\"symbols\", [\"src/_pytest/main.py\", \"Failed\"]]",
+  "provenance": "module `src/_pytest/main.py` (step 3), name `Failed` (task)",
+  "v2": [
+   1643363,
+   1548272
+  ]
+ },
+ "forecast": {
+  "def": [
+   47,
+   50
+  ],
+  "reexport": [
+   1,
+   50
+  ],
+  "star": [
+   1,
+   100
+  ],
+  "none": [
+   3,
+   100
+  ]
+ },
+ "plan": {
+  "def": "done",
+  "reexport": "continue",
+  "star": "continue",
+  "none": "done"
+ },
+ "hedges": [
+  {
+   "outcome": "def",
+   "word": "almost certainly",
+   "p": [
+    47,
+    50
+   ]
+  }
+ ],
+ "adherence": {
+  "planned": "continue",
+  "status": "open-ended"
+ },
+ "facts": [
+  {
+   "kind": "outline",
+   "step": 4,
+   "path": "src/_pytest/main.py",
+   "filter": "Failed",
+   "header": {
+    "lines": 1240,
+    "dynamic": false,
+    "all_status": "none",
+    "all_line": null
+   },
+   "bindings": [
+    {
+     "module": "src/_pytest/main.py",
+     "name": "Failed",
+     "line": 520,
+     "kind": "class",
+     "src": null,
+     "src_name": null,
+     "conditional": false,
+     "col": 0,
+     "bases": [
+      "Exception"
+     ]
+    }
+   ],
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "phase": "resolve",
+  "step": 1,
+  "of": 1,
+  "chain": [
+   [
+    "testing/typing_raises_group.py",
+    "main_Failed",
+    "reexport",
+    [
+     "_pytest.main",
+     "src/_pytest/main.py"
+    ]
+   ],
+   [
+    "src/_pytest/main.py",
+    "Failed",
+    "class",
+    520
+   ]
+  ]
+ }
+}
+```
+</details>
+
+## Final
+
+`main_Failed` is the class at `src/_pytest/main.py:520`. Looking back, all 4 calls were needed.
+
+**Answer:** `{"final_kind": "resolve", "final": {"kind": "def", "path": "src/_pytest/main.py", "line": 520, "name": "Failed", "detail": "class"}, "steps": [{"op": "resolve", "output": {"kind": "def", "path": "src/_pytest/main.py", "line": 520, "name": "Failed", "detail": "class"}}], "stuck": null}`  
+**Stopped:** certificate after 4 calls

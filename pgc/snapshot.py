@@ -14,7 +14,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Optional
 
-CAPS = {"ls": 40, "grep": 20, "read": 60, "symbols": 40}
+CAPS = {"ls": 40, "grep": 20, "read": 60, "symbols": 40, "members": 40, "calls": 40}
 TEXT_EXT = {".py", ".pyi", ".md", ".rst", ".txt", ".toml", ".cfg", ".ini", ".yaml", ".yml", ".json", ".in"}
 SKIP_DIRS = {".git", "__pycache__", ".tox", ".venv", "node_modules", ".mypy_cache", ".pytest_cache"}
 MAX_FILE_BYTES = 2_000_000
@@ -36,8 +36,8 @@ class Call:
             return f"grep({self.args[0]!r}, {self.args[1]!r})"
         if self.tool == "read":
             return f"read({self.args[0]!r}, {self.args[1]}, {self.args[2]})"
-        if self.tool == "symbols":
-            return f"symbols({', '.join(repr(a) for a in self.args)})"
+        if self.tool in ("symbols", "members", "calls"):
+            return f"{self.tool}({', '.join(repr(a) for a in self.args)})"
         return f"{self.tool}{self.args!r}"
 
 
@@ -147,6 +147,10 @@ class Snapshot:
                 return self._read(call.args[0], int(call.args[1]), int(call.args[2]), cap)
             if call.tool == "symbols":
                 return self._symbols(call.args[0], cap, call.args[1] if len(call.args) > 1 else None)
+            if call.tool == "members":
+                return self._members(call.args[0], call.args[1], cap)
+            if call.tool == "calls":
+                return self._calls(call.args[0], call.args[1], cap)
         except Exception as e:  # tools never raise; they return an error response
             return Response(call.tool, (), False, error=f"{type(e).__name__}: {e}")
         return Response(call.tool, (), False, error=f"unknown tool {call.tool}")
@@ -212,10 +216,46 @@ class Snapshot:
         header = f"module {rel} lines={mod.n_lines} dynamic={'yes' if mod.dynamic else 'no'} all={all_status}"
         bindings = mod.all_bindings
         if filt is not None:
-            bindings = [b for b in bindings if b.kind == "star" or b.name == filt or b.src_name == filt]
+            bindings = [b for b in bindings if b.kind == "star" or b.name == filt or b.src_name == filt
+                        or (b.kind == "class" and any(x.split(".")[-1] == filt for x in b.bases))]
         entries = sorted((b.outline() for b in bindings), key=lambda s: (int(s.split(" ", 1)[0]), s))
         capped = cap is not None and len(entries) > cap
         return Response("symbols", (header,) + tuple(entries[:cap] if capped else entries), capped)
+
+
+    def _members(self, rel: str, cls: str, cap) -> Response:
+        """Direct members of a module-level class: `line kind name`, after a header."""
+        from . import analysis
+        rel = _norm(rel)
+        if not self.is_file(rel) or not rel.endswith(".py"):
+            return Response("members", (), False, error=f"not a python file: {rel}")
+        mod = analysis.parse_module(rel, self.text(rel))
+        if mod.parse_error:
+            return Response("members", (), False, error="syntax error")
+        classes = [b for b in mod.all_bindings if b.kind == "class" and b.name == cls]
+        if not classes:
+            return Response("members", (), False, error=f"no module-level class {cls} in {rel}")
+        header = f"class {cls} in {rel} definitions={len(classes)}"
+        entries = [m.outline() for m in mod.members.get(cls, [])]
+        capped = cap is not None and len(entries) > cap
+        return Response("members", (header,) + tuple(entries[:cap] if capped else entries), capped)
+
+    def _calls(self, rel: str, name: str, cap) -> Response:
+        """Lines with `name(...)` calls whose bare name refers to the module-level binding."""
+        from . import analysis
+        rel = _norm(rel)
+        if not self.is_file(rel) or not rel.endswith(".py"):
+            return Response("calls", (), False, error=f"not a python file: {rel}")
+        mod = analysis.parse_module(rel, self.text(rel))
+        if mod.parse_error:
+            return Response("calls", (), False, error="syntax error")
+        if mod.calls_unsure:
+            return Response("calls", (), False, error="scope analysis unavailable for this module")
+        lines = mod.calls.get(name, [])
+        header = f"calls of {name} in {rel} count={len(lines)}"
+        entries = [f"{ln}:{self.lines(rel)[ln - 1][:MAX_LINE_CHARS]}" for ln in lines]
+        capped = cap is not None and len(entries) > cap
+        return Response("calls", (header,) + tuple(entries[:cap] if capped else entries), capped)
 
 
 def parse_grep_line(line: str):

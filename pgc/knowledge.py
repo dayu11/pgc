@@ -187,6 +187,10 @@ class Seen(Knowledge):
         self.calls_made = set()
         self.reads = set()
         self.outline_stmts = {}  # path -> {line: [Binding]} from outlines only (module level)
+        self.members_known = {}  # (path, cls) -> list[(line, kind, name)]  (complete only)
+        self.calls_known = {}  # (path, name) -> list[int]  (complete only)
+        self.calls_count = {}  # (path, name) -> int from the header, even when capped
+        self.calls_unsure = set()
 
     # ---- grounding ----
     def ground(self, *xs):
@@ -228,10 +232,38 @@ class Seen(Knowledge):
 
         if resp.error:
             target = None
-            if call.tool in ("ls", "grep", "read", "symbols") and ("not a directory" in resp.error or "no such" in resp.error or "not a python file" in resp.error):
+            if call.tool in ("ls", "grep", "read", "symbols", "members", "calls") and ("not a directory" in resp.error or "no such" in resp.error or "not a python file" in resp.error):
                 target = call.args[1] if call.tool == "grep" else call.args[0]
                 self.missing.add(target)
+            if call.tool == "calls" and "scope analysis" in resp.error:
+                self.calls_unsure.add(call.args[0])
+            if call.tool == "members" and "no module-level class" in resp.error:
+                self.members_known[(call.args[0], call.args[1])] = None
             fact("error", call=call.key(), error=resp.error, missing=target)
+            return new
+        if call.tool == "members":
+            path, cls = call.args[0], call.args[1]
+            self.note_path(path)
+            entries = []
+            for l in resp.lines[1:]:
+                ln, kind, name = l.split(" ", 2)
+                entries.append((int(ln), kind, name))
+                self.ground(name)
+            if not resp.capped:
+                self.members_known[(path, cls)] = entries
+            fact("members", path=path, cls=cls, entries=[list(e) for e in entries], complete=not resp.capped)
+            return new
+        if call.tool == "calls":
+            path, name = call.args[0], call.args[1]
+            self.note_path(path)
+            m = re.match(r"^calls of \S+ in \S+ count=(\d+)$", resp.lines[0]) if resp.lines else None
+            count = int(m.group(1)) if m else None
+            lines = [int(l.split(":", 1)[0]) for l in resp.lines[1:]]
+            if count is not None:
+                self.calls_count[(path, name)] = count
+            if not resp.capped:
+                self.calls_known[(path, name)] = lines
+            fact("calls", path=path, name=name, lines=lines, count=count, complete=not resp.capped)
             return new
         if call.tool == "ls":
             d = call.args[0]

@@ -1,0 +1,3032 @@
+# attrs-callers-139c336d
+
+**Repository:** attrs  
+**Chain:** resolve → callers  
+**Seed:** 0, prior 0ac2a510ad43644e, floor 10
+
+## Task
+
+In `tests/test_validators.py` line 16, `matches_re` is imported from `attr.validators`. Which definition does the module-level name `matches_re` actually refer to? Give `path:line`. Then list every call site of it: bare-name calls whose module-level binding resolves to this definition, as `path:line`.
+
+*Declared semantics:* A module is a .py file; source roots are the repository root and, if present, src/ and lib/. `from M import N` binds N to M's single module-level binding of N, else to the submodule M/N, else to the single star-import source of M that exports N; bindings take effect in source order. A module exports N if its literal __all__ lists N or, without __all__, if N is public and bound in it. A class derives from a definition when a base written as a bare name or `module.Name` resolves to it. A call site is `name(...)` where the bare name refers to the module-level binding (not a parameter or local). Multiple bindings, non-literal __all__, external star imports and dynamic namespace code make a name ambiguous; tasks never ask about ambiguous names.
+
+## Step 1
+
+I need to find what `matches_re` really is in `tests/test_validators.py`: line 16 imports it from `attr.validators`, so the definition is at least one hop away. Then every real call site of it, which means checking what the name refers to in each file that mentions it.
+
+Next I will check `tests/test_validators.py` for any other binding of `matches_re` besides the import on line 16; almost certainly the import is the only one, and then `attr.validators` is the place to follow.
+
+**Call:** `symbols('tests/test_validators.py', 'matches_re')`
+
+**Response**: outcome `reexport`
+
+```
+module tests/test_validators.py lines=1405 dynamic=no all=none
+16 from matches_re <- attr.validators matches_re
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "bindings",
+   "key": [
+    "bindings",
+    "tests/test_validators.py",
+    "matches_re"
+   ],
+   "desc": "check the top-level names of `tests/test_validators.py` for `matches_re`"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "symbols('tests/test_validators.py', 'matches_re')",
+   "key": "[\"symbols\", [\"tests/test_validators.py\", \"matches_re\"]]",
+   "v1": [
+    22086579,
+    7532750
+   ],
+   "v2": [
+    22086579,
+    7532750
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     1,
+     100
+    ],
+    "reexport": [
+     93,
+     100
+    ],
+    "star": [
+     1,
+     100
+    ],
+    "none": [
+     1,
+     20
+    ]
+   },
+   "serves": [
+    [
+     "bindings",
+     "tests/test_validators.py",
+     "matches_re"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/test_validators.py')",
+   "key": "[\"symbols\", [\"tests/test_validators.py\"]]",
+   "v1": [
+    11990227001,
+    3909497250
+   ],
+   "v2": [
+    11990227001,
+    3909497250
+   ],
+   "p_cap": [
+    70,
+    519
+   ],
+   "forecast": {
+    "def": [
+     449,
+     51900
+    ],
+    "reexport": [
+     13919,
+     17300
+    ],
+    "star": [
+     449,
+     51900
+    ],
+    "none": [
+     449,
+     10380
+    ],
+    "cap": [
+     70,
+     519
+    ]
+   },
+   "serves": [
+    [
+     "bindings",
+     "tests/test_validators.py",
+     "matches_re"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "symbols('tests/test_validators.py', 'matches_re')",
+  "key": "[\"symbols\", [\"tests/test_validators.py\", \"matches_re\"]]",
+  "provenance": "module `tests/test_validators.py` (task), name `matches_re` (task)",
+  "v2": [
+   22086579,
+   7532750
+  ]
+ },
+ "forecast": {
+  "def": [
+   1,
+   100
+  ],
+  "reexport": [
+   93,
+   100
+  ],
+  "star": [
+   1,
+   100
+  ],
+  "none": [
+   1,
+   20
+  ]
+ },
+ "plan": {
+  "def": "done",
+  "reexport": "continue",
+  "star": "continue",
+  "none": "done"
+ },
+ "hedges": [
+  {
+   "outcome": "reexport",
+   "word": "almost certainly",
+   "p": [
+    93,
+    100
+   ]
+  }
+ ],
+ "adherence": null,
+ "facts": [
+  {
+   "kind": "outline",
+   "step": 1,
+   "path": "tests/test_validators.py",
+   "filter": "matches_re",
+   "header": {
+    "lines": 1405,
+    "dynamic": false,
+    "all_status": "none",
+    "all_line": null
+   },
+   "bindings": [
+    {
+     "module": "tests/test_validators.py",
+     "name": "matches_re",
+     "line": 16,
+     "kind": "from",
+     "src": "attr.validators",
+     "src_name": "matches_re",
+     "conditional": false,
+     "col": 0,
+     "bases": []
+    }
+   ],
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "phase": "resolve",
+  "step": 1,
+  "of": 2,
+  "chain": [
+   [
+    "tests/test_validators.py",
+    "matches_re",
+    "reexport",
+    [
+     "attr.validators",
+     null
+    ]
+   ]
+  ]
+ }
+}
+```
+</details>
+
+## Step 2
+
+The test module `tests/test_validators.py` does not define `matches_re` itself; line 16 imports it from `attr.validators`.
+
+So far: `tests/test_validators.py` takes `matches_re` from `attr.validators`, which I still have to locate.
+
+Let me list `./` to see what lives there; the listing settles whether the import is a module, a package, or not here at all. Very likely the listing fits. If the listing is too long, I will outline `attr/validators.py` directly, which both checks that the file exists and shows me `matches_re`. I could outline `attr/validators.py` directly, which both checks that the file exists and shows me `matches_re` instead, but it costs more calls in expectation.
+
+**Call:** `ls('.')`
+
+**Response**: outcome `complete`
+
+```
+.git_archival.txt
+.github/
+.pre-commit-config.yaml
+.readthedocs.yaml
+CHANGELOG.md
+README.md
+bench/
+changelog.d/
+codspeed.yml
+docs/
+pyproject.toml
+src/
+tests/
+tox.ini
+typing_tests/
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "module_path",
+   "key": [
+    "module_path",
+    "tests/test_validators.py",
+    "attr.validators"
+   ],
+   "desc": "find where `attr.validators` (imported by `tests/test_validators.py`) lives"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "ls('.')",
+   "key": "[\"ls\", [\".\"]]",
+   "v1": [
+    1643,
+    870
+   ],
+   "v2": [
+    22017490622407,
+    11262272677830
+   ],
+   "p_cap": [
+    2,
+    9
+   ],
+   "forecast": {
+    "complete": [
+     7,
+     9
+    ],
+    "cap": [
+     2,
+     9
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_validators.py",
+     "attr.validators"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('attr/validators.py', 'matches_re')",
+   "key": "[\"symbols\", [\"attr/validators.py\", \"matches_re\"]]",
+   "v1": [
+    1473039993049,
+    625681815435
+   ],
+   "v2": [
+    2810608750273,
+    1251363630870
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     71632,
+     218583
+    ],
+    "reexport": [
+     35816,
+     4153077
+    ],
+    "star": [
+     3256,
+     4153077
+    ],
+    "none": [
+     55352,
+     4153077
+    ],
+    "missing": [
+     6035,
+     9291
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_validators.py",
+     "attr.validators"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('attr/validators/__init__.py', 'matches_re')",
+   "key": "[\"symbols\", [\"attr/validators/__init__.py\", \"matches_re\"]]",
+   "v1": [
+    304709609,
+    100590560
+   ],
+   "v2": [
+    865619947,
+    301771680
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     605,
+     74328
+    ],
+    "reexport": [
+     55,
+     3097
+    ],
+    "star": [
+     55,
+     74328
+    ],
+    "none": [
+     55,
+     6194
+    ],
+    "missing": [
+     2987,
+     3097
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_validators.py",
+     "attr.validators"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+matches_re\\\\b', '.')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+matches_re\\\\b\", \".\"]]",
+   "v1": [
+    443,
+    145
+   ],
+   "v2": [
+    2513,
+    870
+   ],
+   "p_cap": [
+    1,
+    36
+   ],
+   "forecast": {
+    "zero": [
+     1,
+     36
+    ],
+    "mid": [
+     17,
+     18
+    ],
+    "cap": [
+     1,
+     36
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_validators.py",
+     "attr.validators"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "ls('.')",
+  "key": "[\"ls\", [\".\"]]",
+  "provenance": "`attr.validators` imported by `tests/test_validators.py` should live under `.`",
+  "v2": [
+   22017490622407,
+   11262272677830
+  ]
+ },
+ "forecast": {
+  "complete": [
+   7,
+   9
+  ],
+  "cap": [
+   2,
+   9
+  ]
+ },
+ "plan": {
+  "complete": "continue",
+  "cap": "[\"symbols\", [\"attr/validators.py\", \"matches_re\"]]"
+ },
+ "hedges": [
+  {
+   "outcome": "complete",
+   "word": "very likely",
+   "p": [
+    7,
+    9
+   ]
+  }
+ ],
+ "adherence": {
+  "planned": "continue",
+  "status": "open-ended"
+ },
+ "facts": [
+  {
+   "kind": "listing",
+   "step": 2,
+   "dir": ".",
+   "entries": [
+    ".git_archival.txt",
+    ".github/",
+    ".pre-commit-config.yaml",
+    ".readthedocs.yaml",
+    "CHANGELOG.md",
+    "README.md",
+    "bench/",
+    "changelog.d/",
+    "codspeed.yml",
+    "docs/",
+    "pyproject.toml",
+    "src/",
+    "tests/",
+    "tox.ini",
+    "typing_tests/"
+   ],
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "phase": "resolve",
+  "step": 1,
+  "of": 2,
+  "chain": [
+   [
+    "tests/test_validators.py",
+    "matches_re",
+    "reexport",
+    [
+     "attr.validators",
+     null
+    ]
+   ]
+  ]
+ }
+}
+```
+</details>
+
+## Step 3
+
+`./` has 15 entries: there is no `attr` here.
+
+So far: `tests/test_validators.py` takes `matches_re` from `attr.validators`, which I still have to locate.
+
+I'll search the whole tree for `class matches_re`/`def matches_re`; that shows where the definition lives and whether the name is reused. Almost certainly it fits under the cap. If it caps or nothing turns up, I will list `src/` to see what lives there. I could list `src/` to see what lives there instead, but it costs more calls in expectation.
+
+**Call:** `grep('^\\s*(?:async\\s+)?(?:def|class)\\s+matches_re\\b', '.')`
+
+**Response**: outcome `mid`
+
+```
+src/attr/validators.py:153:def matches_re(regex, flags=0, func=None):
+src/attr/validators.pyi:62:def matches_re(
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "module_path",
+   "key": [
+    "module_path",
+    "tests/test_validators.py",
+    "attr.validators"
+   ],
+   "desc": "find where `attr.validators` (imported by `tests/test_validators.py`) lives"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+matches_re\\\\b', '.')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+matches_re\\\\b\", \".\"]]",
+   "v1": [
+    5509,
+    2610
+   ],
+   "v2": [
+    95731,
+    45240
+   ],
+   "p_cap": [
+    1,
+    36
+   ],
+   "forecast": {
+    "zero": [
+     1,
+     36
+    ],
+    "mid": [
+     17,
+     18
+    ],
+    "cap": [
+     1,
+     36
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_validators.py",
+     "attr.validators"
+    ]
+   ]
+  },
+  {
+   "call": "ls('src')",
+   "key": "[\"ls\", [\"src\"]]",
+   "v1": [
+    16221,
+    7540
+   ],
+   "v2": [
+    292703,
+    135720
+   ],
+   "p_cap": [
+    5,
+    52
+   ],
+   "forecast": {
+    "complete": [
+     47,
+     52
+    ],
+    "cap": [
+     5,
+     52
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_validators.py",
+     "attr.validators"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/attr/validators.py', 'matches_re')",
+   "key": "[\"symbols\", [\"src/attr/validators.py\", \"matches_re\"]]",
+   "v1": [
+    1473039993049,
+    625681815435
+   ],
+   "v2": [
+    8973711194119,
+    3754090892610
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     71632,
+     218583
+    ],
+    "reexport": [
+     35816,
+     4153077
+    ],
+    "star": [
+     3256,
+     4153077
+    ],
+    "none": [
+     55352,
+     4153077
+    ],
+    "missing": [
+     6035,
+     9291
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_validators.py",
+     "attr.validators"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+matches_re\\\\b', 'src')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+matches_re\\\\b\", \"src\"]]",
+   "v1": [
+    19363,
+    6670
+   ],
+   "v2": [
+    118063,
+    40020
+   ],
+   "p_cap": [
+    1,
+    184
+   ],
+   "forecast": {
+    "zero": [
+     155,
+     184
+    ],
+    "mid": [
+     7,
+     46
+    ],
+    "cap": [
+     1,
+     184
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_validators.py",
+     "attr.validators"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/attr/validators/__init__.py', 'matches_re')",
+   "key": "[\"symbols\", [\"src/attr/validators/__init__.py\", \"matches_re\"]]",
+   "v1": [
+    304709609,
+    100590560
+   ],
+   "v2": [
+    2790895361,
+    905315040
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     605,
+     74328
+    ],
+    "reexport": [
+     55,
+     3097
+    ],
+    "star": [
+     55,
+     74328
+    ],
+    "none": [
+     55,
+     6194
+    ],
+    "missing": [
+     2987,
+     3097
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_validators.py",
+     "attr.validators"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+matches_re\\\\b', '.')",
+  "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+matches_re\\\\b\", \".\"]]",
+  "provenance": "a `def`/`class matches_re` statement would reveal the module file; `matches_re` task",
+  "v2": [
+   95731,
+   45240
+  ]
+ },
+ "forecast": {
+  "zero": [
+   1,
+   36
+  ],
+  "mid": [
+   17,
+   18
+  ],
+  "cap": [
+   1,
+   36
+  ]
+ },
+ "plan": {
+  "zero": "[\"ls\", [\"src\"]]",
+  "mid": "continue",
+  "cap": "[\"ls\", [\"src\"]]"
+ },
+ "hedges": [
+  {
+   "outcome": "mid",
+   "word": "almost certainly",
+   "p": [
+    17,
+    18
+   ]
+  }
+ ],
+ "adherence": {
+  "planned": "continue",
+  "status": "open-ended"
+ },
+ "facts": [
+  {
+   "kind": "grep",
+   "step": 3,
+   "pattern": "^\\s*(?:async\\s+)?(?:def|class)\\s+matches_re\\b",
+   "scope": ".",
+   "hits": [
+    [
+     "src/attr/validators.py",
+     153
+    ],
+    [
+     "src/attr/validators.pyi",
+     62
+    ]
+   ],
+   "capped": false
+  }
+ ],
+ "goal_state": {
+  "phase": "resolve",
+  "step": 1,
+  "of": 2,
+  "chain": [
+   [
+    "tests/test_validators.py",
+    "matches_re",
+    "reexport",
+    [
+     "attr.validators",
+     "src/attr/validators.py"
+    ]
+   ],
+   [
+    "src/attr/validators.py",
+    "matches_re",
+    "open",
+    null
+   ]
+  ]
+ }
+}
+```
+</details>
+
+## Step 4
+
+`matches_re` is defined 2 times: `src/attr/validators.py`, `src/attr/validators.pyi`. Only one of them can be the one this import means, so the import chain decides.
+
+So far: `tests/test_validators.py` takes `matches_re` from `attr.validators`; `src/attr/validators.py` is next.
+
+I'll look at `src/attr/validators.py`'s top-level names for `matches_re`; that settles what the name means there. Almost certainly it is defined right there. If the name is not bound there, that finishes it; if it is re-exported from somewhere else, I follow whatever it opens up. I could outline all of `src/attr/validators.py` instead, but it is more likely to hit the cap.
+
+**Call:** `symbols('src/attr/validators.py', 'matches_re')`
+
+**Response**: outcome `def`
+
+```
+module src/attr/validators.py lines=767 dynamic=no all=static@19
+153 def matches_re
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "bindings",
+   "key": [
+    "bindings",
+    "src/attr/validators.py",
+    "matches_re"
+   ],
+   "desc": "check the top-level names of `src/attr/validators.py` for `matches_re`"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "symbols('src/attr/validators.py', 'matches_re')",
+   "key": "[\"symbols\", [\"src/attr/validators.py\", \"matches_re\"]]",
+   "v1": [
+    3999389,
+    3766375
+   ],
+   "v2": [
+    3999389,
+    3766375
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     47,
+     50
+    ],
+    "reexport": [
+     1,
+     50
+    ],
+    "star": [
+     1,
+     100
+    ],
+    "none": [
+     3,
+     100
+    ]
+   },
+   "serves": [
+    [
+     "bindings",
+     "src/attr/validators.py",
+     "matches_re"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/attr/validators.py')",
+   "key": "[\"symbols\", [\"src/attr/validators.py\"]]",
+   "v1": [
+    2339329141,
+    1954748625
+   ],
+   "v2": [
+    2339329141,
+    1954748625
+   ],
+   "p_cap": [
+    70,
+    519
+   ],
+   "forecast": {
+    "def": [
+     21103,
+     25950
+    ],
+    "reexport": [
+     449,
+     25950
+    ],
+    "star": [
+     449,
+     51900
+    ],
+    "none": [
+     449,
+     17300
+    ],
+    "cap": [
+     70,
+     519
+    ]
+   },
+   "serves": [
+    [
+     "bindings",
+     "src/attr/validators.py",
+     "matches_re"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "symbols('src/attr/validators.py', 'matches_re')",
+  "key": "[\"symbols\", [\"src/attr/validators.py\", \"matches_re\"]]",
+  "provenance": "module `src/attr/validators.py` (step 3), name `matches_re` (task)",
+  "v2": [
+   3999389,
+   3766375
+  ]
+ },
+ "forecast": {
+  "def": [
+   47,
+   50
+  ],
+  "reexport": [
+   1,
+   50
+  ],
+  "star": [
+   1,
+   100
+  ],
+  "none": [
+   3,
+   100
+  ]
+ },
+ "plan": {
+  "def": "done",
+  "reexport": "continue",
+  "star": "continue",
+  "none": "done"
+ },
+ "hedges": [
+  {
+   "outcome": "def",
+   "word": "almost certainly",
+   "p": [
+    47,
+    50
+   ]
+  }
+ ],
+ "adherence": {
+  "planned": "continue",
+  "status": "open-ended"
+ },
+ "facts": [
+  {
+   "kind": "outline",
+   "step": 4,
+   "path": "src/attr/validators.py",
+   "filter": "matches_re",
+   "header": {
+    "lines": 767,
+    "dynamic": false,
+    "all_status": "static",
+    "all_line": 19
+   },
+   "bindings": [
+    {
+     "module": "src/attr/validators.py",
+     "name": "matches_re",
+     "line": 153,
+     "kind": "def",
+     "src": null,
+     "src_name": null,
+     "conditional": false,
+     "col": 0,
+     "bases": []
+    }
+   ],
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "phase": "resolve",
+  "step": 1,
+  "of": 2,
+  "chain": [
+   [
+    "tests/test_validators.py",
+    "matches_re",
+    "reexport",
+    [
+     "attr.validators",
+     "src/attr/validators.py"
+    ]
+   ],
+   [
+    "src/attr/validators.py",
+    "matches_re",
+    "def",
+    153
+   ]
+  ]
+ }
+}
+```
+</details>
+
+## Step 5
+
+There it is: `matches_re` is a function at `src/attr/validators.py:153`. That settles the definition; now its call sites.
+
+Let me search the whole tree for calls of `matches_re`; the search has to be complete before I can call the set final. Almost certainly it fits under the cap. If it caps, I follow whatever it opens up; if nothing turns up, that finishes it.
+
+**Call:** `grep('\\bmatches_re\\s*\\(', '.')`
+
+**Response**: outcome `mid`
+
+```
+CHANGELOG.md:463:- `attrs.validators.matches_re()` now accepts pre-compiled regular expressions in addition to pattern strings.
+CHANGELOG.md:808:- Added `attr.validators.matches_re()` that checks string attributes whether they match a regular expression.
+docs/api.rst:597:        ...     email = field(validator=attrs.validators.matches_re(
+src/attr/validators.py:153:def matches_re(regex, flags=0, func=None):
+src/attr/validators.pyi:62:def matches_re(
+tests/test_setattr.py:129:            y = attr.ib(validator=[instance_of(str), matches_re("foo.*qux")])
+tests/test_validators.py:186:            str_match = attr.ib(validator=matches_re("a|ab"))
+tests/test_validators.py:203:            val = attr.ib(validator=matches_re("a", re.IGNORECASE, re.match))
+tests/test_validators.py:215:            val = attr.ib(validator=matches_re(pattern))
+tests/test_validators.py:228:            matches_re(pattern, flags=re.IGNORECASE)
+tests/test_validators.py:237:            val = attr.ib(validator=matches_re("a", 0, re.search))
+tests/test_validators.py:246:            matches_re("a", 0, lambda: None)
+tests/test_validators.py:263:        matches_re("a", func=func)
+tests/test_validators.py:269:        assert repr(matches_re("a")).startswith(
+tests/test_validators.py:1246:        v = not_(matches_re("[a-z]{3}"))
+tests/test_validators.py:1256:        wrapped = matches_re("[a-z]{3}")
+typing_tests/mypy.py:248:    e: str = attr.ib(validator=attr.validators.matches_re(re.compile(r"foo")))
+typing_tests/mypy.py:250:        validator=attr.validators.matches_re(r"foo", flags=42, func=re.search)
+typing_tests/pyrefly.py:220:        validator=attrs.validators.matches_re(re.compile(r"foo"))
+typing_tests/pyrefly.py:223:        validator=attrs.validators.matches_re(r"foo", flags=42, func=re.search)
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "cover",
+   "key": [
+    "cover",
+    "CALL",
+    "."
+   ],
+   "desc": "search `.` for calls of `matches_re`"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "grep('\\\\bmatches_re\\\\s*\\\\(', '.')",
+   "key": "[\"grep\", [\"\\\\bmatches_re\\\\s*\\\\(\", \".\"]]",
+   "v1": [
+    2063487991,
+    1577878400
+   ],
+   "v2": [
+    2063487991,
+    1577878400
+   ],
+   "p_cap": [
+    1,
+    27
+   ],
+   "forecast": {
+    "zero": [
+     1,
+     27
+    ],
+    "mid": [
+     25,
+     27
+    ],
+    "cap": [
+     1,
+     27
+    ]
+   },
+   "serves": [
+    [
+     "cover",
+     "CALL",
+     "."
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "grep('\\\\bmatches_re\\\\s*\\\\(', '.')",
+  "key": "[\"grep\", [\"\\\\bmatches_re\\\\s*\\\\(\", \".\"]]",
+  "provenance": "call lines naming `matches_re` under `.` (derived)",
+  "v2": [
+   2063487991,
+   1577878400
+  ]
+ },
+ "forecast": {
+  "zero": [
+   1,
+   27
+  ],
+  "mid": [
+   25,
+   27
+  ],
+  "cap": [
+   1,
+   27
+  ]
+ },
+ "plan": {
+  "zero": "done",
+  "mid": "continue",
+  "cap": "continue"
+ },
+ "hedges": [
+  {
+   "outcome": "mid",
+   "word": "almost certainly",
+   "p": [
+    25,
+    27
+   ]
+  }
+ ],
+ "adherence": {
+  "planned": "done",
+  "status": "deviated"
+ },
+ "facts": [
+  {
+   "kind": "grep",
+   "step": 5,
+   "pattern": "\\bmatches_re\\s*\\(",
+   "scope": ".",
+   "hits": [
+    [
+     "CHANGELOG.md",
+     463
+    ],
+    [
+     "CHANGELOG.md",
+     808
+    ],
+    [
+     "docs/api.rst",
+     597
+    ],
+    [
+     "src/attr/validators.py",
+     153
+    ],
+    [
+     "src/attr/validators.pyi",
+     62
+    ],
+    [
+     "tests/test_setattr.py",
+     129
+    ],
+    [
+     "tests/test_validators.py",
+     186
+    ],
+    [
+     "tests/test_validators.py",
+     203
+    ],
+    [
+     "tests/test_validators.py",
+     215
+    ],
+    [
+     "tests/test_validators.py",
+     228
+    ],
+    [
+     "tests/test_validators.py",
+     237
+    ],
+    [
+     "tests/test_validators.py",
+     246
+    ],
+    [
+     "tests/test_validators.py",
+     263
+    ],
+    [
+     "tests/test_validators.py",
+     269
+    ],
+    [
+     "tests/test_validators.py",
+     1246
+    ],
+    [
+     "tests/test_validators.py",
+     1256
+    ],
+    [
+     "typing_tests/mypy.py",
+     248
+    ],
+    [
+     "typing_tests/mypy.py",
+     250
+    ],
+    [
+     "typing_tests/pyrefly.py",
+     220
+    ],
+    [
+     "typing_tests/pyrefly.py",
+     223
+    ]
+   ],
+   "capped": false
+  }
+ ],
+ "goal_state": {
+  "phase": "callers",
+  "step": 2,
+  "of": 2,
+  "candidates": [
+   "src/attr/validators.py",
+   "tests/test_setattr.py",
+   "tests/test_validators.py",
+   "typing_tests/mypy.py",
+   "typing_tests/pyrefly.py"
+  ],
+  "table": [
+   [
+    "src/attr/validators.py",
+    null,
+    "pending",
+    "not yet examined"
+   ],
+   [
+    "tests/test_setattr.py",
+    null,
+    "pending",
+    "not yet examined"
+   ],
+   [
+    "tests/test_validators.py",
+    null,
+    "pending",
+    "not yet examined"
+   ],
+   [
+    "typing_tests/mypy.py",
+    null,
+    "pending",
+    "not yet examined"
+   ],
+   [
+    "typing_tests/pyrefly.py",
+    null,
+    "pending",
+    "not yet examined"
+   ]
+  ],
+  "uncovered": {
+   "CALL": []
+  },
+  "n_in": 0,
+  "n_out": 0,
+  "n_pending": 5
+ }
+}
+```
+</details>
+
+## Step 6
+
+20 matching lines anywhere for calls of `matches_re`, in `CHANGELOG.md`, `docs/api.rst`, `src/attr/validators.py`, `src/attr/validators.pyi` and 4 more files, and the search was under the cap, so that is the complete set there.
+
+Tally: 0 call sites confirmed, 0 ruled out, 5 pending. The search itself is complete; what is left is checking the candidates.
+
+Next I will look at `tests/test_setattr.py`'s top-level names for `matches_re`; before counting calls I need to know the name refers to our definition there. Almost certainly the outline shows what I need. If the outline is too long to fit, I will look at `typing_tests/mypy.py`'s top-level names for `matches_re`.
+
+**Call:** `symbols('tests/test_setattr.py', 'matches_re')`
+
+**Response**: outcome `ok`
+
+```
+module tests/test_setattr.py lines=648 dynamic=no all=none
+12 from matches_re <- attr.validators matches_re
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "calls",
+   "key": [
+    "calls",
+    "src/attr/validators.py",
+    "matches_re"
+   ],
+   "desc": "list the call sites of `matches_re` in `src/attr/validators.py`"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "tests/test_setattr.py",
+    "matches_re"
+   ],
+   "desc": "check what `matches_re` means inside `tests/test_setattr.py`"
+  },
+  {
+   "kind": "calls",
+   "key": [
+    "calls",
+    "tests/test_validators.py",
+    "matches_re"
+   ],
+   "desc": "list the call sites of `matches_re` in `tests/test_validators.py`"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "typing_tests/mypy.py",
+    "matches_re"
+   ],
+   "desc": "check what `matches_re` means inside `typing_tests/mypy.py`"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "typing_tests/pyrefly.py",
+    "matches_re"
+   ],
+   "desc": "check what `matches_re` means inside `typing_tests/pyrefly.py`"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "symbols('tests/test_setattr.py', 'matches_re')",
+   "key": "[\"symbols\", [\"tests/test_setattr.py\", \"matches_re\"]]",
+   "v1": [
+    3518153,
+    503150
+   ],
+   "v2": [
+    1764108,
+    251575
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "tests/test_setattr.py",
+     "matches_re"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('typing_tests/mypy.py', 'matches_re')",
+   "key": "[\"symbols\", [\"typing_tests/mypy.py\", \"matches_re\"]]",
+   "v1": [
+    3518153,
+    503150
+   ],
+   "v2": [
+    1764108,
+    251575
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "typing_tests/mypy.py",
+     "matches_re"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('typing_tests/pyrefly.py', 'matches_re')",
+   "key": "[\"symbols\", [\"typing_tests/pyrefly.py\", \"matches_re\"]]",
+   "v1": [
+    3518153,
+    503150
+   ],
+   "v2": [
+    1764108,
+    251575
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "typing_tests/pyrefly.py",
+     "matches_re"
+    ]
+   ]
+  },
+  {
+   "call": "calls('src/attr/validators.py', 'matches_re')",
+   "key": "[\"calls\", [\"src/attr/validators.py\", \"matches_re\"]]",
+   "v1": [
+    1413299,
+    201260
+   ],
+   "v2": [
+    7086621,
+    1006300
+   ],
+   "p_cap": [
+    1,
+    20
+   ],
+   "forecast": {
+    "ok": [
+     19,
+     20
+    ],
+    "cap": [
+     1,
+     20
+    ]
+   },
+   "serves": [
+    [
+     "calls",
+     "src/attr/validators.py",
+     "matches_re"
+    ]
+   ]
+  },
+  {
+   "call": "calls('tests/test_validators.py', 'matches_re')",
+   "key": "[\"calls\", [\"tests/test_validators.py\", \"matches_re\"]]",
+   "v1": [
+    1413299,
+    201260
+   ],
+   "v2": [
+    7086621,
+    1006300
+   ],
+   "p_cap": [
+    1,
+    20
+   ],
+   "forecast": {
+    "ok": [
+     19,
+     20
+    ],
+    "cap": [
+     1,
+     20
+    ]
+   },
+   "serves": [
+    [
+     "calls",
+     "tests/test_validators.py",
+     "matches_re"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "symbols('tests/test_setattr.py', 'matches_re')",
+  "key": "[\"symbols\", [\"tests/test_setattr.py\", \"matches_re\"]]",
+  "provenance": "`tests/test_setattr.py` had a matching line (step 5); its outline names every `matches_re` import exactly",
+  "v2": [
+   1764108,
+   251575
+  ]
+ },
+ "forecast": {
+  "ok": [
+   49,
+   50
+  ],
+  "cap": [
+   1,
+   50
+  ]
+ },
+ "plan": {
+  "ok": "[\"symbols\", [\"typing_tests/mypy.py\", \"matches_re\"]]",
+  "cap": "[\"symbols\", [\"typing_tests/mypy.py\", \"matches_re\"]]"
+ },
+ "hedges": [
+  {
+   "outcome": "ok",
+   "word": "almost certainly",
+   "p": [
+    49,
+    50
+   ]
+  }
+ ],
+ "adherence": {
+  "planned": "continue",
+  "status": "open-ended"
+ },
+ "facts": [
+  {
+   "kind": "outline",
+   "step": 6,
+   "path": "tests/test_setattr.py",
+   "filter": "matches_re",
+   "header": {
+    "lines": 648,
+    "dynamic": false,
+    "all_status": "none",
+    "all_line": null
+   },
+   "bindings": [
+    {
+     "module": "tests/test_setattr.py",
+     "name": "matches_re",
+     "line": 12,
+     "kind": "from",
+     "src": "attr.validators",
+     "src_name": "matches_re",
+     "conditional": false,
+     "col": 0,
+     "bases": []
+    }
+   ],
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "phase": "callers",
+  "step": 2,
+  "of": 2,
+  "candidates": [
+   "src/attr/validators.py",
+   "tests/test_setattr.py",
+   "tests/test_validators.py",
+   "typing_tests/mypy.py",
+   "typing_tests/pyrefly.py"
+  ],
+  "table": [
+   [
+    "src/attr/validators.py",
+    null,
+    "pending",
+    "not yet examined"
+   ],
+   [
+    "tests/test_setattr.py",
+    null,
+    "pending",
+    "not yet examined"
+   ],
+   [
+    "tests/test_validators.py",
+    null,
+    "pending",
+    "not yet examined"
+   ],
+   [
+    "typing_tests/mypy.py",
+    null,
+    "pending",
+    "not yet examined"
+   ],
+   [
+    "typing_tests/pyrefly.py",
+    null,
+    "pending",
+    "not yet examined"
+   ]
+  ],
+  "uncovered": {
+   "CALL": []
+  },
+  "n_in": 0,
+  "n_out": 0,
+  "n_pending": 5
+ }
+}
+```
+</details>
+
+## Step 7
+
+The test module `tests/test_setattr.py` does not define `matches_re` itself; line 12 imports it from `attr.validators`.
+
+Tally: 0 call sites confirmed, 0 ruled out, 5 pending. The search itself is complete; what is left is checking the candidates.
+
+Next I will look at `typing_tests/mypy.py`'s top-level names for `matches_re`; before counting calls I need to know the name refers to our definition there. Almost certainly the outline shows what I need. If the outline is too long to fit, I will look at `typing_tests/pyrefly.py`'s top-level names for `matches_re`.
+
+**Call:** `symbols('typing_tests/mypy.py', 'matches_re')`
+
+**Response**: outcome `ok`
+
+```
+module typing_tests/mypy.py lines=429 dynamic=no all=none
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "calls",
+   "key": [
+    "calls",
+    "src/attr/validators.py",
+    "matches_re"
+   ],
+   "desc": "list the call sites of `matches_re` in `src/attr/validators.py`"
+  },
+  {
+   "kind": "calls",
+   "key": [
+    "calls",
+    "tests/test_setattr.py",
+    "matches_re"
+   ],
+   "desc": "list the call sites of `matches_re` in `tests/test_setattr.py`"
+  },
+  {
+   "kind": "calls",
+   "key": [
+    "calls",
+    "tests/test_validators.py",
+    "matches_re"
+   ],
+   "desc": "list the call sites of `matches_re` in `tests/test_validators.py`"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "typing_tests/mypy.py",
+    "matches_re"
+   ],
+   "desc": "check what `matches_re` means inside `typing_tests/mypy.py`"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "typing_tests/pyrefly.py",
+    "matches_re"
+   ],
+   "desc": "check what `matches_re` means inside `typing_tests/pyrefly.py`"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "symbols('typing_tests/mypy.py', 'matches_re')",
+   "key": "[\"symbols\", [\"typing_tests/mypy.py\", \"matches_re\"]]",
+   "v1": [
+    3187373,
+    503150
+   ],
+   "v2": [
+    1598718,
+    251575
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "typing_tests/mypy.py",
+     "matches_re"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('typing_tests/pyrefly.py', 'matches_re')",
+   "key": "[\"symbols\", [\"typing_tests/pyrefly.py\", \"matches_re\"]]",
+   "v1": [
+    3187373,
+    503150
+   ],
+   "v2": [
+    1598718,
+    251575
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "typing_tests/pyrefly.py",
+     "matches_re"
+    ]
+   ]
+  },
+  {
+   "call": "calls('src/attr/validators.py', 'matches_re')",
+   "key": "[\"calls\", [\"src/attr/validators.py\", \"matches_re\"]]",
+   "v1": [
+    1280987,
+    201260
+   ],
+   "v2": [
+    6425061,
+    1006300
+   ],
+   "p_cap": [
+    1,
+    20
+   ],
+   "forecast": {
+    "ok": [
+     19,
+     20
+    ],
+    "cap": [
+     1,
+     20
+    ]
+   },
+   "serves": [
+    [
+     "calls",
+     "src/attr/validators.py",
+     "matches_re"
+    ]
+   ]
+  },
+  {
+   "call": "calls('tests/test_setattr.py', 'matches_re')",
+   "key": "[\"calls\", [\"tests/test_setattr.py\", \"matches_re\"]]",
+   "v1": [
+    1280987,
+    201260
+   ],
+   "v2": [
+    6425061,
+    1006300
+   ],
+   "p_cap": [
+    1,
+    20
+   ],
+   "forecast": {
+    "ok": [
+     19,
+     20
+    ],
+    "cap": [
+     1,
+     20
+    ]
+   },
+   "serves": [
+    [
+     "calls",
+     "tests/test_setattr.py",
+     "matches_re"
+    ]
+   ]
+  },
+  {
+   "call": "calls('tests/test_validators.py', 'matches_re')",
+   "key": "[\"calls\", [\"tests/test_validators.py\", \"matches_re\"]]",
+   "v1": [
+    1280987,
+    201260
+   ],
+   "v2": [
+    6425061,
+    1006300
+   ],
+   "p_cap": [
+    1,
+    20
+   ],
+   "forecast": {
+    "ok": [
+     19,
+     20
+    ],
+    "cap": [
+     1,
+     20
+    ]
+   },
+   "serves": [
+    [
+     "calls",
+     "tests/test_validators.py",
+     "matches_re"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "symbols('typing_tests/mypy.py', 'matches_re')",
+  "key": "[\"symbols\", [\"typing_tests/mypy.py\", \"matches_re\"]]",
+  "provenance": "`typing_tests/mypy.py` had a matching line (step 5); its outline names every `matches_re` import exactly",
+  "v2": [
+   1598718,
+   251575
+  ]
+ },
+ "forecast": {
+  "ok": [
+   49,
+   50
+  ],
+  "cap": [
+   1,
+   50
+  ]
+ },
+ "plan": {
+  "ok": "[\"symbols\", [\"typing_tests/pyrefly.py\", \"matches_re\"]]",
+  "cap": "[\"symbols\", [\"typing_tests/pyrefly.py\", \"matches_re\"]]"
+ },
+ "hedges": [
+  {
+   "outcome": "ok",
+   "word": "almost certainly",
+   "p": [
+    49,
+    50
+   ]
+  }
+ ],
+ "adherence": {
+  "planned": "[\"symbols\", [\"typing_tests/mypy.py\", \"matches_re\"]]",
+  "status": "followed"
+ },
+ "facts": [
+  {
+   "kind": "outline",
+   "step": 7,
+   "path": "typing_tests/mypy.py",
+   "filter": "matches_re",
+   "header": {
+    "lines": 429,
+    "dynamic": false,
+    "all_status": "none",
+    "all_line": null
+   },
+   "bindings": [],
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "phase": "callers",
+  "step": 2,
+  "of": 2,
+  "candidates": [
+   "src/attr/validators.py",
+   "tests/test_setattr.py",
+   "tests/test_validators.py",
+   "typing_tests/mypy.py",
+   "typing_tests/pyrefly.py"
+  ],
+  "table": [
+   [
+    "src/attr/validators.py",
+    null,
+    "pending",
+    "not yet examined"
+   ],
+   [
+    "tests/test_setattr.py",
+    null,
+    "pending",
+    "not yet examined"
+   ],
+   [
+    "tests/test_validators.py",
+    null,
+    "pending",
+    "not yet examined"
+   ],
+   [
+    "typing_tests/mypy.py",
+    "typing_tests/mypy.py",
+    "out",
+    "the name is not bound at module level here"
+   ],
+   [
+    "typing_tests/pyrefly.py",
+    null,
+    "pending",
+    "not yet examined"
+   ]
+  ],
+  "uncovered": {
+   "CALL": []
+  },
+  "n_in": 0,
+  "n_out": 1,
+  "n_pending": 4
+ }
+}
+```
+</details>
+
+## Step 8
+
+`typing_tests/mypy.py` does not bind `matches_re` at module level at all, so its matches were false positives.
+
+Tally: 0 call sites confirmed, 1 ruled out, 4 pending. The search itself is complete; what is left is checking the candidates.
+
+I'll look at `typing_tests/pyrefly.py`'s top-level names for `matches_re`; before counting calls I need to know the name refers to our definition there. Almost certainly the outline shows what I need. If the outline is too long to fit, I will list the call sites of `matches_re` in `src/attr/validators.py`.
+
+**Call:** `symbols('typing_tests/pyrefly.py', 'matches_re')`
+
+**Response**: outcome `ok`
+
+```
+module typing_tests/pyrefly.py lines=400 dynamic=no all=none
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "calls",
+   "key": [
+    "calls",
+    "src/attr/validators.py",
+    "matches_re"
+   ],
+   "desc": "list the call sites of `matches_re` in `src/attr/validators.py`"
+  },
+  {
+   "kind": "calls",
+   "key": [
+    "calls",
+    "tests/test_setattr.py",
+    "matches_re"
+   ],
+   "desc": "list the call sites of `matches_re` in `tests/test_setattr.py`"
+  },
+  {
+   "kind": "calls",
+   "key": [
+    "calls",
+    "tests/test_validators.py",
+    "matches_re"
+   ],
+   "desc": "list the call sites of `matches_re` in `tests/test_validators.py`"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "typing_tests/pyrefly.py",
+    "matches_re"
+   ],
+   "desc": "check what `matches_re` means inside `typing_tests/pyrefly.py`"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "calls('src/attr/validators.py', 'matches_re')",
+   "key": "[\"calls\", [\"src/attr/validators.py\", \"matches_re\"]]",
+   "v1": [
+    189483,
+    40252
+   ],
+   "v2": [
+    4757201,
+    1006300
+   ],
+   "p_cap": [
+    1,
+    20
+   ],
+   "forecast": {
+    "ok": [
+     19,
+     20
+    ],
+    "cap": [
+     1,
+     20
+    ]
+   },
+   "serves": [
+    [
+     "calls",
+     "src/attr/validators.py",
+     "matches_re"
+    ]
+   ]
+  },
+  {
+   "call": "calls('tests/test_setattr.py', 'matches_re')",
+   "key": "[\"calls\", [\"tests/test_setattr.py\", \"matches_re\"]]",
+   "v1": [
+    189483,
+    40252
+   ],
+   "v2": [
+    4757201,
+    1006300
+   ],
+   "p_cap": [
+    1,
+    20
+   ],
+   "forecast": {
+    "ok": [
+     19,
+     20
+    ],
+    "cap": [
+     1,
+     20
+    ]
+   },
+   "serves": [
+    [
+     "calls",
+     "tests/test_setattr.py",
+     "matches_re"
+    ]
+   ]
+  },
+  {
+   "call": "calls('tests/test_validators.py', 'matches_re')",
+   "key": "[\"calls\", [\"tests/test_validators.py\", \"matches_re\"]]",
+   "v1": [
+    189483,
+    40252
+   ],
+   "v2": [
+    4757201,
+    1006300
+   ],
+   "p_cap": [
+    1,
+    20
+   ],
+   "forecast": {
+    "ok": [
+     19,
+     20
+    ],
+    "cap": [
+     1,
+     20
+    ]
+   },
+   "serves": [
+    [
+     "calls",
+     "tests/test_validators.py",
+     "matches_re"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('typing_tests/pyrefly.py', 'matches_re')",
+   "key": "[\"symbols\", [\"typing_tests/pyrefly.py\", \"matches_re\"]]",
+   "v1": [
+    2353443,
+    503150
+   ],
+   "v2": [
+    4757201,
+    1006300
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "typing_tests/pyrefly.py",
+     "matches_re"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "symbols('typing_tests/pyrefly.py', 'matches_re')",
+  "key": "[\"symbols\", [\"typing_tests/pyrefly.py\", \"matches_re\"]]",
+  "provenance": "`typing_tests/pyrefly.py` had a matching line (step 5); its outline names every `matches_re` import exactly",
+  "v2": [
+   4757201,
+   1006300
+  ]
+ },
+ "forecast": {
+  "ok": [
+   49,
+   50
+  ],
+  "cap": [
+   1,
+   50
+  ]
+ },
+ "plan": {
+  "ok": "[\"calls\", [\"src/attr/validators.py\", \"matches_re\"]]",
+  "cap": "[\"calls\", [\"src/attr/validators.py\", \"matches_re\"]]"
+ },
+ "hedges": [
+  {
+   "outcome": "ok",
+   "word": "almost certainly",
+   "p": [
+    49,
+    50
+   ]
+  }
+ ],
+ "adherence": {
+  "planned": "[\"symbols\", [\"typing_tests/pyrefly.py\", \"matches_re\"]]",
+  "status": "followed"
+ },
+ "facts": [
+  {
+   "kind": "outline",
+   "step": 8,
+   "path": "typing_tests/pyrefly.py",
+   "filter": "matches_re",
+   "header": {
+    "lines": 400,
+    "dynamic": false,
+    "all_status": "none",
+    "all_line": null
+   },
+   "bindings": [],
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "phase": "callers",
+  "step": 2,
+  "of": 2,
+  "candidates": [
+   "src/attr/validators.py",
+   "tests/test_setattr.py",
+   "tests/test_validators.py",
+   "typing_tests/mypy.py",
+   "typing_tests/pyrefly.py"
+  ],
+  "table": [
+   [
+    "src/attr/validators.py",
+    null,
+    "pending",
+    "not yet examined"
+   ],
+   [
+    "tests/test_setattr.py",
+    null,
+    "pending",
+    "not yet examined"
+   ],
+   [
+    "tests/test_validators.py",
+    null,
+    "pending",
+    "not yet examined"
+   ],
+   [
+    "typing_tests/mypy.py",
+    "typing_tests/mypy.py",
+    "out",
+    "the name is not bound at module level here"
+   ],
+   [
+    "typing_tests/pyrefly.py",
+    "typing_tests/pyrefly.py",
+    "out",
+    "the name is not bound at module level here"
+   ]
+  ],
+  "uncovered": {
+   "CALL": []
+  },
+  "n_in": 0,
+  "n_out": 2,
+  "n_pending": 3
+ }
+}
+```
+</details>
+
+## Step 9
+
+`typing_tests/pyrefly.py` does not bind `matches_re` at module level at all, so its matches were false positives.
+
+Tally: 0 call sites confirmed, 2 ruled out, 3 pending. The search itself is complete; what is left is checking the candidates.
+
+Let me list the call sites of `matches_re` in `src/attr/validators.py`; the name is ours there, so each call site counts. Almost certainly the call sites fit. If there are too many call sites, I will list the call sites of `matches_re` in `tests/test_setattr.py`.
+
+**Call:** `calls('src/attr/validators.py', 'matches_re')`
+
+**Response**: outcome `ok`
+
+```
+calls of matches_re in src/attr/validators.py count=0
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "calls",
+   "key": [
+    "calls",
+    "src/attr/validators.py",
+    "matches_re"
+   ],
+   "desc": "list the call sites of `matches_re` in `src/attr/validators.py`"
+  },
+  {
+   "kind": "calls",
+   "key": [
+    "calls",
+    "tests/test_setattr.py",
+    "matches_re"
+   ],
+   "desc": "list the call sites of `matches_re` in `tests/test_setattr.py`"
+  },
+  {
+   "kind": "calls",
+   "key": [
+    "calls",
+    "tests/test_validators.py",
+    "matches_re"
+   ],
+   "desc": "list the call sites of `matches_re` in `tests/test_validators.py`"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "calls('src/attr/validators.py', 'matches_re')",
+   "key": "[\"calls\", [\"src/attr/validators.py\", \"matches_re\"]]",
+   "v1": [
+    61,
+    20
+   ],
+   "v2": [
+    31,
+    10
+   ],
+   "p_cap": [
+    1,
+    20
+   ],
+   "forecast": {
+    "ok": [
+     19,
+     20
+    ],
+    "cap": [
+     1,
+     20
+    ]
+   },
+   "serves": [
+    [
+     "calls",
+     "src/attr/validators.py",
+     "matches_re"
+    ]
+   ]
+  },
+  {
+   "call": "calls('tests/test_setattr.py', 'matches_re')",
+   "key": "[\"calls\", [\"tests/test_setattr.py\", \"matches_re\"]]",
+   "v1": [
+    61,
+    20
+   ],
+   "v2": [
+    31,
+    10
+   ],
+   "p_cap": [
+    1,
+    20
+   ],
+   "forecast": {
+    "ok": [
+     19,
+     20
+    ],
+    "cap": [
+     1,
+     20
+    ]
+   },
+   "serves": [
+    [
+     "calls",
+     "tests/test_setattr.py",
+     "matches_re"
+    ]
+   ]
+  },
+  {
+   "call": "calls('tests/test_validators.py', 'matches_re')",
+   "key": "[\"calls\", [\"tests/test_validators.py\", \"matches_re\"]]",
+   "v1": [
+    61,
+    20
+   ],
+   "v2": [
+    31,
+    10
+   ],
+   "p_cap": [
+    1,
+    20
+   ],
+   "forecast": {
+    "ok": [
+     19,
+     20
+    ],
+    "cap": [
+     1,
+     20
+    ]
+   },
+   "serves": [
+    [
+     "calls",
+     "tests/test_validators.py",
+     "matches_re"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "calls('src/attr/validators.py', 'matches_re')",
+  "key": "[\"calls\", [\"src/attr/validators.py\", \"matches_re\"]]",
+  "provenance": "call sites of `matches_re` in `src/attr/validators.py` that refer to the module-level binding",
+  "v2": [
+   31,
+   10
+  ]
+ },
+ "forecast": {
+  "ok": [
+   19,
+   20
+  ],
+  "cap": [
+   1,
+   20
+  ]
+ },
+ "plan": {
+  "ok": "[\"calls\", [\"tests/test_setattr.py\", \"matches_re\"]]",
+  "cap": "[\"calls\", [\"tests/test_setattr.py\", \"matches_re\"]]"
+ },
+ "hedges": [
+  {
+   "outcome": "ok",
+   "word": "almost certainly",
+   "p": [
+    19,
+    20
+   ]
+  }
+ ],
+ "adherence": {
+  "planned": "[\"calls\", [\"src/attr/validators.py\", \"matches_re\"]]",
+  "status": "followed"
+ },
+ "facts": [
+  {
+   "kind": "calls",
+   "step": 9,
+   "path": "src/attr/validators.py",
+   "name": "matches_re",
+   "lines": [],
+   "count": 0,
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "phase": "callers",
+  "step": 2,
+  "of": 2,
+  "candidates": [
+   "src/attr/validators.py",
+   "tests/test_setattr.py",
+   "tests/test_validators.py",
+   "typing_tests/mypy.py",
+   "typing_tests/pyrefly.py"
+  ],
+  "table": [
+   [
+    "src/attr/validators.py",
+    "src/attr/validators.py",
+    "out",
+    "the module binds the name but never calls it by bare name"
+   ],
+   [
+    "tests/test_setattr.py",
+    null,
+    "pending",
+    "not yet examined"
+   ],
+   [
+    "tests/test_validators.py",
+    null,
+    "pending",
+    "not yet examined"
+   ],
+   [
+    "typing_tests/mypy.py",
+    "typing_tests/mypy.py",
+    "out",
+    "the name is not bound at module level here"
+   ],
+   [
+    "typing_tests/pyrefly.py",
+    "typing_tests/pyrefly.py",
+    "out",
+    "the name is not bound at module level here"
+   ]
+  ],
+  "uncovered": {
+   "CALL": []
+  },
+  "n_in": 0,
+  "n_out": 3,
+  "n_pending": 2
+ }
+}
+```
+</details>
+
+## Step 10
+
+`src/attr/validators.py` binds `matches_re` but never actually calls it by that name.
+
+Tally: 0 call sites confirmed, 3 ruled out, 2 pending. The search itself is complete; what is left is checking the candidates.
+
+Let me list the call sites of `matches_re` in `tests/test_setattr.py`; the name is ours there, so each call site counts. Almost certainly the call sites fit. If there are too many call sites, I will list the call sites of `matches_re` in `tests/test_validators.py`.
+
+**Call:** `calls('tests/test_setattr.py', 'matches_re')`
+
+**Response**: outcome `ok`
+
+```
+calls of matches_re in tests/test_setattr.py count=1
+129:            y = attr.ib(validator=[instance_of(str), matches_re("foo.*qux")])
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "calls",
+   "key": [
+    "calls",
+    "tests/test_setattr.py",
+    "matches_re"
+   ],
+   "desc": "list the call sites of `matches_re` in `tests/test_setattr.py`"
+  },
+  {
+   "kind": "calls",
+   "key": [
+    "calls",
+    "tests/test_validators.py",
+    "matches_re"
+   ],
+   "desc": "list the call sites of `matches_re` in `tests/test_validators.py`"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "calls('tests/test_setattr.py', 'matches_re')",
+   "key": "[\"calls\", [\"tests/test_setattr.py\", \"matches_re\"]]",
+   "v1": [
+    41,
+    20
+   ],
+   "v2": [
+    21,
+    10
+   ],
+   "p_cap": [
+    1,
+    20
+   ],
+   "forecast": {
+    "ok": [
+     19,
+     20
+    ],
+    "cap": [
+     1,
+     20
+    ]
+   },
+   "serves": [
+    [
+     "calls",
+     "tests/test_setattr.py",
+     "matches_re"
+    ]
+   ]
+  },
+  {
+   "call": "calls('tests/test_validators.py', 'matches_re')",
+   "key": "[\"calls\", [\"tests/test_validators.py\", \"matches_re\"]]",
+   "v1": [
+    41,
+    20
+   ],
+   "v2": [
+    21,
+    10
+   ],
+   "p_cap": [
+    1,
+    20
+   ],
+   "forecast": {
+    "ok": [
+     19,
+     20
+    ],
+    "cap": [
+     1,
+     20
+    ]
+   },
+   "serves": [
+    [
+     "calls",
+     "tests/test_validators.py",
+     "matches_re"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "calls('tests/test_setattr.py', 'matches_re')",
+  "key": "[\"calls\", [\"tests/test_setattr.py\", \"matches_re\"]]",
+  "provenance": "call sites of `matches_re` in `tests/test_setattr.py` that refer to the module-level binding",
+  "v2": [
+   21,
+   10
+  ]
+ },
+ "forecast": {
+  "ok": [
+   19,
+   20
+  ],
+  "cap": [
+   1,
+   20
+  ]
+ },
+ "plan": {
+  "ok": "[\"calls\", [\"tests/test_validators.py\", \"matches_re\"]]",
+  "cap": "[\"calls\", [\"tests/test_validators.py\", \"matches_re\"]]"
+ },
+ "hedges": [
+  {
+   "outcome": "ok",
+   "word": "almost certainly",
+   "p": [
+    19,
+    20
+   ]
+  }
+ ],
+ "adherence": {
+  "planned": "[\"calls\", [\"tests/test_setattr.py\", \"matches_re\"]]",
+  "status": "followed"
+ },
+ "facts": [
+  {
+   "kind": "calls",
+   "step": 10,
+   "path": "tests/test_setattr.py",
+   "name": "matches_re",
+   "lines": [
+    129
+   ],
+   "count": 1,
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "phase": "callers",
+  "step": 2,
+  "of": 2,
+  "candidates": [
+   "src/attr/validators.py",
+   "tests/test_setattr.py",
+   "tests/test_validators.py",
+   "typing_tests/mypy.py",
+   "typing_tests/pyrefly.py"
+  ],
+  "table": [
+   [
+    "src/attr/validators.py",
+    "src/attr/validators.py",
+    "out",
+    "the module binds the name but never calls it by bare name"
+   ],
+   [
+    "tests/test_setattr.py",
+    "tests/test_setattr.py:129",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_validators.py",
+    null,
+    "pending",
+    "not yet examined"
+   ],
+   [
+    "typing_tests/mypy.py",
+    "typing_tests/mypy.py",
+    "out",
+    "the name is not bound at module level here"
+   ],
+   [
+    "typing_tests/pyrefly.py",
+    "typing_tests/pyrefly.py",
+    "out",
+    "the name is not bound at module level here"
+   ]
+  ],
+  "uncovered": {
+   "CALL": []
+  },
+  "n_in": 1,
+  "n_out": 3,
+  "n_pending": 1
+ }
+}
+```
+</details>
+
+## Step 11
+
+`tests/test_setattr.py` calls `matches_re` at line 129, and those are real calls of the module-level name, not a shadowed local.
+
+Tally: 1 call sites confirmed, 3 ruled out, 1 pending. The search itself is complete; what is left is checking the candidates.
+
+I'll list the call sites of `matches_re` in `tests/test_validators.py`; the name is ours there, so each call site counts. Almost certainly the call sites fit. If there are too many call sites, I follow whatever it opens up.
+
+**Call:** `calls('tests/test_validators.py', 'matches_re')`
+
+**Response**: outcome `ok`
+
+```
+calls of matches_re in tests/test_validators.py count=10
+186:            str_match = attr.ib(validator=matches_re("a|ab"))
+203:            val = attr.ib(validator=matches_re("a", re.IGNORECASE, re.match))
+215:            val = attr.ib(validator=matches_re(pattern))
+228:            matches_re(pattern, flags=re.IGNORECASE)
+237:            val = attr.ib(validator=matches_re("a", 0, re.search))
+246:            matches_re("a", 0, lambda: None)
+263:        matches_re("a", func=func)
+269:        assert repr(matches_re("a")).startswith(
+1246:        v = not_(matches_re("[a-z]{3}"))
+1256:        wrapped = matches_re("[a-z]{3}")
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "calls",
+   "key": [
+    "calls",
+    "tests/test_validators.py",
+    "matches_re"
+   ],
+   "desc": "list the call sites of `matches_re` in `tests/test_validators.py`"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "calls('tests/test_validators.py', 'matches_re')",
+   "key": "[\"calls\", [\"tests/test_validators.py\", \"matches_re\"]]",
+   "v1": [
+    21,
+    20
+   ],
+   "v2": [
+    21,
+    20
+   ],
+   "p_cap": [
+    1,
+    20
+   ],
+   "forecast": {
+    "ok": [
+     19,
+     20
+    ],
+    "cap": [
+     1,
+     20
+    ]
+   },
+   "serves": [
+    [
+     "calls",
+     "tests/test_validators.py",
+     "matches_re"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "calls('tests/test_validators.py', 'matches_re')",
+  "key": "[\"calls\", [\"tests/test_validators.py\", \"matches_re\"]]",
+  "provenance": "call sites of `matches_re` in `tests/test_validators.py` that refer to the module-level binding",
+  "v2": [
+   21,
+   20
+  ]
+ },
+ "forecast": {
+  "ok": [
+   19,
+   20
+  ],
+  "cap": [
+   1,
+   20
+  ]
+ },
+ "plan": {
+  "ok": "done",
+  "cap": "continue"
+ },
+ "hedges": [
+  {
+   "outcome": "ok",
+   "word": "almost certainly",
+   "p": [
+    19,
+    20
+   ]
+  }
+ ],
+ "adherence": {
+  "planned": "[\"calls\", [\"tests/test_validators.py\", \"matches_re\"]]",
+  "status": "followed"
+ },
+ "facts": [
+  {
+   "kind": "calls",
+   "step": 11,
+   "path": "tests/test_validators.py",
+   "name": "matches_re",
+   "lines": [
+    186,
+    203,
+    215,
+    228,
+    237,
+    246,
+    263,
+    269,
+    1246,
+    1256
+   ],
+   "count": 10,
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "phase": "callers",
+  "step": 2,
+  "of": 2,
+  "candidates": [
+   "src/attr/validators.py",
+   "tests/test_setattr.py",
+   "tests/test_validators.py",
+   "typing_tests/mypy.py",
+   "typing_tests/pyrefly.py"
+  ],
+  "table": [
+   [
+    "src/attr/validators.py",
+    "src/attr/validators.py",
+    "out",
+    "the module binds the name but never calls it by bare name"
+   ],
+   [
+    "tests/test_setattr.py",
+    "tests/test_setattr.py:129",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_validators.py",
+    "tests/test_validators.py:186",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_validators.py",
+    "tests/test_validators.py:203",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_validators.py",
+    "tests/test_validators.py:215",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_validators.py",
+    "tests/test_validators.py:228",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_validators.py",
+    "tests/test_validators.py:237",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_validators.py",
+    "tests/test_validators.py:246",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_validators.py",
+    "tests/test_validators.py:263",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_validators.py",
+    "tests/test_validators.py:269",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_validators.py",
+    "tests/test_validators.py:1246",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_validators.py",
+    "tests/test_validators.py:1256",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "typing_tests/mypy.py",
+    "typing_tests/mypy.py",
+    "out",
+    "the name is not bound at module level here"
+   ],
+   [
+    "typing_tests/pyrefly.py",
+    "typing_tests/pyrefly.py",
+    "out",
+    "the name is not bound at module level here"
+   ]
+  ],
+  "uncovered": {
+   "CALL": []
+  },
+  "n_in": 11,
+  "n_out": 3,
+  "n_pending": 0
+ }
+}
+```
+</details>
+
+## Final
+
+`matches_re` is the def at `src/attr/validators.py:153`. 11 call sites in 2 modules: `tests/test_setattr.py:129`, `tests/test_validators.py:186`, `tests/test_validators.py:203`, `tests/test_validators.py:215`, `tests/test_validators.py:228`, `tests/test_validators.py:237`, `tests/test_validators.py:246`, `tests/test_validators.py:263`, `tests/test_validators.py:269`, `tests/test_validators.py:1246` and 1 more. Ruled out along the way: `src/attr/validators.py` (the module binds the name but never calls it by bare name); `typing_tests/mypy.py` (the name is not bound at module level here). Looking back, all 11 calls were needed.
+
+**Answer:** `{"final_kind": "callers", "final": ["tests/test_setattr.py:129", "tests/test_validators.py:186", "tests/test_validators.py:203", "tests/test_validators.py:215", "tests/test_validators.py:228", "tests/test_validators.py:237", "tests/test_validators.py:246", "tests/test_validators.py:263", "tests/test_validators.py:269", "tests/test_validators.py:1246", "tests/test_validators.py:1256"], "steps": [{"op": "resolve", "output": {"kind": "def", "path": "src/attr/validators.py", "line": 153, "name": "matches_re", "detail": "def"}}, {"op": "callers", "output": ["tests/test_setattr.py:129", "tests/test_validators.py:186", "tests/test_validators.py:203", "tests/test_validators.py:215", "tests/test_validators.py:228", "tests/test_validators.py:237", "tests/test_validators.py:246", "tests/test_validators.py:263", "tests/test_validators.py:269", "tests/test_validators.py:1246", "tests/test_validators.py:1256"]}], "stuck": null}`  
+**Stopped:** certificate after 11 calls

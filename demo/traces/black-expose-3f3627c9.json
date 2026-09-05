@@ -1,0 +1,1479 @@
+{
+ "task": {
+  "family": "expose",
+  "repo": "black",
+  "chain": [
+   {
+    "op": "resolve",
+    "module": "tests/util.py",
+    "line": 16,
+    "name": "DebugVisitor",
+    "spec": "black.debug",
+    "src_name": "DebugVisitor"
+   },
+   {
+    "op": "expose",
+    "package": "src/black/__init__.py"
+   }
+  ],
+  "given": {
+   "module": "tests/util.py",
+   "line": 16,
+   "name": "DebugVisitor",
+   "spec": "black.debug",
+   "src_name": "DebugVisitor",
+   "package": "src/black/__init__.py"
+  },
+  "text": "In `tests/util.py` line 16, `DebugVisitor` is imported from `black.debug`. Which definition does the module-level name `DebugVisitor` actually refer to? Give `path:line`. Then propose the one-line change to `src/black/__init__.py` that makes `from black import DebugVisitor` resolve to this definition; give the exact line to append.",
+  "semantics": "A module is a .py file; source roots are the repository root and, if present, src/ and lib/. `from M import N` binds N to M's single module-level binding of N, else to the submodule M/N, else to the single star-import source of M that exports N; bindings take effect in source order. A module exports N if its literal __all__ lists N or, without __all__, if N is public and bound in it. A class derives from a definition when a base written as a bare name or `module.Name` resolves to it. A call site is `name(...)` where the bare name refers to the module-level binding (not a parameter or local). Multiple bindings, non-literal __all__, external star imports and dynamic namespace code make a name ambiguous; tasks never ask about ambiguous names.",
+  "skeleton": {
+   "hops": "2",
+   "star": false,
+   "alias": false,
+   "decoys": "1",
+   "relative": false,
+   "package_depth": "2",
+   "star_sources": "0",
+   "chain": "resolve\u2192expose"
+  },
+  "floor": 4,
+  "id": "black-expose-3f3627c9",
+  "cell": "alias=False|chain=resolve\u2192expose|decoys=1|hops=2|package_depth=2|relative=False|star=False|star_sources=0"
+ },
+ "seed": 0,
+ "depth": 2,
+ "theta_hash": "f2e0b46ccc75305a",
+ "budget": 40,
+ "steps": [
+  {
+   "step": 1,
+   "phase": "resolve",
+   "thought": "I need to find what `DebugVisitor` really is in `tests/util.py`: line 16 imports it from `black.debug`, so the definition is at least one hop away. Then I have to propose the one-line import that exposes it from the package.\n\nNext I will check `tests/util.py` for any other binding of `DebugVisitor` besides the import on line 16; almost certainly the import is the only one, and then `black.debug` is the place to follow.",
+   "hedges": [
+    {
+     "outcome": "reexport",
+     "word": "almost certainly",
+     "p": [
+      93,
+      100
+     ]
+    }
+   ],
+   "items": [
+    {
+     "kind": "bindings",
+     "key": [
+      "bindings",
+      "tests/util.py",
+      "DebugVisitor"
+     ],
+     "desc": "check the top-level names of `tests/util.py` for `DebugVisitor`"
+    }
+   ],
+   "candidates": [
+    {
+     "call": "symbols('tests/util.py', 'DebugVisitor')",
+     "key": "[\"symbols\", [\"tests/util.py\", \"DebugVisitor\"]]",
+     "v1": [
+      734757,
+      251000
+     ],
+     "v2": [
+      734757,
+      251000
+     ],
+     "p_cap": [
+      0,
+      1
+     ],
+     "forecast": {
+      "def": [
+       1,
+       100
+      ],
+      "reexport": [
+       93,
+       100
+      ],
+      "star": [
+       1,
+       100
+      ],
+      "none": [
+       1,
+       20
+      ]
+     },
+     "serves": [
+      [
+       "bindings",
+       "tests/util.py",
+       "DebugVisitor"
+      ]
+     ]
+    },
+    {
+     "call": "symbols('tests/util.py')",
+     "key": "[\"symbols\", [\"tests/util.py\"]]",
+     "v1": [
+      36353329,
+      11797000
+     ],
+     "v2": [
+      36353329,
+      11797000
+     ],
+     "p_cap": [
+      29,
+      188
+     ],
+     "forecast": {
+      "def": [
+       159,
+       18800
+      ],
+      "reexport": [
+       14787,
+       18800
+      ],
+      "star": [
+       159,
+       18800
+      ],
+      "none": [
+       159,
+       3760
+      ],
+      "cap": [
+       29,
+       188
+      ]
+     },
+     "serves": [
+      [
+       "bindings",
+       "tests/util.py",
+       "DebugVisitor"
+      ]
+     ]
+    }
+   ],
+   "choice": {
+    "call": "symbols('tests/util.py', 'DebugVisitor')",
+    "key": "[\"symbols\", [\"tests/util.py\", \"DebugVisitor\"]]",
+    "provenance": "module `tests/util.py` (task), name `DebugVisitor` (task)",
+    "v2": [
+     734757,
+     251000
+    ]
+   },
+   "forecast": {
+    "def": [
+     1,
+     100
+    ],
+    "reexport": [
+     93,
+     100
+    ],
+    "star": [
+     1,
+     100
+    ],
+    "none": [
+     1,
+     20
+    ]
+   },
+   "plan": {
+    "def": "done",
+    "reexport": "continue",
+    "star": "continue",
+    "none": "done"
+   },
+   "call": {
+    "text": "symbols('tests/util.py', 'DebugVisitor')",
+    "key": "[\"symbols\", [\"tests/util.py\", \"DebugVisitor\"]]",
+    "tool": "symbols",
+    "args": [
+     "tests/util.py",
+     "DebugVisitor"
+    ]
+   },
+   "response": {
+    "tool": "symbols",
+    "lines": [
+     "module tests/util.py lines=356 dynamic=no all=none",
+     "16 from DebugVisitor <- black.debug DebugVisitor"
+    ],
+    "capped": false,
+    "error": null
+   },
+   "outcome": "reexport",
+   "facts": [
+    {
+     "kind": "outline",
+     "step": 1,
+     "path": "tests/util.py",
+     "filter": "DebugVisitor",
+     "header": {
+      "lines": 356,
+      "dynamic": false,
+      "all_status": "none",
+      "all_line": null
+     },
+     "bindings": [
+      {
+       "module": "tests/util.py",
+       "name": "DebugVisitor",
+       "line": 16,
+       "kind": "from",
+       "src": "black.debug",
+       "src_name": "DebugVisitor",
+       "conditional": false,
+       "col": 0,
+       "bases": []
+      }
+     ],
+     "complete": true
+    }
+   ],
+   "adherence": null,
+   "goal_state": {
+    "phase": "resolve",
+    "step": 1,
+    "of": 2,
+    "chain": [
+     [
+      "tests/util.py",
+      "DebugVisitor",
+      "reexport",
+      [
+       "black.debug",
+       null
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "step": 2,
+   "phase": "resolve",
+   "thought": "The test module `tests/util.py` does not define `DebugVisitor` itself; line 16 imports it from `black.debug`.\n\nSo far: `tests/util.py` takes `DebugVisitor` from `black.debug`, which I still have to locate.\n\nLet me list `./` to see what lives there; the listing settles whether the import is a module, a package, or not here at all. Very likely the listing fits. If the listing is too long, I will outline `black/debug.py` directly, which both checks that the file exists and shows me `DebugVisitor`. I could outline `black/debug.py` directly, which both checks that the file exists and shows me `DebugVisitor` instead, but it costs more calls in expectation.",
+   "hedges": [
+    {
+     "outcome": "complete",
+     "word": "very likely",
+     "p": [
+      7,
+      9
+     ]
+    }
+   ],
+   "items": [
+    {
+     "kind": "module_path",
+     "key": [
+      "module_path",
+      "tests/util.py",
+      "black.debug"
+     ],
+     "desc": "find where `black.debug` (imported by `tests/util.py`) lives"
+    }
+   ],
+   "candidates": [
+    {
+     "call": "ls('.')",
+     "key": "[\"ls\", [\".\"]]",
+     "v1": [
+      113,
+      60
+     ],
+     "v2": [
+      1204260299491,
+      614547852820
+     ],
+     "p_cap": [
+      2,
+      9
+     ],
+     "forecast": {
+      "complete": [
+       7,
+       9
+      ],
+      "cap": [
+       2,
+       9
+      ]
+     },
+     "serves": [
+      [
+       "module_path",
+       "tests/util.py",
+       "black.debug"
+      ]
+     ]
+    },
+    {
+     "call": "symbols('black/debug.py', 'DebugVisitor')",
+     "key": "[\"symbols\", [\"black/debug.py\", \"DebugVisitor\"]]",
+     "v1": [
+      1470701393341,
+      614547852820
+     ],
+     "v2": [
+      1401917069711,
+      614547852820
+     ],
+     "p_cap": [
+      0,
+      1
+     ],
+     "forecast": {
+      "def": [
+       37711296,
+       122419891
+      ],
+      "reexport": [
+       891520,
+       122419891
+      ],
+      "star": [
+       89152,
+       122419891
+      ],
+      "none": [
+       1515584,
+       122419891
+      ],
+      "missing": [
+       182289,
+       271441
+      ]
+     },
+     "serves": [
+      [
+       "module_path",
+       "tests/util.py",
+       "black.debug"
+      ]
+     ]
+    },
+    {
+     "call": "symbols('black/debug/__init__.py', 'DebugVisitor')",
+     "key": "[\"symbols\", [\"black/debug/__init__.py\", \"DebugVisitor\"]]",
+     "v1": [
+      8243792347,
+      2733410870
+     ],
+     "v2": [
+      7812605017,
+      2733410870
+     ],
+     "p_cap": [
+      0,
+      1
+     ],
+     "forecast": {
+      "def": [
+       217905,
+       20629516
+      ],
+      "reexport": [
+       624661,
+       20629516
+      ],
+      "star": [
+       14527,
+       20629516
+      ],
+      "none": [
+       246959,
+       20629516
+      ],
+      "missing": [
+       256914,
+       271441
+      ]
+     },
+     "serves": [
+      [
+       "module_path",
+       "tests/util.py",
+       "black.debug"
+      ]
+     ]
+    },
+    {
+     "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+DebugVisitor\\\\b', '.')",
+     "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+DebugVisitor\\\\b\", \".\"]]",
+     "v1": [
+      61,
+      20
+     ],
+     "v2": [
+      173,
+      60
+     ],
+     "p_cap": [
+      1,
+      24
+     ],
+     "forecast": {
+      "zero": [
+       1,
+       24
+      ],
+      "mid": [
+       11,
+       12
+      ],
+      "cap": [
+       1,
+       24
+      ]
+     },
+     "serves": [
+      [
+       "module_path",
+       "tests/util.py",
+       "black.debug"
+      ]
+     ]
+    },
+    {
+     "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+DebugVisitor\\\\b', 'src')",
+     "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+DebugVisitor\\\\b\", \"src\"]]",
+     "v1": [
+      61,
+      20
+     ],
+     "v2": [
+      173,
+      60
+     ],
+     "p_cap": [
+      1,
+      265
+     ],
+     "forecast": {
+      "zero": [
+       218,
+       265
+      ],
+      "mid": [
+       46,
+       265
+      ],
+      "cap": [
+       1,
+       265
+      ]
+     },
+     "serves": [
+      [
+       "module_path",
+       "tests/util.py",
+       "black.debug"
+      ]
+     ]
+    }
+   ],
+   "choice": {
+    "call": "ls('.')",
+    "key": "[\"ls\", [\".\"]]",
+    "provenance": "`black.debug` imported by `tests/util.py` should live under `.`",
+    "v2": [
+     1204260299491,
+     614547852820
+    ]
+   },
+   "forecast": {
+    "complete": [
+     7,
+     9
+    ],
+    "cap": [
+     2,
+     9
+    ]
+   },
+   "plan": {
+    "complete": "continue",
+    "cap": "[\"symbols\", [\"black/debug.py\", \"DebugVisitor\"]]"
+   },
+   "call": {
+    "text": "ls('.')",
+    "key": "[\"ls\", [\".\"]]",
+    "tool": "ls",
+    "args": [
+     "."
+    ]
+   },
+   "response": {
+    "tool": "ls",
+    "lines": [
+     ".git_archival.txt",
+     ".github/",
+     ".pre-commit-config.yaml",
+     ".pre-commit-hooks.yaml",
+     ".prettierrc.yaml",
+     ".readthedocs.yaml",
+     "AUTHORS.md",
+     "CHANGES.md",
+     "CONTRIBUTING.md",
+     "README.md",
+     "SECURITY.md",
+     "action.yml",
+     "action/",
+     "docs/",
+     "profiling/",
+     "pyproject.toml",
+     "scripts/",
+     "src/",
+     "tests/",
+     "tox.ini"
+    ],
+    "capped": false,
+    "error": null
+   },
+   "outcome": "complete",
+   "facts": [
+    {
+     "kind": "listing",
+     "step": 2,
+     "dir": ".",
+     "entries": [
+      ".git_archival.txt",
+      ".github/",
+      ".pre-commit-config.yaml",
+      ".pre-commit-hooks.yaml",
+      ".prettierrc.yaml",
+      ".readthedocs.yaml",
+      "AUTHORS.md",
+      "CHANGES.md",
+      "CONTRIBUTING.md",
+      "README.md",
+      "SECURITY.md",
+      "action.yml",
+      "action/",
+      "docs/",
+      "profiling/",
+      "pyproject.toml",
+      "scripts/",
+      "src/",
+      "tests/",
+      "tox.ini"
+     ],
+     "complete": true
+    }
+   ],
+   "adherence": {
+    "planned": "continue",
+    "status": "open-ended"
+   },
+   "goal_state": {
+    "phase": "resolve",
+    "step": 1,
+    "of": 2,
+    "chain": [
+     [
+      "tests/util.py",
+      "DebugVisitor",
+      "reexport",
+      [
+       "black.debug",
+       null
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "step": 3,
+   "phase": "resolve",
+   "thought": "`./` has 20 entries: there is no `black` here.\n\nSo far: `tests/util.py` takes `DebugVisitor` from `black.debug`, which I still have to locate.\n\nI'll outline `src/black/debug.py` directly, which both checks that the file exists and shows me `DebugVisitor`; if `black.debug` is a plain module that is where it has to be. Very likely it is defined right there. If the file does not exist, I will list `src/black/` to see what lives there; if the name is not bound there, that finishes it. I could list `src/black/` to see what lives there instead, but it tends to open more follow-up work.",
+   "hedges": [
+    {
+     "outcome": "def",
+     "word": "very likely",
+     "p": [
+      189504,
+      234971
+     ]
+    }
+   ],
+   "items": [
+    {
+     "kind": "module_path",
+     "key": [
+      "module_path",
+      "tests/util.py",
+      "black.debug"
+     ],
+     "desc": "find where `black.debug` (imported by `tests/util.py`) lives"
+    }
+   ],
+   "candidates": [
+    {
+     "call": "symbols('src/black/debug.py', 'DebugVisitor')",
+     "key": "[\"symbols\", [\"src/black/debug.py\", \"DebugVisitor\"]]",
+     "v1": [
+      1569150741,
+      1179554420
+     ],
+     "v2": [
+      284677377961,
+      213499350020
+     ],
+     "p_cap": [
+      0,
+      1
+     ],
+     "forecast": {
+      "def": [
+       189504,
+       234971
+      ],
+      "reexport": [
+       4480,
+       234971
+      ],
+      "star": [
+       448,
+       234971
+      ],
+      "none": [
+       7616,
+       234971
+      ],
+      "missing": [
+       73,
+       521
+      ]
+     },
+     "serves": [
+      [
+       "module_path",
+       "tests/util.py",
+       "black.debug"
+      ]
+     ]
+    },
+    {
+     "call": "ls('src/black')",
+     "key": "[\"ls\", [\"src/black\"]]",
+     "v1": [
+      7501,
+      3620
+     ],
+     "v2": [
+      438996141941,
+      213499350020
+     ],
+     "p_cap": [
+      4,
+      181
+     ],
+     "forecast": {
+      "complete": [
+       177,
+       181
+      ],
+      "cap": [
+       4,
+       181
+      ]
+     },
+     "serves": [
+      [
+       "module_path",
+       "tests/util.py",
+       "black.debug"
+      ]
+     ]
+    },
+    {
+     "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+DebugVisitor\\\\b', '.')",
+     "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+DebugVisitor\\\\b\", \".\"]]",
+     "v1": [
+      32,
+      15
+     ],
+     "v2": [
+      2445638111,
+      1179554420
+     ],
+     "p_cap": [
+      1,
+      24
+     ],
+     "forecast": {
+      "zero": [
+       1,
+       24
+      ],
+      "mid": [
+       11,
+       12
+      ],
+      "cap": [
+       1,
+       24
+      ]
+     },
+     "serves": [
+      [
+       "module_path",
+       "tests/util.py",
+       "black.debug"
+      ]
+     ]
+    },
+    {
+     "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+DebugVisitor\\\\b', 'src')",
+     "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+DebugVisitor\\\\b\", \"src\"]]",
+     "v1": [
+      3049,
+      1060
+     ],
+     "v2": [
+      142639682413,
+      62516384260
+     ],
+     "p_cap": [
+      1,
+      265
+     ],
+     "forecast": {
+      "zero": [
+       218,
+       265
+      ],
+      "mid": [
+       46,
+       265
+      ],
+      "cap": [
+       1,
+       265
+      ]
+     },
+     "serves": [
+      [
+       "module_path",
+       "tests/util.py",
+       "black.debug"
+      ]
+     ]
+    },
+    {
+     "call": "symbols('src/black/debug/__init__.py', 'DebugVisitor')",
+     "key": "[\"symbols\", [\"src/black/debug/__init__.py\", \"DebugVisitor\"]]",
+     "v1": [
+      1553384,
+      524647
+     ],
+     "v2": [
+      72465772653288,
+      30942484389487
+     ],
+     "p_cap": [
+      0,
+      1
+     ],
+     "forecast": {
+      "def": [
+       1095,
+       39596
+      ],
+      "reexport": [
+       3139,
+       39596
+      ],
+      "star": [
+       73,
+       39596
+      ],
+      "none": [
+       1241,
+       39596
+      ],
+      "missing": [
+       448,
+       521
+      ]
+     },
+     "serves": [
+      [
+       "module_path",
+       "tests/util.py",
+       "black.debug"
+      ]
+     ]
+    }
+   ],
+   "choice": {
+    "call": "symbols('src/black/debug.py', 'DebugVisitor')",
+    "key": "[\"symbols\", [\"src/black/debug.py\", \"DebugVisitor\"]]",
+    "provenance": "`black.debug` would be `src/black/debug.py` if that file exists; one call both checks and closes it",
+    "v2": [
+     284677377961,
+     213499350020
+    ]
+   },
+   "forecast": {
+    "def": [
+     189504,
+     234971
+    ],
+    "reexport": [
+     4480,
+     234971
+    ],
+    "star": [
+     448,
+     234971
+    ],
+    "none": [
+     7616,
+     234971
+    ],
+    "missing": [
+     73,
+     521
+    ]
+   },
+   "plan": {
+    "def": "done",
+    "reexport": "continue",
+    "star": "continue",
+    "none": "done",
+    "missing": "[\"ls\", [\"src/black\"]]"
+   },
+   "call": {
+    "text": "symbols('src/black/debug.py', 'DebugVisitor')",
+    "key": "[\"symbols\", [\"src/black/debug.py\", \"DebugVisitor\"]]",
+    "tool": "symbols",
+    "args": [
+     "src/black/debug.py",
+     "DebugVisitor"
+    ]
+   },
+   "response": {
+    "tool": "symbols",
+    "lines": [
+     "module src/black/debug.py lines=56 dynamic=no all=none",
+     "16 class DebugVisitor (?)"
+    ],
+    "capped": false,
+    "error": null
+   },
+   "outcome": "def",
+   "facts": [
+    {
+     "kind": "outline",
+     "step": 3,
+     "path": "src/black/debug.py",
+     "filter": "DebugVisitor",
+     "header": {
+      "lines": 56,
+      "dynamic": false,
+      "all_status": "none",
+      "all_line": null
+     },
+     "bindings": [
+      {
+       "module": "src/black/debug.py",
+       "name": "DebugVisitor",
+       "line": 16,
+       "kind": "class",
+       "src": null,
+       "src_name": null,
+       "conditional": false,
+       "col": 0,
+       "bases": [
+        "?"
+       ]
+      }
+     ],
+     "complete": true
+    }
+   ],
+   "adherence": {
+    "planned": "continue",
+    "status": "open-ended"
+   },
+   "goal_state": {
+    "phase": "resolve",
+    "step": 1,
+    "of": 2,
+    "chain": [
+     [
+      "tests/util.py",
+      "DebugVisitor",
+      "reexport",
+      [
+       "black.debug",
+       "src/black/debug.py"
+      ]
+     ],
+     [
+      "src/black/debug.py",
+      "DebugVisitor",
+      "class",
+      16
+     ]
+    ]
+   }
+  },
+  {
+   "step": 4,
+   "phase": "expose",
+   "thought": "There it is: `DebugVisitor` is a class at `src/black/debug.py:16`. That settles the definition; now the package that should expose it.\n\nI'll look at `src/black/__init__.py`'s top-level names for `DebugVisitor`; that settles what the name means there. Probably it is re-exported from somewhere else. If the name is not bound there, I follow whatever it opens up; if it is defined right there, that finishes it. I could outline all of `src/black/__init__.py` instead, but it is more likely to hit the cap.",
+   "hedges": [
+    {
+     "outcome": "reexport",
+     "word": "probably",
+     "p": [
+      43,
+      76
+     ]
+    }
+   ],
+   "items": [
+    {
+     "kind": "bindings",
+     "key": [
+      "bindings",
+      "src/black/__init__.py",
+      "DebugVisitor"
+     ],
+     "desc": "check the top-level names of `src/black/__init__.py` for `DebugVisitor`"
+    }
+   ],
+   "candidates": [
+    {
+     "call": "symbols('src/black/__init__.py', 'DebugVisitor')",
+     "key": "[\"symbols\", [\"src/black/__init__.py\", \"DebugVisitor\"]]",
+     "v1": [
+      12152,
+      5035
+     ],
+     "v2": [
+      12152,
+      5035
+     ],
+     "p_cap": [
+      0,
+      1
+     ],
+     "forecast": {
+      "def": [
+       15,
+       76
+      ],
+      "reexport": [
+       43,
+       76
+      ],
+      "star": [
+       1,
+       76
+      ],
+      "none": [
+       17,
+       76
+      ]
+     },
+     "serves": [
+      [
+       "bindings",
+       "src/black/__init__.py",
+       "DebugVisitor"
+      ]
+     ]
+    },
+    {
+     "call": "symbols('src/black/__init__.py')",
+     "key": "[\"symbols\", [\"src/black/__init__.py\"]]",
+     "v1": [
+      667149,
+      261820
+     ],
+     "v2": [
+      667149,
+      261820
+     ],
+     "p_cap": [
+      7,
+      52
+     ],
+     "forecast": {
+      "def": [
+       675,
+       3952
+      ],
+      "reexport": [
+       1935,
+       3952
+      ],
+      "star": [
+       45,
+       3952
+      ],
+      "none": [
+       765,
+       3952
+      ],
+      "cap": [
+       7,
+       52
+      ]
+     },
+     "serves": [
+      [
+       "bindings",
+       "src/black/__init__.py",
+       "DebugVisitor"
+      ]
+     ]
+    }
+   ],
+   "choice": {
+    "call": "symbols('src/black/__init__.py', 'DebugVisitor')",
+    "key": "[\"symbols\", [\"src/black/__init__.py\", \"DebugVisitor\"]]",
+    "provenance": "module `src/black/__init__.py` (task), name `DebugVisitor` (task)",
+    "v2": [
+     12152,
+     5035
+    ]
+   },
+   "forecast": {
+    "def": [
+     15,
+     76
+    ],
+    "reexport": [
+     43,
+     76
+    ],
+    "star": [
+     1,
+     76
+    ],
+    "none": [
+     17,
+     76
+    ]
+   },
+   "plan": {
+    "def": "done",
+    "reexport": "continue",
+    "star": "continue",
+    "none": "continue"
+   },
+   "call": {
+    "text": "symbols('src/black/__init__.py', 'DebugVisitor')",
+    "key": "[\"symbols\", [\"src/black/__init__.py\", \"DebugVisitor\"]]",
+    "tool": "symbols",
+    "args": [
+     "src/black/__init__.py",
+     "DebugVisitor"
+    ]
+   },
+   "response": {
+    "tool": "symbols",
+    "lines": [
+     "module src/black/__init__.py lines=1723 dynamic=no all=none"
+    ],
+    "capped": false,
+    "error": null
+   },
+   "outcome": "none",
+   "facts": [
+    {
+     "kind": "outline",
+     "step": 4,
+     "path": "src/black/__init__.py",
+     "filter": "DebugVisitor",
+     "header": {
+      "lines": 1723,
+      "dynamic": false,
+      "all_status": "none",
+      "all_line": null
+     },
+     "bindings": [],
+     "complete": true
+    }
+   ],
+   "adherence": {
+    "planned": "done",
+    "status": "deviated"
+   },
+   "goal_state": {
+    "phase": "expose",
+    "step": 2,
+    "of": 2,
+    "package": "src/black/__init__.py",
+    "bound": null,
+    "spec": ".debug"
+   }
+  },
+  {
+   "step": 5,
+   "phase": "expose",
+   "thought": "The package `src/black` does not bind `DebugVisitor`; for a package that leaves a submodule called `DebugVisitor` as the only option.\n\nLet me list `src/black/` to see what lives there; a package that does not bind the name could still have a submodule called that. Almost certainly the listing fits. If the listing is too long, I will outline `src/black/DebugVisitor.py` directly, which both checks that the file exists and shows me `DebugVisitor`. I could outline `src/black/DebugVisitor.py` directly, which both checks that the file exists and shows me `DebugVisitor` instead, but it tends to open more follow-up work.",
+   "hedges": [
+    {
+     "outcome": "complete",
+     "word": "almost certainly",
+     "p": [
+      177,
+      181
+     ]
+    }
+   ],
+   "items": [
+    {
+     "kind": "submodule",
+     "key": [
+      "submodule",
+      "src/black/__init__.py",
+      "DebugVisitor"
+     ],
+     "desc": "check whether `src/black` has a submodule `DebugVisitor`"
+    }
+   ],
+   "candidates": [
+    {
+     "call": "ls('src/black')",
+     "key": "[\"ls\", [\"src/black\"]]",
+     "v1": [
+      185,
+      181
+     ],
+     "v2": [
+      54770451113,
+      53374837505
+     ],
+     "p_cap": [
+      4,
+      181
+     ],
+     "forecast": {
+      "complete": [
+       177,
+       181
+      ],
+      "cap": [
+       4,
+       181
+      ]
+     },
+     "serves": [
+      [
+       "submodule",
+       "src/black/__init__.py",
+       "DebugVisitor"
+      ]
+     ]
+    },
+    {
+     "call": "symbols('src/black/DebugVisitor.py', 'DebugVisitor')",
+     "key": "[\"symbols\", [\"src/black/DebugVisitor.py\", \"DebugVisitor\"]]",
+     "v1": [
+      348903402,
+      294888605
+     ],
+     "v2": [
+      63316789222,
+      53374837505
+     ],
+     "p_cap": [
+      0,
+      1
+     ],
+     "forecast": {
+      "def": [
+       189504,
+       234971
+      ],
+      "reexport": [
+       4480,
+       234971
+      ],
+      "star": [
+       448,
+       234971
+      ],
+      "none": [
+       7616,
+       234971
+      ],
+      "missing": [
+       73,
+       521
+      ]
+     },
+     "serves": [
+      [
+       "submodule",
+       "src/black/__init__.py",
+       "DebugVisitor"
+      ]
+     ]
+    },
+    {
+     "call": "symbols('src/black/DebugVisitor/__init__.py', 'DebugVisitor')",
+     "key": "[\"symbols\", [\"src/black/DebugVisitor/__init__.py\", \"DebugVisitor\"]]",
+     "v1": [
+      5398456,
+      2623235
+     ],
+     "v2": [
+      986143256,
+      474805535
+     ],
+     "p_cap": [
+      0,
+      1
+     ],
+     "forecast": {
+      "def": [
+       1095,
+       39596
+      ],
+      "reexport": [
+       3139,
+       39596
+      ],
+      "star": [
+       73,
+       39596
+      ],
+      "none": [
+       1241,
+       39596
+      ],
+      "missing": [
+       448,
+       521
+      ]
+     },
+     "serves": [
+      [
+       "submodule",
+       "src/black/__init__.py",
+       "DebugVisitor"
+      ]
+     ]
+    }
+   ],
+   "choice": {
+    "call": "ls('src/black')",
+    "key": "[\"ls\", [\"src/black\"]]",
+    "provenance": "package directory of `src/black/__init__.py`",
+    "v2": [
+     54770451113,
+     53374837505
+    ]
+   },
+   "forecast": {
+    "complete": [
+     177,
+     181
+    ],
+    "cap": [
+     4,
+     181
+    ]
+   },
+   "plan": {
+    "complete": "done",
+    "cap": "[\"symbols\", [\"src/black/DebugVisitor.py\", \"DebugVisitor\"]]"
+   },
+   "call": {
+    "text": "ls('src/black')",
+    "key": "[\"ls\", [\"src/black\"]]",
+    "tool": "ls",
+    "args": [
+     "src/black"
+    ]
+   },
+   "response": {
+    "tool": "ls",
+    "lines": [
+     "__init__.py",
+     "__main__.py",
+     "_width_table.py",
+     "brackets.py",
+     "cache.py",
+     "comments.py",
+     "concurrency.py",
+     "const.py",
+     "debug.py",
+     "files.py",
+     "handle_ipynb_magics.py",
+     "linegen.py",
+     "lines.py",
+     "mode.py",
+     "nodes.py",
+     "numerics.py",
+     "output.py",
+     "parsing.py",
+     "ranges.py",
+     "report.py",
+     "resources/",
+     "rusty.py",
+     "schema.py",
+     "strings.py",
+     "trans.py"
+    ],
+    "capped": false,
+    "error": null
+   },
+   "outcome": "complete",
+   "facts": [
+    {
+     "kind": "listing",
+     "step": 5,
+     "dir": "src/black",
+     "entries": [
+      "__init__.py",
+      "__main__.py",
+      "_width_table.py",
+      "brackets.py",
+      "cache.py",
+      "comments.py",
+      "concurrency.py",
+      "const.py",
+      "debug.py",
+      "files.py",
+      "handle_ipynb_magics.py",
+      "linegen.py",
+      "lines.py",
+      "mode.py",
+      "nodes.py",
+      "numerics.py",
+      "output.py",
+      "parsing.py",
+      "ranges.py",
+      "report.py",
+      "resources/",
+      "rusty.py",
+      "schema.py",
+      "strings.py",
+      "trans.py"
+     ],
+     "complete": true
+    }
+   ],
+   "adherence": {
+    "planned": "continue",
+    "status": "open-ended"
+   },
+   "goal_state": {
+    "phase": "expose",
+    "step": 2,
+    "of": 2,
+    "package": "src/black/__init__.py",
+    "bound": false,
+    "spec": ".debug"
+   }
+  }
+ ],
+ "answer": {
+  "final_kind": "expose",
+  "final": {
+   "patch": {
+    "path": "src/black/__init__.py",
+    "append": "from .debug import DebugVisitor"
+   },
+   "claim": "after the patch, `DebugVisitor` in `src/black/__init__.py` resolves to src/black/debug.py:16"
+  },
+  "steps": [
+   {
+    "op": "resolve",
+    "output": {
+     "kind": "def",
+     "path": "src/black/debug.py",
+     "line": 16,
+     "name": "DebugVisitor",
+     "detail": "class"
+    }
+   },
+   {
+    "op": "expose",
+    "output": {
+     "patch": {
+      "path": "src/black/__init__.py",
+      "append": "from .debug import DebugVisitor"
+     },
+     "claim": "after the patch, `DebugVisitor` in `src/black/__init__.py` resolves to src/black/debug.py:16"
+    }
+   }
+  ],
+  "stuck": null
+ },
+ "certificate": [
+  {
+   "kind": "witness-chain",
+   "hops": [
+    [
+     "tests/util.py",
+     "DebugVisitor",
+     "reexport",
+     [
+      "black.debug",
+      "src/black/debug.py"
+     ]
+    ],
+    [
+     "src/black/debug.py",
+     "DebugVisitor",
+     "class",
+     16
+    ]
+   ]
+  },
+  {
+   "kind": "repair",
+   "precondition": "`src/black/__init__.py` does not bind `DebugVisitor` and is not dynamic",
+   "patch": {
+    "path": "src/black/__init__.py",
+    "append": "from .debug import DebugVisitor"
+   }
+  }
+ ],
+ "stopped": "certificate",
+ "n_calls": 5,
+ "final_thought": "`DebugVisitor` is the class at `src/black/debug.py:16`. Patch: append `from .debug import DebugVisitor` to `src/black/__init__.py`. The package does not bind `DebugVisitor` today and is not dynamic, so after that line `from black import DebugVisitor` resolves to the definition. Looking back, all 5 calls were needed.",
+ "hindsight": {
+  "1": true,
+  "2": true,
+  "3": true,
+  "4": true,
+  "5": true
+ },
+ "open_at_stop": [],
+ "verification": {
+  "replay": {
+   "ok": true,
+   "detail": "bit-identical replay"
+  },
+  "world": {
+   "ok": true,
+   "n_checks": 22,
+   "n_ok": 22,
+   "failures": [],
+   "n_resolutions": 3
+  },
+  "adherence": {
+   "first": 1,
+   "open-ended": 3,
+   "deviated": 1
+  }
+ }
+}

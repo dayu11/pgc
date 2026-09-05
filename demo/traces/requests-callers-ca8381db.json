@@ -1,0 +1,5060 @@
+{
+ "task": {
+  "family": "callers",
+  "repo": "requests",
+  "chain": [
+   {
+    "op": "resolve",
+    "module": "src/requests/sessions.py",
+    "line": 21,
+    "name": "HTTPAdapter",
+    "spec": ".adapters",
+    "src_name": "HTTPAdapter"
+   },
+   {
+    "op": "callers"
+   }
+  ],
+  "given": {
+   "module": "src/requests/sessions.py",
+   "line": 21,
+   "name": "HTTPAdapter",
+   "spec": ".adapters",
+   "src_name": "HTTPAdapter"
+  },
+  "text": "In `src/requests/sessions.py` line 21, `HTTPAdapter` is imported from `.adapters`. Which definition does the module-level name `HTTPAdapter` actually refer to? Give `path:line`. Then list every call site of it: bare-name calls whose module-level binding resolves to this definition, as `path:line`.",
+  "semantics": "A module is a .py file; source roots are the repository root and, if present, src/ and lib/. `from M import N` binds N to M's single module-level binding of N, else to the submodule M/N, else to the single star-import source of M that exports N; bindings take effect in source order. A module exports N if its literal __all__ lists N or, without __all__, if N is public and bound in it. A class derives from a definition when a base written as a bare name or `module.Name` resolves to it. A call site is `name(...)` where the bare name refers to the module-level binding (not a parameter or local). Multiple bindings, non-literal __all__, external star imports and dynamic namespace code make a name ambiguous; tasks never ask about ambiguous names.",
+  "skeleton": {
+   "hops": "2",
+   "star": false,
+   "alias": false,
+   "decoys": "0",
+   "relative": true,
+   "call_sites": "13+",
+   "caller_modules": "2-3",
+   "false_positive_modules": "1-2",
+   "chain": "resolve\u2192callers"
+  },
+  "floor": 14,
+  "id": "requests-callers-ca8381db",
+  "cell": "alias=False|call_sites=13+|caller_modules=2-3|chain=resolve\u2192callers|decoys=0|false_positive_modules=1-2|hops=2|relative=True|star=False"
+ },
+ "seed": 0,
+ "depth": 2,
+ "theta_hash": "736169d01b033d9f",
+ "budget": 40,
+ "steps": [
+  {
+   "step": 1,
+   "phase": "resolve",
+   "thought": "I need to find what `HTTPAdapter` really is in `src/requests/sessions.py`: line 21 imports it from `.adapters`, so the definition is at least one hop away. Then every real call site of it, which means checking what the name refers to in each file that mentions it.\n\nNext I will check `src/requests/sessions.py` for any other binding of `HTTPAdapter` besides the import on line 21; almost certainly the import is the only one, and then `.adapters` is the place to follow.",
+   "hedges": [
+    {
+     "outcome": "reexport",
+     "word": "almost certainly",
+     "p": [
+      93,
+      100
+     ]
+    }
+   ],
+   "items": [
+    {
+     "kind": "bindings",
+     "key": [
+      "bindings",
+      "src/requests/sessions.py",
+      "HTTPAdapter"
+     ],
+     "desc": "check the top-level names of `src/requests/sessions.py` for `HTTPAdapter`"
+    }
+   ],
+   "candidates": [
+    {
+     "call": "symbols('src/requests/sessions.py', 'HTTPAdapter')",
+     "key": "[\"symbols\", [\"src/requests/sessions.py\", \"HTTPAdapter\"]]",
+     "v1": [
+      68387133,
+      23571100
+     ],
+     "v2": [
+      68387133,
+      23571100
+     ],
+     "p_cap": [
+      0,
+      1
+     ],
+     "forecast": {
+      "def": [
+       1,
+       100
+      ],
+      "reexport": [
+       93,
+       100
+      ],
+      "star": [
+       1,
+       100
+      ],
+      "none": [
+       1,
+       20
+      ]
+     },
+     "serves": [
+      [
+       "bindings",
+       "src/requests/sessions.py",
+       "HTTPAdapter"
+      ]
+     ]
+    },
+    {
+     "call": "symbols('src/requests/sessions.py')",
+     "key": "[\"symbols\", [\"src/requests/sessions.py\"]]",
+     "v1": [
+      6295028129,
+      2074256800
+     ],
+     "v2": [
+      6295028129,
+      2074256800
+     ],
+     "p_cap": [
+      47,
+      352
+     ],
+     "forecast": {
+      "def": [
+       61,
+       7040
+      ],
+      "reexport": [
+       5673,
+       7040
+      ],
+      "star": [
+       61,
+       7040
+      ],
+      "none": [
+       61,
+       1408
+      ],
+      "cap": [
+       47,
+       352
+      ]
+     },
+     "serves": [
+      [
+       "bindings",
+       "src/requests/sessions.py",
+       "HTTPAdapter"
+      ]
+     ]
+    }
+   ],
+   "choice": {
+    "call": "symbols('src/requests/sessions.py', 'HTTPAdapter')",
+    "key": "[\"symbols\", [\"src/requests/sessions.py\", \"HTTPAdapter\"]]",
+    "provenance": "module `src/requests/sessions.py` (task), name `HTTPAdapter` (task)",
+    "v2": [
+     68387133,
+     23571100
+    ]
+   },
+   "forecast": {
+    "def": [
+     1,
+     100
+    ],
+    "reexport": [
+     93,
+     100
+    ],
+    "star": [
+     1,
+     100
+    ],
+    "none": [
+     1,
+     20
+    ]
+   },
+   "plan": {
+    "def": "done",
+    "reexport": "continue",
+    "star": "continue",
+    "none": "done"
+   },
+   "call": {
+    "text": "symbols('src/requests/sessions.py', 'HTTPAdapter')",
+    "key": "[\"symbols\", [\"src/requests/sessions.py\", \"HTTPAdapter\"]]",
+    "tool": "symbols",
+    "args": [
+     "src/requests/sessions.py",
+     "HTTPAdapter"
+    ]
+   },
+   "response": {
+    "tool": "symbols",
+    "lines": [
+     "module src/requests/sessions.py lines=921 dynamic=no all=none",
+     "21 from HTTPAdapter <- .adapters HTTPAdapter"
+    ],
+    "capped": false,
+    "error": null
+   },
+   "outcome": "reexport",
+   "facts": [
+    {
+     "kind": "outline",
+     "step": 1,
+     "path": "src/requests/sessions.py",
+     "filter": "HTTPAdapter",
+     "header": {
+      "lines": 921,
+      "dynamic": false,
+      "all_status": "none",
+      "all_line": null
+     },
+     "bindings": [
+      {
+       "module": "src/requests/sessions.py",
+       "name": "HTTPAdapter",
+       "line": 21,
+       "kind": "from",
+       "src": ".adapters",
+       "src_name": "HTTPAdapter",
+       "conditional": false,
+       "col": 0,
+       "bases": []
+      }
+     ],
+     "complete": true
+    }
+   ],
+   "adherence": null,
+   "goal_state": {
+    "phase": "resolve",
+    "step": 1,
+    "of": 2,
+    "chain": [
+     [
+      "src/requests/sessions.py",
+      "HTTPAdapter",
+      "reexport",
+      [
+       ".adapters",
+       null
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "step": 2,
+   "phase": "resolve",
+   "thought": "`src/requests/sessions.py` does not define `HTTPAdapter` itself; line 21 imports it from `.adapters`.\n\nSo far: `src/requests/sessions.py` takes `HTTPAdapter` from `.adapters`, which I still have to locate.\n\nLet me outline `src/requests/adapters.py` directly, which both checks that the file exists and shows me `HTTPAdapter`; if `.adapters` is a plain module that is where it has to be. Very likely it is defined right there. If the file does not exist, I will list `src/requests/` to see what lives there; if the name is not bound there, that finishes it. I could list `src/requests/` to see what lives there instead, but it tends to open more follow-up work.",
+   "hedges": [
+    {
+     "outcome": "def",
+     "word": "very likely",
+     "p": [
+      191744,
+      234069
+     ]
+    }
+   ],
+   "items": [
+    {
+     "kind": "module_path",
+     "key": [
+      "module_path",
+      "src/requests/sessions.py",
+      ".adapters"
+     ],
+     "desc": "find where `.adapters` (imported by `src/requests/sessions.py`) lives"
+    }
+   ],
+   "candidates": [
+    {
+     "call": "symbols('src/requests/adapters.py', 'HTTPAdapter')",
+     "key": "[\"symbols\", [\"src/requests/adapters.py\", \"HTTPAdapter\"]]",
+     "v1": [
+      10215370598,
+      7881805437
+     ],
+     "v2": [
+      430123808249,
+      331035828354
+     ],
+     "p_cap": [
+      0,
+      1
+     ],
+     "forecast": {
+      "def": [
+       191744,
+       234069
+      ],
+      "reexport": [
+       1792,
+       234069
+      ],
+      "star": [
+       448,
+       234069
+      ],
+      "none": [
+       2688,
+       78023
+      ],
+      "missing": [
+       71,
+       519
+      ]
+     },
+     "serves": [
+      [
+       "module_path",
+       "src/requests/sessions.py",
+       ".adapters"
+      ]
+     ]
+    },
+    {
+     "call": "ls('src/requests')",
+     "key": "[\"ls\", [\"src/requests\"]]",
+     "v1": [
+      19165,
+      9366
+     ],
+     "v2": [
+      47975059126,
+      23645416311
+     ],
+     "p_cap": [
+      1,
+      42
+     ],
+     "forecast": {
+      "complete": [
+       41,
+       42
+      ],
+      "cap": [
+       1,
+       42
+      ]
+     },
+     "serves": [
+      [
+       "module_path",
+       "src/requests/sessions.py",
+       ".adapters"
+      ]
+     ]
+    },
+    {
+     "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+HTTPAdapter\\\\b', '.')",
+     "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+HTTPAdapter\\\\b\", \".\"]]",
+     "v1": [
+      16231,
+      7805
+     ],
+     "v2": [
+      80317905721,
+      39409027185
+     ],
+     "p_cap": [
+      1,
+      35
+     ],
+     "forecast": {
+      "zero": [
+       1,
+       35
+      ],
+      "mid": [
+       33,
+       35
+      ],
+      "cap": [
+       1,
+       35
+      ]
+     },
+     "serves": [
+      [
+       "module_path",
+       "src/requests/sessions.py",
+       ".adapters"
+      ]
+     ]
+    },
+    {
+     "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+HTTPAdapter\\\\b', 'src')",
+     "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+HTTPAdapter\\\\b\", \"src\"]]",
+     "v1": [
+      77991,
+      27206
+     ],
+     "v2": [
+      1083437729008,
+      480790131657
+     ],
+     "p_cap": [
+      1,
+      244
+     ],
+     "forecast": {
+      "zero": [
+       205,
+       244
+      ],
+      "mid": [
+       19,
+       122
+      ],
+      "cap": [
+       1,
+       244
+      ]
+     },
+     "serves": [
+      [
+       "module_path",
+       "src/requests/sessions.py",
+       ".adapters"
+      ]
+     ]
+    },
+    {
+     "call": "symbols('src/requests/adapters/__init__.py', 'HTTPAdapter')",
+     "key": "[\"symbols\", [\"src/requests/adapters/__init__.py\", \"HTTPAdapter\"]]",
+     "v1": [
+      720848747,
+      244089333
+     ],
+     "v2": [
+      2229872500297369,
+      958577295442503
+     ],
+     "p_cap": [
+      0,
+      1
+     ],
+     "forecast": {
+      "def": [
+       213,
+       12802
+      ],
+      "reexport": [
+       1065,
+       12802
+      ],
+      "star": [
+       71,
+       38406
+      ],
+      "none": [
+       1349,
+       38406
+      ],
+      "missing": [
+       448,
+       519
+      ]
+     },
+     "serves": [
+      [
+       "module_path",
+       "src/requests/sessions.py",
+       ".adapters"
+      ]
+     ]
+    }
+   ],
+   "choice": {
+    "call": "symbols('src/requests/adapters.py', 'HTTPAdapter')",
+    "key": "[\"symbols\", [\"src/requests/adapters.py\", \"HTTPAdapter\"]]",
+    "provenance": "`.adapters` would be `src/requests/adapters.py` if that file exists; one call both checks and closes it",
+    "v2": [
+     430123808249,
+     331035828354
+    ]
+   },
+   "forecast": {
+    "def": [
+     191744,
+     234069
+    ],
+    "reexport": [
+     1792,
+     234069
+    ],
+    "star": [
+     448,
+     234069
+    ],
+    "none": [
+     2688,
+     78023
+    ],
+    "missing": [
+     71,
+     519
+    ]
+   },
+   "plan": {
+    "def": "done",
+    "reexport": "continue",
+    "star": "continue",
+    "none": "done",
+    "missing": "[\"ls\", [\"src/requests\"]]"
+   },
+   "call": {
+    "text": "symbols('src/requests/adapters.py', 'HTTPAdapter')",
+    "key": "[\"symbols\", [\"src/requests/adapters.py\", \"HTTPAdapter\"]]",
+    "tool": "symbols",
+    "args": [
+     "src/requests/adapters.py",
+     "HTTPAdapter"
+    ]
+   },
+   "response": {
+    "tool": "symbols",
+    "lines": [
+     "module src/requests/adapters.py lines=749 dynamic=no all=none",
+     "158 class HTTPAdapter (BaseAdapter)"
+    ],
+    "capped": false,
+    "error": null
+   },
+   "outcome": "def",
+   "facts": [
+    {
+     "kind": "outline",
+     "step": 2,
+     "path": "src/requests/adapters.py",
+     "filter": "HTTPAdapter",
+     "header": {
+      "lines": 749,
+      "dynamic": false,
+      "all_status": "none",
+      "all_line": null
+     },
+     "bindings": [
+      {
+       "module": "src/requests/adapters.py",
+       "name": "HTTPAdapter",
+       "line": 158,
+       "kind": "class",
+       "src": null,
+       "src_name": null,
+       "conditional": false,
+       "col": 0,
+       "bases": [
+        "BaseAdapter"
+       ]
+      }
+     ],
+     "complete": true
+    }
+   ],
+   "adherence": {
+    "planned": "continue",
+    "status": "open-ended"
+   },
+   "goal_state": {
+    "phase": "resolve",
+    "step": 1,
+    "of": 2,
+    "chain": [
+     [
+      "src/requests/sessions.py",
+      "HTTPAdapter",
+      "reexport",
+      [
+       ".adapters",
+       "src/requests/adapters.py"
+      ]
+     ],
+     [
+      "src/requests/adapters.py",
+      "HTTPAdapter",
+      "class",
+      158
+     ]
+    ]
+   }
+  },
+  {
+   "step": 3,
+   "phase": "callers",
+   "thought": "There it is: `HTTPAdapter` is a class at `src/requests/adapters.py:158`. That settles the definition; now its call sites.\n\nI'll search the whole tree for calls of `HTTPAdapter`; the search has to be complete before I can call the set final. Probably it fits under the cap. If nothing turns up, that finishes it; if it caps, I follow whatever it opens up.",
+   "hedges": [
+    {
+     "outcome": "mid",
+     "word": "probably",
+     "p": [
+      29,
+      40
+     ]
+    }
+   ],
+   "items": [
+    {
+     "kind": "cover",
+     "key": [
+      "cover",
+      "CALL",
+      "."
+     ],
+     "desc": "search `.` for calls of `HTTPAdapter`"
+    }
+   ],
+   "candidates": [
+    {
+     "call": "grep('\\\\bHTTPAdapter\\\\s*\\\\(', '.')",
+     "key": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \".\"]]",
+     "v1": [
+      2035528063,
+      1231611160
+     ],
+     "v2": [
+      2035528063,
+      1231611160
+     ],
+     "p_cap": [
+      3,
+      40
+     ],
+     "forecast": {
+      "zero": [
+       1,
+       5
+      ],
+      "mid": [
+       29,
+       40
+      ],
+      "cap": [
+       3,
+       40
+      ]
+     },
+     "serves": [
+      [
+       "cover",
+       "CALL",
+       "."
+      ]
+     ]
+    }
+   ],
+   "choice": {
+    "call": "grep('\\\\bHTTPAdapter\\\\s*\\\\(', '.')",
+    "key": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \".\"]]",
+    "provenance": "call lines naming `HTTPAdapter` under `.` (derived)",
+    "v2": [
+     2035528063,
+     1231611160
+    ]
+   },
+   "forecast": {
+    "zero": [
+     1,
+     5
+    ],
+    "mid": [
+     29,
+     40
+    ],
+    "cap": [
+     3,
+     40
+    ]
+   },
+   "plan": {
+    "zero": "done",
+    "mid": "continue",
+    "cap": "continue"
+   },
+   "call": {
+    "text": "grep('\\\\bHTTPAdapter\\\\s*\\\\(', '.')",
+    "key": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \".\"]]",
+    "tool": "grep",
+    "args": [
+     "\\bHTTPAdapter\\s*\\(",
+     "."
+    ]
+   },
+   "response": {
+    "tool": "grep",
+    "lines": [
+     "docs/user/advanced.rst:1051:    s.mount('https://', HTTPAdapter(max_retries=retries))",
+     "src/requests/adapters.py:158:class HTTPAdapter(BaseAdapter):",
+     "src/requests/adapters.py:181:      >>> a = requests.adapters.HTTPAdapter(max_retries=3)",
+     "src/requests/sessions.py:502:        self.mount(\"https://\", HTTPAdapter())",
+     "src/requests/sessions.py:503:        self.mount(\"http://\", HTTPAdapter())",
+     "tests/test_adapters.py:6:    a = requests.adapters.HTTPAdapter()",
+     "tests/test_requests.py:1651:        s.mount(\"http://git\", HTTPAdapter())",
+     "tests/test_requests.py:1652:        s.mount(\"http://github\", HTTPAdapter())",
+     "tests/test_requests.py:1653:        s.mount(\"http://github.com\", HTTPAdapter())",
+     "tests/test_requests.py:1654:        s.mount(\"http://github.com/about/\", HTTPAdapter())",
+     "tests/test_requests.py:1664:        s.mount(\"http://gittip\", HTTPAdapter())",
+     "tests/test_requests.py:1665:        s.mount(\"http://gittip.com\", HTTPAdapter())",
+     "tests/test_requests.py:1666:        s.mount(\"http://gittip.com/about/\", HTTPAdapter())",
+     "tests/test_requests.py:1680:        s2.adapters = {\"http://\": HTTPAdapter()}",
+     "tests/test_requests.py:1681:        s2.mount(\"https://\", HTTPAdapter())",
+     "tests/test_requests.py:1694:        prefix_adapter = HTTPAdapter()",
+     "tests/test_requests.py:1695:        more_specific_prefix_adapter = HTTPAdapter()",
+     "tests/test_requests.py:1714:        my_adapter = HTTPAdapter()",
+     "tests/test_requests.py:1726:        my_adapter = HTTPAdapter()",
+     "tests/test_requests.py:1738:        adapter = HTTPAdapter()"
+    ],
+    "capped": true,
+    "error": null
+   },
+   "outcome": "cap",
+   "facts": [
+    {
+     "kind": "grep",
+     "step": 3,
+     "pattern": "\\bHTTPAdapter\\s*\\(",
+     "scope": ".",
+     "hits": [
+      [
+       "docs/user/advanced.rst",
+       1051
+      ],
+      [
+       "src/requests/adapters.py",
+       158
+      ],
+      [
+       "src/requests/adapters.py",
+       181
+      ],
+      [
+       "src/requests/sessions.py",
+       502
+      ],
+      [
+       "src/requests/sessions.py",
+       503
+      ],
+      [
+       "tests/test_adapters.py",
+       6
+      ],
+      [
+       "tests/test_requests.py",
+       1651
+      ],
+      [
+       "tests/test_requests.py",
+       1652
+      ],
+      [
+       "tests/test_requests.py",
+       1653
+      ],
+      [
+       "tests/test_requests.py",
+       1654
+      ],
+      [
+       "tests/test_requests.py",
+       1664
+      ],
+      [
+       "tests/test_requests.py",
+       1665
+      ],
+      [
+       "tests/test_requests.py",
+       1666
+      ],
+      [
+       "tests/test_requests.py",
+       1680
+      ],
+      [
+       "tests/test_requests.py",
+       1681
+      ],
+      [
+       "tests/test_requests.py",
+       1694
+      ],
+      [
+       "tests/test_requests.py",
+       1695
+      ],
+      [
+       "tests/test_requests.py",
+       1714
+      ],
+      [
+       "tests/test_requests.py",
+       1726
+      ],
+      [
+       "tests/test_requests.py",
+       1738
+      ]
+     ],
+     "capped": true
+    }
+   ],
+   "adherence": {
+    "planned": "done",
+    "status": "deviated"
+   },
+   "goal_state": {
+    "phase": "callers",
+    "step": 2,
+    "of": 2,
+    "candidates": [
+     "src/requests/adapters.py",
+     "src/requests/sessions.py",
+     "tests/test_adapters.py",
+     "tests/test_requests.py"
+    ],
+    "table": [
+     [
+      "src/requests/adapters.py",
+      null,
+      "pending",
+      "not yet examined"
+     ],
+     [
+      "src/requests/sessions.py",
+      null,
+      "pending",
+      "not yet examined"
+     ],
+     [
+      "tests/test_adapters.py",
+      null,
+      "pending",
+      "not yet examined"
+     ],
+     [
+      "tests/test_requests.py",
+      null,
+      "pending",
+      "not yet examined"
+     ]
+    ],
+    "uncovered": {
+     "CALL": [
+      [
+       "split",
+       "."
+      ]
+     ]
+    },
+    "n_in": 0,
+    "n_out": 0,
+    "n_pending": 4
+   }
+  },
+  {
+   "step": 4,
+   "phase": "callers",
+   "thought": "The search for calls of `HTTPAdapter` anywhere hit the cap at 20 lines, so it only shows part of the picture.\n\nStill open: list `.` to split a capped search; list the call sites of `HTTPAdapter` in `src/requests/adapters.py`; list the call sites of `HTTPAdapter` in `src/requests/sessions.py`; and 2 more.\n\nI'll look at `tests/test_adapters.py`'s top-level names for `HTTPAdapter`; before counting calls I need to know the name refers to our definition there. Almost certainly the outline shows what I need. If the outline is too long to fit, I will look at `tests/test_requests.py`'s top-level names for `HTTPAdapter`.",
+   "hedges": [
+    {
+     "outcome": "ok",
+     "word": "almost certainly",
+     "p": [
+      49,
+      50
+     ]
+    }
+   ],
+   "items": [
+    {
+     "kind": "split",
+     "key": [
+      "split",
+      "."
+     ],
+     "desc": "list `.` to split a capped search"
+    },
+    {
+     "kind": "calls",
+     "key": [
+      "calls",
+      "src/requests/adapters.py",
+      "HTTPAdapter"
+     ],
+     "desc": "list the call sites of `HTTPAdapter` in `src/requests/adapters.py`"
+    },
+    {
+     "kind": "calls",
+     "key": [
+      "calls",
+      "src/requests/sessions.py",
+      "HTTPAdapter"
+     ],
+     "desc": "list the call sites of `HTTPAdapter` in `src/requests/sessions.py`"
+    },
+    {
+     "kind": "outline",
+     "key": [
+      "outline",
+      "tests/test_adapters.py",
+      "HTTPAdapter"
+     ],
+     "desc": "check what `HTTPAdapter` means inside `tests/test_adapters.py`"
+    },
+    {
+     "kind": "outline",
+     "key": [
+      "outline",
+      "tests/test_requests.py",
+      "HTTPAdapter"
+     ],
+     "desc": "check what `HTTPAdapter` means inside `tests/test_requests.py`"
+    }
+   ],
+   "candidates": [
+    {
+     "call": "symbols('tests/test_adapters.py', 'HTTPAdapter')",
+     "key": "[\"symbols\", [\"tests/test_adapters.py\", \"HTTPAdapter\"]]",
+     "v1": [
+      21832110679,
+      1539513950
+     ],
+     "v2": [
+      10931450479,
+      769756975
+     ],
+     "p_cap": [
+      1,
+      50
+     ],
+     "forecast": {
+      "ok": [
+       49,
+       50
+      ],
+      "cap": [
+       1,
+       50
+      ]
+     },
+     "serves": [
+      [
+       "outline",
+       "tests/test_adapters.py",
+       "HTTPAdapter"
+      ]
+     ]
+    },
+    {
+     "call": "symbols('tests/test_requests.py', 'HTTPAdapter')",
+     "key": "[\"symbols\", [\"tests/test_requests.py\", \"HTTPAdapter\"]]",
+     "v1": [
+      21832110679,
+      1539513950
+     ],
+     "v2": [
+      10931450479,
+      769756975
+     ],
+     "p_cap": [
+      1,
+      50
+     ],
+     "forecast": {
+      "ok": [
+       49,
+       50
+      ],
+      "cap": [
+       1,
+       50
+      ]
+     },
+     "serves": [
+      [
+       "outline",
+       "tests/test_requests.py",
+       "HTTPAdapter"
+      ]
+     ]
+    },
+    {
+     "call": "calls('src/requests/adapters.py', 'HTTPAdapter')",
+     "key": "[\"calls\", [\"src/requests/adapters.py\", \"HTTPAdapter\"]]",
+     "v1": [
+      8751318439,
+      615805580
+     ],
+     "v2": [
+      43818172753,
+      3079027900
+     ],
+     "p_cap": [
+      1,
+      20
+     ],
+     "forecast": {
+      "ok": [
+       19,
+       20
+      ],
+      "cap": [
+       1,
+       20
+      ]
+     },
+     "serves": [
+      [
+       "calls",
+       "src/requests/adapters.py",
+       "HTTPAdapter"
+      ]
+     ]
+    },
+    {
+     "call": "calls('src/requests/sessions.py', 'HTTPAdapter')",
+     "key": "[\"calls\", [\"src/requests/sessions.py\", \"HTTPAdapter\"]]",
+     "v1": [
+      8751318439,
+      615805580
+     ],
+     "v2": [
+      43818172753,
+      3079027900
+     ],
+     "p_cap": [
+      1,
+      20
+     ],
+     "forecast": {
+      "ok": [
+       19,
+       20
+      ],
+      "cap": [
+       1,
+       20
+      ]
+     },
+     "serves": [
+      [
+       "calls",
+       "src/requests/sessions.py",
+       "HTTPAdapter"
+      ]
+     ]
+    },
+    {
+     "call": "ls('.')",
+     "key": "[\"ls\", [\".\"]]",
+     "v1": [
+      3985818230,
+      277112511
+     ],
+     "v2": [
+      199568024011,
+      13855625550
+     ],
+     "p_cap": [
+      2,
+      9
+     ],
+     "forecast": {
+      "complete": [
+       7,
+       9
+      ],
+      "cap": [
+       2,
+       9
+      ]
+     },
+     "serves": [
+      [
+       "split",
+       "."
+      ]
+     ]
+    }
+   ],
+   "choice": {
+    "call": "symbols('tests/test_adapters.py', 'HTTPAdapter')",
+    "key": "[\"symbols\", [\"tests/test_adapters.py\", \"HTTPAdapter\"]]",
+    "provenance": "`tests/test_adapters.py` had a matching line (step 3); its outline names every `HTTPAdapter` import exactly",
+    "v2": [
+     10931450479,
+     769756975
+    ]
+   },
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "plan": {
+    "ok": "[\"symbols\", [\"tests/test_requests.py\", \"HTTPAdapter\"]]",
+    "cap": "[\"symbols\", [\"tests/test_requests.py\", \"HTTPAdapter\"]]"
+   },
+   "call": {
+    "text": "symbols('tests/test_adapters.py', 'HTTPAdapter')",
+    "key": "[\"symbols\", [\"tests/test_adapters.py\", \"HTTPAdapter\"]]",
+    "tool": "symbols",
+    "args": [
+     "tests/test_adapters.py",
+     "HTTPAdapter"
+    ]
+   },
+   "response": {
+    "tool": "symbols",
+    "lines": [
+     "module tests/test_adapters.py lines=9 dynamic=no all=none"
+    ],
+    "capped": false,
+    "error": null
+   },
+   "outcome": "ok",
+   "facts": [
+    {
+     "kind": "outline",
+     "step": 4,
+     "path": "tests/test_adapters.py",
+     "filter": "HTTPAdapter",
+     "header": {
+      "lines": 9,
+      "dynamic": false,
+      "all_status": "none",
+      "all_line": null
+     },
+     "bindings": [],
+     "complete": true
+    }
+   ],
+   "adherence": {
+    "planned": "continue",
+    "status": "open-ended"
+   },
+   "goal_state": {
+    "phase": "callers",
+    "step": 2,
+    "of": 2,
+    "candidates": [
+     "src/requests/adapters.py",
+     "src/requests/sessions.py",
+     "tests/test_adapters.py",
+     "tests/test_requests.py"
+    ],
+    "table": [
+     [
+      "src/requests/adapters.py",
+      null,
+      "pending",
+      "not yet examined"
+     ],
+     [
+      "src/requests/sessions.py",
+      null,
+      "pending",
+      "not yet examined"
+     ],
+     [
+      "tests/test_adapters.py",
+      "tests/test_adapters.py",
+      "out",
+      "the name is not bound at module level here"
+     ],
+     [
+      "tests/test_requests.py",
+      null,
+      "pending",
+      "not yet examined"
+     ]
+    ],
+    "uncovered": {
+     "CALL": [
+      [
+       "split",
+       "."
+      ]
+     ]
+    },
+    "n_in": 0,
+    "n_out": 1,
+    "n_pending": 3
+   }
+  },
+  {
+   "step": 5,
+   "phase": "callers",
+   "thought": "The test module `tests/test_adapters.py` does not bind `HTTPAdapter` at module level at all, so its matches were false positives.\n\nTally: 0 call sites confirmed, 1 ruled out, 3 pending. The search still has 1 scope to cover.\n\nLet me look at `tests/test_requests.py`'s top-level names for `HTTPAdapter`; before counting calls I need to know the name refers to our definition there. Almost certainly the outline shows what I need. If the outline is too long to fit, I will list the call sites of `HTTPAdapter` in `src/requests/adapters.py`.",
+   "hedges": [
+    {
+     "outcome": "ok",
+     "word": "almost certainly",
+     "p": [
+      49,
+      50
+     ]
+    }
+   ],
+   "items": [
+    {
+     "kind": "split",
+     "key": [
+      "split",
+      "."
+     ],
+     "desc": "list `.` to split a capped search"
+    },
+    {
+     "kind": "calls",
+     "key": [
+      "calls",
+      "src/requests/adapters.py",
+      "HTTPAdapter"
+     ],
+     "desc": "list the call sites of `HTTPAdapter` in `src/requests/adapters.py`"
+    },
+    {
+     "kind": "calls",
+     "key": [
+      "calls",
+      "src/requests/sessions.py",
+      "HTTPAdapter"
+     ],
+     "desc": "list the call sites of `HTTPAdapter` in `src/requests/sessions.py`"
+    },
+    {
+     "kind": "outline",
+     "key": [
+      "outline",
+      "tests/test_requests.py",
+      "HTTPAdapter"
+     ],
+     "desc": "check what `HTTPAdapter` means inside `tests/test_requests.py`"
+    }
+   ],
+   "candidates": [
+    {
+     "call": "calls('src/requests/adapters.py', 'HTTPAdapter')",
+     "key": "[\"calls\", [\"src/requests/adapters.py\", \"HTTPAdapter\"]]",
+     "v1": [
+      178757743,
+      14321060
+     ],
+     "v2": [
+      895220821,
+      71605300
+     ],
+     "p_cap": [
+      1,
+      20
+     ],
+     "forecast": {
+      "ok": [
+       19,
+       20
+      ],
+      "cap": [
+       1,
+       20
+      ]
+     },
+     "serves": [
+      [
+       "calls",
+       "src/requests/adapters.py",
+       "HTTPAdapter"
+      ]
+     ]
+    },
+    {
+     "call": "calls('src/requests/sessions.py', 'HTTPAdapter')",
+     "key": "[\"calls\", [\"src/requests/sessions.py\", \"HTTPAdapter\"]]",
+     "v1": [
+      178757743,
+      14321060
+     ],
+     "v2": [
+      895220821,
+      71605300
+     ],
+     "p_cap": [
+      1,
+      20
+     ],
+     "forecast": {
+      "ok": [
+       19,
+       20
+      ],
+      "cap": [
+       1,
+       20
+      ]
+     },
+     "serves": [
+      [
+       "calls",
+       "src/requests/sessions.py",
+       "HTTPAdapter"
+      ]
+     ]
+    },
+    {
+     "call": "symbols('tests/test_requests.py', 'HTTPAdapter')",
+     "key": "[\"symbols\", [\"tests/test_requests.py\", \"HTTPAdapter\"]]",
+     "v1": [
+      222910139,
+      17901325
+     ],
+     "v2": [
+      895220821,
+      71605300
+     ],
+     "p_cap": [
+      1,
+      50
+     ],
+     "forecast": {
+      "ok": [
+       49,
+       50
+      ],
+      "cap": [
+       1,
+       50
+      ]
+     },
+     "serves": [
+      [
+       "outline",
+       "tests/test_requests.py",
+       "HTTPAdapter"
+      ]
+     ]
+    },
+    {
+     "call": "ls('.')",
+     "key": "[\"ls\", [\".\"]]",
+     "v1": [
+      163101733,
+      12888954
+     ],
+     "v2": [
+      2041993901,
+      161111925
+     ],
+     "p_cap": [
+      2,
+      9
+     ],
+     "forecast": {
+      "complete": [
+       7,
+       9
+      ],
+      "cap": [
+       2,
+       9
+      ]
+     },
+     "serves": [
+      [
+       "split",
+       "."
+      ]
+     ]
+    }
+   ],
+   "choice": {
+    "call": "symbols('tests/test_requests.py', 'HTTPAdapter')",
+    "key": "[\"symbols\", [\"tests/test_requests.py\", \"HTTPAdapter\"]]",
+    "provenance": "`tests/test_requests.py` had a matching line (step 3); its outline names every `HTTPAdapter` import exactly",
+    "v2": [
+     895220821,
+     71605300
+    ]
+   },
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "plan": {
+    "ok": "[\"calls\", [\"src/requests/adapters.py\", \"HTTPAdapter\"]]",
+    "cap": "[\"calls\", [\"src/requests/adapters.py\", \"HTTPAdapter\"]]"
+   },
+   "call": {
+    "text": "symbols('tests/test_requests.py', 'HTTPAdapter')",
+    "key": "[\"symbols\", [\"tests/test_requests.py\", \"HTTPAdapter\"]]",
+    "tool": "symbols",
+    "args": [
+     "tests/test_requests.py",
+     "HTTPAdapter"
+    ]
+   },
+   "response": {
+    "tool": "symbols",
+    "lines": [
+     "module tests/test_requests.py lines=3095 dynamic=no all=none",
+     "20 from HTTPAdapter <- requests.adapters HTTPAdapter"
+    ],
+    "capped": false,
+    "error": null
+   },
+   "outcome": "ok",
+   "facts": [
+    {
+     "kind": "outline",
+     "step": 5,
+     "path": "tests/test_requests.py",
+     "filter": "HTTPAdapter",
+     "header": {
+      "lines": 3095,
+      "dynamic": false,
+      "all_status": "none",
+      "all_line": null
+     },
+     "bindings": [
+      {
+       "module": "tests/test_requests.py",
+       "name": "HTTPAdapter",
+       "line": 20,
+       "kind": "from",
+       "src": "requests.adapters",
+       "src_name": "HTTPAdapter",
+       "conditional": false,
+       "col": 0,
+       "bases": []
+      }
+     ],
+     "complete": true
+    }
+   ],
+   "adherence": {
+    "planned": "[\"symbols\", [\"tests/test_requests.py\", \"HTTPAdapter\"]]",
+    "status": "followed"
+   },
+   "goal_state": {
+    "phase": "callers",
+    "step": 2,
+    "of": 2,
+    "candidates": [
+     "src/requests/adapters.py",
+     "src/requests/sessions.py",
+     "tests/test_adapters.py",
+     "tests/test_requests.py"
+    ],
+    "table": [
+     [
+      "src/requests/adapters.py",
+      null,
+      "pending",
+      "not yet examined"
+     ],
+     [
+      "src/requests/sessions.py",
+      null,
+      "pending",
+      "not yet examined"
+     ],
+     [
+      "tests/test_adapters.py",
+      "tests/test_adapters.py",
+      "out",
+      "the name is not bound at module level here"
+     ],
+     [
+      "tests/test_requests.py",
+      null,
+      "pending",
+      "not yet examined"
+     ]
+    ],
+    "uncovered": {
+     "CALL": [
+      [
+       "split",
+       "."
+      ]
+     ]
+    },
+    "n_in": 0,
+    "n_out": 1,
+    "n_pending": 3
+   }
+  },
+  {
+   "step": 6,
+   "phase": "callers",
+   "thought": "The test module `tests/test_requests.py` does not define `HTTPAdapter` itself; line 20 imports it from `requests.adapters`.\n\nTally: 0 call sites confirmed, 1 ruled out, 3 pending. The search still has 1 scope to cover.\n\nNext I will list the call sites of `HTTPAdapter` in `src/requests/adapters.py`; the name is ours there, so each call site counts. Almost certainly the call sites fit. If there are too many call sites, I will list `./` to see what lives there.",
+   "hedges": [
+    {
+     "outcome": "ok",
+     "word": "almost certainly",
+     "p": [
+      19,
+      20
+     ]
+    }
+   ],
+   "items": [
+    {
+     "kind": "split",
+     "key": [
+      "split",
+      "."
+     ],
+     "desc": "list `.` to split a capped search"
+    },
+    {
+     "kind": "calls",
+     "key": [
+      "calls",
+      "src/requests/adapters.py",
+      "HTTPAdapter"
+     ],
+     "desc": "list the call sites of `HTTPAdapter` in `src/requests/adapters.py`"
+    },
+    {
+     "kind": "calls",
+     "key": [
+      "calls",
+      "src/requests/sessions.py",
+      "HTTPAdapter"
+     ],
+     "desc": "list the call sites of `HTTPAdapter` in `src/requests/sessions.py`"
+    },
+    {
+     "kind": "module_path",
+     "key": [
+      "module_path",
+      "tests/test_requests.py",
+      "requests.adapters"
+     ],
+     "desc": "find where `requests.adapters` (imported by `tests/test_requests.py`) lives"
+    }
+   ],
+   "candidates": [
+    {
+     "call": "calls('src/requests/adapters.py', 'HTTPAdapter')",
+     "key": "[\"calls\", [\"src/requests/adapters.py\", \"HTTPAdapter\"]]",
+     "v1": [
+      7867265919,
+      615805580
+     ],
+     "v2": [
+      65571045841,
+      5542250220
+     ],
+     "p_cap": [
+      1,
+      20
+     ],
+     "forecast": {
+      "ok": [
+       19,
+       20
+      ],
+      "cap": [
+       1,
+       20
+      ]
+     },
+     "serves": [
+      [
+       "calls",
+       "src/requests/adapters.py",
+       "HTTPAdapter"
+      ]
+     ]
+    },
+    {
+     "call": "calls('src/requests/sessions.py', 'HTTPAdapter')",
+     "key": "[\"calls\", [\"src/requests/sessions.py\", \"HTTPAdapter\"]]",
+     "v1": [
+      7867265919,
+      615805580
+     ],
+     "v2": [
+      65571045841,
+      5542250220
+     ],
+     "p_cap": [
+      1,
+      20
+     ],
+     "forecast": {
+      "ok": [
+       19,
+       20
+      ],
+      "cap": [
+       1,
+       20
+      ]
+     },
+     "serves": [
+      [
+       "calls",
+       "src/requests/sessions.py",
+       "HTTPAdapter"
+      ]
+     ]
+    },
+    {
+     "call": "ls('.')",
+     "key": "[\"ls\", [\".\"]]",
+     "v1": [
+      6529393333,
+      554225022
+     ],
+     "v2": [
+      65571045841,
+      5542250220
+     ],
+     "p_cap": [
+      2,
+      9
+     ],
+     "forecast": {
+      "complete": [
+       7,
+       9
+      ],
+      "cap": [
+       2,
+       9
+      ]
+     },
+     "serves": [
+      [
+       "module_path",
+       "tests/test_requests.py",
+       "requests.adapters"
+      ],
+      [
+       "split",
+       "."
+      ]
+     ]
+    },
+    {
+     "call": "symbols('requests/adapters.py', 'HTTPAdapter')",
+     "key": "[\"symbols\", [\"requests/adapters.py\", \"HTTPAdapter\"]]",
+     "v1": [
+      7870920172011084187,
+      606163338811315857
+     ],
+     "v2": [
+      676952916214788835961,
+      54554700493018427130
+     ],
+     "p_cap": [
+      0,
+      1
+     ],
+     "forecast": {
+      "def": [
+       45826816,
+       130376433
+      ],
+      "reexport": [
+       428288,
+       130376433
+      ],
+      "star": [
+       107072,
+       130376433
+      ],
+      "none": [
+       642432,
+       43458811
+      ],
+      "missing": [
+       182011,
+       289083
+      ]
+     },
+     "serves": [
+      [
+       "module_path",
+       "tests/test_requests.py",
+       "requests.adapters"
+      ]
+     ]
+    },
+    {
+     "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+HTTPAdapter\\\\b', '.')",
+     "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+HTTPAdapter\\\\b\", \".\"]]",
+     "v1": [
+      422614061,
+      30790279
+     ],
+     "v2": [
+      7083618355,
+      554225022
+     ],
+     "p_cap": [
+      1,
+      35
+     ],
+     "forecast": {
+      "zero": [
+       1,
+       35
+      ],
+      "mid": [
+       33,
+       35
+      ],
+      "cap": [
+       1,
+       35
+      ]
+     },
+     "serves": [
+      [
+       "module_path",
+       "tests/test_requests.py",
+       "requests.adapters"
+      ]
+     ]
+    },
+    {
+     "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+HTTPAdapter\\\\b', 'src')",
+     "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+HTTPAdapter\\\\b\", \"src\"]]",
+     "v1": [
+      422614061,
+      30790279
+     ],
+     "v2": [
+      7083618355,
+      554225022
+     ],
+     "p_cap": [
+      1,
+      244
+     ],
+     "forecast": {
+      "zero": [
+       205,
+       244
+      ],
+      "mid": [
+       19,
+       122
+      ],
+      "cap": [
+       1,
+       244
+      ]
+     },
+     "serves": [
+      [
+       "module_path",
+       "tests/test_requests.py",
+       "requests.adapters"
+      ]
+     ]
+    },
+    {
+     "call": "symbols('requests/adapters/__init__.py', 'HTTPAdapter')",
+     "key": "[\"symbols\", [\"requests/adapters/__init__.py\", \"HTTPAdapter\"]]",
+     "v1": [
+      13531591575128002,
+      988005030881427
+     ],
+     "v2": [
+      759368929416069263,
+      59280301852885620
+     ],
+     "p_cap": [
+      0,
+      1
+     ],
+     "forecast": {
+      "def": [
+       50907,
+       7130714
+      ],
+      "reexport": [
+       254535,
+       7130714
+      ],
+      "star": [
+       16969,
+       21392142
+      ],
+      "none": [
+       322411,
+       21392142
+      ],
+      "missing": [
+       272114,
+       289083
+      ]
+     },
+     "serves": [
+      [
+       "module_path",
+       "tests/test_requests.py",
+       "requests.adapters"
+      ]
+     ]
+    }
+   ],
+   "choice": {
+    "call": "calls('src/requests/adapters.py', 'HTTPAdapter')",
+    "key": "[\"calls\", [\"src/requests/adapters.py\", \"HTTPAdapter\"]]",
+    "provenance": "call sites of `HTTPAdapter` in `src/requests/adapters.py` that refer to the module-level binding",
+    "v2": [
+     65571045841,
+     5542250220
+    ]
+   },
+   "forecast": {
+    "ok": [
+     19,
+     20
+    ],
+    "cap": [
+     1,
+     20
+    ]
+   },
+   "plan": {
+    "ok": "[\"ls\", [\".\"]]",
+    "cap": "[\"ls\", [\".\"]]"
+   },
+   "call": {
+    "text": "calls('src/requests/adapters.py', 'HTTPAdapter')",
+    "key": "[\"calls\", [\"src/requests/adapters.py\", \"HTTPAdapter\"]]",
+    "tool": "calls",
+    "args": [
+     "src/requests/adapters.py",
+     "HTTPAdapter"
+    ]
+   },
+   "response": {
+    "tool": "calls",
+    "lines": [
+     "calls of HTTPAdapter in src/requests/adapters.py count=0"
+    ],
+    "capped": false,
+    "error": null
+   },
+   "outcome": "ok",
+   "facts": [
+    {
+     "kind": "calls",
+     "step": 6,
+     "path": "src/requests/adapters.py",
+     "name": "HTTPAdapter",
+     "lines": [],
+     "count": 0,
+     "complete": true
+    }
+   ],
+   "adherence": {
+    "planned": "[\"calls\", [\"src/requests/adapters.py\", \"HTTPAdapter\"]]",
+    "status": "followed"
+   },
+   "goal_state": {
+    "phase": "callers",
+    "step": 2,
+    "of": 2,
+    "candidates": [
+     "src/requests/adapters.py",
+     "src/requests/sessions.py",
+     "tests/test_adapters.py",
+     "tests/test_requests.py"
+    ],
+    "table": [
+     [
+      "src/requests/adapters.py",
+      "src/requests/adapters.py",
+      "out",
+      "the module binds the name but never calls it by bare name"
+     ],
+     [
+      "src/requests/sessions.py",
+      null,
+      "pending",
+      "not yet examined"
+     ],
+     [
+      "tests/test_adapters.py",
+      "tests/test_adapters.py",
+      "out",
+      "the name is not bound at module level here"
+     ],
+     [
+      "tests/test_requests.py",
+      null,
+      "pending",
+      "not yet examined"
+     ]
+    ],
+    "uncovered": {
+     "CALL": [
+      [
+       "split",
+       "."
+      ]
+     ]
+    },
+    "n_in": 0,
+    "n_out": 2,
+    "n_pending": 2
+   }
+  },
+  {
+   "step": 7,
+   "phase": "callers",
+   "thought": "`src/requests/adapters.py` binds `HTTPAdapter` but never actually calls it by that name.\n\nTally: 0 call sites confirmed, 2 ruled out, 2 pending. The search still has 1 scope to cover.\n\nNext I will list `./` so I can search its parts one at a time; a capped search cannot be trusted, and the listing lets me split it (it also tells me where the imported package lives). Very likely the listing fits. If the listing is too long, I will list the call sites of `HTTPAdapter` in `src/requests/sessions.py`.",
+   "hedges": [
+    {
+     "outcome": "complete",
+     "word": "very likely",
+     "p": [
+      7,
+      9
+     ]
+    }
+   ],
+   "items": [
+    {
+     "kind": "split",
+     "key": [
+      "split",
+      "."
+     ],
+     "desc": "list `.` to split a capped search"
+    },
+    {
+     "kind": "calls",
+     "key": [
+      "calls",
+      "src/requests/sessions.py",
+      "HTTPAdapter"
+     ],
+     "desc": "list the call sites of `HTTPAdapter` in `src/requests/sessions.py`"
+    },
+    {
+     "kind": "module_path",
+     "key": [
+      "module_path",
+      "tests/test_requests.py",
+      "requests.adapters"
+     ],
+     "desc": "find where `requests.adapters` (imported by `tests/test_requests.py`) lives"
+    }
+   ],
+   "candidates": [
+    {
+     "call": "calls('src/requests/sessions.py', 'HTTPAdapter')",
+     "key": "[\"calls\", [\"src/requests/sessions.py\", \"HTTPAdapter\"]]",
+     "v1": [
+      7251460339,
+      615805580
+     ],
+     "v2": [
+      60028795621,
+      5542250220
+     ],
+     "p_cap": [
+      1,
+      20
+     ],
+     "forecast": {
+      "ok": [
+       19,
+       20
+      ],
+      "cap": [
+       1,
+       20
+      ]
+     },
+     "serves": [
+      [
+       "calls",
+       "src/requests/sessions.py",
+       "HTTPAdapter"
+      ]
+     ]
+    },
+    {
+     "call": "ls('.')",
+     "key": "[\"ls\", [\".\"]]",
+     "v1": [
+      5975168311,
+      554225022
+     ],
+     "v2": [
+      60028795621,
+      5542250220
+     ],
+     "p_cap": [
+      2,
+      9
+     ],
+     "forecast": {
+      "complete": [
+       7,
+       9
+      ],
+      "cap": [
+       2,
+       9
+      ]
+     },
+     "serves": [
+      [
+       "module_path",
+       "tests/test_requests.py",
+       "requests.adapters"
+      ],
+      [
+       "split",
+       "."
+      ]
+     ]
+    },
+    {
+     "call": "symbols('requests/adapters.py', 'HTTPAdapter')",
+     "key": "[\"symbols\", [\"requests/adapters.py\", \"HTTPAdapter\"]]",
+     "v1": [
+      7264756833199768330,
+      606163338811315857
+     ],
+     "v2": [
+      622398215721770408831,
+      54554700493018427130
+     ],
+     "p_cap": [
+      0,
+      1
+     ],
+     "forecast": {
+      "def": [
+       45826816,
+       130376433
+      ],
+      "reexport": [
+       428288,
+       130376433
+      ],
+      "star": [
+       107072,
+       130376433
+      ],
+      "none": [
+       642432,
+       43458811
+      ],
+      "missing": [
+       182011,
+       289083
+      ]
+     },
+     "serves": [
+      [
+       "module_path",
+       "tests/test_requests.py",
+       "requests.adapters"
+      ]
+     ]
+    },
+    {
+     "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+HTTPAdapter\\\\b', '.')",
+     "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+HTTPAdapter\\\\b\", \".\"]]",
+     "v1": [
+      391823782,
+      30790279
+     ],
+     "v2": [
+      6529393333,
+      554225022
+     ],
+     "p_cap": [
+      1,
+      35
+     ],
+     "forecast": {
+      "zero": [
+       1,
+       35
+      ],
+      "mid": [
+       33,
+       35
+      ],
+      "cap": [
+       1,
+       35
+      ]
+     },
+     "serves": [
+      [
+       "module_path",
+       "tests/test_requests.py",
+       "requests.adapters"
+      ]
+     ]
+    },
+    {
+     "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+HTTPAdapter\\\\b', 'src')",
+     "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+HTTPAdapter\\\\b\", \"src\"]]",
+     "v1": [
+      391823782,
+      30790279
+     ],
+     "v2": [
+      6529393333,
+      554225022
+     ],
+     "p_cap": [
+      1,
+      244
+     ],
+     "forecast": {
+      "zero": [
+       205,
+       244
+      ],
+      "mid": [
+       19,
+       122
+      ],
+      "cap": [
+       1,
+       244
+      ]
+     },
+     "serves": [
+      [
+       "module_path",
+       "tests/test_requests.py",
+       "requests.adapters"
+      ]
+     ]
+    },
+    {
+     "call": "symbols('requests/adapters/__init__.py', 'HTTPAdapter')",
+     "key": "[\"symbols\", [\"requests/adapters/__init__.py\", \"HTTPAdapter\"]]",
+     "v1": [
+      12543586544246575,
+      988005030881427
+     ],
+     "v2": [
+      700088627563183643,
+      59280301852885620
+     ],
+     "p_cap": [
+      0,
+      1
+     ],
+     "forecast": {
+      "def": [
+       50907,
+       7130714
+      ],
+      "reexport": [
+       254535,
+       7130714
+      ],
+      "star": [
+       16969,
+       21392142
+      ],
+      "none": [
+       322411,
+       21392142
+      ],
+      "missing": [
+       272114,
+       289083
+      ]
+     },
+     "serves": [
+      [
+       "module_path",
+       "tests/test_requests.py",
+       "requests.adapters"
+      ]
+     ]
+    }
+   ],
+   "choice": {
+    "call": "ls('.')",
+    "key": "[\"ls\", [\".\"]]",
+    "provenance": "children of `.` to split the capped grep",
+    "v2": [
+     60028795621,
+     5542250220
+    ]
+   },
+   "forecast": {
+    "complete": [
+     7,
+     9
+    ],
+    "cap": [
+     2,
+     9
+    ]
+   },
+   "plan": {
+    "complete": "[\"calls\", [\"src/requests/sessions.py\", \"HTTPAdapter\"]]",
+    "cap": "[\"calls\", [\"src/requests/sessions.py\", \"HTTPAdapter\"]]"
+   },
+   "call": {
+    "text": "ls('.')",
+    "key": "[\"ls\", [\".\"]]",
+    "tool": "ls",
+    "args": [
+     "."
+    ]
+   },
+   "response": {
+    "tool": "ls",
+    "lines": [
+     ".github/",
+     ".pre-commit-config.yaml",
+     ".readthedocs.yaml",
+     "AUTHORS.rst",
+     "HISTORY.md",
+     "MANIFEST.in",
+     "README.md",
+     "docs/",
+     "pyproject.toml",
+     "requirements-dev.txt",
+     "setup.py",
+     "src/",
+     "tests/",
+     "tox.ini"
+    ],
+    "capped": false,
+    "error": null
+   },
+   "outcome": "complete",
+   "facts": [
+    {
+     "kind": "listing",
+     "step": 7,
+     "dir": ".",
+     "entries": [
+      ".github/",
+      ".pre-commit-config.yaml",
+      ".readthedocs.yaml",
+      "AUTHORS.rst",
+      "HISTORY.md",
+      "MANIFEST.in",
+      "README.md",
+      "docs/",
+      "pyproject.toml",
+      "requirements-dev.txt",
+      "setup.py",
+      "src/",
+      "tests/",
+      "tox.ini"
+     ],
+     "complete": true
+    }
+   ],
+   "adherence": {
+    "planned": "[\"ls\", [\".\"]]",
+    "status": "followed"
+   },
+   "goal_state": {
+    "phase": "callers",
+    "step": 2,
+    "of": 2,
+    "candidates": [
+     "src/requests/adapters.py",
+     "src/requests/sessions.py",
+     "tests/test_adapters.py",
+     "tests/test_requests.py"
+    ],
+    "table": [
+     [
+      "src/requests/adapters.py",
+      "src/requests/adapters.py",
+      "out",
+      "the module binds the name but never calls it by bare name"
+     ],
+     [
+      "src/requests/sessions.py",
+      null,
+      "pending",
+      "not yet examined"
+     ],
+     [
+      "tests/test_adapters.py",
+      "tests/test_adapters.py",
+      "out",
+      "the name is not bound at module level here"
+     ],
+     [
+      "tests/test_requests.py",
+      null,
+      "pending",
+      "not yet examined"
+     ]
+    ],
+    "uncovered": {
+     "CALL": [
+      [
+       "grep",
+       ".github"
+      ],
+      [
+       "grep",
+       "docs"
+      ],
+      [
+       "grep",
+       "setup.py"
+      ],
+      [
+       "grep",
+       "src"
+      ],
+      [
+       "grep",
+       "tests"
+      ]
+     ]
+    },
+    "n_in": 0,
+    "n_out": 2,
+    "n_pending": 2
+   }
+  },
+  {
+   "step": 8,
+   "phase": "callers",
+   "thought": "`./` has 14 entries: 5 parts to search separately; there is no `requests` here.\n\nStill open: search `.github` for calls of `HTTPAdapter`; search `docs` for calls of `HTTPAdapter`; search `setup.py` for calls of `HTTPAdapter`; and 4 more.\n\nI'll search `docs` for calls of `HTTPAdapter`; the search has to be complete before I can call the set final. Almost certainly nothing turns up.",
+   "hedges": [
+    {
+     "outcome": "zero",
+     "word": "almost certainly",
+     "p": [
+      132149,
+      133164
+     ]
+    }
+   ],
+   "items": [
+    {
+     "kind": "cover",
+     "key": [
+      "cover",
+      "CALL",
+      ".github"
+     ],
+     "desc": "search `.github` for calls of `HTTPAdapter`"
+    },
+    {
+     "kind": "cover",
+     "key": [
+      "cover",
+      "CALL",
+      "docs"
+     ],
+     "desc": "search `docs` for calls of `HTTPAdapter`"
+    },
+    {
+     "kind": "cover",
+     "key": [
+      "cover",
+      "CALL",
+      "setup.py"
+     ],
+     "desc": "search `setup.py` for calls of `HTTPAdapter`"
+    },
+    {
+     "kind": "cover",
+     "key": [
+      "cover",
+      "CALL",
+      "src"
+     ],
+     "desc": "search `src` for calls of `HTTPAdapter`"
+    },
+    {
+     "kind": "cover",
+     "key": [
+      "cover",
+      "CALL",
+      "tests"
+     ],
+     "desc": "search `tests` for calls of `HTTPAdapter`"
+    },
+    {
+     "kind": "calls",
+     "key": [
+      "calls",
+      "src/requests/sessions.py",
+      "HTTPAdapter"
+     ],
+     "desc": "list the call sites of `HTTPAdapter` in `src/requests/sessions.py`"
+    },
+    {
+     "kind": "calls",
+     "key": [
+      "calls",
+      "tests/test_requests.py",
+      "HTTPAdapter"
+     ],
+     "desc": "list the call sites of `HTTPAdapter` in `tests/test_requests.py`"
+    }
+   ],
+   "candidates": [
+    {
+     "call": "grep('\\\\bHTTPAdapter\\\\s*\\\\(', '.github')",
+     "key": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \".github\"]]",
+     "v1": [
+      19129076124946,
+      2340302664609
+     ],
+     "v2": [
+      2860881783789685,
+      366424531487352
+     ],
+     "p_cap": [
+      2,
+      8019
+     ],
+     "forecast": {
+      "zero": [
+       23987,
+       24057
+      ],
+      "mid": [
+       64,
+       24057
+      ],
+      "cap": [
+       2,
+       8019
+      ]
+     },
+     "serves": [
+      [
+       "cover",
+       "CALL",
+       ".github"
+      ]
+     ]
+    },
+    {
+     "call": "grep('\\\\bHTTPAdapter\\\\s*\\\\(', 'docs')",
+     "key": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \"docs\"]]",
+     "v1": [
+      2330693112201599,
+      284996857823496
+     ],
+     "v2": [
+      2860881783789685,
+      366424531487352
+     ],
+     "p_cap": [
+      29,
+      44388
+     ],
+     "forecast": {
+      "zero": [
+       132149,
+       133164
+      ],
+      "mid": [
+       232,
+       33291
+      ],
+      "cap": [
+       29,
+       44388
+      ]
+     },
+     "serves": [
+      [
+       "cover",
+       "CALL",
+       "docs"
+      ]
+     ]
+    },
+    {
+     "call": "grep('\\\\bHTTPAdapter\\\\s*\\\\(', 'src')",
+     "key": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \"src\"]]",
+     "v1": [
+      20151378407383,
+      2431012070214
+     ],
+     "v2": [
+      1241685084228574,
+      156800278528803
+     ],
+     "p_cap": [
+      185,
+      16281
+     ],
+     "forecast": {
+      "zero": [
+       42368,
+       48843
+      ],
+      "mid": [
+       5920,
+       48843
+      ],
+      "cap": [
+       185,
+       16281
+      ]
+     },
+     "serves": [
+      [
+       "cover",
+       "CALL",
+       "src"
+      ]
+     ]
+    },
+    {
+     "call": "grep('\\\\bHTTPAdapter\\\\s*\\\\(', 'tests')",
+     "key": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \"tests\"]]",
+     "v1": [
+      658929877613648,
+      79483612720239
+     ],
+     "v2": [
+      33992413966221283,
+      4292115086892906
+     ],
+     "p_cap": [
+      850,
+      74277
+     ],
+     "forecast": {
+      "zero": [
+       27583,
+       31833
+      ],
+      "mid": [
+       27200,
+       222831
+      ],
+      "cap": [
+       850,
+       74277
+      ]
+     },
+     "serves": [
+      [
+       "cover",
+       "CALL",
+       "tests"
+      ]
+     ]
+    },
+    {
+     "call": "grep('\\\\bHTTPAdapter\\\\s*\\\\(', 'setup.py')",
+     "key": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \"setup.py\"]]",
+     "v1": [
+      13306501528889,
+      1560201776406
+     ],
+     "v2": [
+      19092904188145,
+      2340302664609
+     ],
+     "p_cap": [
+      1,
+      283
+     ],
+     "forecast": {
+      "zero": [
+       276,
+       283
+      ],
+      "mid": [
+       6,
+       283
+      ],
+      "cap": [
+       1,
+       283
+      ]
+     },
+     "serves": [
+      [
+       "cover",
+       "CALL",
+       "setup.py"
+      ]
+     ]
+    },
+    {
+     "call": "calls('src/requests/sessions.py', 'HTTPAdapter')",
+     "key": "[\"calls\", [\"src/requests/sessions.py\", \"HTTPAdapter\"]]",
+     "v1": [
+      134086262422433,
+      15602017764060
+     ],
+     "v2": [
+      384921825163529,
+      46806053292180
+     ],
+     "p_cap": [
+      1,
+      20
+     ],
+     "forecast": {
+      "ok": [
+       19,
+       20
+      ],
+      "cap": [
+       1,
+       20
+      ]
+     },
+     "serves": [
+      [
+       "calls",
+       "src/requests/sessions.py",
+       "HTTPAdapter"
+      ]
+     ]
+    },
+    {
+     "call": "calls('tests/test_requests.py', 'HTTPAdapter')",
+     "key": "[\"calls\", [\"tests/test_requests.py\", \"HTTPAdapter\"]]",
+     "v1": [
+      134086262422433,
+      15602017764060
+     ],
+     "v2": [
+      384921825163529,
+      46806053292180
+     ],
+     "p_cap": [
+      1,
+      20
+     ],
+     "forecast": {
+      "ok": [
+       19,
+       20
+      ],
+      "cap": [
+       1,
+       20
+      ]
+     },
+     "serves": [
+      [
+       "calls",
+       "tests/test_requests.py",
+       "HTTPAdapter"
+      ]
+     ]
+    }
+   ],
+   "choice": {
+    "call": "grep('\\\\bHTTPAdapter\\\\s*\\\\(', 'docs')",
+    "key": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \"docs\"]]",
+    "provenance": "call lines naming `HTTPAdapter` under `docs` (step 3)",
+    "v2": [
+     2860881783789685,
+     366424531487352
+    ]
+   },
+   "forecast": {
+    "zero": [
+     132149,
+     133164
+    ],
+    "mid": [
+     232,
+     33291
+    ],
+    "cap": [
+     29,
+     44388
+    ]
+   },
+   "plan": {
+    "zero": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \".github\"]]",
+    "mid": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \".github\"]]",
+    "cap": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \".github\"]]"
+   },
+   "call": {
+    "text": "grep('\\\\bHTTPAdapter\\\\s*\\\\(', 'docs')",
+    "key": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \"docs\"]]",
+    "tool": "grep",
+    "args": [
+     "\\bHTTPAdapter\\s*\\(",
+     "docs"
+    ]
+   },
+   "response": {
+    "tool": "grep",
+    "lines": [
+     "docs/user/advanced.rst:1051:    s.mount('https://', HTTPAdapter(max_retries=retries))"
+    ],
+    "capped": false,
+    "error": null
+   },
+   "outcome": "mid",
+   "facts": [
+    {
+     "kind": "grep",
+     "step": 8,
+     "pattern": "\\bHTTPAdapter\\s*\\(",
+     "scope": "docs",
+     "hits": [
+      [
+       "docs/user/advanced.rst",
+       1051
+      ]
+     ],
+     "capped": false
+    }
+   ],
+   "adherence": {
+    "planned": "[\"calls\", [\"src/requests/sessions.py\", \"HTTPAdapter\"]]",
+    "status": "replanned"
+   },
+   "goal_state": {
+    "phase": "callers",
+    "step": 2,
+    "of": 2,
+    "candidates": [
+     "src/requests/adapters.py",
+     "src/requests/sessions.py",
+     "tests/test_adapters.py",
+     "tests/test_requests.py"
+    ],
+    "table": [
+     [
+      "src/requests/adapters.py",
+      "src/requests/adapters.py",
+      "out",
+      "the module binds the name but never calls it by bare name"
+     ],
+     [
+      "src/requests/sessions.py",
+      null,
+      "pending",
+      "not yet examined"
+     ],
+     [
+      "tests/test_adapters.py",
+      "tests/test_adapters.py",
+      "out",
+      "the name is not bound at module level here"
+     ],
+     [
+      "tests/test_requests.py",
+      null,
+      "pending",
+      "not yet examined"
+     ]
+    ],
+    "uncovered": {
+     "CALL": [
+      [
+       "grep",
+       ".github"
+      ],
+      [
+       "grep",
+       "setup.py"
+      ],
+      [
+       "grep",
+       "src"
+      ],
+      [
+       "grep",
+       "tests"
+      ]
+     ]
+    },
+    "n_in": 0,
+    "n_out": 2,
+    "n_pending": 2
+   }
+  },
+  {
+   "step": 9,
+   "phase": "callers",
+   "thought": "Huh: 1 matching lines under `docs` for calls of `HTTPAdapter`, in `docs/user/advanced.rst`, and the search was under the cap, so that is the complete set there.\n\nTally: 0 call sites confirmed, 2 ruled out, 2 pending. The search still has 4 scopes to cover.\n\nNext I will search `.github` for calls of `HTTPAdapter`; the search has to be complete before I can call the set final.",
+   "hedges": [],
+   "items": [
+    {
+     "kind": "cover",
+     "key": [
+      "cover",
+      "CALL",
+      ".github"
+     ],
+     "desc": "search `.github` for calls of `HTTPAdapter`"
+    },
+    {
+     "kind": "cover",
+     "key": [
+      "cover",
+      "CALL",
+      "setup.py"
+     ],
+     "desc": "search `setup.py` for calls of `HTTPAdapter`"
+    },
+    {
+     "kind": "cover",
+     "key": [
+      "cover",
+      "CALL",
+      "src"
+     ],
+     "desc": "search `src` for calls of `HTTPAdapter`"
+    },
+    {
+     "kind": "cover",
+     "key": [
+      "cover",
+      "CALL",
+      "tests"
+     ],
+     "desc": "search `tests` for calls of `HTTPAdapter`"
+    },
+    {
+     "kind": "calls",
+     "key": [
+      "calls",
+      "src/requests/sessions.py",
+      "HTTPAdapter"
+     ],
+     "desc": "list the call sites of `HTTPAdapter` in `src/requests/sessions.py`"
+    },
+    {
+     "kind": "calls",
+     "key": [
+      "calls",
+      "tests/test_requests.py",
+      "HTTPAdapter"
+     ],
+     "desc": "list the call sites of `HTTPAdapter` in `tests/test_requests.py`"
+    }
+   ],
+   "candidates": [
+    {
+     "call": "grep('\\\\bHTTPAdapter\\\\s*\\\\(', '.github')",
+     "key": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \".github\"]]",
+     "v1": [
+      31831714849031,
+      4680605329218
+     ],
+     "v2": [
+      2052798862599461,
+      313600557057606
+     ],
+     "p_cap": [
+      2,
+      8019
+     ],
+     "forecast": {
+      "zero": [
+       23987,
+       24057
+      ],
+      "mid": [
+       64,
+       24057
+      ],
+      "cap": [
+       2,
+       8019
+      ]
+     },
+     "serves": [
+      [
+       "cover",
+       "CALL",
+       ".github"
+      ]
+     ]
+    },
+    {
+     "call": "grep('\\\\bHTTPAdapter\\\\s*\\\\(', 'src')",
+     "key": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \"src\"]]",
+     "v1": [
+      361492751449120,
+      52266759509601
+     ],
+     "v2": [
+      2052798862599461,
+      313600557057606
+     ],
+     "p_cap": [
+      185,
+      16281
+     ],
+     "forecast": {
+      "zero": [
+       42368,
+       48843
+      ],
+      "mid": [
+       5920,
+       48843
+      ],
+      "cap": [
+       185,
+       16281
+      ]
+     },
+     "serves": [
+      [
+       "cover",
+       "CALL",
+       "src"
+      ]
+     ]
+    },
+    {
+     "call": "grep('\\\\bHTTPAdapter\\\\s*\\\\(', 'tests')",
+     "key": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \"tests\"]]",
+     "v1": [
+      9896390098182485,
+      1430705028964302
+     ],
+     "v2": [
+      14049685434815873,
+      2146057543446453
+     ],
+     "p_cap": [
+      850,
+      74277
+     ],
+     "forecast": {
+      "zero": [
+       27583,
+       31833
+      ],
+      "mid": [
+       27200,
+       222831
+      ],
+      "cap": [
+       850,
+       74277
+      ]
+     },
+     "serves": [
+      [
+       "cover",
+       "CALL",
+       "tests"
+      ]
+     ]
+    },
+    {
+     "call": "grep('\\\\bHTTPAdapter\\\\s*\\\\(', 'setup.py')",
+     "key": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \"setup.py\"]]",
+     "v1": [
+      1860725954767,
+      260033629401
+     ],
+     "v2": [
+      31759370975429,
+      4680605329218
+     ],
+     "p_cap": [
+      1,
+      283
+     ],
+     "forecast": {
+      "zero": [
+       276,
+       283
+      ],
+      "mid": [
+       6,
+       283
+      ],
+      "cap": [
+       1,
+       283
+      ]
+     },
+     "serves": [
+      [
+       "cover",
+       "CALL",
+       "setup.py"
+      ]
+     ]
+    },
+    {
+     "call": "calls('src/requests/sessions.py', 'HTTPAdapter')",
+     "key": "[\"calls\", [\"src/requests/sessions.py\", \"HTTPAdapter\"]]",
+     "v1": [
+      37554934806521,
+      5200672588020
+     ],
+     "v2": [
+      320657451154919,
+      46806053292180
+     ],
+     "p_cap": [
+      1,
+      20
+     ],
+     "forecast": {
+      "ok": [
+       19,
+       20
+      ],
+      "cap": [
+       1,
+       20
+      ]
+     },
+     "serves": [
+      [
+       "calls",
+       "src/requests/sessions.py",
+       "HTTPAdapter"
+      ]
+     ]
+    },
+    {
+     "call": "calls('tests/test_requests.py', 'HTTPAdapter')",
+     "key": "[\"calls\", [\"tests/test_requests.py\", \"HTTPAdapter\"]]",
+     "v1": [
+      37554934806521,
+      5200672588020
+     ],
+     "v2": [
+      320657451154919,
+      46806053292180
+     ],
+     "p_cap": [
+      1,
+      20
+     ],
+     "forecast": {
+      "ok": [
+       19,
+       20
+      ],
+      "cap": [
+       1,
+       20
+      ]
+     },
+     "serves": [
+      [
+       "calls",
+       "tests/test_requests.py",
+       "HTTPAdapter"
+      ]
+     ]
+    }
+   ],
+   "choice": {
+    "call": "grep('\\\\bHTTPAdapter\\\\s*\\\\(', '.github')",
+    "key": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \".github\"]]",
+    "provenance": "call lines naming `HTTPAdapter` under `.github` (step 7)",
+    "v2": [
+     2052798862599461,
+     313600557057606
+    ]
+   },
+   "forecast": {
+    "zero": [
+     23987,
+     24057
+    ],
+    "mid": [
+     64,
+     24057
+    ],
+    "cap": [
+     2,
+     8019
+    ]
+   },
+   "plan": {
+    "zero": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \"src\"]]",
+    "mid": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \"src\"]]",
+    "cap": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \"src\"]]"
+   },
+   "call": {
+    "text": "grep('\\\\bHTTPAdapter\\\\s*\\\\(', '.github')",
+    "key": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \".github\"]]",
+    "tool": "grep",
+    "args": [
+     "\\bHTTPAdapter\\s*\\(",
+     ".github"
+    ]
+   },
+   "response": {
+    "tool": "grep",
+    "lines": [],
+    "capped": false,
+    "error": null
+   },
+   "outcome": "zero",
+   "facts": [
+    {
+     "kind": "grep",
+     "step": 9,
+     "pattern": "\\bHTTPAdapter\\s*\\(",
+     "scope": ".github",
+     "hits": [],
+     "capped": false
+    }
+   ],
+   "adherence": {
+    "planned": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \".github\"]]",
+    "status": "followed"
+   },
+   "goal_state": {
+    "phase": "callers",
+    "step": 2,
+    "of": 2,
+    "candidates": [
+     "src/requests/adapters.py",
+     "src/requests/sessions.py",
+     "tests/test_adapters.py",
+     "tests/test_requests.py"
+    ],
+    "table": [
+     [
+      "src/requests/adapters.py",
+      "src/requests/adapters.py",
+      "out",
+      "the module binds the name but never calls it by bare name"
+     ],
+     [
+      "src/requests/sessions.py",
+      null,
+      "pending",
+      "not yet examined"
+     ],
+     [
+      "tests/test_adapters.py",
+      "tests/test_adapters.py",
+      "out",
+      "the name is not bound at module level here"
+     ],
+     [
+      "tests/test_requests.py",
+      null,
+      "pending",
+      "not yet examined"
+     ]
+    ],
+    "uncovered": {
+     "CALL": [
+      [
+       "grep",
+       "setup.py"
+      ],
+      [
+       "grep",
+       "src"
+      ],
+      [
+       "grep",
+       "tests"
+      ]
+     ]
+    },
+    "n_in": 0,
+    "n_out": 2,
+    "n_pending": 2
+   }
+  },
+  {
+   "step": 10,
+   "phase": "callers",
+   "thought": "Nothing under `.github` for calls of `HTTPAdapter`, and the search was not capped, so that part of the tree is clear.\n\nLet me search `src` for calls of `HTTPAdapter`; the search has to be complete before I can call the set final. Very likely nothing turns up. If it fits under the cap, I will search `tests` for calls of `HTTPAdapter`.",
+   "hedges": [
+    {
+     "outcome": "zero",
+     "word": "very likely",
+     "p": [
+      42368,
+      48843
+     ]
+    }
+   ],
+   "items": [
+    {
+     "kind": "cover",
+     "key": [
+      "cover",
+      "CALL",
+      "setup.py"
+     ],
+     "desc": "search `setup.py` for calls of `HTTPAdapter`"
+    },
+    {
+     "kind": "cover",
+     "key": [
+      "cover",
+      "CALL",
+      "src"
+     ],
+     "desc": "search `src` for calls of `HTTPAdapter`"
+    },
+    {
+     "kind": "cover",
+     "key": [
+      "cover",
+      "CALL",
+      "tests"
+     ],
+     "desc": "search `tests` for calls of `HTTPAdapter`"
+    },
+    {
+     "kind": "calls",
+     "key": [
+      "calls",
+      "src/requests/sessions.py",
+      "HTTPAdapter"
+     ],
+     "desc": "list the call sites of `HTTPAdapter` in `src/requests/sessions.py`"
+    },
+    {
+     "kind": "calls",
+     "key": [
+      "calls",
+      "tests/test_requests.py",
+      "HTTPAdapter"
+     ],
+     "desc": "list the call sites of `HTTPAdapter` in `tests/test_requests.py`"
+    }
+   ],
+   "candidates": [
+    {
+     "call": "grep('\\\\bHTTPAdapter\\\\s*\\\\(', 'src')",
+     "key": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \"src\"]]",
+     "v1": [
+      193153911426337,
+      34844506339734
+     ],
+     "v2": [
+      253508058442878439,
+      47928618470304117
+     ],
+     "p_cap": [
+      185,
+      16281
+     ],
+     "forecast": {
+      "zero": [
+       42368,
+       48843
+      ],
+      "mid": [
+       5920,
+       48843
+      ],
+      "cap": [
+       185,
+       16281
+      ]
+     },
+     "serves": [
+      [
+       "cover",
+       "CALL",
+       "src"
+      ]
+     ]
+    },
+    {
+     "call": "grep('\\\\bHTTPAdapter\\\\s*\\\\(', 'tests')",
+     "key": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \"tests\"]]",
+     "v1": [
+      3966021199659653,
+      715352514482151
+     ],
+     "v2": [
+      253508058442878439,
+      47928618470304117
+     ],
+     "p_cap": [
+      850,
+      74277
+     ],
+     "forecast": {
+      "zero": [
+       27583,
+       31833
+      ],
+      "mid": [
+       27200,
+       222831
+      ],
+      "cap": [
+       850,
+       74277
+      ]
+     },
+     "serves": [
+      [
+       "cover",
+       "CALL",
+       "tests"
+      ]
+     ]
+    },
+    {
+     "call": "grep('\\\\bHTTPAdapter\\\\s*\\\\(', 'setup.py')",
+     "key": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \"setup.py\"]]",
+     "v1": [
+      9022209928315,
+      1560201776406
+     ],
+     "v2": [
+      192615351478411,
+      34844506339734
+     ],
+     "p_cap": [
+      1,
+      283
+     ],
+     "forecast": {
+      "zero": [
+       276,
+       283
+      ],
+      "mid": [
+       6,
+       283
+      ],
+      "cap": [
+       1,
+       283
+      ]
+     },
+     "serves": [
+      [
+       "cover",
+       "CALL",
+       "setup.py"
+      ]
+     ]
+    },
+    {
+     "call": "calls('src/requests/sessions.py', 'HTTPAdapter')",
+     "key": "[\"calls\", [\"src/requests/sessions.py\", \"HTTPAdapter\"]]",
+     "v1": [
+      91243346416693,
+      15602017764060
+     ],
+     "v2": [
+      1948961367433237,
+      348445063397340
+     ],
+     "p_cap": [
+      1,
+      20
+     ],
+     "forecast": {
+      "ok": [
+       19,
+       20
+      ],
+      "cap": [
+       1,
+       20
+      ]
+     },
+     "serves": [
+      [
+       "calls",
+       "src/requests/sessions.py",
+       "HTTPAdapter"
+      ]
+     ]
+    },
+    {
+     "call": "calls('tests/test_requests.py', 'HTTPAdapter')",
+     "key": "[\"calls\", [\"tests/test_requests.py\", \"HTTPAdapter\"]]",
+     "v1": [
+      91243346416693,
+      15602017764060
+     ],
+     "v2": [
+      1948961367433237,
+      348445063397340
+     ],
+     "p_cap": [
+      1,
+      20
+     ],
+     "forecast": {
+      "ok": [
+       19,
+       20
+      ],
+      "cap": [
+       1,
+       20
+      ]
+     },
+     "serves": [
+      [
+       "calls",
+       "tests/test_requests.py",
+       "HTTPAdapter"
+      ]
+     ]
+    }
+   ],
+   "choice": {
+    "call": "grep('\\\\bHTTPAdapter\\\\s*\\\\(', 'src')",
+    "key": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \"src\"]]",
+    "provenance": "call lines naming `HTTPAdapter` under `src` (task)",
+    "v2": [
+     253508058442878439,
+     47928618470304117
+    ]
+   },
+   "forecast": {
+    "zero": [
+     42368,
+     48843
+    ],
+    "mid": [
+     5920,
+     48843
+    ],
+    "cap": [
+     185,
+     16281
+    ]
+   },
+   "plan": {
+    "zero": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \"tests\"]]",
+    "mid": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \"tests\"]]",
+    "cap": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \"tests\"]]"
+   },
+   "call": {
+    "text": "grep('\\\\bHTTPAdapter\\\\s*\\\\(', 'src')",
+    "key": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \"src\"]]",
+    "tool": "grep",
+    "args": [
+     "\\bHTTPAdapter\\s*\\(",
+     "src"
+    ]
+   },
+   "response": {
+    "tool": "grep",
+    "lines": [
+     "src/requests/adapters.py:158:class HTTPAdapter(BaseAdapter):",
+     "src/requests/adapters.py:181:      >>> a = requests.adapters.HTTPAdapter(max_retries=3)",
+     "src/requests/sessions.py:502:        self.mount(\"https://\", HTTPAdapter())",
+     "src/requests/sessions.py:503:        self.mount(\"http://\", HTTPAdapter())"
+    ],
+    "capped": false,
+    "error": null
+   },
+   "outcome": "mid",
+   "facts": [
+    {
+     "kind": "grep",
+     "step": 10,
+     "pattern": "\\bHTTPAdapter\\s*\\(",
+     "scope": "src",
+     "hits": [
+      [
+       "src/requests/adapters.py",
+       158
+      ],
+      [
+       "src/requests/adapters.py",
+       181
+      ],
+      [
+       "src/requests/sessions.py",
+       502
+      ],
+      [
+       "src/requests/sessions.py",
+       503
+      ]
+     ],
+     "capped": false
+    }
+   ],
+   "adherence": {
+    "planned": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \"src\"]]",
+    "status": "followed"
+   },
+   "goal_state": {
+    "phase": "callers",
+    "step": 2,
+    "of": 2,
+    "candidates": [
+     "src/requests/adapters.py",
+     "src/requests/sessions.py",
+     "tests/test_adapters.py",
+     "tests/test_requests.py"
+    ],
+    "table": [
+     [
+      "src/requests/adapters.py",
+      "src/requests/adapters.py",
+      "out",
+      "the module binds the name but never calls it by bare name"
+     ],
+     [
+      "src/requests/sessions.py",
+      null,
+      "pending",
+      "not yet examined"
+     ],
+     [
+      "tests/test_adapters.py",
+      "tests/test_adapters.py",
+      "out",
+      "the name is not bound at module level here"
+     ],
+     [
+      "tests/test_requests.py",
+      null,
+      "pending",
+      "not yet examined"
+     ]
+    ],
+    "uncovered": {
+     "CALL": [
+      [
+       "grep",
+       "setup.py"
+      ],
+      [
+       "grep",
+       "tests"
+      ]
+     ]
+    },
+    "n_in": 0,
+    "n_out": 2,
+    "n_pending": 2
+   }
+  },
+  {
+   "step": 11,
+   "phase": "callers",
+   "thought": "4 matching lines under `src` for calls of `HTTPAdapter`, in `src/requests/adapters.py`, `src/requests/sessions.py`, and the search was under the cap, so that is the complete set there.\n\nI'll search `tests` for calls of `HTTPAdapter`; the search has to be complete before I can call the set final. Very likely nothing turns up. If it fits under the cap, I will search `setup.py` for calls of `HTTPAdapter`.",
+   "hedges": [
+    {
+     "outcome": "zero",
+     "word": "very likely",
+     "p": [
+      27583,
+      31833
+     ]
+    }
+   ],
+   "items": [
+    {
+     "kind": "cover",
+     "key": [
+      "cover",
+      "CALL",
+      "setup.py"
+     ],
+     "desc": "search `setup.py` for calls of `HTTPAdapter`"
+    },
+    {
+     "kind": "cover",
+     "key": [
+      "cover",
+      "CALL",
+      "tests"
+     ],
+     "desc": "search `tests` for calls of `HTTPAdapter`"
+    },
+    {
+     "kind": "calls",
+     "key": [
+      "calls",
+      "src/requests/sessions.py",
+      "HTTPAdapter"
+     ],
+     "desc": "list the call sites of `HTTPAdapter` in `src/requests/sessions.py`"
+    },
+    {
+     "kind": "calls",
+     "key": [
+      "calls",
+      "tests/test_requests.py",
+      "HTTPAdapter"
+     ],
+     "desc": "list the call sites of `HTTPAdapter` in `tests/test_requests.py`"
+    }
+   ],
+   "candidates": [
+    {
+     "call": "grep('\\\\bHTTPAdapter\\\\s*\\\\(', 'setup.py')",
+     "key": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \"setup.py\"]]",
+     "v1": [
+      37802550154,
+      8572537233
+     ],
+     "v2": [
+      1981860529919483,
+      476901676321434
+     ],
+     "p_cap": [
+      1,
+      283
+     ],
+     "forecast": {
+      "zero": [
+       276,
+       283
+      ],
+      "mid": [
+       6,
+       283
+      ],
+      "cap": [
+       1,
+       283
+      ]
+     },
+     "serves": [
+      [
+       "cover",
+       "CALL",
+       "setup.py"
+      ]
+     ]
+    },
+    {
+     "call": "grep('\\\\bHTTPAdapter\\\\s*\\\\(', 'tests')",
+     "key": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \"tests\"]]",
+     "v1": [
+      1989231566818709,
+      476901676321434
+     ],
+     "v2": [
+      1981860529919483,
+      476901676321434
+     ],
+     "p_cap": [
+      850,
+      74277
+     ],
+     "forecast": {
+      "zero": [
+       27583,
+       31833
+      ],
+      "mid": [
+       27200,
+       222831
+      ],
+      "cap": [
+       850,
+       74277
+      ]
+     },
+     "serves": [
+      [
+       "cover",
+       "CALL",
+       "tests"
+      ]
+     ]
+    },
+    {
+     "call": "calls('src/requests/sessions.py', 'HTTPAdapter')",
+     "key": "[\"calls\", [\"src/requests/sessions.py\", \"HTTPAdapter\"]]",
+     "v1": [
+      767273499053,
+      171450744660
+     ],
+     "v2": [
+      20130766506347807,
+      4769016763214340
+     ],
+     "p_cap": [
+      1,
+      20
+     ],
+     "forecast": {
+      "ok": [
+       19,
+       20
+      ],
+      "cap": [
+       1,
+       20
+      ]
+     },
+     "serves": [
+      [
+       "calls",
+       "src/requests/sessions.py",
+       "HTTPAdapter"
+      ]
+     ]
+    },
+    {
+     "call": "calls('tests/test_requests.py', 'HTTPAdapter')",
+     "key": "[\"calls\", [\"tests/test_requests.py\", \"HTTPAdapter\"]]",
+     "v1": [
+      767273499053,
+      171450744660
+     ],
+     "v2": [
+      20130766506347807,
+      4769016763214340
+     ],
+     "p_cap": [
+      1,
+      20
+     ],
+     "forecast": {
+      "ok": [
+       19,
+       20
+      ],
+      "cap": [
+       1,
+       20
+      ]
+     },
+     "serves": [
+      [
+       "calls",
+       "tests/test_requests.py",
+       "HTTPAdapter"
+      ]
+     ]
+    }
+   ],
+   "choice": {
+    "call": "grep('\\\\bHTTPAdapter\\\\s*\\\\(', 'tests')",
+    "key": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \"tests\"]]",
+    "provenance": "call lines naming `HTTPAdapter` under `tests` (step 3)",
+    "v2": [
+     1981860529919483,
+     476901676321434
+    ]
+   },
+   "forecast": {
+    "zero": [
+     27583,
+     31833
+    ],
+    "mid": [
+     27200,
+     222831
+    ],
+    "cap": [
+     850,
+     74277
+    ]
+   },
+   "plan": {
+    "zero": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \"setup.py\"]]",
+    "mid": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \"setup.py\"]]",
+    "cap": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \"setup.py\"]]"
+   },
+   "call": {
+    "text": "grep('\\\\bHTTPAdapter\\\\s*\\\\(', 'tests')",
+    "key": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \"tests\"]]",
+    "tool": "grep",
+    "args": [
+     "\\bHTTPAdapter\\s*\\(",
+     "tests"
+    ]
+   },
+   "response": {
+    "tool": "grep",
+    "lines": [
+     "tests/test_adapters.py:6:    a = requests.adapters.HTTPAdapter()",
+     "tests/test_requests.py:1651:        s.mount(\"http://git\", HTTPAdapter())",
+     "tests/test_requests.py:1652:        s.mount(\"http://github\", HTTPAdapter())",
+     "tests/test_requests.py:1653:        s.mount(\"http://github.com\", HTTPAdapter())",
+     "tests/test_requests.py:1654:        s.mount(\"http://github.com/about/\", HTTPAdapter())",
+     "tests/test_requests.py:1664:        s.mount(\"http://gittip\", HTTPAdapter())",
+     "tests/test_requests.py:1665:        s.mount(\"http://gittip.com\", HTTPAdapter())",
+     "tests/test_requests.py:1666:        s.mount(\"http://gittip.com/about/\", HTTPAdapter())",
+     "tests/test_requests.py:1680:        s2.adapters = {\"http://\": HTTPAdapter()}",
+     "tests/test_requests.py:1681:        s2.mount(\"https://\", HTTPAdapter())",
+     "tests/test_requests.py:1694:        prefix_adapter = HTTPAdapter()",
+     "tests/test_requests.py:1695:        more_specific_prefix_adapter = HTTPAdapter()",
+     "tests/test_requests.py:1714:        my_adapter = HTTPAdapter()",
+     "tests/test_requests.py:1726:        my_adapter = HTTPAdapter()",
+     "tests/test_requests.py:1738:        adapter = HTTPAdapter()",
+     "tests/test_requests.py:1751:        adapter = HTTPAdapter()",
+     "tests/test_requests.py:2221:        adapter = HTTPAdapter()",
+     "tests/test_requests.py:2226:        adapter = HTTPAdapter()",
+     "tests/test_requests.py:2744:    s.mount(\"http://\", HTTPAdapter(max_retries=Retry(total=2, status_forcelist=[500])))",
+     "tests/test_requests.py:2752:    s.mount(\"http://\", HTTPAdapter(pool_connections=0, pool_maxsize=0))"
+    ],
+    "capped": false,
+    "error": null
+   },
+   "outcome": "mid",
+   "facts": [
+    {
+     "kind": "grep",
+     "step": 11,
+     "pattern": "\\bHTTPAdapter\\s*\\(",
+     "scope": "tests",
+     "hits": [
+      [
+       "tests/test_adapters.py",
+       6
+      ],
+      [
+       "tests/test_requests.py",
+       1651
+      ],
+      [
+       "tests/test_requests.py",
+       1652
+      ],
+      [
+       "tests/test_requests.py",
+       1653
+      ],
+      [
+       "tests/test_requests.py",
+       1654
+      ],
+      [
+       "tests/test_requests.py",
+       1664
+      ],
+      [
+       "tests/test_requests.py",
+       1665
+      ],
+      [
+       "tests/test_requests.py",
+       1666
+      ],
+      [
+       "tests/test_requests.py",
+       1680
+      ],
+      [
+       "tests/test_requests.py",
+       1681
+      ],
+      [
+       "tests/test_requests.py",
+       1694
+      ],
+      [
+       "tests/test_requests.py",
+       1695
+      ],
+      [
+       "tests/test_requests.py",
+       1714
+      ],
+      [
+       "tests/test_requests.py",
+       1726
+      ],
+      [
+       "tests/test_requests.py",
+       1738
+      ],
+      [
+       "tests/test_requests.py",
+       1751
+      ],
+      [
+       "tests/test_requests.py",
+       2221
+      ],
+      [
+       "tests/test_requests.py",
+       2226
+      ],
+      [
+       "tests/test_requests.py",
+       2744
+      ],
+      [
+       "tests/test_requests.py",
+       2752
+      ]
+     ],
+     "capped": false
+    }
+   ],
+   "adherence": {
+    "planned": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \"tests\"]]",
+    "status": "followed"
+   },
+   "goal_state": {
+    "phase": "callers",
+    "step": 2,
+    "of": 2,
+    "candidates": [
+     "src/requests/adapters.py",
+     "src/requests/sessions.py",
+     "tests/test_adapters.py",
+     "tests/test_requests.py"
+    ],
+    "table": [
+     [
+      "src/requests/adapters.py",
+      "src/requests/adapters.py",
+      "out",
+      "the module binds the name but never calls it by bare name"
+     ],
+     [
+      "src/requests/sessions.py",
+      null,
+      "pending",
+      "not yet examined"
+     ],
+     [
+      "tests/test_adapters.py",
+      "tests/test_adapters.py",
+      "out",
+      "the name is not bound at module level here"
+     ],
+     [
+      "tests/test_requests.py",
+      null,
+      "pending",
+      "not yet examined"
+     ]
+    ],
+    "uncovered": {
+     "CALL": [
+      [
+       "grep",
+       "setup.py"
+      ]
+     ]
+    },
+    "n_in": 0,
+    "n_out": 2,
+    "n_pending": 2
+   }
+  },
+  {
+   "step": 12,
+   "phase": "callers",
+   "thought": "20 matching lines under `tests` for calls of `HTTPAdapter`, in `tests/test_adapters.py`, `tests/test_requests.py`, and the search was under the cap, so that is the complete set there.\n\nTally: 0 call sites confirmed, 2 ruled out, 2 pending. The search still has 1 scope to cover.\n\nNext I will search `setup.py` for calls of `HTTPAdapter`; the search has to be complete before I can call the set final. Almost certainly nothing turns up. If it fits under the cap, I will list the call sites of `HTTPAdapter` in `src/requests/sessions.py`.",
+   "hedges": [
+    {
+     "outcome": "zero",
+     "word": "almost certainly",
+     "p": [
+      276,
+      283
+     ]
+    }
+   ],
+   "items": [
+    {
+     "kind": "cover",
+     "key": [
+      "cover",
+      "CALL",
+      "setup.py"
+     ],
+     "desc": "search `setup.py` for calls of `HTTPAdapter`"
+    },
+    {
+     "kind": "calls",
+     "key": [
+      "calls",
+      "src/requests/sessions.py",
+      "HTTPAdapter"
+     ],
+     "desc": "list the call sites of `HTTPAdapter` in `src/requests/sessions.py`"
+    },
+    {
+     "kind": "calls",
+     "key": [
+      "calls",
+      "tests/test_requests.py",
+      "HTTPAdapter"
+     ],
+     "desc": "list the call sites of `HTTPAdapter` in `tests/test_requests.py`"
+    }
+   ],
+   "candidates": [
+    {
+     "call": "calls('src/requests/sessions.py', 'HTTPAdapter')",
+     "key": "[\"calls\", [\"src/requests/sessions.py\", \"HTTPAdapter\"]]",
+     "v1": [
+      199178725971,
+      64205834420
+     ],
+     "v2": [
+      198186354591,
+      64205834420
+     ],
+     "p_cap": [
+      1,
+      20
+     ],
+     "forecast": {
+      "ok": [
+       19,
+       20
+      ],
+      "cap": [
+       1,
+       20
+      ]
+     },
+     "serves": [
+      [
+       "calls",
+       "src/requests/sessions.py",
+       "HTTPAdapter"
+      ]
+     ]
+    },
+    {
+     "call": "calls('tests/test_requests.py', 'HTTPAdapter')",
+     "key": "[\"calls\", [\"tests/test_requests.py\", \"HTTPAdapter\"]]",
+     "v1": [
+      199178725971,
+      64205834420
+     ],
+     "v2": [
+      198186354591,
+      64205834420
+     ],
+     "p_cap": [
+      1,
+      20
+     ],
+     "forecast": {
+      "ok": [
+       19,
+       20
+      ],
+      "cap": [
+       1,
+       20
+      ]
+     },
+     "serves": [
+      [
+       "calls",
+       "tests/test_requests.py",
+       "HTTPAdapter"
+      ]
+     ]
+    },
+    {
+     "call": "grep('\\\\bHTTPAdapter\\\\s*\\\\(', 'setup.py')",
+     "key": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \"setup.py\"]]",
+     "v1": [
+      19497606287,
+      6420583442
+     ],
+     "v2": [
+      198186354591,
+      64205834420
+     ],
+     "p_cap": [
+      1,
+      283
+     ],
+     "forecast": {
+      "zero": [
+       276,
+       283
+      ],
+      "mid": [
+       6,
+       283
+      ],
+      "cap": [
+       1,
+       283
+      ]
+     },
+     "serves": [
+      [
+       "cover",
+       "CALL",
+       "setup.py"
+      ]
+     ]
+    }
+   ],
+   "choice": {
+    "call": "grep('\\\\bHTTPAdapter\\\\s*\\\\(', 'setup.py')",
+    "key": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \"setup.py\"]]",
+    "provenance": "call lines naming `HTTPAdapter` under `setup.py` (step 7)",
+    "v2": [
+     198186354591,
+     64205834420
+    ]
+   },
+   "forecast": {
+    "zero": [
+     276,
+     283
+    ],
+    "mid": [
+     6,
+     283
+    ],
+    "cap": [
+     1,
+     283
+    ]
+   },
+   "plan": {
+    "zero": "[\"calls\", [\"src/requests/sessions.py\", \"HTTPAdapter\"]]",
+    "mid": "[\"calls\", [\"src/requests/sessions.py\", \"HTTPAdapter\"]]",
+    "cap": "[\"calls\", [\"src/requests/sessions.py\", \"HTTPAdapter\"]]"
+   },
+   "call": {
+    "text": "grep('\\\\bHTTPAdapter\\\\s*\\\\(', 'setup.py')",
+    "key": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \"setup.py\"]]",
+    "tool": "grep",
+    "args": [
+     "\\bHTTPAdapter\\s*\\(",
+     "setup.py"
+    ]
+   },
+   "response": {
+    "tool": "grep",
+    "lines": [],
+    "capped": false,
+    "error": null
+   },
+   "outcome": "zero",
+   "facts": [
+    {
+     "kind": "grep",
+     "step": 12,
+     "pattern": "\\bHTTPAdapter\\s*\\(",
+     "scope": "setup.py",
+     "hits": [],
+     "capped": false
+    }
+   ],
+   "adherence": {
+    "planned": "[\"grep\", [\"\\\\bHTTPAdapter\\\\s*\\\\(\", \"setup.py\"]]",
+    "status": "followed"
+   },
+   "goal_state": {
+    "phase": "callers",
+    "step": 2,
+    "of": 2,
+    "candidates": [
+     "src/requests/adapters.py",
+     "src/requests/sessions.py",
+     "tests/test_adapters.py",
+     "tests/test_requests.py"
+    ],
+    "table": [
+     [
+      "src/requests/adapters.py",
+      "src/requests/adapters.py",
+      "out",
+      "the module binds the name but never calls it by bare name"
+     ],
+     [
+      "src/requests/sessions.py",
+      null,
+      "pending",
+      "not yet examined"
+     ],
+     [
+      "tests/test_adapters.py",
+      "tests/test_adapters.py",
+      "out",
+      "the name is not bound at module level here"
+     ],
+     [
+      "tests/test_requests.py",
+      null,
+      "pending",
+      "not yet examined"
+     ]
+    ],
+    "uncovered": {
+     "CALL": []
+    },
+    "n_in": 0,
+    "n_out": 2,
+    "n_pending": 2
+   }
+  },
+  {
+   "step": 13,
+   "phase": "callers",
+   "thought": "Nothing under `setup.py` for calls of `HTTPAdapter`, and the search was not capped, so that part of the tree is clear.\n\nI'll list the call sites of `HTTPAdapter` in `src/requests/sessions.py`; the name is ours there, so each call site counts. Almost certainly the call sites fit. If there are too many call sites, I will list the call sites of `HTTPAdapter` in `tests/test_requests.py`.",
+   "hedges": [
+    {
+     "outcome": "ok",
+     "word": "almost certainly",
+     "p": [
+      19,
+      20
+     ]
+    }
+   ],
+   "items": [
+    {
+     "kind": "calls",
+     "key": [
+      "calls",
+      "src/requests/sessions.py",
+      "HTTPAdapter"
+     ],
+     "desc": "list the call sites of `HTTPAdapter` in `src/requests/sessions.py`"
+    },
+    {
+     "kind": "calls",
+     "key": [
+      "calls",
+      "tests/test_requests.py",
+      "HTTPAdapter"
+     ],
+     "desc": "list the call sites of `HTTPAdapter` in `tests/test_requests.py`"
+    }
+   ],
+   "candidates": [
+    {
+     "call": "calls('src/requests/sessions.py', 'HTTPAdapter')",
+     "key": "[\"calls\", [\"src/requests/sessions.py\", \"HTTPAdapter\"]]",
+     "v1": [
+      41,
+      20
+     ],
+     "v2": [
+      21,
+      10
+     ],
+     "p_cap": [
+      1,
+      20
+     ],
+     "forecast": {
+      "ok": [
+       19,
+       20
+      ],
+      "cap": [
+       1,
+       20
+      ]
+     },
+     "serves": [
+      [
+       "calls",
+       "src/requests/sessions.py",
+       "HTTPAdapter"
+      ]
+     ]
+    },
+    {
+     "call": "calls('tests/test_requests.py', 'HTTPAdapter')",
+     "key": "[\"calls\", [\"tests/test_requests.py\", \"HTTPAdapter\"]]",
+     "v1": [
+      41,
+      20
+     ],
+     "v2": [
+      21,
+      10
+     ],
+     "p_cap": [
+      1,
+      20
+     ],
+     "forecast": {
+      "ok": [
+       19,
+       20
+      ],
+      "cap": [
+       1,
+       20
+      ]
+     },
+     "serves": [
+      [
+       "calls",
+       "tests/test_requests.py",
+       "HTTPAdapter"
+      ]
+     ]
+    }
+   ],
+   "choice": {
+    "call": "calls('src/requests/sessions.py', 'HTTPAdapter')",
+    "key": "[\"calls\", [\"src/requests/sessions.py\", \"HTTPAdapter\"]]",
+    "provenance": "call sites of `HTTPAdapter` in `src/requests/sessions.py` that refer to the module-level binding",
+    "v2": [
+     21,
+     10
+    ]
+   },
+   "forecast": {
+    "ok": [
+     19,
+     20
+    ],
+    "cap": [
+     1,
+     20
+    ]
+   },
+   "plan": {
+    "ok": "[\"calls\", [\"tests/test_requests.py\", \"HTTPAdapter\"]]",
+    "cap": "[\"calls\", [\"tests/test_requests.py\", \"HTTPAdapter\"]]"
+   },
+   "call": {
+    "text": "calls('src/requests/sessions.py', 'HTTPAdapter')",
+    "key": "[\"calls\", [\"src/requests/sessions.py\", \"HTTPAdapter\"]]",
+    "tool": "calls",
+    "args": [
+     "src/requests/sessions.py",
+     "HTTPAdapter"
+    ]
+   },
+   "response": {
+    "tool": "calls",
+    "lines": [
+     "calls of HTTPAdapter in src/requests/sessions.py count=2",
+     "502:        self.mount(\"https://\", HTTPAdapter())",
+     "503:        self.mount(\"http://\", HTTPAdapter())"
+    ],
+    "capped": false,
+    "error": null
+   },
+   "outcome": "ok",
+   "facts": [
+    {
+     "kind": "calls",
+     "step": 13,
+     "path": "src/requests/sessions.py",
+     "name": "HTTPAdapter",
+     "lines": [
+      502,
+      503
+     ],
+     "count": 2,
+     "complete": true
+    }
+   ],
+   "adherence": {
+    "planned": "[\"calls\", [\"src/requests/sessions.py\", \"HTTPAdapter\"]]",
+    "status": "followed"
+   },
+   "goal_state": {
+    "phase": "callers",
+    "step": 2,
+    "of": 2,
+    "candidates": [
+     "src/requests/adapters.py",
+     "src/requests/sessions.py",
+     "tests/test_adapters.py",
+     "tests/test_requests.py"
+    ],
+    "table": [
+     [
+      "src/requests/adapters.py",
+      "src/requests/adapters.py",
+      "out",
+      "the module binds the name but never calls it by bare name"
+     ],
+     [
+      "src/requests/sessions.py",
+      "src/requests/sessions.py:502",
+      "in",
+      "bare-name call of the module-level binding, which resolves to the target"
+     ],
+     [
+      "src/requests/sessions.py",
+      "src/requests/sessions.py:503",
+      "in",
+      "bare-name call of the module-level binding, which resolves to the target"
+     ],
+     [
+      "tests/test_adapters.py",
+      "tests/test_adapters.py",
+      "out",
+      "the name is not bound at module level here"
+     ],
+     [
+      "tests/test_requests.py",
+      null,
+      "pending",
+      "not yet examined"
+     ]
+    ],
+    "uncovered": {
+     "CALL": []
+    },
+    "n_in": 2,
+    "n_out": 2,
+    "n_pending": 1
+   }
+  },
+  {
+   "step": 14,
+   "phase": "callers",
+   "thought": "`src/requests/sessions.py` calls `HTTPAdapter` at lines 502, 503, and those are real calls of the module-level name, not a shadowed local.\n\nTally: 2 call sites confirmed, 2 ruled out, 1 pending. The search itself is complete; what is left is checking the candidates.\n\nNext I will list the call sites of `HTTPAdapter` in `tests/test_requests.py`; the name is ours there, so each call site counts. Almost certainly the call sites fit. If there are too many call sites, I follow whatever it opens up.",
+   "hedges": [
+    {
+     "outcome": "ok",
+     "word": "almost certainly",
+     "p": [
+      19,
+      20
+     ]
+    }
+   ],
+   "items": [
+    {
+     "kind": "calls",
+     "key": [
+      "calls",
+      "tests/test_requests.py",
+      "HTTPAdapter"
+     ],
+     "desc": "list the call sites of `HTTPAdapter` in `tests/test_requests.py`"
+    }
+   ],
+   "candidates": [
+    {
+     "call": "calls('tests/test_requests.py', 'HTTPAdapter')",
+     "key": "[\"calls\", [\"tests/test_requests.py\", \"HTTPAdapter\"]]",
+     "v1": [
+      21,
+      20
+     ],
+     "v2": [
+      21,
+      20
+     ],
+     "p_cap": [
+      1,
+      20
+     ],
+     "forecast": {
+      "ok": [
+       19,
+       20
+      ],
+      "cap": [
+       1,
+       20
+      ]
+     },
+     "serves": [
+      [
+       "calls",
+       "tests/test_requests.py",
+       "HTTPAdapter"
+      ]
+     ]
+    }
+   ],
+   "choice": {
+    "call": "calls('tests/test_requests.py', 'HTTPAdapter')",
+    "key": "[\"calls\", [\"tests/test_requests.py\", \"HTTPAdapter\"]]",
+    "provenance": "call sites of `HTTPAdapter` in `tests/test_requests.py` that refer to the module-level binding",
+    "v2": [
+     21,
+     20
+    ]
+   },
+   "forecast": {
+    "ok": [
+     19,
+     20
+    ],
+    "cap": [
+     1,
+     20
+    ]
+   },
+   "plan": {
+    "ok": "done",
+    "cap": "continue"
+   },
+   "call": {
+    "text": "calls('tests/test_requests.py', 'HTTPAdapter')",
+    "key": "[\"calls\", [\"tests/test_requests.py\", \"HTTPAdapter\"]]",
+    "tool": "calls",
+    "args": [
+     "tests/test_requests.py",
+     "HTTPAdapter"
+    ]
+   },
+   "response": {
+    "tool": "calls",
+    "lines": [
+     "calls of HTTPAdapter in tests/test_requests.py count=19",
+     "1651:        s.mount(\"http://git\", HTTPAdapter())",
+     "1652:        s.mount(\"http://github\", HTTPAdapter())",
+     "1653:        s.mount(\"http://github.com\", HTTPAdapter())",
+     "1654:        s.mount(\"http://github.com/about/\", HTTPAdapter())",
+     "1664:        s.mount(\"http://gittip\", HTTPAdapter())",
+     "1665:        s.mount(\"http://gittip.com\", HTTPAdapter())",
+     "1666:        s.mount(\"http://gittip.com/about/\", HTTPAdapter())",
+     "1680:        s2.adapters = {\"http://\": HTTPAdapter()}",
+     "1681:        s2.mount(\"https://\", HTTPAdapter())",
+     "1694:        prefix_adapter = HTTPAdapter()",
+     "1695:        more_specific_prefix_adapter = HTTPAdapter()",
+     "1714:        my_adapter = HTTPAdapter()",
+     "1726:        my_adapter = HTTPAdapter()",
+     "1738:        adapter = HTTPAdapter()",
+     "1751:        adapter = HTTPAdapter()",
+     "2221:        adapter = HTTPAdapter()",
+     "2226:        adapter = HTTPAdapter()",
+     "2744:    s.mount(\"http://\", HTTPAdapter(max_retries=Retry(total=2, status_forcelist=[500])))",
+     "2752:    s.mount(\"http://\", HTTPAdapter(pool_connections=0, pool_maxsize=0))"
+    ],
+    "capped": false,
+    "error": null
+   },
+   "outcome": "ok",
+   "facts": [
+    {
+     "kind": "calls",
+     "step": 14,
+     "path": "tests/test_requests.py",
+     "name": "HTTPAdapter",
+     "lines": [
+      1651,
+      1652,
+      1653,
+      1654,
+      1664,
+      1665,
+      1666,
+      1680,
+      1681,
+      1694,
+      1695,
+      1714,
+      1726,
+      1738,
+      1751,
+      2221,
+      2226,
+      2744,
+      2752
+     ],
+     "count": 19,
+     "complete": true
+    }
+   ],
+   "adherence": {
+    "planned": "[\"calls\", [\"tests/test_requests.py\", \"HTTPAdapter\"]]",
+    "status": "followed"
+   },
+   "goal_state": {
+    "phase": "callers",
+    "step": 2,
+    "of": 2,
+    "candidates": [
+     "src/requests/adapters.py",
+     "src/requests/sessions.py",
+     "tests/test_adapters.py",
+     "tests/test_requests.py"
+    ],
+    "table": [
+     [
+      "src/requests/adapters.py",
+      "src/requests/adapters.py",
+      "out",
+      "the module binds the name but never calls it by bare name"
+     ],
+     [
+      "src/requests/sessions.py",
+      "src/requests/sessions.py:502",
+      "in",
+      "bare-name call of the module-level binding, which resolves to the target"
+     ],
+     [
+      "src/requests/sessions.py",
+      "src/requests/sessions.py:503",
+      "in",
+      "bare-name call of the module-level binding, which resolves to the target"
+     ],
+     [
+      "tests/test_adapters.py",
+      "tests/test_adapters.py",
+      "out",
+      "the name is not bound at module level here"
+     ],
+     [
+      "tests/test_requests.py",
+      "tests/test_requests.py:1651",
+      "in",
+      "bare-name call of the module-level binding, which resolves to the target"
+     ],
+     [
+      "tests/test_requests.py",
+      "tests/test_requests.py:1652",
+      "in",
+      "bare-name call of the module-level binding, which resolves to the target"
+     ],
+     [
+      "tests/test_requests.py",
+      "tests/test_requests.py:1653",
+      "in",
+      "bare-name call of the module-level binding, which resolves to the target"
+     ],
+     [
+      "tests/test_requests.py",
+      "tests/test_requests.py:1654",
+      "in",
+      "bare-name call of the module-level binding, which resolves to the target"
+     ],
+     [
+      "tests/test_requests.py",
+      "tests/test_requests.py:1664",
+      "in",
+      "bare-name call of the module-level binding, which resolves to the target"
+     ],
+     [
+      "tests/test_requests.py",
+      "tests/test_requests.py:1665",
+      "in",
+      "bare-name call of the module-level binding, which resolves to the target"
+     ],
+     [
+      "tests/test_requests.py",
+      "tests/test_requests.py:1666",
+      "in",
+      "bare-name call of the module-level binding, which resolves to the target"
+     ],
+     [
+      "tests/test_requests.py",
+      "tests/test_requests.py:1680",
+      "in",
+      "bare-name call of the module-level binding, which resolves to the target"
+     ],
+     [
+      "tests/test_requests.py",
+      "tests/test_requests.py:1681",
+      "in",
+      "bare-name call of the module-level binding, which resolves to the target"
+     ],
+     [
+      "tests/test_requests.py",
+      "tests/test_requests.py:1694",
+      "in",
+      "bare-name call of the module-level binding, which resolves to the target"
+     ],
+     [
+      "tests/test_requests.py",
+      "tests/test_requests.py:1695",
+      "in",
+      "bare-name call of the module-level binding, which resolves to the target"
+     ],
+     [
+      "tests/test_requests.py",
+      "tests/test_requests.py:1714",
+      "in",
+      "bare-name call of the module-level binding, which resolves to the target"
+     ],
+     [
+      "tests/test_requests.py",
+      "tests/test_requests.py:1726",
+      "in",
+      "bare-name call of the module-level binding, which resolves to the target"
+     ],
+     [
+      "tests/test_requests.py",
+      "tests/test_requests.py:1738",
+      "in",
+      "bare-name call of the module-level binding, which resolves to the target"
+     ],
+     [
+      "tests/test_requests.py",
+      "tests/test_requests.py:1751",
+      "in",
+      "bare-name call of the module-level binding, which resolves to the target"
+     ],
+     [
+      "tests/test_requests.py",
+      "tests/test_requests.py:2221",
+      "in",
+      "bare-name call of the module-level binding, which resolves to the target"
+     ],
+     [
+      "tests/test_requests.py",
+      "tests/test_requests.py:2226",
+      "in",
+      "bare-name call of the module-level binding, which resolves to the target"
+     ],
+     [
+      "tests/test_requests.py",
+      "tests/test_requests.py:2744",
+      "in",
+      "bare-name call of the module-level binding, which resolves to the target"
+     ],
+     [
+      "tests/test_requests.py",
+      "tests/test_requests.py:2752",
+      "in",
+      "bare-name call of the module-level binding, which resolves to the target"
+     ]
+    ],
+    "uncovered": {
+     "CALL": []
+    },
+    "n_in": 21,
+    "n_out": 2,
+    "n_pending": 0
+   }
+  }
+ ],
+ "answer": {
+  "final_kind": "callers",
+  "final": [
+   "src/requests/sessions.py:502",
+   "src/requests/sessions.py:503",
+   "tests/test_requests.py:1651",
+   "tests/test_requests.py:1652",
+   "tests/test_requests.py:1653",
+   "tests/test_requests.py:1654",
+   "tests/test_requests.py:1664",
+   "tests/test_requests.py:1665",
+   "tests/test_requests.py:1666",
+   "tests/test_requests.py:1680",
+   "tests/test_requests.py:1681",
+   "tests/test_requests.py:1694",
+   "tests/test_requests.py:1695",
+   "tests/test_requests.py:1714",
+   "tests/test_requests.py:1726",
+   "tests/test_requests.py:1738",
+   "tests/test_requests.py:1751",
+   "tests/test_requests.py:2221",
+   "tests/test_requests.py:2226",
+   "tests/test_requests.py:2744",
+   "tests/test_requests.py:2752"
+  ],
+  "steps": [
+   {
+    "op": "resolve",
+    "output": {
+     "kind": "def",
+     "path": "src/requests/adapters.py",
+     "line": 158,
+     "name": "HTTPAdapter",
+     "detail": "class"
+    }
+   },
+   {
+    "op": "callers",
+    "output": [
+     "src/requests/sessions.py:502",
+     "src/requests/sessions.py:503",
+     "tests/test_requests.py:1651",
+     "tests/test_requests.py:1652",
+     "tests/test_requests.py:1653",
+     "tests/test_requests.py:1654",
+     "tests/test_requests.py:1664",
+     "tests/test_requests.py:1665",
+     "tests/test_requests.py:1666",
+     "tests/test_requests.py:1680",
+     "tests/test_requests.py:1681",
+     "tests/test_requests.py:1694",
+     "tests/test_requests.py:1695",
+     "tests/test_requests.py:1714",
+     "tests/test_requests.py:1726",
+     "tests/test_requests.py:1738",
+     "tests/test_requests.py:1751",
+     "tests/test_requests.py:2221",
+     "tests/test_requests.py:2226",
+     "tests/test_requests.py:2744",
+     "tests/test_requests.py:2752"
+    ]
+   }
+  ],
+  "stuck": null
+ },
+ "certificate": [
+  {
+   "kind": "witness-chain",
+   "hops": [
+    [
+     "src/requests/sessions.py",
+     "HTTPAdapter",
+     "reexport",
+     [
+      ".adapters",
+      "src/requests/adapters.py"
+     ]
+    ],
+    [
+     "src/requests/adapters.py",
+     "HTTPAdapter",
+     "class",
+     158
+    ]
+   ]
+  },
+  {
+   "kind": "forall",
+   "coverage": {
+    "CALL": [
+     [
+      "\\bHTTPAdapter\\s*\\(",
+      "docs"
+     ],
+     [
+      "\\bHTTPAdapter\\s*\\(",
+      ".github"
+     ],
+     [
+      "\\bHTTPAdapter\\s*\\(",
+      "src"
+     ],
+     [
+      "\\bHTTPAdapter\\s*\\(",
+      "tests"
+     ],
+     [
+      "\\bHTTPAdapter\\s*\\(",
+      "setup.py"
+     ]
+    ]
+   },
+   "witnesses": [
+    [
+     "src/requests/sessions.py",
+     "src/requests/sessions.py:502",
+     "in",
+     "bare-name call of the module-level binding, which resolves to the target"
+    ],
+    [
+     "src/requests/sessions.py",
+     "src/requests/sessions.py:503",
+     "in",
+     "bare-name call of the module-level binding, which resolves to the target"
+    ],
+    [
+     "tests/test_requests.py",
+     "tests/test_requests.py:1651",
+     "in",
+     "bare-name call of the module-level binding, which resolves to the target"
+    ],
+    [
+     "tests/test_requests.py",
+     "tests/test_requests.py:1652",
+     "in",
+     "bare-name call of the module-level binding, which resolves to the target"
+    ],
+    [
+     "tests/test_requests.py",
+     "tests/test_requests.py:1653",
+     "in",
+     "bare-name call of the module-level binding, which resolves to the target"
+    ],
+    [
+     "tests/test_requests.py",
+     "tests/test_requests.py:1654",
+     "in",
+     "bare-name call of the module-level binding, which resolves to the target"
+    ],
+    [
+     "tests/test_requests.py",
+     "tests/test_requests.py:1664",
+     "in",
+     "bare-name call of the module-level binding, which resolves to the target"
+    ],
+    [
+     "tests/test_requests.py",
+     "tests/test_requests.py:1665",
+     "in",
+     "bare-name call of the module-level binding, which resolves to the target"
+    ],
+    [
+     "tests/test_requests.py",
+     "tests/test_requests.py:1666",
+     "in",
+     "bare-name call of the module-level binding, which resolves to the target"
+    ],
+    [
+     "tests/test_requests.py",
+     "tests/test_requests.py:1680",
+     "in",
+     "bare-name call of the module-level binding, which resolves to the target"
+    ],
+    [
+     "tests/test_requests.py",
+     "tests/test_requests.py:1681",
+     "in",
+     "bare-name call of the module-level binding, which resolves to the target"
+    ],
+    [
+     "tests/test_requests.py",
+     "tests/test_requests.py:1694",
+     "in",
+     "bare-name call of the module-level binding, which resolves to the target"
+    ],
+    [
+     "tests/test_requests.py",
+     "tests/test_requests.py:1695",
+     "in",
+     "bare-name call of the module-level binding, which resolves to the target"
+    ],
+    [
+     "tests/test_requests.py",
+     "tests/test_requests.py:1714",
+     "in",
+     "bare-name call of the module-level binding, which resolves to the target"
+    ],
+    [
+     "tests/test_requests.py",
+     "tests/test_requests.py:1726",
+     "in",
+     "bare-name call of the module-level binding, which resolves to the target"
+    ],
+    [
+     "tests/test_requests.py",
+     "tests/test_requests.py:1738",
+     "in",
+     "bare-name call of the module-level binding, which resolves to the target"
+    ],
+    [
+     "tests/test_requests.py",
+     "tests/test_requests.py:1751",
+     "in",
+     "bare-name call of the module-level binding, which resolves to the target"
+    ],
+    [
+     "tests/test_requests.py",
+     "tests/test_requests.py:2221",
+     "in",
+     "bare-name call of the module-level binding, which resolves to the target"
+    ],
+    [
+     "tests/test_requests.py",
+     "tests/test_requests.py:2226",
+     "in",
+     "bare-name call of the module-level binding, which resolves to the target"
+    ],
+    [
+     "tests/test_requests.py",
+     "tests/test_requests.py:2744",
+     "in",
+     "bare-name call of the module-level binding, which resolves to the target"
+    ],
+    [
+     "tests/test_requests.py",
+     "tests/test_requests.py:2752",
+     "in",
+     "bare-name call of the module-level binding, which resolves to the target"
+    ]
+   ],
+   "counterexamples": [
+    [
+     "src/requests/adapters.py",
+     "src/requests/adapters.py",
+     "out",
+     "the module binds the name but never calls it by bare name"
+    ],
+    [
+     "tests/test_adapters.py",
+     "tests/test_adapters.py",
+     "out",
+     "the name is not bound at module level here"
+    ]
+   ]
+  }
+ ],
+ "stopped": "certificate",
+ "n_calls": 14,
+ "final_thought": "`HTTPAdapter` is the class at `src/requests/adapters.py:158`. 21 call sites in 2 modules: `src/requests/sessions.py:502`, `src/requests/sessions.py:503`, `tests/test_requests.py:1651`, `tests/test_requests.py:1652`, `tests/test_requests.py:1653`, `tests/test_requests.py:1654`, `tests/test_requests.py:1664`, `tests/test_requests.py:1665`, `tests/test_requests.py:1666`, `tests/test_requests.py:1680` and 11 more. Ruled out along the way: `src/requests/adapters.py` (the module binds the name but never calls it by bare name); `tests/test_adapters.py` (the name is not bound at module level here). Looking back, all 14 calls were needed.",
+ "hindsight": {
+  "1": true,
+  "2": true,
+  "3": true,
+  "4": true,
+  "5": true,
+  "6": true,
+  "7": true,
+  "8": true,
+  "9": true,
+  "10": true,
+  "11": true,
+  "12": true,
+  "13": true,
+  "14": true
+ },
+ "open_at_stop": [],
+ "verification": {
+  "replay": {
+   "ok": true,
+   "detail": "bit-identical replay"
+  },
+  "world": {
+   "ok": true,
+   "n_checks": 77,
+   "n_ok": 77,
+   "failures": [],
+   "n_resolutions": 4
+  },
+  "adherence": {
+   "first": 1,
+   "open-ended": 2,
+   "deviated": 1,
+   "followed": 9,
+   "replanned": 1
+  }
+ }
+}

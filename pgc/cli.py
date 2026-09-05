@@ -69,7 +69,7 @@ def demo(args):
             if not wc["ok"] or not rp["ok"]:
                 fails.append({"task": task["id"], "replay": rp, "failures": wc["failures"]})
             rows.append({
-                "id": task["id"], "repo": name, "family": task["family"], "cell": task["cell"], "floor": task["floor"],
+                "id": task["id"], "repo": name, "family": task["family"], "chain": "→".join(st["op"] for st in task["chain"]), "cell": task["cell"], "floor": task["floor"],
                 "calls_search": tr["n_calls"], "calls_greedy": tg["n_calls"], "stopped": tr["stopped"], "stopped_greedy": tg["stopped"],
                 "replay_ok": rp["ok"], "world_ok": wc["ok"], "world_checks": wc["n_checks"], "greedy_world_ok": wg["ok"],
                 "adherence": adherence_stats(tr), "answer_ok": answer_ok,
@@ -121,11 +121,10 @@ def build_report(rows, cal, pool_stats, cells_chosen, manifest, fails, args, tra
     L.append(f"| Steps by plan adherence | " + ", ".join(f"{k} {v}" for k, v in sorted(adh.items())) + " |")
     L.append("")
     L.append("## Reading the numbers\n")
-    L.append("- Search (depth 2) and the greedy baseline (depth 1) choose the same call at almost every step here; where they differ the gap is one call. "
-             "On these families the gains over a naive policy come from the cap-aware outcome model and the item structure, not from lookahead depth.")
-    L.append("- The omniscient floor counts one outline per module that must be closed plus the greps and listings needed for coverage; it ignores nothing the agent could have skipped, so calls above it are the price of honest uncertainty (probing a module that turns out external, listing a directory before probing).")
-    L.append("- Calibration is measured on every step of every trace, unfiltered. The top bin is over-confident: outline forecasts of about 0.95 realized less often, mostly because probed module files were missing or names were unbound more often than the prior expected.")
-    L.append("- `unplanned` steps are outcomes outside the forecast classes (an error response); `replanned` steps follow an outcome that opened new items, so the previous plan named a call that no longer applied.\n")
+    L.append("- The omniscient floor counts one call per module that has to be closed, one per class or call list that has to be read, and the searches and listings a complete coverage needs. Calls above it are the price of honest uncertainty: a probe of a module file that turns out to be a package or external, a listing before a probe, a star-import source that had to be checked.")
+    L.append("- Search (depth 2) and the greedy baseline (depth 1) mostly agree; where they differ the gap is one or two calls. The gains over a naive policy come from the cap-aware outcome model and from the obligation structure, not from lookahead depth.")
+    L.append("- Calibration is measured on every step of every trace, unfiltered, so it also reflects the setter's task distribution (a task about subclasses is more likely to find some than a random name would be).")
+    L.append("- `unplanned` steps are outcomes outside the forecast classes (an error response); `replanned` steps follow an outcome that opened new items, so the previous plan named a call that no longer applied; `deviated` steps chose differently with the same items open.\n")
     L.append("## By family\n")
     L.append("| Family | Tasks | Certificates | Floor | Search calls | Greedy calls |\n|---|---|---|---|---|---|")
     for f_, rs in sorted(fam.items()):
@@ -138,16 +137,16 @@ def build_report(rows, cal, pool_stats, cells_chosen, manifest, fails, args, tra
         L.append(f"| {c['bin']} | {c['n']} | {c['mean_forecast']:.2f} | {c['realized']:.2f} |")
     L.append("")
     L.append("## Diversity\n")
-    L.append("| Repository | Pool (resolve/cover/composite) | Skeleton cells in pool | Chosen | Prior hash |\n|---|---|---|---|---|")
+    L.append("| Repository | Pool by final operation | Skeleton cells in pool | Chosen | Prior hash |\n|---|---|---|---|---|")
     for name, ps in pool_stats.items():
         p = ps["pool_size"]
-        L.append(f"| {name} | {p['resolve']}/{p['cover']}/{p['composite']} | {ps['pool_cells']} | {ps['chosen']} | {ps['theta']} |")
+        L.append(f"| {name} | {', '.join(f'{k} {v}' for k, v in sorted(p.items()))} | {ps['pool_cells']} | {ps['chosen']} | {ps['theta']} |")
     L.append("")
     L.append(f"Distinct skeleton cells among chosen tasks: {len(cells_chosen)} of {n} tasks.\n")
     L.append("## Tasks\n")
-    L.append("| Task | Family | Floor | Search | Greedy | Stopped | Replay | World | Cell |\n|---|---|---|---|---|---|---|---|---|")
+    L.append("| Task | Chain | Floor | Search | Greedy | Stopped | Replay | World | Cell |\n|---|---|---|---|---|---|---|---|---|")
     for r in rows:
-        L.append(f"| [{r['id']}](traces/{r['id']}.md) | {r['family']} | {r['floor']} | {r['calls_search']} | {r['calls_greedy']} | {r['stopped']} | {'ok' if r['replay_ok'] else 'FAIL'} | {'ok' if r['world_ok'] else 'FAIL'} | {r['cell']} |")
+        L.append(f"| [{r['id']}](traces/{r['id']}.md) | {r['chain']} | {r['floor']} | {r['calls_search']} | {r['calls_greedy']} | {r['stopped']} | {'ok' if r['replay_ok'] else 'FAIL'} | {'ok' if r['world_ok'] else 'FAIL'} | {r['cell']} |")
     L.append("")
     if fails:
         L.append("## Verification failures\n")
@@ -157,9 +156,11 @@ def build_report(rows, cal, pool_stats, cells_chosen, manifest, fails, args, tra
     L.append("## Sample thought\n")
     # the longest search trace's most informative step
     best = max(traces, key=lambda t: t["n_calls"])
-    st = best["steps"][min(1, len(best["steps"]) - 1)]
-    L.append(f"From `{best['task']['id']}`, step {st['step']}:\n")
-    L.append("> " + st["thought"].replace("\n\n", "\n>\n> ") + "\n")
+    for st in best["steps"][:3]:
+        L.append(f"From `{best['task']['id']}`, step {st['step']}:\n")
+        L.append("> " + st["thought"].replace("\n\n", "\n>\n> ") + "\n")
+    L.append("Final thought:\n")
+    L.append("> " + best["final_thought"] + "\n")
     L.append("## Corpus manifest\n")
     L.append("| Repository | Commit | Python files | Text files |\n|---|---|---|---|")
     for name, m in manifest.items():

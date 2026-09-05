@@ -1,0 +1,2372 @@
+# pytest-expose-c2e38ec1
+
+**Repository:** pytest  
+**Chain:** resolve → expose  
+**Seed:** 0, prior 8e41e8743065d192, floor 5
+
+## Task
+
+In `src/pytest/__init__.py` line 8, `ExceptionInfo` is imported from `_pytest._code`. Which definition does the module-level name `ExceptionInfo` actually refer to? Give `path:line`. Then propose the one-line change to `src/_pytest/__init__.py` that makes `from _pytest import ExceptionInfo` resolve to this definition; give the exact line to append.
+
+*Declared semantics:* A module is a .py file; source roots are the repository root and, if present, src/ and lib/. `from M import N` binds N to M's single module-level binding of N, else to the submodule M/N, else to the single star-import source of M that exports N; bindings take effect in source order. A module exports N if its literal __all__ lists N or, without __all__, if N is public and bound in it. A class derives from a definition when a base written as a bare name or `module.Name` resolves to it. A call site is `name(...)` where the bare name refers to the module-level binding (not a parameter or local). Multiple bindings, non-literal __all__, external star imports and dynamic namespace code make a name ambiguous; tasks never ask about ambiguous names.
+
+## Step 1
+
+I need to find what `ExceptionInfo` really is in `src/pytest/__init__.py`: line 8 imports it from `_pytest._code`, so the definition is at least one hop away. Then I have to propose the one-line import that exposes it from the package.
+
+Next I will check `src/pytest/__init__.py` for any other binding of `ExceptionInfo` besides the import on line 8; almost certainly the import is the only one, and then `_pytest._code` is the place to follow.
+
+**Call:** `symbols('src/pytest/__init__.py', 'ExceptionInfo')`
+
+**Response**: outcome `reexport`
+
+```
+module src/pytest/__init__.py lines=191 dynamic=no all=static@100
+8 from ExceptionInfo <- _pytest._code ExceptionInfo
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "bindings",
+   "key": [
+    "bindings",
+    "src/pytest/__init__.py",
+    "ExceptionInfo"
+   ],
+   "desc": "check the top-level names of `src/pytest/__init__.py` for `ExceptionInfo`"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "symbols('src/pytest/__init__.py', 'ExceptionInfo')",
+   "key": "[\"symbols\", [\"src/pytest/__init__.py\", \"ExceptionInfo\"]]",
+   "v1": [
+    2954667,
+    995450
+   ],
+   "v2": [
+    2954667,
+    995450
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     1,
+     100
+    ],
+    "reexport": [
+     93,
+     100
+    ],
+    "star": [
+     1,
+     100
+    ],
+    "none": [
+     1,
+     20
+    ]
+   },
+   "serves": [
+    [
+     "bindings",
+     "src/pytest/__init__.py",
+     "ExceptionInfo"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/pytest/__init__.py')",
+   "key": "[\"symbols\", [\"src/pytest/__init__.py\"]]",
+   "v1": [
+    21678119,
+    6968150
+   ],
+   "v2": [
+    21678119,
+    6968150
+   ],
+   "p_cap": [
+    1,
+    7
+   ],
+   "forecast": {
+    "def": [
+     3,
+     350
+    ],
+    "reexport": [
+     279,
+     350
+    ],
+    "star": [
+     3,
+     350
+    ],
+    "none": [
+     3,
+     70
+    ],
+    "cap": [
+     1,
+     7
+    ]
+   },
+   "serves": [
+    [
+     "bindings",
+     "src/pytest/__init__.py",
+     "ExceptionInfo"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "symbols('src/pytest/__init__.py', 'ExceptionInfo')",
+  "key": "[\"symbols\", [\"src/pytest/__init__.py\", \"ExceptionInfo\"]]",
+  "provenance": "module `src/pytest/__init__.py` (task), name `ExceptionInfo` (task)",
+  "v2": [
+   2954667,
+   995450
+  ]
+ },
+ "forecast": {
+  "def": [
+   1,
+   100
+  ],
+  "reexport": [
+   93,
+   100
+  ],
+  "star": [
+   1,
+   100
+  ],
+  "none": [
+   1,
+   20
+  ]
+ },
+ "plan": {
+  "def": "done",
+  "reexport": "continue",
+  "star": "continue",
+  "none": "continue"
+ },
+ "hedges": [
+  {
+   "outcome": "reexport",
+   "word": "almost certainly",
+   "p": [
+    93,
+    100
+   ]
+  }
+ ],
+ "adherence": null,
+ "facts": [
+  {
+   "kind": "outline",
+   "step": 1,
+   "path": "src/pytest/__init__.py",
+   "filter": "ExceptionInfo",
+   "header": {
+    "lines": 191,
+    "dynamic": false,
+    "all_status": "static",
+    "all_line": 100
+   },
+   "bindings": [
+    {
+     "module": "src/pytest/__init__.py",
+     "name": "ExceptionInfo",
+     "line": 8,
+     "kind": "from",
+     "src": "_pytest._code",
+     "src_name": "ExceptionInfo",
+     "conditional": false,
+     "col": 0,
+     "bases": []
+    }
+   ],
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "phase": "resolve",
+  "step": 1,
+  "of": 2,
+  "chain": [
+   [
+    "src/pytest/__init__.py",
+    "ExceptionInfo",
+    "reexport",
+    [
+     "_pytest._code",
+     null
+    ]
+   ]
+  ]
+ }
+}
+```
+</details>
+
+## Step 2
+
+The package `src/pytest` does not define `ExceptionInfo` itself; line 8 imports it from `_pytest._code`.
+
+So far: `src/pytest/__init__.py` takes `ExceptionInfo` from `_pytest._code`, which I still have to locate.
+
+Let me list `./` to see what lives there; the listing settles whether the import is a module, a package, or not here at all. Very likely the listing fits. If the listing is too long, I will outline `_pytest/_code.py` directly, which both checks that the file exists and shows me `ExceptionInfo`. I could outline `_pytest/_code.py` directly, which both checks that the file exists and shows me `ExceptionInfo` instead, but it costs more calls in expectation.
+
+**Call:** `ls('.')`
+
+**Response**: outcome `complete`
+
+```
+.github/
+.pre-commit-config.yaml
+.readthedocs.yaml
+CHANGELOG.rst
+CODE_OF_CONDUCT.md
+CONTRIBUTING.rst
+OPENCOLLECTIVE.rst
+README.rst
+RELEASING.rst
+SECURITY.md
+TIDELIFT.rst
+bench/
+changelog/
+codecov.yml
+doc/
+extra/
+pyproject.toml
+scripts/
+src/
+testing/
+tox.ini
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "module_path",
+   "key": [
+    "module_path",
+    "src/pytest/__init__.py",
+    "_pytest._code"
+   ],
+   "desc": "find where `_pytest._code` (imported by `src/pytest/__init__.py`) lives"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "ls('.')",
+   "key": "[\"ls\", [\".\"]]",
+   "v1": [
+    5201,
+    2778
+   ],
+   "v2": [
+    61929950320999,
+    31988350796688
+   ],
+   "p_cap": [
+    2,
+    9
+   ],
+   "forecast": {
+    "complete": [
+     7,
+     9
+    ],
+    "cap": [
+     2,
+     9
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "src/pytest/__init__.py",
+     "_pytest._code"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('_pytest/_code.py', 'ExceptionInfo')",
+   "key": "[\"symbols\", [\"_pytest/_code.py\", \"ExceptionInfo\"]]",
+   "v1": [
+    16534434977535,
+    7108522399264
+   ],
+   "v2": [
+    47315949810685,
+    21325567197792
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     6116229,
+     18365048
+    ],
+    "reexport": [
+     13869,
+     2295631
+    ],
+    "star": [
+     13869,
+     18365048
+    ],
+    "none": [
+     152559,
+     9182524
+    ],
+    "missing": [
+     25040,
+     38909
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "src/pytest/__init__.py",
+     "_pytest._code"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('_pytest/_code/__init__.py', 'ExceptionInfo')",
+   "key": "[\"symbols\", [\"_pytest/_code/__init__.py\", \"ExceptionInfo\"]]",
+   "v1": [
+    1096473894549,
+    363305822789
+   ],
+   "v2": [
+    6233209091449,
+    2179834936734
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     79488,
+     18248321
+    ],
+    "reexport": [
+     582912,
+     18248321
+    ],
+    "star": [
+     13248,
+     18248321
+    ],
+    "none": [
+     211968,
+     18248321
+    ],
+    "missing": [
+     259115,
+     272363
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "src/pytest/__init__.py",
+     "_pytest._code"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+ExceptionInfo\\\\b', '.')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+ExceptionInfo\\\\b\", \".\"]]",
+   "v1": [
+    1407,
+    463
+   ],
+   "v2": [
+    7979,
+    2778
+   ],
+   "p_cap": [
+    1,
+    35
+   ],
+   "forecast": {
+    "zero": [
+     1,
+     35
+    ],
+    "mid": [
+     33,
+     35
+    ],
+    "cap": [
+     1,
+     35
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "src/pytest/__init__.py",
+     "_pytest._code"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+ExceptionInfo\\\\b', 'src')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+ExceptionInfo\\\\b\", \"src\"]]",
+   "v1": [
+    1407,
+    463
+   ],
+   "v2": [
+    7979,
+    2778
+   ],
+   "p_cap": [
+    1,
+    252
+   ],
+   "forecast": {
+    "zero": [
+     107,
+     126
+    ],
+    "mid": [
+     37,
+     252
+    ],
+    "cap": [
+     1,
+     252
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "src/pytest/__init__.py",
+     "_pytest._code"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "ls('.')",
+  "key": "[\"ls\", [\".\"]]",
+  "provenance": "`_pytest._code` imported by `src/pytest/__init__.py` should live under `.`",
+  "v2": [
+   61929950320999,
+   31988350796688
+  ]
+ },
+ "forecast": {
+  "complete": [
+   7,
+   9
+  ],
+  "cap": [
+   2,
+   9
+  ]
+ },
+ "plan": {
+  "complete": "continue",
+  "cap": "[\"symbols\", [\"_pytest/_code.py\", \"ExceptionInfo\"]]"
+ },
+ "hedges": [
+  {
+   "outcome": "complete",
+   "word": "very likely",
+   "p": [
+    7,
+    9
+   ]
+  }
+ ],
+ "adherence": {
+  "planned": "continue",
+  "status": "open-ended"
+ },
+ "facts": [
+  {
+   "kind": "listing",
+   "step": 2,
+   "dir": ".",
+   "entries": [
+    ".github/",
+    ".pre-commit-config.yaml",
+    ".readthedocs.yaml",
+    "CHANGELOG.rst",
+    "CODE_OF_CONDUCT.md",
+    "CONTRIBUTING.rst",
+    "OPENCOLLECTIVE.rst",
+    "README.rst",
+    "RELEASING.rst",
+    "SECURITY.md",
+    "TIDELIFT.rst",
+    "bench/",
+    "changelog/",
+    "codecov.yml",
+    "doc/",
+    "extra/",
+    "pyproject.toml",
+    "scripts/",
+    "src/",
+    "testing/",
+    "tox.ini"
+   ],
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "phase": "resolve",
+  "step": 1,
+  "of": 2,
+  "chain": [
+   [
+    "src/pytest/__init__.py",
+    "ExceptionInfo",
+    "reexport",
+    [
+     "_pytest._code",
+     null
+    ]
+   ]
+  ]
+ }
+}
+```
+</details>
+
+## Step 3
+
+`./` has 21 entries: there is no `_pytest` here.
+
+So far: `src/pytest/__init__.py` takes `ExceptionInfo` from `_pytest._code`, which I still have to locate.
+
+I'll outline `src/_pytest/_code.py` directly, which both checks that the file exists and shows me `ExceptionInfo`; if `_pytest._code` is a plain module that is where it has to be. Very likely it is defined right there. If the file does not exist, I will list `src/_pytest/` to see what lives there; if the name is not bound there, that finishes it. I could list `src/_pytest/` to see what lives there instead, but it tends to open more follow-up work.
+
+**Call:** `symbols('src/_pytest/_code.py', 'ExceptionInfo')`
+
+**Response**: outcome `missing`
+
+```
+error: not a python file: src/_pytest/_code.py
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "module_path",
+   "key": [
+    "module_path",
+    "src/pytest/__init__.py",
+    "_pytest._code"
+   ],
+   "desc": "find where `_pytest._code` (imported by `src/pytest/__init__.py`) lives"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "symbols('src/_pytest/_code.py', 'ExceptionInfo')",
+   "key": "[\"symbols\", [\"src/_pytest/_code.py\", \"ExceptionInfo\"]]",
+   "v1": [
+    124552395191,
+    97377019168
+   ],
+   "v2": [
+    19340698905037,
+    15093437971040
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     206829,
+     251576
+    ],
+    "reexport": [
+     469,
+     31447
+    ],
+    "star": [
+     469,
+     251576
+    ],
+    "none": [
+     5159,
+     125788
+    ],
+    "missing": [
+     64,
+     533
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "src/pytest/__init__.py",
+     "_pytest._code"
+    ]
+   ]
+  },
+  {
+   "call": "ls('src/_pytest')",
+   "key": "[\"ls\", [\"src/_pytest\"]]",
+   "v1": [
+    147709,
+    71765
+   ],
+   "v2": [
+    6168766169729,
+    3018687594208
+   ],
+   "p_cap": [
+    3,
+    155
+   ],
+   "forecast": {
+    "complete": [
+     152,
+     155
+    ],
+    "cap": [
+     3,
+     155
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "src/pytest/__init__.py",
+     "_pytest._code"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+ExceptionInfo\\\\b', '.')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+ExceptionInfo\\\\b\", \".\"]]",
+   "v1": [
+    33966,
+    16205
+   ],
+   "v2": [
+    699567071019,
+    340819567088
+   ],
+   "p_cap": [
+    1,
+    35
+   ],
+   "forecast": {
+    "zero": [
+     1,
+     35
+    ],
+    "mid": [
+     33,
+     35
+    ],
+    "cap": [
+     1,
+     35
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "src/pytest/__init__.py",
+     "_pytest._code"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+ExceptionInfo\\\\b', 'src')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+ExceptionInfo\\\\b\", \"src\"]]",
+   "v1": [
+    337433,
+    116676
+   ],
+   "v2": [
+    55060794984593,
+    24539008830336
+   ],
+   "p_cap": [
+    1,
+    252
+   ],
+   "forecast": {
+    "zero": [
+     107,
+     126
+    ],
+    "mid": [
+     37,
+     252
+    ],
+    "cap": [
+     1,
+     252
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "src/pytest/__init__.py",
+     "_pytest._code"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/_pytest/_code/__init__.py', 'ExceptionInfo')",
+   "key": "[\"symbols\", [\"src/_pytest/_code/__init__.py\", \"ExceptionInfo\"]]",
+   "v1": [
+    2123991915,
+    710970299
+   ],
+   "v2": [
+    346741840706566563,
+    149529521454863264
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     384,
+     35711
+    ],
+    "reexport": [
+     2816,
+     35711
+    ],
+    "star": [
+     64,
+     35711
+    ],
+    "none": [
+     1024,
+     35711
+    ],
+    "missing": [
+     469,
+     533
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "src/pytest/__init__.py",
+     "_pytest._code"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "symbols('src/_pytest/_code.py', 'ExceptionInfo')",
+  "key": "[\"symbols\", [\"src/_pytest/_code.py\", \"ExceptionInfo\"]]",
+  "provenance": "`_pytest._code` would be `src/_pytest/_code.py` if that file exists; one call both checks and closes it",
+  "v2": [
+   19340698905037,
+   15093437971040
+  ]
+ },
+ "forecast": {
+  "def": [
+   206829,
+   251576
+  ],
+  "reexport": [
+   469,
+   31447
+  ],
+  "star": [
+   469,
+   251576
+  ],
+  "none": [
+   5159,
+   125788
+  ],
+  "missing": [
+   64,
+   533
+  ]
+ },
+ "plan": {
+  "def": "done",
+  "reexport": "continue",
+  "star": "continue",
+  "none": "done",
+  "missing": "[\"ls\", [\"src/_pytest\"]]"
+ },
+ "hedges": [
+  {
+   "outcome": "def",
+   "word": "very likely",
+   "p": [
+    206829,
+    251576
+   ]
+  }
+ ],
+ "adherence": {
+  "planned": "continue",
+  "status": "open-ended"
+ },
+ "facts": [
+  {
+   "kind": "error",
+   "step": 3,
+   "call": "[\"symbols\", [\"src/_pytest/_code.py\", \"ExceptionInfo\"]]",
+   "error": "not a python file: src/_pytest/_code.py",
+   "missing": "src/_pytest/_code.py"
+  }
+ ],
+ "goal_state": {
+  "phase": "resolve",
+  "step": 1,
+  "of": 2,
+  "chain": [
+   [
+    "src/pytest/__init__.py",
+    "ExceptionInfo",
+    "reexport",
+    [
+     "_pytest._code",
+     null
+    ]
+   ]
+  ]
+ }
+}
+```
+</details>
+
+## Step 4
+
+There is no `src/_pytest/_code.py`, so `_code` is either a package (`src/_pytest/_code/__init__.py`) or not in this repository at all.
+
+So far: `src/pytest/__init__.py` takes `ExceptionInfo` from `_pytest._code`, which I still have to locate.
+
+I'll list `src/_pytest/` to see what lives there; the listing settles whether the import is a module, a package, or not here at all. Almost certainly the listing fits. I could search the whole tree for `class ExceptionInfo`/`def ExceptionInfo` instead, but it costs more calls in expectation.
+
+**Call:** `ls('src/_pytest')`
+
+**Response** (capped): outcome `cap`
+
+```
+__init__.py
+_argcomplete.py
+_code/
+_io/
+_py/
+approx.py
+assertion/
+cacheprovider.py
+capture.py
+compat.py
+config/
+debugging.py
+deprecated.py
+doctest.py
+faulthandler.py
+fixtures.py
+freeze_support.py
+helpconfig.py
+hookspec.py
+junitxml.py
+legacypath.py
+logging.py
+main.py
+mark/
+monkeypatch.py
+... (15 more lines)
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "module_path",
+   "key": [
+    "module_path",
+    "src/pytest/__init__.py",
+    "_pytest._code"
+   ],
+   "desc": "find where `_pytest._code` (imported by `src/pytest/__init__.py`) lives"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "ls('src/_pytest')",
+   "key": "[\"ls\", [\"src/_pytest\"]]",
+   "v1": [
+    17442213,
+    4808255
+   ],
+   "v2": [
+    610663581,
+    168288925
+   ],
+   "p_cap": [
+    3,
+    155
+   ],
+   "forecast": {
+    "complete": [
+     152,
+     155
+    ],
+    "cap": [
+     3,
+     155
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "src/pytest/__init__.py",
+     "_pytest._code"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+ExceptionInfo\\\\b', '.')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+ExceptionInfo\\\\b\", \".\"]]",
+   "v1": [
+    3979592,
+    1085735
+   ],
+   "v2": [
+    617022886,
+    168288925
+   ],
+   "p_cap": [
+    1,
+    35
+   ],
+   "forecast": {
+    "zero": [
+     1,
+     35
+    ],
+    "mid": [
+     33,
+     35
+    ],
+    "cap": [
+     1,
+     35
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "src/pytest/__init__.py",
+     "_pytest._code"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/_pytest/_code/__init__.py', 'ExceptionInfo')",
+   "key": "[\"symbols\", [\"src/_pytest/_code/__init__.py\", \"ExceptionInfo\"]]",
+   "v1": [
+    3105761809,
+    710970299
+   ],
+   "v2": [
+    483269881916,
+    110200396345
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     384,
+     35711
+    ],
+    "reexport": [
+     2816,
+     35711
+    ],
+    "star": [
+     64,
+     35711
+    ],
+    "none": [
+     1024,
+     35711
+    ],
+    "missing": [
+     469,
+     533
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "src/pytest/__init__.py",
+     "_pytest._code"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+ExceptionInfo\\\\b', 'src')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+ExceptionInfo\\\\b\", \"src\"]]",
+   "v1": [
+    34875875,
+    7817292
+   ],
+   "v2": [
+    542576917,
+    121168026
+   ],
+   "p_cap": [
+    1,
+    252
+   ],
+   "forecast": {
+    "zero": [
+     107,
+     126
+    ],
+    "mid": [
+     37,
+     252
+    ],
+    "cap": [
+     1,
+     252
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "src/pytest/__init__.py",
+     "_pytest._code"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "ls('src/_pytest')",
+  "key": "[\"ls\", [\"src/_pytest\"]]",
+  "provenance": "`_pytest._code` imported by `src/pytest/__init__.py` should live under `src/_pytest`",
+  "v2": [
+   610663581,
+   168288925
+  ]
+ },
+ "forecast": {
+  "complete": [
+   152,
+   155
+  ],
+  "cap": [
+   3,
+   155
+  ]
+ },
+ "plan": {
+  "complete": "continue",
+  "cap": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+ExceptionInfo\\\\b\", \".\"]]"
+ },
+ "hedges": [
+  {
+   "outcome": "complete",
+   "word": "almost certainly",
+   "p": [
+    152,
+    155
+   ]
+  }
+ ],
+ "adherence": {
+  "planned": "[\"ls\", [\"src/_pytest\"]]",
+  "status": "followed"
+ },
+ "facts": [
+  {
+   "kind": "listing",
+   "step": 4,
+   "dir": "src/_pytest",
+   "entries": [
+    "__init__.py",
+    "_argcomplete.py",
+    "_code/",
+    "_io/",
+    "_py/",
+    "approx.py",
+    "assertion/",
+    "cacheprovider.py",
+    "capture.py",
+    "compat.py",
+    "config/",
+    "debugging.py",
+    "deprecated.py",
+    "doctest.py",
+    "faulthandler.py",
+    "fixtures.py",
+    "freeze_support.py",
+    "helpconfig.py",
+    "hookspec.py",
+    "junitxml.py",
+    "legacypath.py",
+    "logging.py",
+    "main.py",
+    "mark/",
+    "monkeypatch.py",
+    "nodes.py",
+    "outcomes.py",
+    "pastebin.py",
+    "pathlib.py",
+    "pytester.py",
+    "pytester_assertions.py",
+    "python.py",
+    "raises.py",
+    "recwarn.py",
+    "reports.py",
+    "runner.py",
+    "scope.py",
+    "setuponly.py",
+    "setupplan.py",
+    "skipping.py"
+   ],
+   "complete": false
+  }
+ ],
+ "goal_state": {
+  "phase": "resolve",
+  "step": 1,
+  "of": 2,
+  "chain": [
+   [
+    "src/pytest/__init__.py",
+    "ExceptionInfo",
+    "reexport",
+    [
+     "_pytest._code",
+     null
+    ]
+   ]
+  ]
+ }
+}
+```
+</details>
+
+## Step 5
+
+`src/_pytest/` has 40 entries, and the listing is capped so I can't trust absences: `_code/` is there, so `_pytest._code` is a package. That changes the plan.
+
+So far: `src/pytest/__init__.py` takes `ExceptionInfo` from `_pytest._code`, which I still have to locate.
+
+Let me outline `src/_pytest/_code/__init__.py` directly, which both checks that the file exists and shows me `ExceptionInfo`; if `_pytest._code` is a plain module that is where it has to be. Probably it is re-exported from somewhere else. If the name is not bound there, I follow whatever it opens up; if it is defined right there, that finishes it. I could list `src/_pytest/_code/` to see what lives there instead, but it tends to open more follow-up work.
+
+**Call:** `symbols('src/_pytest/_code/__init__.py', 'ExceptionInfo')`
+
+**Response**: outcome `reexport`
+
+```
+module src/_pytest/_code/__init__.py lines=27 dynamic=no all=static@16
+6 from ExceptionInfo <- .code ExceptionInfo
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "module_path",
+   "key": [
+    "module_path",
+    "src/pytest/__init__.py",
+    "_pytest._code"
+   ],
+   "desc": "find where `_pytest._code` (imported by `src/pytest/__init__.py`) lives"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "symbols('src/_pytest/_code/__init__.py', 'ExceptionInfo')",
+   "key": "[\"symbols\", [\"src/_pytest/_code/__init__.py\", \"ExceptionInfo\"]]",
+   "v1": [
+    35356193,
+    13339030
+   ],
+   "v2": [
+    13702525642,
+    5168874125
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     147,
+     1675
+    ],
+    "reexport": [
+     1078,
+     1675
+    ],
+    "star": [
+     49,
+     3350
+    ],
+    "none": [
+     392,
+     1675
+    ],
+    "missing": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "src/pytest/__init__.py",
+     "_pytest._code"
+    ]
+   ]
+  },
+  {
+   "call": "ls('src/_pytest/_code')",
+   "key": "[\"ls\", [\"src/_pytest/_code\"]]",
+   "v1": [
+    17442213,
+    4808255
+   ],
+   "v2": [
+    7461830469,
+    2067549650
+   ],
+   "p_cap": [
+    3,
+    155
+   ],
+   "forecast": {
+    "complete": [
+     152,
+     155
+    ],
+    "cap": [
+     3,
+     155
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "src/pytest/__init__.py",
+     "_pytest._code"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+ExceptionInfo\\\\b', '.')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+ExceptionInfo\\\\b\", \".\"]]",
+   "v1": [
+    3979592,
+    1085735
+   ],
+   "v2": [
+    842838573,
+    233433025
+   ],
+   "p_cap": [
+    1,
+    35
+   ],
+   "forecast": {
+    "zero": [
+     1,
+     35
+    ],
+    "mid": [
+     33,
+     35
+    ],
+    "cap": [
+     1,
+     35
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "src/pytest/__init__.py",
+     "_pytest._code"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+ExceptionInfo\\\\b', 'src')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+ExceptionInfo\\\\b\", \"src\"]]",
+   "v1": [
+    34875875,
+    7817292
+   ],
+   "v2": [
+    18992681,
+    5211528
+   ],
+   "p_cap": [
+    1,
+    252
+   ],
+   "forecast": {
+    "zero": [
+     107,
+     126
+    ],
+    "mid": [
+     37,
+     252
+    ],
+    "cap": [
+     1,
+     252
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "src/pytest/__init__.py",
+     "_pytest._code"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "symbols('src/_pytest/_code/__init__.py', 'ExceptionInfo')",
+  "key": "[\"symbols\", [\"src/_pytest/_code/__init__.py\", \"ExceptionInfo\"]]",
+  "provenance": "`_pytest._code` would be `src/_pytest/_code/__init__.py` if that file exists; one call both checks and closes it",
+  "v2": [
+   13702525642,
+   5168874125
+  ]
+ },
+ "forecast": {
+  "def": [
+   147,
+   1675
+  ],
+  "reexport": [
+   1078,
+   1675
+  ],
+  "star": [
+   49,
+   3350
+  ],
+  "none": [
+   392,
+   1675
+  ],
+  "missing": [
+   1,
+   50
+  ]
+ },
+ "plan": {
+  "def": "done",
+  "reexport": "continue",
+  "star": "continue",
+  "none": "continue",
+  "missing": "[\"ls\", [\"src/_pytest/_code\"]]"
+ },
+ "hedges": [
+  {
+   "outcome": "reexport",
+   "word": "probably",
+   "p": [
+    1078,
+    1675
+   ]
+  }
+ ],
+ "adherence": {
+  "planned": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+ExceptionInfo\\\\b\", \".\"]]",
+  "status": "deviated"
+ },
+ "facts": [
+  {
+   "kind": "outline",
+   "step": 5,
+   "path": "src/_pytest/_code/__init__.py",
+   "filter": "ExceptionInfo",
+   "header": {
+    "lines": 27,
+    "dynamic": false,
+    "all_status": "static",
+    "all_line": 16
+   },
+   "bindings": [
+    {
+     "module": "src/_pytest/_code/__init__.py",
+     "name": "ExceptionInfo",
+     "line": 6,
+     "kind": "from",
+     "src": ".code",
+     "src_name": "ExceptionInfo",
+     "conditional": false,
+     "col": 0,
+     "bases": []
+    }
+   ],
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "phase": "resolve",
+  "step": 1,
+  "of": 2,
+  "chain": [
+   [
+    "src/pytest/__init__.py",
+    "ExceptionInfo",
+    "reexport",
+    [
+     "_pytest._code",
+     "src/_pytest/_code/__init__.py"
+    ]
+   ],
+   [
+    "src/_pytest/_code/__init__.py",
+    "ExceptionInfo",
+    "reexport",
+    [
+     ".code",
+     null
+    ]
+   ]
+  ]
+ }
+}
+```
+</details>
+
+## Step 6
+
+The package `src/_pytest/_code` does not define `ExceptionInfo` itself; line 6 imports it from `.code`.
+
+So far: `src/pytest/__init__.py` takes `ExceptionInfo` from `_pytest._code`; `src/_pytest/_code/__init__.py` takes `ExceptionInfo` from `.code`, which I still have to locate.
+
+Next I will outline `src/_pytest/_code/code.py` directly, which both checks that the file exists and shows me `ExceptionInfo`; if `.code` is a plain module that is where it has to be. Very likely it is defined right there. If the file does not exist, I will list `src/_pytest/_code/` to see what lives there; if the name is not bound there, that finishes it. I could list `src/_pytest/_code/` to see what lives there instead, but it tends to open more follow-up work.
+
+**Call:** `symbols('src/_pytest/_code/code.py', 'ExceptionInfo')`
+
+**Response**: outcome `def`
+
+```
+module src/_pytest/_code/code.py lines=1682 dynamic=no all=none
+501 class ExceptionInfo (?)
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "module_path",
+   "key": [
+    "module_path",
+    "src/_pytest/_code/__init__.py",
+    ".code"
+   ],
+   "desc": "find where `.code` (imported by `src/_pytest/_code/__init__.py`) lives"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "symbols('src/_pytest/_code/code.py', 'ExceptionInfo')",
+   "key": "[\"symbols\", [\"src/_pytest/_code/code.py\", \"ExceptionInfo\"]]",
+   "v1": [
+    124552395191,
+    97377019168
+   ],
+   "v2": [
+    19340698905037,
+    15093437971040
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     206829,
+     251576
+    ],
+    "reexport": [
+     469,
+     31447
+    ],
+    "star": [
+     469,
+     251576
+    ],
+    "none": [
+     5159,
+     125788
+    ],
+    "missing": [
+     64,
+     533
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "src/_pytest/_code/__init__.py",
+     ".code"
+    ]
+   ]
+  },
+  {
+   "call": "ls('src/_pytest/_code')",
+   "key": "[\"ls\", [\"src/_pytest/_code\"]]",
+   "v1": [
+    147709,
+    71765
+   ],
+   "v2": [
+    6168766169729,
+    3018687594208
+   ],
+   "p_cap": [
+    3,
+    155
+   ],
+   "forecast": {
+    "complete": [
+     152,
+     155
+    ],
+    "cap": [
+     3,
+     155
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "src/_pytest/_code/__init__.py",
+     ".code"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+ExceptionInfo\\\\b', '.')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+ExceptionInfo\\\\b\", \".\"]]",
+   "v1": [
+    33966,
+    16205
+   ],
+   "v2": [
+    699567071019,
+    340819567088
+   ],
+   "p_cap": [
+    1,
+    35
+   ],
+   "forecast": {
+    "zero": [
+     1,
+     35
+    ],
+    "mid": [
+     33,
+     35
+    ],
+    "cap": [
+     1,
+     35
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "src/_pytest/_code/__init__.py",
+     ".code"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+ExceptionInfo\\\\b', 'src')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+ExceptionInfo\\\\b\", \"src\"]]",
+   "v1": [
+    337433,
+    116676
+   ],
+   "v2": [
+    55060794984593,
+    24539008830336
+   ],
+   "p_cap": [
+    1,
+    252
+   ],
+   "forecast": {
+    "zero": [
+     107,
+     126
+    ],
+    "mid": [
+     37,
+     252
+    ],
+    "cap": [
+     1,
+     252
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "src/_pytest/_code/__init__.py",
+     ".code"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/_pytest/_code/code/__init__.py', 'ExceptionInfo')",
+   "key": "[\"symbols\", [\"src/_pytest/_code/code/__init__.py\", \"ExceptionInfo\"]]",
+   "v1": [
+    2123991915,
+    710970299
+   ],
+   "v2": [
+    346741840706566563,
+    149529521454863264
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     384,
+     35711
+    ],
+    "reexport": [
+     2816,
+     35711
+    ],
+    "star": [
+     64,
+     35711
+    ],
+    "none": [
+     1024,
+     35711
+    ],
+    "missing": [
+     469,
+     533
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "src/_pytest/_code/__init__.py",
+     ".code"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "symbols('src/_pytest/_code/code.py', 'ExceptionInfo')",
+  "key": "[\"symbols\", [\"src/_pytest/_code/code.py\", \"ExceptionInfo\"]]",
+  "provenance": "`.code` would be `src/_pytest/_code/code.py` if that file exists; one call both checks and closes it",
+  "v2": [
+   19340698905037,
+   15093437971040
+  ]
+ },
+ "forecast": {
+  "def": [
+   206829,
+   251576
+  ],
+  "reexport": [
+   469,
+   31447
+  ],
+  "star": [
+   469,
+   251576
+  ],
+  "none": [
+   5159,
+   125788
+  ],
+  "missing": [
+   64,
+   533
+  ]
+ },
+ "plan": {
+  "def": "done",
+  "reexport": "continue",
+  "star": "continue",
+  "none": "done",
+  "missing": "[\"ls\", [\"src/_pytest/_code\"]]"
+ },
+ "hedges": [
+  {
+   "outcome": "def",
+   "word": "very likely",
+   "p": [
+    206829,
+    251576
+   ]
+  }
+ ],
+ "adherence": {
+  "planned": "continue",
+  "status": "open-ended"
+ },
+ "facts": [
+  {
+   "kind": "outline",
+   "step": 6,
+   "path": "src/_pytest/_code/code.py",
+   "filter": "ExceptionInfo",
+   "header": {
+    "lines": 1682,
+    "dynamic": false,
+    "all_status": "none",
+    "all_line": null
+   },
+   "bindings": [
+    {
+     "module": "src/_pytest/_code/code.py",
+     "name": "ExceptionInfo",
+     "line": 501,
+     "kind": "class",
+     "src": null,
+     "src_name": null,
+     "conditional": false,
+     "col": 0,
+     "bases": [
+      "?"
+     ]
+    }
+   ],
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "phase": "resolve",
+  "step": 1,
+  "of": 2,
+  "chain": [
+   [
+    "src/pytest/__init__.py",
+    "ExceptionInfo",
+    "reexport",
+    [
+     "_pytest._code",
+     "src/_pytest/_code/__init__.py"
+    ]
+   ],
+   [
+    "src/_pytest/_code/__init__.py",
+    "ExceptionInfo",
+    "reexport",
+    [
+     ".code",
+     "src/_pytest/_code/code.py"
+    ]
+   ],
+   [
+    "src/_pytest/_code/code.py",
+    "ExceptionInfo",
+    "class",
+    501
+   ]
+  ]
+ }
+}
+```
+</details>
+
+## Step 7
+
+There it is: `ExceptionInfo` is a class at `src/_pytest/_code/code.py:501`. That settles the definition; now the package that should expose it.
+
+Next I will look at `src/_pytest/__init__.py`'s top-level names for `ExceptionInfo`; that settles what the name means there. Probably it is re-exported from somewhere else. If the name is not bound there, I follow whatever it opens up; if it is defined right there, that finishes it. I could outline all of `src/_pytest/__init__.py` instead, but it is more likely to hit the cap.
+
+**Call:** `symbols('src/_pytest/__init__.py', 'ExceptionInfo')`
+
+**Response**: outcome `none`
+
+```
+module src/_pytest/__init__.py lines=14 dynamic=no all=static@4
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "bindings",
+   "key": [
+    "bindings",
+    "src/_pytest/__init__.py",
+    "ExceptionInfo"
+   ],
+   "desc": "check the top-level names of `src/_pytest/__init__.py` for `ExceptionInfo`"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "symbols('src/_pytest/__init__.py', 'ExceptionInfo')",
+   "key": "[\"symbols\", [\"src/_pytest/__init__.py\", \"ExceptionInfo\"]]",
+   "v1": [
+    3482328,
+    1333903
+   ],
+   "v2": [
+    3482328,
+    1333903
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     6,
+     67
+    ],
+    "reexport": [
+     44,
+     67
+    ],
+    "star": [
+     1,
+     67
+    ],
+    "none": [
+     16,
+     67
+    ]
+   },
+   "serves": [
+    [
+     "bindings",
+     "src/_pytest/__init__.py",
+     "ExceptionInfo"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/_pytest/__init__.py')",
+   "key": "[\"symbols\", [\"src/_pytest/__init__.py\"]]",
+   "v1": [
+    25710199,
+    9337321
+   ],
+   "v2": [
+    25710199,
+    9337321
+   ],
+   "p_cap": [
+    1,
+    7
+   ],
+   "forecast": {
+    "def": [
+     36,
+     469
+    ],
+    "reexport": [
+     264,
+     469
+    ],
+    "star": [
+     6,
+     469
+    ],
+    "none": [
+     96,
+     469
+    ],
+    "cap": [
+     1,
+     7
+    ]
+   },
+   "serves": [
+    [
+     "bindings",
+     "src/_pytest/__init__.py",
+     "ExceptionInfo"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "symbols('src/_pytest/__init__.py', 'ExceptionInfo')",
+  "key": "[\"symbols\", [\"src/_pytest/__init__.py\", \"ExceptionInfo\"]]",
+  "provenance": "module `src/_pytest/__init__.py` (task), name `ExceptionInfo` (task)",
+  "v2": [
+   3482328,
+   1333903
+  ]
+ },
+ "forecast": {
+  "def": [
+   6,
+   67
+  ],
+  "reexport": [
+   44,
+   67
+  ],
+  "star": [
+   1,
+   67
+  ],
+  "none": [
+   16,
+   67
+  ]
+ },
+ "plan": {
+  "def": "done",
+  "reexport": "continue",
+  "star": "continue",
+  "none": "continue"
+ },
+ "hedges": [
+  {
+   "outcome": "reexport",
+   "word": "probably",
+   "p": [
+    44,
+    67
+   ]
+  }
+ ],
+ "adherence": {
+  "planned": "done",
+  "status": "deviated"
+ },
+ "facts": [
+  {
+   "kind": "outline",
+   "step": 7,
+   "path": "src/_pytest/__init__.py",
+   "filter": "ExceptionInfo",
+   "header": {
+    "lines": 14,
+    "dynamic": false,
+    "all_status": "static",
+    "all_line": 4
+   },
+   "bindings": [],
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "phase": "expose",
+  "step": 2,
+  "of": 2,
+  "package": "src/_pytest/__init__.py",
+  "bound": null,
+  "spec": "._code.code"
+ }
+}
+```
+</details>
+
+## Step 8
+
+The package `src/_pytest` does not bind `ExceptionInfo`; for a package that leaves a submodule called `ExceptionInfo` as the only option.
+
+I'll outline `src/_pytest/ExceptionInfo.py` directly, which both checks that the file exists and shows me `ExceptionInfo`; a submodule `ExceptionInfo` would be `src/_pytest/ExceptionInfo.py`; outlining it settles whether it exists. Very likely it is defined right there. If the file does not exist, I will outline `src/_pytest/ExceptionInfo/__init__.py` directly, which both checks that the file exists and shows me `ExceptionInfo`; if the name is not bound there, that finishes it.
+
+**Call:** `symbols('src/_pytest/ExceptionInfo.py', 'ExceptionInfo')`
+
+**Response**: outcome `missing`
+
+```
+error: not a python file: src/_pytest/ExceptionInfo.py
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "submodule",
+   "key": [
+    "submodule",
+    "src/_pytest/__init__.py",
+    "ExceptionInfo"
+   ],
+   "desc": "check whether `src/_pytest` has a submodule `ExceptionInfo`"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "symbols('src/_pytest/ExceptionInfo.py', 'ExceptionInfo')",
+   "key": "[\"symbols\", [\"src/_pytest/ExceptionInfo.py\", \"ExceptionInfo\"]]",
+   "v1": [
+    112405275063,
+    97377019168
+   ],
+   "v2": [
+    191877739977726915,
+    149529521454863264
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     206829,
+     251576
+    ],
+    "reexport": [
+     469,
+     31447
+    ],
+    "star": [
+     469,
+     251576
+    ],
+    "none": [
+     5159,
+     125788
+    ],
+    "missing": [
+     64,
+     533
+    ]
+   },
+   "serves": [
+    [
+     "submodule",
+     "src/_pytest/__init__.py",
+     "ExceptionInfo"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/_pytest/ExceptionInfo/__init__.py', 'ExceptionInfo')",
+   "key": "[\"symbols\", [\"src/_pytest/ExceptionInfo/__init__.py\", \"ExceptionInfo\"]]",
+   "v1": [
+    1474070006,
+    710970299
+   ],
+   "v2": [
+    330328785607934371,
+    149529521454863264
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     384,
+     35711
+    ],
+    "reexport": [
+     2816,
+     35711
+    ],
+    "star": [
+     64,
+     35711
+    ],
+    "none": [
+     1024,
+     35711
+    ],
+    "missing": [
+     469,
+     533
+    ]
+   },
+   "serves": [
+    [
+     "submodule",
+     "src/_pytest/__init__.py",
+     "ExceptionInfo"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "symbols('src/_pytest/ExceptionInfo.py', 'ExceptionInfo')",
+  "key": "[\"symbols\", [\"src/_pytest/ExceptionInfo.py\", \"ExceptionInfo\"]]",
+  "provenance": "a submodule `ExceptionInfo` would be `src/_pytest/ExceptionInfo.py`; outlining it settles whether it exists",
+  "v2": [
+   191877739977726915,
+   149529521454863264
+  ]
+ },
+ "forecast": {
+  "def": [
+   206829,
+   251576
+  ],
+  "reexport": [
+   469,
+   31447
+  ],
+  "star": [
+   469,
+   251576
+  ],
+  "none": [
+   5159,
+   125788
+  ],
+  "missing": [
+   64,
+   533
+  ]
+ },
+ "plan": {
+  "def": "done",
+  "reexport": "continue",
+  "star": "continue",
+  "none": "done",
+  "missing": "[\"symbols\", [\"src/_pytest/ExceptionInfo/__init__.py\", \"ExceptionInfo\"]]"
+ },
+ "hedges": [
+  {
+   "outcome": "def",
+   "word": "very likely",
+   "p": [
+    206829,
+    251576
+   ]
+  }
+ ],
+ "adherence": {
+  "planned": "continue",
+  "status": "open-ended"
+ },
+ "facts": [
+  {
+   "kind": "error",
+   "step": 8,
+   "call": "[\"symbols\", [\"src/_pytest/ExceptionInfo.py\", \"ExceptionInfo\"]]",
+   "error": "not a python file: src/_pytest/ExceptionInfo.py",
+   "missing": "src/_pytest/ExceptionInfo.py"
+  }
+ ],
+ "goal_state": {
+  "phase": "expose",
+  "step": 2,
+  "of": 2,
+  "package": "src/_pytest/__init__.py",
+  "bound": null,
+  "spec": "._code.code"
+ }
+}
+```
+</details>
+
+## Step 9
+
+There is no `src/_pytest/ExceptionInfo.py`, so `ExceptionInfo` is either a package (`src/_pytest/ExceptionInfo/__init__.py`) or not in this repository at all.
+
+Let me outline `src/_pytest/ExceptionInfo/__init__.py` directly, which both checks that the file exists and shows me `ExceptionInfo`; a submodule `ExceptionInfo` would be `src/_pytest/ExceptionInfo/__init__.py`; outlining it settles whether it exists. Very likely the file is not there, but a miss costs one call and rules that location out.
+
+**Call:** `symbols('src/_pytest/ExceptionInfo/__init__.py', 'ExceptionInfo')`
+
+**Response**: outcome `missing`
+
+```
+error: not a python file: src/_pytest/ExceptionInfo/__init__.py
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "submodule",
+   "key": [
+    "submodule",
+    "src/_pytest/__init__.py",
+    "ExceptionInfo"
+   ],
+   "desc": "check whether `src/_pytest` has a submodule `ExceptionInfo`"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "symbols('src/_pytest/ExceptionInfo/__init__.py', 'ExceptionInfo')",
+   "key": "[\"symbols\", [\"src/_pytest/ExceptionInfo/__init__.py\", \"ExceptionInfo\"]]",
+   "v1": [
+    1474070006,
+    710970299
+   ],
+   "v2": [
+    1474070006,
+    710970299
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     384,
+     35711
+    ],
+    "reexport": [
+     2816,
+     35711
+    ],
+    "star": [
+     64,
+     35711
+    ],
+    "none": [
+     1024,
+     35711
+    ],
+    "missing": [
+     469,
+     533
+    ]
+   },
+   "serves": [
+    [
+     "submodule",
+     "src/_pytest/__init__.py",
+     "ExceptionInfo"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "symbols('src/_pytest/ExceptionInfo/__init__.py', 'ExceptionInfo')",
+  "key": "[\"symbols\", [\"src/_pytest/ExceptionInfo/__init__.py\", \"ExceptionInfo\"]]",
+  "provenance": "a submodule `ExceptionInfo` would be `src/_pytest/ExceptionInfo/__init__.py`; outlining it settles whether it exists",
+  "v2": [
+   1474070006,
+   710970299
+  ]
+ },
+ "forecast": {
+  "def": [
+   384,
+   35711
+  ],
+  "reexport": [
+   2816,
+   35711
+  ],
+  "star": [
+   64,
+   35711
+  ],
+  "none": [
+   1024,
+   35711
+  ],
+  "missing": [
+   469,
+   533
+  ]
+ },
+ "plan": {
+  "def": "done",
+  "reexport": "continue",
+  "star": "continue",
+  "none": "continue",
+  "missing": "continue"
+ },
+ "hedges": [
+  {
+   "outcome": "missing",
+   "word": "very likely",
+   "p": [
+    469,
+    533
+   ]
+  }
+ ],
+ "adherence": {
+  "planned": "[\"symbols\", [\"src/_pytest/ExceptionInfo/__init__.py\", \"ExceptionInfo\"]]",
+  "status": "followed"
+ },
+ "facts": [
+  {
+   "kind": "error",
+   "step": 9,
+   "call": "[\"symbols\", [\"src/_pytest/ExceptionInfo/__init__.py\", \"ExceptionInfo\"]]",
+   "error": "not a python file: src/_pytest/ExceptionInfo/__init__.py",
+   "missing": "src/_pytest/ExceptionInfo/__init__.py"
+  }
+ ],
+ "goal_state": {
+  "phase": "expose",
+  "step": 2,
+  "of": 2,
+  "package": "src/_pytest/__init__.py",
+  "bound": false,
+  "spec": "._code.code"
+ }
+}
+```
+</details>
+
+## Final
+
+`ExceptionInfo` is the class at `src/_pytest/_code/code.py:501`. Patch: append `from ._code.code import ExceptionInfo` to `src/_pytest/__init__.py`. The package does not bind `ExceptionInfo` today and is not dynamic, so after that line `from _pytest import ExceptionInfo` resolves to the definition. Looking back, 1 of 9 calls did not end up mattering (step 4).
+
+**Answer:** `{"final_kind": "expose", "final": {"patch": {"path": "src/_pytest/__init__.py", "append": "from ._code.code import ExceptionInfo"}, "claim": "after the patch, `ExceptionInfo` in `src/_pytest/__init__.py` resolves to src/_pytest/_code/code.py:501"}, "steps": [{"op": "resolve", "output": {"kind": "def", "path": "src/_pytest/_code/code.py", "line": 501, "name": "ExceptionInfo", "detail": "class"}}, {"op": "expose", "output": {"patch": {"path": "src/_pytest/__init__.py", "append": "from ._code.code import ExceptionInfo"}, "claim": "after the patch, `ExceptionInfo` in `src/_pytest/__init__.py` resolves to src/_pytest/_code/code.py:501"}}], "stuck": null}`  
+**Stopped:** certificate after 9 calls

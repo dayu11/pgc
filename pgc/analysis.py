@@ -29,6 +29,7 @@ Semantics (v0), stated so a task can declare it:
 from __future__ import annotations
 
 import ast
+import symtable
 from dataclasses import dataclass, field
 from typing import Optional, Union
 
@@ -52,6 +53,7 @@ class Binding:
     src_name: Optional[str] = None  # for `from`: the imported name before `as`
     conditional: bool = False
     col: int = 0
+    bases: tuple = ()  # for classes: base expressions as dotted names ("Base", "mod.Base"); "?" for others
 
     def outline(self) -> str:
         if self.kind == "import":
@@ -60,11 +62,13 @@ class Binding:
             return f"{self.line} from {self.name} <- {self.src} {self.src_name}"
         if self.kind == "star":
             return f"{self.line} star <- {self.src}"
+        if self.kind == "class":
+            return f"{self.line} class {self.name} ({','.join(self.bases)})"
         return f"{self.line} {self.kind} {self.name}"
 
     def to_json(self):
         return {"module": self.module, "name": self.name, "line": self.line, "kind": self.kind,
-                "src": self.src, "src_name": self.src_name, "conditional": self.conditional, "col": self.col}
+                "src": self.src, "src_name": self.src_name, "conditional": self.conditional, "col": self.col, "bases": list(self.bases)}
 
 
 def parse_outline_line(module: str, s: str) -> Binding:
@@ -78,7 +82,31 @@ def parse_outline_line(module: str, s: str) -> Binding:
         return Binding(module, parts[2], line, "from", src=parts[4], src_name=parts[5])
     if kind == "star":
         return Binding(module, "*", line, "star", src=parts[3])
+    if kind == "class":
+        inner = parts[3][1:-1] if len(parts) > 3 else ""
+        return Binding(module, parts[2], line, "class", bases=tuple(b for b in inner.split(",") if b))
     return Binding(module, parts[2], line, kind)
+
+
+def _dotted(expr) -> str:
+    if isinstance(expr, ast.Name):
+        return expr.id
+    if isinstance(expr, ast.Attribute):
+        inner = _dotted(expr.value)
+        return f"{inner}.{expr.attr}" if inner != "?" else "?"
+    return "?"
+
+
+@dataclass(frozen=True)
+class Member:
+    module: str
+    cls: str
+    name: str
+    line: int
+    kind: str  # def | assign
+
+    def outline(self) -> str:
+        return f"{self.line} {self.kind} {self.name}"
 
 
 @dataclass
@@ -90,6 +118,9 @@ class ModuleInfo:
     dynamic: bool = False
     parse_error: bool = False
     n_lines: int = 0
+    members: dict = field(default_factory=dict)  # class name -> [Member] (module-level classes only)
+    calls: dict = field(default_factory=dict)  # bare name -> sorted call-site lines referring to the module-level binding
+    calls_unsure: bool = False  # scope analysis could not be matched; call sites unreliable
 
     def bindings(self, name: str) -> list:
         return [b for b in self.all_bindings if b.name == name and b.kind != "star"]
@@ -131,7 +162,20 @@ def parse_module(path: str, text: str) -> ModuleInfo:
                 if node.name in ("__getattr__", "__dir__"):
                     mi.dynamic = True
             elif isinstance(node, ast.ClassDef):
-                mi.all_bindings.append(Binding(path, node.name, node.lineno, "class", conditional=conditional, col=node.col_offset))
+                bases = tuple(_dotted(b) for b in node.bases)
+                mi.all_bindings.append(Binding(path, node.name, node.lineno, "class", conditional=conditional, col=node.col_offset, bases=bases))
+                mems = []
+                for m in node.body:
+                    if isinstance(m, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                        mems.append(Member(path, node.name, m.name, m.lineno, "def"))
+                    elif isinstance(m, ast.Assign):
+                        for t in m.targets:
+                            for n, _ in _target_names(t):
+                                mems.append(Member(path, node.name, n, m.lineno, "assign"))
+                    elif isinstance(m, ast.AnnAssign):
+                        for n, _ in _target_names(m.target):
+                            mems.append(Member(path, node.name, n, m.lineno, "assign"))
+                mi.members.setdefault(node.name, []).extend(mems)
             elif isinstance(node, ast.Assign):
                 for t in node.targets:
                     for n, col in _target_names(t):
@@ -201,6 +245,12 @@ def parse_module(path: str, text: str) -> ModuleInfo:
         else:
             mi.all_names = DYNAMIC
 
+    # call sites of bare names that refer to the module-level binding (scope-exact via symtable)
+    try:
+        mi.calls, mi.calls_unsure = _module_level_calls(tree, text, path)
+    except Exception:
+        mi.calls, mi.calls_unsure = {}, True
+
     # dynamic namespace manipulation anywhere in the module
     for node in ast.walk(tree):
         if isinstance(node, ast.Call):
@@ -212,6 +262,98 @@ def parse_module(path: str, text: str) -> ModuleInfo:
                 if isinstance(t, ast.Subscript) and isinstance(t.value, ast.Attribute) and t.value.attr == "modules":
                     mi.dynamic = True
     return mi
+
+
+_SCOPE_NODES = (ast.FunctionDef, ast.AsyncFunctionDef, ast.Lambda, ast.ClassDef, ast.ListComp, ast.SetComp, ast.DictComp, ast.GeneratorExp)
+
+
+def _scope_name(node) -> str:
+    if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+        return node.name
+    return {ast.Lambda: "lambda", ast.ListComp: "listcomp", ast.SetComp: "setcomp", ast.DictComp: "dictcomp", ast.GeneratorExp: "genexpr"}[type(node)]
+
+
+def _module_level_calls(tree, text, path):
+    """name -> sorted lines of `name(...)` calls where `name` refers to the module-level
+    binding (not a parameter, local, or enclosing-function variable). Uses symtable."""
+    top = symtable.symtable(text, path, "exec")
+    out = {}
+    unsure = [False]
+    used = {}  # (id(tab), name, lineno) -> how many children matched so far
+
+    def child_table(tab, node):
+        key = (_scope_name(node), node.lineno)
+        cands = [c for c in tab.get_children() if (c.get_name(), c.get_lineno()) == key]
+        k = used.get((id(tab),) + key, 0)
+        used[(id(tab),) + key] = k + 1
+        return cands[k] if k < len(cands) else None
+
+    def refers_to_module(tab, name):
+        if tab.get_type() == "module":
+            return True
+        try:
+            sym = tab.lookup(name)
+        except KeyError:
+            return None
+        if sym.is_global():
+            return True
+        if sym.is_free() or sym.is_nonlocal() or sym.is_local():
+            return False
+        return True
+
+    def visit(node, tab):
+        if isinstance(node, _SCOPE_NODES):
+            ctab = child_table(tab, node)
+            if ctab is None:
+                unsure[0] = True
+                return
+            # parts evaluated in the enclosing scope
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                for d in node.decorator_list + node.args.defaults + [x for x in node.args.kw_defaults if x is not None]:
+                    visit(d, tab)
+                for a in node.args.args + node.args.posonlyargs + node.args.kwonlyargs + [x for x in (node.args.vararg, node.args.kwarg) if x is not None]:
+                    if a.annotation is not None:
+                        visit(a.annotation, tab)
+                if node.returns is not None:
+                    visit(node.returns, tab)
+                for b in node.body:
+                    visit(b, ctab)
+            elif isinstance(node, ast.Lambda):
+                for d in node.args.defaults + [x for x in node.args.kw_defaults if x is not None]:
+                    visit(d, tab)
+                visit(node.body, ctab)
+            elif isinstance(node, ast.ClassDef):
+                for d in node.decorator_list + node.bases + [k.value for k in node.keywords]:
+                    visit(d, tab)
+                for b in node.body:
+                    visit(b, ctab)
+            else:  # comprehensions: the first iterable is evaluated in the enclosing scope
+                gens = node.generators
+                if gens:
+                    visit(gens[0].iter, tab)
+                    for g in gens:
+                        visit(g.target, ctab)
+                        for cond in g.ifs:
+                            visit(cond, ctab)
+                    for g in gens[1:]:
+                        visit(g.iter, ctab)
+                if isinstance(node, ast.DictComp):
+                    visit(node.key, ctab)
+                    visit(node.value, ctab)
+                else:
+                    visit(node.elt, ctab)
+            return
+        if isinstance(node, ast.Call) and isinstance(node.func, ast.Name):
+            r = refers_to_module(tab, node.func.id)
+            if r is True:
+                out.setdefault(node.func.id, set()).add(node.lineno)
+            elif r is None:
+                unsure[0] = True
+        for child in ast.iter_child_nodes(node):
+            visit(child, tab)
+
+    visit(tree, top)
+    return {k: sorted(v) for k, v in out.items()}, unsure[0]
 
 
 # ----------------------------------------------------------------------------
@@ -364,6 +506,24 @@ def resolve_name(K: Knowledge, module: str, name: str, visited=()):
     if len(star_sources) == 1:
         return resolve_name(K, star_sources[0], name, visited)
     return Target("unresolved", module, None, name, "no binding")
+
+
+def resolve_dotted(K: Knowledge, module: str, dotted: str):
+    """Resolve `a.b.c` as written in `module`: every component but the last must
+    resolve to a module (an `import` binding or a submodule), the last is resolved
+    in that module. Target or Need."""
+    if dotted == "?":
+        return Target("unresolved", module, None, dotted, "unsupported base expression")
+    parts = dotted.split(".")
+    cur = module
+    for i, part in enumerate(parts):
+        r = resolve_name(K, cur, part)
+        if isinstance(r, Need) or i == len(parts) - 1:
+            return r
+        if r.kind != "module":
+            return Target("unresolved", module, None, dotted, f"`{'.'.join(parts[:i + 1])}` is not a module")
+        cur = r.path
+    return r
 
 
 def exports(K: Knowledge, module: str, name: str, visited=()):
@@ -521,6 +681,45 @@ class Index(Knowledge):
 
     def from_imports_of_name(self, name):
         return list(self._by_src_name.get(name, []))
+
+    def resolve_dotted(self, module, dotted):
+        r = resolve_dotted(self, module, dotted)
+        assert not isinstance(r, Need), r
+        return r
+
+    def subclasses_of(self, target: Target):
+        """Module-level classes whose base list names something resolving to target."""
+        out = []
+        for p, mi in self.modules.items():
+            if mi.parse_error:
+                continue
+            for b in mi.all_bindings:
+                if b.kind != "class":
+                    continue
+                for base in b.bases:
+                    if base == "?" or base.split(".")[-1] != target.name:
+                        continue
+                    if self.resolve_dotted(p, base).key() == target.key():
+                        out.append((p, b.line, b.name))
+                        break
+        return sorted(set(out))
+
+    def callers_of(self, target: Target):
+        """Call sites `name(...)` whose bare name refers to a module-level binding resolving to target."""
+        out = []
+        for p, mi in self.modules.items():
+            if mi.parse_error or mi.calls_unsure:
+                continue
+            lines = mi.calls.get(target.name)
+            if not lines:
+                continue
+            if self.resolve(p, target.name).key() == target.key():
+                out.extend((p, ln) for ln in lines)
+        return sorted(set(out))
+
+    def members_of(self, module, cls):
+        mi = self.modules.get(module)
+        return [] if mi is None else list(mi.members.get(cls, []))
 
     def importers_of(self, target: Target):
         """Statement-level: from-imports whose source resolves the name to target, and

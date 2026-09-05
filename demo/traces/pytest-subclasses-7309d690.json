@@ -1,0 +1,584 @@
+{
+ "task": {
+  "family": "subclasses",
+  "repo": "pytest",
+  "chain": [
+   {
+    "op": "subclasses",
+    "def_path": "src/_pytest/mark/structures.py",
+    "def_line": 325,
+    "name": "MarkDecorator",
+    "def_kind": "class"
+   }
+  ],
+  "given": {
+   "def_path": "src/_pytest/mark/structures.py",
+   "def_line": 325,
+   "name": "MarkDecorator",
+   "def_kind": "class"
+  },
+  "text": "`MarkDecorator` is defined at `src/_pytest/mark/structures.py:325` (class).",
+  "semantics": "A module is a .py file; source roots are the repository root and, if present, src/ and lib/. `from M import N` binds N to M's single module-level binding of N, else to the submodule M/N, else to the single star-import source of M that exports N; bindings take effect in source order. A module exports N if its literal __all__ lists N or, without __all__, if N is public and bound in it. A class derives from a definition when a base written as a bare name or `module.Name` resolves to it. A call site is `name(...)` where the bare name refers to the module-level binding (not a parameter or local). Multiple bindings, non-literal __all__, external star imports and dynamic namespace code make a name ambiguous; tasks never ask about ambiguous names.",
+  "skeleton": {
+   "subclasses": "4-8",
+   "decoy_classes": "0",
+   "chain": "subclasses"
+  },
+  "floor": 3,
+  "id": "pytest-subclasses-7309d690",
+  "cell": "chain=subclasses|decoy_classes=0|subclasses=4-8"
+ },
+ "seed": 0,
+ "depth": 2,
+ "theta_hash": "8e41e8743065d192",
+ "budget": 40,
+ "steps": [
+  {
+   "step": 1,
+   "phase": "subclasses",
+   "thought": "Starting from the definition of `MarkDecorator` at `src/_pytest/mark/structures.py:325`. Then I need every class that derives from it, checking that each base name really points at this definition.\n\nNext I will search the whole tree for classes deriving from `MarkDecorator`; the search has to be complete before I can call the set final. Very likely nothing turns up. If it caps or it fits under the cap, I follow whatever it opens up.",
+   "hedges": [
+    {
+     "outcome": "zero",
+     "word": "very likely",
+     "p": [
+      17,
+      19
+     ]
+    }
+   ],
+   "items": [
+    {
+     "kind": "cover",
+     "key": [
+      "cover",
+      "SUBCLASS",
+      "."
+     ],
+     "desc": "search `.` for classes deriving from `MarkDecorator`"
+    }
+   ],
+   "candidates": [
+    {
+     "call": "grep('^\\\\s*class\\\\s+\\\\w+\\\\s*\\\\(.*\\\\bMarkDecorator\\\\b', '.')",
+     "key": "[\"grep\", [\"^\\\\s*class\\\\s+\\\\w+\\\\s*\\\\(.*\\\\bMarkDecorator\\\\b\", \".\"]]",
+     "v1": [
+      449980794518,
+      316748520725
+     ],
+     "v2": [
+      449980794518,
+      316748520725
+     ],
+     "p_cap": [
+      1,
+      19
+     ],
+     "forecast": {
+      "zero": [
+       17,
+       19
+      ],
+      "mid": [
+       1,
+       19
+      ],
+      "cap": [
+       1,
+       19
+      ]
+     },
+     "serves": [
+      [
+       "cover",
+       "SUBCLASS",
+       "."
+      ]
+     ]
+    }
+   ],
+   "choice": {
+    "call": "grep('^\\\\s*class\\\\s+\\\\w+\\\\s*\\\\(.*\\\\bMarkDecorator\\\\b', '.')",
+    "key": "[\"grep\", [\"^\\\\s*class\\\\s+\\\\w+\\\\s*\\\\(.*\\\\bMarkDecorator\\\\b\", \".\"]]",
+    "provenance": "subclass lines naming `MarkDecorator` under `.` (derived)",
+    "v2": [
+     449980794518,
+     316748520725
+    ]
+   },
+   "forecast": {
+    "zero": [
+     17,
+     19
+    ],
+    "mid": [
+     1,
+     19
+    ],
+    "cap": [
+     1,
+     19
+    ]
+   },
+   "plan": {
+    "zero": "done",
+    "mid": "continue",
+    "cap": "continue"
+   },
+   "call": {
+    "text": "grep('^\\\\s*class\\\\s+\\\\w+\\\\s*\\\\(.*\\\\bMarkDecorator\\\\b', '.')",
+    "key": "[\"grep\", [\"^\\\\s*class\\\\s+\\\\w+\\\\s*\\\\(.*\\\\bMarkDecorator\\\\b\", \".\"]]",
+    "tool": "grep",
+    "args": [
+     "^\\s*class\\s+\\w+\\s*\\(.*\\bMarkDecorator\\b",
+     "."
+    ]
+   },
+   "response": {
+    "tool": "grep",
+    "lines": [
+     "src/_pytest/mark/structures.py:508:    class _SkipMarkDecorator(MarkDecorator):",
+     "src/_pytest/mark/structures.py:515:    class _SkipifMarkDecorator(MarkDecorator):",
+     "src/_pytest/mark/structures.py:523:    class _XfailMarkDecorator(MarkDecorator):",
+     "src/_pytest/mark/structures.py:541:    class _ParametrizeMarkDecorator(MarkDecorator):",
+     "src/_pytest/mark/structures.py:557:    class _UsefixturesMarkDecorator(MarkDecorator):",
+     "src/_pytest/mark/structures.py:561:    class _FilterwarningsMarkDecorator(MarkDecorator):"
+    ],
+    "capped": false,
+    "error": null
+   },
+   "outcome": "mid",
+   "facts": [
+    {
+     "kind": "grep",
+     "step": 1,
+     "pattern": "^\\s*class\\s+\\w+\\s*\\(.*\\bMarkDecorator\\b",
+     "scope": ".",
+     "hits": [
+      [
+       "src/_pytest/mark/structures.py",
+       508
+      ],
+      [
+       "src/_pytest/mark/structures.py",
+       515
+      ],
+      [
+       "src/_pytest/mark/structures.py",
+       523
+      ],
+      [
+       "src/_pytest/mark/structures.py",
+       541
+      ],
+      [
+       "src/_pytest/mark/structures.py",
+       557
+      ],
+      [
+       "src/_pytest/mark/structures.py",
+       561
+      ]
+     ],
+     "capped": false
+    }
+   ],
+   "adherence": null,
+   "goal_state": {
+    "phase": "subclasses",
+    "step": 1,
+    "of": 1,
+    "candidates": [
+     "src/_pytest/mark/structures.py"
+    ],
+    "table": [
+     [
+      "src/_pytest/mark/structures.py",
+      null,
+      "pending",
+      "not yet examined"
+     ]
+    ],
+    "uncovered": {
+     "SUBCLASS": []
+    },
+    "n_in": 0,
+    "n_out": 0,
+    "n_pending": 1
+   }
+  },
+  {
+   "step": 2,
+   "phase": "subclasses",
+   "thought": "Huh: 6 matching lines anywhere for classes deriving from `MarkDecorator`, in `src/_pytest/mark/structures.py`, and the search was under the cap, so that is the complete set there.\n\nI'll look at `src/_pytest/mark/structures.py`'s top-level names for `MarkDecorator`; the outline lists each class with its bases. Almost certainly the outline shows what I need. If the outline is too long to fit, I follow whatever it opens up.",
+   "hedges": [
+    {
+     "outcome": "ok",
+     "word": "almost certainly",
+     "p": [
+      49,
+      50
+     ]
+    }
+   ],
+   "items": [
+    {
+     "kind": "outline",
+     "key": [
+      "outline",
+      "src/_pytest/mark/structures.py",
+      "MarkDecorator"
+     ],
+     "desc": "look at the classes in `src/_pytest/mark/structures.py` that derive from `MarkDecorator`"
+    }
+   ],
+   "candidates": [
+    {
+     "call": "symbols('src/_pytest/mark/structures.py', 'MarkDecorator')",
+     "key": "[\"symbols\", [\"src/_pytest/mark/structures.py\", \"MarkDecorator\"]]",
+     "v1": [
+      601549,
+      393550
+     ],
+     "v2": [
+      601549,
+      393550
+     ],
+     "p_cap": [
+      1,
+      50
+     ],
+     "forecast": {
+      "ok": [
+       49,
+       50
+      ],
+      "cap": [
+       1,
+       50
+      ]
+     },
+     "serves": [
+      [
+       "outline",
+       "src/_pytest/mark/structures.py",
+       "MarkDecorator"
+      ]
+     ]
+    }
+   ],
+   "choice": {
+    "call": "symbols('src/_pytest/mark/structures.py', 'MarkDecorator')",
+    "key": "[\"symbols\", [\"src/_pytest/mark/structures.py\", \"MarkDecorator\"]]",
+    "provenance": "`src/_pytest/mark/structures.py` had a matching line (task); its outline names every `MarkDecorator` import exactly",
+    "v2": [
+     601549,
+     393550
+    ]
+   },
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "plan": {
+    "ok": "continue",
+    "cap": "continue"
+   },
+   "call": {
+    "text": "symbols('src/_pytest/mark/structures.py', 'MarkDecorator')",
+    "key": "[\"symbols\", [\"src/_pytest/mark/structures.py\", \"MarkDecorator\"]]",
+    "tool": "symbols",
+    "args": [
+     "src/_pytest/mark/structures.py",
+     "MarkDecorator"
+    ]
+   },
+   "response": {
+    "tool": "symbols",
+    "lines": [
+     "module src/_pytest/mark/structures.py lines=696 dynamic=no all=none",
+     "325 class MarkDecorator ()",
+     "508 class _SkipMarkDecorator (MarkDecorator)",
+     "515 class _SkipifMarkDecorator (MarkDecorator)",
+     "523 class _XfailMarkDecorator (MarkDecorator)",
+     "541 class _ParametrizeMarkDecorator (MarkDecorator)",
+     "557 class _UsefixturesMarkDecorator (MarkDecorator)",
+     "561 class _FilterwarningsMarkDecorator (MarkDecorator)"
+    ],
+    "capped": false,
+    "error": null
+   },
+   "outcome": "ok",
+   "facts": [
+    {
+     "kind": "outline",
+     "step": 2,
+     "path": "src/_pytest/mark/structures.py",
+     "filter": "MarkDecorator",
+     "header": {
+      "lines": 696,
+      "dynamic": false,
+      "all_status": "none",
+      "all_line": null
+     },
+     "bindings": [
+      {
+       "module": "src/_pytest/mark/structures.py",
+       "name": "MarkDecorator",
+       "line": 325,
+       "kind": "class",
+       "src": null,
+       "src_name": null,
+       "conditional": false,
+       "col": 0,
+       "bases": []
+      },
+      {
+       "module": "src/_pytest/mark/structures.py",
+       "name": "_SkipMarkDecorator",
+       "line": 508,
+       "kind": "class",
+       "src": null,
+       "src_name": null,
+       "conditional": false,
+       "col": 0,
+       "bases": [
+        "MarkDecorator"
+       ]
+      },
+      {
+       "module": "src/_pytest/mark/structures.py",
+       "name": "_SkipifMarkDecorator",
+       "line": 515,
+       "kind": "class",
+       "src": null,
+       "src_name": null,
+       "conditional": false,
+       "col": 0,
+       "bases": [
+        "MarkDecorator"
+       ]
+      },
+      {
+       "module": "src/_pytest/mark/structures.py",
+       "name": "_XfailMarkDecorator",
+       "line": 523,
+       "kind": "class",
+       "src": null,
+       "src_name": null,
+       "conditional": false,
+       "col": 0,
+       "bases": [
+        "MarkDecorator"
+       ]
+      },
+      {
+       "module": "src/_pytest/mark/structures.py",
+       "name": "_ParametrizeMarkDecorator",
+       "line": 541,
+       "kind": "class",
+       "src": null,
+       "src_name": null,
+       "conditional": false,
+       "col": 0,
+       "bases": [
+        "MarkDecorator"
+       ]
+      },
+      {
+       "module": "src/_pytest/mark/structures.py",
+       "name": "_UsefixturesMarkDecorator",
+       "line": 557,
+       "kind": "class",
+       "src": null,
+       "src_name": null,
+       "conditional": false,
+       "col": 0,
+       "bases": [
+        "MarkDecorator"
+       ]
+      },
+      {
+       "module": "src/_pytest/mark/structures.py",
+       "name": "_FilterwarningsMarkDecorator",
+       "line": 561,
+       "kind": "class",
+       "src": null,
+       "src_name": null,
+       "conditional": false,
+       "col": 0,
+       "bases": [
+        "MarkDecorator"
+       ]
+      }
+     ],
+     "complete": true
+    }
+   ],
+   "adherence": {
+    "planned": "continue",
+    "status": "open-ended"
+   },
+   "goal_state": {
+    "phase": "subclasses",
+    "step": 1,
+    "of": 1,
+    "candidates": [
+     "src/_pytest/mark/structures.py"
+    ],
+    "table": [
+     [
+      "src/_pytest/mark/structures.py",
+      "src/_pytest/mark/structures.py:508:_SkipMarkDecorator",
+      "in",
+      "base `MarkDecorator` resolves to the target"
+     ],
+     [
+      "src/_pytest/mark/structures.py",
+      "src/_pytest/mark/structures.py:515:_SkipifMarkDecorator",
+      "in",
+      "base `MarkDecorator` resolves to the target"
+     ],
+     [
+      "src/_pytest/mark/structures.py",
+      "src/_pytest/mark/structures.py:523:_XfailMarkDecorator",
+      "in",
+      "base `MarkDecorator` resolves to the target"
+     ],
+     [
+      "src/_pytest/mark/structures.py",
+      "src/_pytest/mark/structures.py:541:_ParametrizeMarkDecorator",
+      "in",
+      "base `MarkDecorator` resolves to the target"
+     ],
+     [
+      "src/_pytest/mark/structures.py",
+      "src/_pytest/mark/structures.py:557:_UsefixturesMarkDecorator",
+      "in",
+      "base `MarkDecorator` resolves to the target"
+     ],
+     [
+      "src/_pytest/mark/structures.py",
+      "src/_pytest/mark/structures.py:561:_FilterwarningsMarkDecorator",
+      "in",
+      "base `MarkDecorator` resolves to the target"
+     ]
+    ],
+    "uncovered": {
+     "SUBCLASS": []
+    },
+    "n_in": 6,
+    "n_out": 0,
+    "n_pending": 0
+   }
+  }
+ ],
+ "answer": {
+  "final_kind": "subclasses",
+  "final": [
+   "src/_pytest/mark/structures.py:508:_SkipMarkDecorator",
+   "src/_pytest/mark/structures.py:515:_SkipifMarkDecorator",
+   "src/_pytest/mark/structures.py:523:_XfailMarkDecorator",
+   "src/_pytest/mark/structures.py:541:_ParametrizeMarkDecorator",
+   "src/_pytest/mark/structures.py:557:_UsefixturesMarkDecorator",
+   "src/_pytest/mark/structures.py:561:_FilterwarningsMarkDecorator"
+  ],
+  "steps": [
+   {
+    "op": "subclasses",
+    "output": [
+     "src/_pytest/mark/structures.py:508:_SkipMarkDecorator",
+     "src/_pytest/mark/structures.py:515:_SkipifMarkDecorator",
+     "src/_pytest/mark/structures.py:523:_XfailMarkDecorator",
+     "src/_pytest/mark/structures.py:541:_ParametrizeMarkDecorator",
+     "src/_pytest/mark/structures.py:557:_UsefixturesMarkDecorator",
+     "src/_pytest/mark/structures.py:561:_FilterwarningsMarkDecorator"
+    ]
+   }
+  ],
+  "stuck": null
+ },
+ "certificate": [
+  {
+   "kind": "forall",
+   "coverage": {
+    "SUBCLASS": [
+     [
+      "^\\s*class\\s+\\w+\\s*\\(.*\\bMarkDecorator\\b",
+      "."
+     ]
+    ]
+   },
+   "witnesses": [
+    [
+     "src/_pytest/mark/structures.py",
+     "src/_pytest/mark/structures.py:508:_SkipMarkDecorator",
+     "in",
+     "base `MarkDecorator` resolves to the target"
+    ],
+    [
+     "src/_pytest/mark/structures.py",
+     "src/_pytest/mark/structures.py:515:_SkipifMarkDecorator",
+     "in",
+     "base `MarkDecorator` resolves to the target"
+    ],
+    [
+     "src/_pytest/mark/structures.py",
+     "src/_pytest/mark/structures.py:523:_XfailMarkDecorator",
+     "in",
+     "base `MarkDecorator` resolves to the target"
+    ],
+    [
+     "src/_pytest/mark/structures.py",
+     "src/_pytest/mark/structures.py:541:_ParametrizeMarkDecorator",
+     "in",
+     "base `MarkDecorator` resolves to the target"
+    ],
+    [
+     "src/_pytest/mark/structures.py",
+     "src/_pytest/mark/structures.py:557:_UsefixturesMarkDecorator",
+     "in",
+     "base `MarkDecorator` resolves to the target"
+    ],
+    [
+     "src/_pytest/mark/structures.py",
+     "src/_pytest/mark/structures.py:561:_FilterwarningsMarkDecorator",
+     "in",
+     "base `MarkDecorator` resolves to the target"
+    ]
+   ],
+   "counterexamples": []
+  }
+ ],
+ "stopped": "certificate",
+ "n_calls": 2,
+ "final_thought": "6 classes derive from it directly: `_SkipMarkDecorator` (`src/_pytest/mark/structures.py:508`), `_SkipifMarkDecorator` (`src/_pytest/mark/structures.py:515`), `_XfailMarkDecorator` (`src/_pytest/mark/structures.py:523`), `_ParametrizeMarkDecorator` (`src/_pytest/mark/structures.py:541`), `_UsefixturesMarkDecorator` (`src/_pytest/mark/structures.py:557`), `_FilterwarningsMarkDecorator` (`src/_pytest/mark/structures.py:561`). Looking back, all 2 calls were needed.",
+ "hindsight": {
+  "1": true,
+  "2": true
+ },
+ "open_at_stop": [],
+ "verification": {
+  "replay": {
+   "ok": true,
+   "detail": "bit-identical replay"
+  },
+  "world": {
+   "ok": true,
+   "n_checks": 14,
+   "n_ok": 14,
+   "failures": [],
+   "n_resolutions": 1
+  },
+  "adherence": {
+   "first": 1,
+   "open-ended": 1
+  }
+ }
+}

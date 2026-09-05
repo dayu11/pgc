@@ -11,8 +11,8 @@ from dataclasses import dataclass, field
 from fractions import Fraction
 from typing import Optional
 
-from .analysis import package_dir
-from .goals import OpenItem
+from .analysis import UNKNOWN, package_dir
+from .obligations import OpenItem
 from .knowledge import Seen
 from .prior import Prior, depth_kind, pattern, scope_kind
 from .snapshot import Call
@@ -68,6 +68,38 @@ class Policy:
     def h_mp(self) -> Fraction:
         return F(1)
 
+    def hop_dist(self, K: Seen, M: str, names: set) -> dict:
+        """Distribution over what closing `names` in M will reveal, conditioned on what has
+        been seen about those names in M: a from/import line, a definition, or use as the
+        head of a dotted base (`grammar.Grammar`), else the module-type prior."""
+        seen_kinds = set()
+        for ln, bs in K.stmts.get(M, {}).items():
+            for b in bs:
+                if b.name in names and b.kind != "star":
+                    seen_kinds.add(b.kind)
+        if seen_kinds & {"from", "import"}:
+            return {"def": F(1, 100), "reexport": F(93, 100), "star": F(1, 100), "none": F(5, 100)}
+        if seen_kinds & {"def", "class", "assign"}:
+            return {"def": F(94, 100), "reexport": F(2, 100), "star": F(1, 100), "none": F(3, 100)}
+        # a name used anywhere as the head of a dotted base (`grammar.Grammar`) denotes a module:
+        # in the module that binds it expect an import; in its source package expect a submodule
+        used_as_module = any(b.kind == "class" and any("." in x and x.split(".")[0] in names for x in b.bases)
+                             for stmts in K.stmts.values() for bs in stmts.values() for b in bs)
+        if used_as_module:
+            if self.mtype(M) == "init":
+                return {"def": F(3, 100), "reexport": F(30, 100), "star": F(2, 100), "none": F(65, 100)}
+            return {"def": F(3, 100), "reexport": F(92, 100), "star": F(1, 100), "none": F(4, 100)}
+        return self.prior.hop(self.mtype(M))
+
+    def h_bindings(self, K: Seen, M: str, name: str) -> Fraction:
+        """Expected calls to close `name` in M and follow whatever that reveals; uses the same
+        conditional distribution as the outcome model, so resolving the item and paying for
+        what it spawns nets exactly the one call."""
+        hop = self.hop_dist(K, M, {name})
+        after_all = self.prior.allstat(self.mtype(M))["static"] * 1
+        return (1 + hop["reexport"] * (self.h_mp() + self.h_b("x.py")) + hop["star"] * (1 + self.h_b("x.py") + after_all)
+                + hop["none"] * (F(1) if self.mtype(M) == "init" else F(0)))
+
     def h_cover(self, K: Seen, pc: str, scope: str, depth: int = 0) -> Fraction:
         sk = scope_kind(scope, scope in K.files)
         g = self.prior.grep(pc, sk)
@@ -83,8 +115,8 @@ class Policy:
 
     def h(self, K: Seen, it: OpenItem) -> Fraction:
         if it.kind == "bindings":
-            return self.h_b(it.need.module)
-        if it.kind in ("stars", "all", "submodule"):
+            return self.h_bindings(K, it.need.module, it.need.arg)
+        if it.kind in ("stars", "all", "submodule", "members", "calls"):
             return F(1)
         if it.kind == "outline":
             return F(1) + self.prior.src_new() * (self.h_mp() + self.h_b("x.py"))
@@ -147,19 +179,36 @@ class Policy:
                 n = self._name_for_spec(K, frm, spec) or self.name
                 for cand in K.candidate_module_files(spec, frm)[:2]:
                     add(Call("symbols", (cand, n)), it, f"`{spec}` would be `{cand}` if that file exists; one call both checks and closes it")
-                scopes = ["."] + [r for r in ("src", "lib") if r in K.dirs]
-                for sc in scopes:
-                    add(Call("grep", (pattern("DEF", n), sc)), it, f"a `def`/`class {n}` statement would reveal the module file; `{n}` {K.provenance(n)}")
+                is_module_name = any(b.kind == "class" and any("." in x and x.split(".")[0] == n for x in b.bases)
+                                     for ln, bs in K.stmts.get(frm, {}).items() for b in bs)
+                if not is_module_name:
+                    scopes = ["."] + [r for r in ("src", "lib") if r in K.dirs]
+                    for sc in scopes:
+                        add(Call("grep", (pattern("DEF", n), sc)), it, f"a `def`/`class {n}` statement would reveal the module file; `{n}` {K.provenance(n)}")
             elif it.kind == "submodule":
                 M, n = it.need.module, it.need.arg
-                add(Call("ls", (package_dir(M),)), it, f"package directory of `{M}`")
+                d = package_dir(M)
+                lst = K.listing.get(d)
+                if lst is None:
+                    add(Call("ls", (d,)), it, f"package directory of `{M}`")
+                # probes settle existence even when the listing is capped
+                for cand in (f"{d}/{n}.py", f"{d}/{n}/__init__.py") if d != "." else (f"{n}.py", f"{n}/__init__.py"):
+                    if K._exists_file(cand) is UNKNOWN:
+                        add(Call("symbols", (cand, n)), it, f"a submodule `{n}` would be `{cand}`; outlining it settles whether it exists")
             elif it.kind == "outline":
                 p, n = it.data
                 add(Call("symbols", (p, n)), it, f"`{p}` had a matching line ({K.provenance(p)}); its outline names every `{n}` import exactly")
             elif it.kind == "cover":
                 pc, scope = it.data
                 add(Call("grep", (pattern(pc, self.name), scope)), it, f"{pc.lower()} lines naming `{self.name}` under `{scope}` ({K.provenance(scope)})")
-                add(Call("grep", (pattern("IMPORT_OR_STAR", self.name), scope)), it, f"import and star lines under `{scope}` in one call")
+                if pc in ("IMPORT", "STAR"):
+                    add(Call("grep", (pattern("IMPORT_OR_STAR", self.name), scope)), it, f"import and star lines under `{scope}` in one call")
+            elif it.kind == "members":
+                m, cls = it.data
+                add(Call("members", (m, cls)), it, f"the members `{cls}` defines itself ({K.provenance(m)})")
+            elif it.kind == "calls":
+                p_, n = it.data
+                add(Call("calls", (p_, n)), it, f"call sites of `{n}` in `{p_}` that refer to the module-level binding")
             elif it.kind == "split":
                 (scope,) = it.data
                 lst = K.listing.get(scope)
@@ -227,16 +276,8 @@ class Policy:
             if any(it.kind == "outline" for it in served) and not any(it.kind in ("bindings", "module_path") for it in served):
                 spawned = P.src_new() * (self.h_mp() + self.h_b("x.py"))
                 return [("ok", F(49, 50), keys, spawned), ("cap", F(1, 50), set(), F(0))]
-            seen_kinds = set()
-            if n is not None:
-                for ln, bs in K.stmts.get(M, {}).items():
-                    for b in bs:
-                        if b.name == n and b.kind != "star":
-                            seen_kinds.add(b.kind)
-            if seen_kinds & {"from", "import"}:
-                hop = {"def": F(1, 100), "reexport": F(93, 100), "star": F(1, 100), "none": F(5, 100)}
-            elif seen_kinds & {"def", "class", "assign"}:
-                hop = {"def": F(94, 100), "reexport": F(2, 100), "star": F(1, 100), "none": F(3, 100)}
+            names = {n} if n is not None else {it.need.arg for it in served if it.kind == "bindings" and it.need is not None}
+            hop = self.hop_dist(K, M, names) if names else hop
             base = [
                 ("def", hop["def"], keys, F(0)),
                 ("reexport", hop["reexport"], keys, self.h_mp() + self.h_b("x.py")),
@@ -259,6 +300,11 @@ class Policy:
                     spawned += P.children(depth_kind(d)) * self.h_cover(K, "IMPORT", d + "/child" if d != "." else "child", 1)
                 elif it.kind == "module_path":
                     spawned += self.h_b(self._likely_path(K, it))
+            if d == "." and K._roots() is UNKNOWN:
+                # the root listing also fixes the source roots, which every later absolute import needs;
+                # count that as half a call saved per absolute import still open
+                n_abs = sum(1 for it in items if it.kind == "module_path" and not it.need.arg.startswith("."))
+                spawned -= F(1, 2) * n_abs
             return [("complete", 1 - pc, keys, spawned), ("cap", pc, set(), F(0))]
         if call.tool == "grep":
             pat, scope = call.args
@@ -274,21 +320,29 @@ class Policy:
                         continue
                     spec = it.need.arg
                     single_abs = (not spec.startswith(".")) and ("." not in spec.lstrip("."))
-                    if not single_abs:
+                    roots_known = spec.startswith(".") or K._roots() is not UNKNOWN
+                    if not single_abs and roots_known:
                         res.add(it.key)
                         spawned += self.h_b(self._likely_path(K, it))
                 return [("zero", g["zero"], set(), F(0)), ("mid", g["mid"], res, spawned), ("cap", g["cap"], set(), F(0))]
-            hits = P.grep_mid_hits(pcls, sk)
-            per_hit = P.src_new() * (self.h_mp() + self.h_b("x.py"))
             cover_keys = {k for k in keys if k[0] == "cover"}
+            # a directory that holds few python files (docs, CI config) is far more likely to come back empty
+            share = F(1) if scope in K.files and scope.endswith(".py") else (F(1, 50) if scope in K.files else P.dir_share(scope))
+            p_zero = g["zero"] + (1 - g["zero"]) * (1 - share)
+            p_mid = g["mid"] * share
+            p_cap = g["cap"] * share
+            # follow-up work on hits is inevitable whichever scope is searched first; closing a scope with
+            # more expected candidates is the larger step forward, so it is not charged here
             return [
-                ("zero", g["zero"], keys, F(0)),
-                ("mid", g["mid"], keys, hits * per_hit),
-                ("cap", g["cap"], cover_keys, self.h_split(K, scope) if cover_keys else F(0)),
+                ("zero", p_zero, keys, F(0)),
+                ("mid", p_mid, keys, F(0)),
+                ("cap", p_cap, cover_keys, self.h_split(K, scope) if cover_keys else F(0)),
             ]
         if call.tool == "read":
             pf = P.allfit()
             return [("fits", pf, keys, F(0)), ("long", 1 - pf, set(), F(0))]
+        if call.tool in ("members", "calls"):
+            return [("ok", F(19, 20), keys, F(0)), ("cap", F(1, 20), set(), F(0))]
         return [("ok", F(1), keys, F(0))]
 
     # ---------------------------------------------------------------- search
@@ -316,6 +370,9 @@ class Policy:
                 H_rem = sum((hval[k] for k in rem), F(0)) + spawned
                 if not rem and spawned == 0:
                     best, nxt = F(0), "done"
+                    # a search that returns candidates opens work the abstract state does not carry
+                    if c.call.tool == "grep" and label == "mid" and any(k[0] == "cover" for k in c.serves):
+                        nxt = "continue"
                 else:
                     best, nxt = None, "continue"
                     for c2 in cands:
@@ -348,6 +405,10 @@ def pattern_class(pat: str) -> str:
         return "DEF"
     if pat == pattern("STAR", "x"):
         return "STAR"
+    if pat.startswith(r"^\s*class\s+\w+\s*\("):
+        return "SUBCLASS"
+    if pat.startswith(r"\b") and pat.endswith(r"\s*\("):
+        return "CALL"
     if r"|\*)" in pat:
         return "IMPORT_OR_STAR"
     return "IMPORT"
@@ -382,4 +443,6 @@ def classify_outcome(call: Call, resp, K: Seen, served_kinds: set) -> str:
         return "zero" if not resp.lines else "mid"
     if call.tool == "read":
         return "fits" if call.args[0] in K.all_known else "long"
+    if call.tool in ("members", "calls"):
+        return "cap" if resp.capped else "ok"
     return "ok"

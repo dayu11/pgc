@@ -1,0 +1,1472 @@
+# black-resolve-7179dc2f
+
+**Repository:** black  
+**Chain:** resolve  
+**Seed:** 0, prior f2e0b46ccc75305a, floor 3
+
+## Task
+
+In `tests/test_concurrency_manager_shutdown.py` line 9, `Mode` is imported from `black`. Which definition does the module-level name `Mode` actually refer to? Give `path:line`.
+
+*Declared semantics:* A module is a .py file; source roots are the repository root and, if present, src/ and lib/. `from M import N` binds N to M's single module-level binding of N, else to the submodule M/N, else to the single star-import source of M that exports N; bindings take effect in source order. A module exports N if its literal __all__ lists N or, without __all__, if N is public and bound in it. A class derives from a definition when a base written as a bare name or `module.Name` resolves to it. A call site is `name(...)` where the bare name refers to the module-level binding (not a parameter or local). Multiple bindings, non-literal __all__, external star imports and dynamic namespace code make a name ambiguous; tasks never ask about ambiguous names.
+
+## Step 1
+
+I need to find what `Mode` really is in `tests/test_concurrency_manager_shutdown.py`: line 9 imports it from `black`, so the definition is at least one hop away.
+
+Next I will check `tests/test_concurrency_manager_shutdown.py` for any other binding of `Mode` besides the import on line 9; almost certainly the import is the only one, and then `black` is the place to follow.
+
+**Call:** `symbols('tests/test_concurrency_manager_shutdown.py', 'Mode')`
+
+**Response**: outcome `reexport`
+
+```
+module tests/test_concurrency_manager_shutdown.py lines=67 dynamic=no all=none
+9 from Mode <- black Mode
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "bindings",
+   "key": [
+    "bindings",
+    "tests/test_concurrency_manager_shutdown.py",
+    "Mode"
+   ],
+   "desc": "check the top-level names of `tests/test_concurrency_manager_shutdown.py` for `Mode`"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "symbols('tests/test_concurrency_manager_shutdown.py', 'Mode')",
+   "key": "[\"symbols\", [\"tests/test_concurrency_manager_shutdown.py\", \"Mode\"]]",
+   "v1": [
+    734757,
+    251000
+   ],
+   "v2": [
+    734757,
+    251000
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     1,
+     100
+    ],
+    "reexport": [
+     93,
+     100
+    ],
+    "star": [
+     1,
+     100
+    ],
+    "none": [
+     1,
+     20
+    ]
+   },
+   "serves": [
+    [
+     "bindings",
+     "tests/test_concurrency_manager_shutdown.py",
+     "Mode"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/test_concurrency_manager_shutdown.py')",
+   "key": "[\"symbols\", [\"tests/test_concurrency_manager_shutdown.py\"]]",
+   "v1": [
+    36353329,
+    11797000
+   ],
+   "v2": [
+    36353329,
+    11797000
+   ],
+   "p_cap": [
+    29,
+    188
+   ],
+   "forecast": {
+    "def": [
+     159,
+     18800
+    ],
+    "reexport": [
+     14787,
+     18800
+    ],
+    "star": [
+     159,
+     18800
+    ],
+    "none": [
+     159,
+     3760
+    ],
+    "cap": [
+     29,
+     188
+    ]
+   },
+   "serves": [
+    [
+     "bindings",
+     "tests/test_concurrency_manager_shutdown.py",
+     "Mode"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "symbols('tests/test_concurrency_manager_shutdown.py', 'Mode')",
+  "key": "[\"symbols\", [\"tests/test_concurrency_manager_shutdown.py\", \"Mode\"]]",
+  "provenance": "module `tests/test_concurrency_manager_shutdown.py` (task), name `Mode` (task)",
+  "v2": [
+   734757,
+   251000
+  ]
+ },
+ "forecast": {
+  "def": [
+   1,
+   100
+  ],
+  "reexport": [
+   93,
+   100
+  ],
+  "star": [
+   1,
+   100
+  ],
+  "none": [
+   1,
+   20
+  ]
+ },
+ "plan": {
+  "def": "done",
+  "reexport": "continue",
+  "star": "continue",
+  "none": "done"
+ },
+ "hedges": [
+  {
+   "outcome": "reexport",
+   "word": "almost certainly",
+   "p": [
+    93,
+    100
+   ]
+  }
+ ],
+ "adherence": null,
+ "facts": [
+  {
+   "kind": "outline",
+   "step": 1,
+   "path": "tests/test_concurrency_manager_shutdown.py",
+   "filter": "Mode",
+   "header": {
+    "lines": 67,
+    "dynamic": false,
+    "all_status": "none",
+    "all_line": null
+   },
+   "bindings": [
+    {
+     "module": "tests/test_concurrency_manager_shutdown.py",
+     "name": "Mode",
+     "line": 9,
+     "kind": "from",
+     "src": "black",
+     "src_name": "Mode",
+     "conditional": false,
+     "col": 0,
+     "bases": []
+    }
+   ],
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "phase": "resolve",
+  "step": 1,
+  "of": 1,
+  "chain": [
+   [
+    "tests/test_concurrency_manager_shutdown.py",
+    "Mode",
+    "reexport",
+    [
+     "black",
+     null
+    ]
+   ]
+  ]
+ }
+}
+```
+</details>
+
+## Step 2
+
+The test module `tests/test_concurrency_manager_shutdown.py` does not define `Mode` itself; line 9 imports it from `black`.
+
+So far: `tests/test_concurrency_manager_shutdown.py` takes `Mode` from `black`, which I still have to locate.
+
+Let me list `./` to see what lives there; the listing settles whether the import is a module, a package, or not here at all. Very likely the listing fits. If the listing is too long, I will outline `black.py` directly, which both checks that the file exists and shows me `Mode`. I could outline `black.py` directly, which both checks that the file exists and shows me `Mode` instead, but it costs more calls in expectation.
+
+**Call:** `ls('.')`
+
+**Response**: outcome `complete`
+
+```
+.git_archival.txt
+.github/
+.pre-commit-config.yaml
+.pre-commit-hooks.yaml
+.prettierrc.yaml
+.readthedocs.yaml
+AUTHORS.md
+CHANGES.md
+CONTRIBUTING.md
+README.md
+SECURITY.md
+action.yml
+action/
+docs/
+profiling/
+pyproject.toml
+scripts/
+src/
+tests/
+tox.ini
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "module_path",
+   "key": [
+    "module_path",
+    "tests/test_concurrency_manager_shutdown.py",
+    "black"
+   ],
+   "desc": "find where `black` (imported by `tests/test_concurrency_manager_shutdown.py`) lives"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "ls('.')",
+   "key": "[\"ls\", [\".\"]]",
+   "v1": [
+    113,
+    60
+   ],
+   "v2": [
+    11242012253179,
+    5530930675380
+   ],
+   "p_cap": [
+    2,
+    9
+   ],
+   "forecast": {
+    "complete": [
+     7,
+     9
+    ],
+    "cap": [
+     2,
+     9
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_concurrency_manager_shutdown.py",
+     "black"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('black.py', 'Mode')",
+   "key": "[\"symbols\", [\"black.py\", \"Mode\"]]",
+   "v1": [
+    1672536172221,
+    614547852820
+   ],
+   "v2": [
+    4760795068013,
+    1843643558460
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     18855648,
+     122419891
+    ],
+    "reexport": [
+     445760,
+     122419891
+    ],
+    "star": [
+     44576,
+     122419891
+    ],
+    "none": [
+     757792,
+     122419891
+    ],
+    "missing": [
+     226865,
+     271441
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_concurrency_manager_shutdown.py",
+     "black"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('black/__init__.py', 'Mode')",
+   "key": "[\"symbols\", [\"black/__init__.py\", \"Mode\"]]",
+   "v1": [
+    33161391001,
+    10933643480
+   ],
+   "v2": [
+    94163638153,
+    32800930440
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     217905,
+     41259032
+    ],
+    "reexport": [
+     624661,
+     41259032
+    ],
+    "star": [
+     14527,
+     41259032
+    ],
+    "none": [
+     246959,
+     41259032
+    ],
+    "missing": [
+     528355,
+     542882
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_concurrency_manager_shutdown.py",
+     "black"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+Mode\\\\b', '.')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+Mode\\\\b\", \".\"]]",
+   "v1": [
+    61,
+    20
+   ],
+   "v2": [
+    173,
+    60
+   ],
+   "p_cap": [
+    1,
+    24
+   ],
+   "forecast": {
+    "zero": [
+     1,
+     24
+    ],
+    "mid": [
+     11,
+     12
+    ],
+    "cap": [
+     1,
+     24
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_concurrency_manager_shutdown.py",
+     "black"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "ls('.')",
+  "key": "[\"ls\", [\".\"]]",
+  "provenance": "`black` imported by `tests/test_concurrency_manager_shutdown.py` should live under `.`",
+  "v2": [
+   11242012253179,
+   5530930675380
+  ]
+ },
+ "forecast": {
+  "complete": [
+   7,
+   9
+  ],
+  "cap": [
+   2,
+   9
+  ]
+ },
+ "plan": {
+  "complete": "continue",
+  "cap": "[\"symbols\", [\"black.py\", \"Mode\"]]"
+ },
+ "hedges": [
+  {
+   "outcome": "complete",
+   "word": "very likely",
+   "p": [
+    7,
+    9
+   ]
+  }
+ ],
+ "adherence": {
+  "planned": "continue",
+  "status": "open-ended"
+ },
+ "facts": [
+  {
+   "kind": "listing",
+   "step": 2,
+   "dir": ".",
+   "entries": [
+    ".git_archival.txt",
+    ".github/",
+    ".pre-commit-config.yaml",
+    ".pre-commit-hooks.yaml",
+    ".prettierrc.yaml",
+    ".readthedocs.yaml",
+    "AUTHORS.md",
+    "CHANGES.md",
+    "CONTRIBUTING.md",
+    "README.md",
+    "SECURITY.md",
+    "action.yml",
+    "action/",
+    "docs/",
+    "profiling/",
+    "pyproject.toml",
+    "scripts/",
+    "src/",
+    "tests/",
+    "tox.ini"
+   ],
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "phase": "resolve",
+  "step": 1,
+  "of": 1,
+  "chain": [
+   [
+    "tests/test_concurrency_manager_shutdown.py",
+    "Mode",
+    "reexport",
+    [
+     "black",
+     null
+    ]
+   ]
+  ]
+ }
+}
+```
+</details>
+
+## Step 3
+
+`./` has 20 entries: there is no `black` here.
+
+So far: `tests/test_concurrency_manager_shutdown.py` takes `Mode` from `black`, which I still have to locate.
+
+I'll list `src/` to see what lives there; the listing settles whether the import is a module, a package, or not here at all. Very likely the listing fits. If the listing is too long, I will outline `src/black.py` directly, which both checks that the file exists and shows me `Mode`. I could outline `src/black.py` directly, which both checks that the file exists and shows me `Mode` instead, but it costs more calls in expectation.
+
+**Call:** `ls('src')`
+
+**Response**: outcome `complete`
+
+```
+_black_version.pyi
+black/
+blackd/
+blib2to3/
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "module_path",
+   "key": [
+    "module_path",
+    "tests/test_concurrency_manager_shutdown.py",
+    "black"
+   ],
+   "desc": "find where `black` (imported by `tests/test_concurrency_manager_shutdown.py`) lives"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "ls('src')",
+   "key": "[\"ls\", [\"src\"]]",
+   "v1": [
+    43,
+    20
+   ],
+   "v2": [
+    1342365713069,
+    614547852820
+   ],
+   "p_cap": [
+    1,
+    10
+   ],
+   "forecast": {
+    "complete": [
+     9,
+     10
+    ],
+    "cap": [
+     1,
+     10
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_concurrency_manager_shutdown.py",
+     "black"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/black.py', 'Mode')",
+   "key": "[\"symbols\", [\"src/black.py\", \"Mode\"]]",
+   "v1": [
+    1470701393341,
+    614547852820
+   ],
+   "v2": [
+    1511971987519,
+    614547852820
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     37711296,
+     122419891
+    ],
+    "reexport": [
+     891520,
+     122419891
+    ],
+    "star": [
+     89152,
+     122419891
+    ],
+    "none": [
+     1515584,
+     122419891
+    ],
+    "missing": [
+     182289,
+     271441
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_concurrency_manager_shutdown.py",
+     "black"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/black/__init__.py', 'Mode')",
+   "key": "[\"symbols\", [\"src/black/__init__.py\", \"Mode\"]]",
+   "v1": [
+    8243792347,
+    2733410870
+   ],
+   "v2": [
+    1700500949,
+    546682174
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     217905,
+     20629516
+    ],
+    "reexport": [
+     624661,
+     20629516
+    ],
+    "star": [
+     14527,
+     20629516
+    ],
+    "none": [
+     246959,
+     20629516
+    ],
+    "missing": [
+     256914,
+     271441
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_concurrency_manager_shutdown.py",
+     "black"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+Mode\\\\b', '.')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+Mode\\\\b\", \".\"]]",
+   "v1": [
+    61,
+    20
+   ],
+   "v2": [
+    63,
+    20
+   ],
+   "p_cap": [
+    1,
+    24
+   ],
+   "forecast": {
+    "zero": [
+     1,
+     24
+    ],
+    "mid": [
+     11,
+     12
+    ],
+    "cap": [
+     1,
+     24
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_concurrency_manager_shutdown.py",
+     "black"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+Mode\\\\b', 'src')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+Mode\\\\b\", \"src\"]]",
+   "v1": [
+    61,
+    20
+   ],
+   "v2": [
+    63,
+    20
+   ],
+   "p_cap": [
+    1,
+    265
+   ],
+   "forecast": {
+    "zero": [
+     218,
+     265
+    ],
+    "mid": [
+     46,
+     265
+    ],
+    "cap": [
+     1,
+     265
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_concurrency_manager_shutdown.py",
+     "black"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "ls('src')",
+  "key": "[\"ls\", [\"src\"]]",
+  "provenance": "`black` imported by `tests/test_concurrency_manager_shutdown.py` should live under `src`",
+  "v2": [
+   1342365713069,
+   614547852820
+  ]
+ },
+ "forecast": {
+  "complete": [
+   9,
+   10
+  ],
+  "cap": [
+   1,
+   10
+  ]
+ },
+ "plan": {
+  "complete": "continue",
+  "cap": "[\"symbols\", [\"src/black.py\", \"Mode\"]]"
+ },
+ "hedges": [
+  {
+   "outcome": "complete",
+   "word": "very likely",
+   "p": [
+    9,
+    10
+   ]
+  }
+ ],
+ "adherence": {
+  "planned": "continue",
+  "status": "open-ended"
+ },
+ "facts": [
+  {
+   "kind": "listing",
+   "step": 3,
+   "dir": "src",
+   "entries": [
+    "_black_version.pyi",
+    "black/",
+    "blackd/",
+    "blib2to3/"
+   ],
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "phase": "resolve",
+  "step": 1,
+  "of": 1,
+  "chain": [
+   [
+    "tests/test_concurrency_manager_shutdown.py",
+    "Mode",
+    "reexport",
+    [
+     "black",
+     null
+    ]
+   ]
+  ]
+ }
+}
+```
+</details>
+
+## Step 4
+
+`src/` has 4 entries: `black/` is there, so `black` is a package.
+
+So far: `tests/test_concurrency_manager_shutdown.py` takes `Mode` from `black`, which I still have to locate.
+
+I'll outline `src/black/__init__.py` directly, which both checks that the file exists and shows me `Mode`; if `black` is a plain module that is where it has to be. Probably it is re-exported from somewhere else. If the name is not bound there, I follow whatever it opens up; if it is defined right there, that finishes it. I could list `src/black/` to see what lives there instead, but it tends to open more follow-up work.
+
+**Call:** `symbols('src/black/__init__.py', 'Mode')`
+
+**Response**: outcome `reexport`
+
+```
+module src/black/__init__.py lines=1723 dynamic=no all=none
+62 from Mode <- black.mode Mode
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "module_path",
+   "key": [
+    "module_path",
+    "tests/test_concurrency_manager_shutdown.py",
+    "black"
+   ],
+   "desc": "find where `black` (imported by `tests/test_concurrency_manager_shutdown.py`) lives"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "symbols('src/black/__init__.py', 'Mode')",
+   "key": "[\"symbols\", [\"src/black/__init__.py\", \"Mode\"]]",
+   "v1": [
+    123531,
+    50350
+   ],
+   "v2": [
+    22363139,
+    9113350
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     147,
+     760
+    ],
+    "reexport": [
+     2107,
+     3800
+    ],
+    "star": [
+     49,
+     3800
+    ],
+    "none": [
+     833,
+     3800
+    ],
+    "missing": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_concurrency_manager_shutdown.py",
+     "black"
+    ]
+   ]
+  },
+  {
+   "call": "ls('src/black')",
+   "key": "[\"ls\", [\"src/black\"]]",
+   "v1": [
+    59024,
+    17195
+   ],
+   "v2": [
+    15544982,
+    4556675
+   ],
+   "p_cap": [
+    4,
+    181
+   ],
+   "forecast": {
+    "complete": [
+     177,
+     181
+    ],
+    "cap": [
+     4,
+     181
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_concurrency_manager_shutdown.py",
+     "black"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+Mode\\\\b', '.')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+Mode\\\\b\", \".\"]]",
+   "v1": [
+    419,
+    95
+   ],
+   "v2": [
+    173881,
+    50350
+   ],
+   "p_cap": [
+    1,
+    24
+   ],
+   "forecast": {
+    "zero": [
+     1,
+     24
+    ],
+    "mid": [
+     11,
+     12
+    ],
+    "cap": [
+     1,
+     24
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_concurrency_manager_shutdown.py",
+     "black"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+Mode\\\\b', 'src')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+Mode\\\\b\", \"src\"]]",
+   "v1": [
+    419,
+    95
+   ],
+   "v2": [
+    173881,
+    50350
+   ],
+   "p_cap": [
+    1,
+    265
+   ],
+   "forecast": {
+    "zero": [
+     218,
+     265
+    ],
+    "mid": [
+     46,
+     265
+    ],
+    "cap": [
+     1,
+     265
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_concurrency_manager_shutdown.py",
+     "black"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "symbols('src/black/__init__.py', 'Mode')",
+  "key": "[\"symbols\", [\"src/black/__init__.py\", \"Mode\"]]",
+  "provenance": "`black` would be `src/black/__init__.py` if that file exists; one call both checks and closes it",
+  "v2": [
+   22363139,
+   9113350
+  ]
+ },
+ "forecast": {
+  "def": [
+   147,
+   760
+  ],
+  "reexport": [
+   2107,
+   3800
+  ],
+  "star": [
+   49,
+   3800
+  ],
+  "none": [
+   833,
+   3800
+  ],
+  "missing": [
+   1,
+   50
+  ]
+ },
+ "plan": {
+  "def": "done",
+  "reexport": "continue",
+  "star": "continue",
+  "none": "continue",
+  "missing": "[\"ls\", [\"src/black\"]]"
+ },
+ "hedges": [
+  {
+   "outcome": "reexport",
+   "word": "probably",
+   "p": [
+    2107,
+    3800
+   ]
+  }
+ ],
+ "adherence": {
+  "planned": "continue",
+  "status": "open-ended"
+ },
+ "facts": [
+  {
+   "kind": "outline",
+   "step": 4,
+   "path": "src/black/__init__.py",
+   "filter": "Mode",
+   "header": {
+    "lines": 1723,
+    "dynamic": false,
+    "all_status": "none",
+    "all_line": null
+   },
+   "bindings": [
+    {
+     "module": "src/black/__init__.py",
+     "name": "Mode",
+     "line": 62,
+     "kind": "from",
+     "src": "black.mode",
+     "src_name": "Mode",
+     "conditional": false,
+     "col": 0,
+     "bases": []
+    }
+   ],
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "phase": "resolve",
+  "step": 1,
+  "of": 1,
+  "chain": [
+   [
+    "tests/test_concurrency_manager_shutdown.py",
+    "Mode",
+    "reexport",
+    [
+     "black",
+     "src/black/__init__.py"
+    ]
+   ],
+   [
+    "src/black/__init__.py",
+    "Mode",
+    "reexport",
+    [
+     "black.mode",
+     null
+    ]
+   ]
+  ]
+ }
+}
+```
+</details>
+
+## Step 5
+
+The package `src/black` does not define `Mode` itself; line 62 imports it from `black.mode`.
+
+So far: `tests/test_concurrency_manager_shutdown.py` takes `Mode` from `black`; `src/black/__init__.py` takes `Mode` from `black.mode`, which I still have to locate.
+
+Let me outline `src/black/mode.py` directly, which both checks that the file exists and shows me `Mode`; if `black.mode` is a plain module that is where it has to be. Very likely it is defined right there. If the file does not exist, I will list `src/black/` to see what lives there; if the name is not bound there, that finishes it. I could list `src/black/` to see what lives there instead, but it tends to open more follow-up work.
+
+**Call:** `symbols('src/black/mode.py', 'Mode')`
+
+**Response**: outcome `def`
+
+```
+module src/black/mode.py lines=357 dynamic=no all=none
+282 class Mode ()
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "module_path",
+   "key": [
+    "module_path",
+    "src/black/__init__.py",
+    "black.mode"
+   ],
+   "desc": "find where `black.mode` (imported by `src/black/__init__.py`) lives"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "symbols('src/black/mode.py', 'Mode')",
+   "key": "[\"symbols\", [\"src/black/mode.py\", \"Mode\"]]",
+   "v1": [
+    1569150741,
+    1179554420
+   ],
+   "v2": [
+    284677377961,
+    213499350020
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     189504,
+     234971
+    ],
+    "reexport": [
+     4480,
+     234971
+    ],
+    "star": [
+     448,
+     234971
+    ],
+    "none": [
+     7616,
+     234971
+    ],
+    "missing": [
+     73,
+     521
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "src/black/__init__.py",
+     "black.mode"
+    ]
+   ]
+  },
+  {
+   "call": "ls('src/black')",
+   "key": "[\"ls\", [\"src/black\"]]",
+   "v1": [
+    7501,
+    3620
+   ],
+   "v2": [
+    438996141941,
+    213499350020
+   ],
+   "p_cap": [
+    4,
+    181
+   ],
+   "forecast": {
+    "complete": [
+     177,
+     181
+    ],
+    "cap": [
+     4,
+     181
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "src/black/__init__.py",
+     "black.mode"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+Mode\\\\b', '.')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+Mode\\\\b\", \".\"]]",
+   "v1": [
+    32,
+    15
+   ],
+   "v2": [
+    2445638111,
+    1179554420
+   ],
+   "p_cap": [
+    1,
+    24
+   ],
+   "forecast": {
+    "zero": [
+     1,
+     24
+    ],
+    "mid": [
+     11,
+     12
+    ],
+    "cap": [
+     1,
+     24
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "src/black/__init__.py",
+     "black.mode"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+Mode\\\\b', 'src')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+Mode\\\\b\", \"src\"]]",
+   "v1": [
+    3049,
+    1060
+   ],
+   "v2": [
+    142639682413,
+    62516384260
+   ],
+   "p_cap": [
+    1,
+    265
+   ],
+   "forecast": {
+    "zero": [
+     218,
+     265
+    ],
+    "mid": [
+     46,
+     265
+    ],
+    "cap": [
+     1,
+     265
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "src/black/__init__.py",
+     "black.mode"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/black/mode/__init__.py', 'Mode')",
+   "key": "[\"symbols\", [\"src/black/mode/__init__.py\", \"Mode\"]]",
+   "v1": [
+    1553384,
+    524647
+   ],
+   "v2": [
+    72465772653288,
+    30942484389487
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     1095,
+     39596
+    ],
+    "reexport": [
+     3139,
+     39596
+    ],
+    "star": [
+     73,
+     39596
+    ],
+    "none": [
+     1241,
+     39596
+    ],
+    "missing": [
+     448,
+     521
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "src/black/__init__.py",
+     "black.mode"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "symbols('src/black/mode.py', 'Mode')",
+  "key": "[\"symbols\", [\"src/black/mode.py\", \"Mode\"]]",
+  "provenance": "`black.mode` would be `src/black/mode.py` if that file exists; one call both checks and closes it",
+  "v2": [
+   284677377961,
+   213499350020
+  ]
+ },
+ "forecast": {
+  "def": [
+   189504,
+   234971
+  ],
+  "reexport": [
+   4480,
+   234971
+  ],
+  "star": [
+   448,
+   234971
+  ],
+  "none": [
+   7616,
+   234971
+  ],
+  "missing": [
+   73,
+   521
+  ]
+ },
+ "plan": {
+  "def": "done",
+  "reexport": "continue",
+  "star": "continue",
+  "none": "done",
+  "missing": "[\"ls\", [\"src/black\"]]"
+ },
+ "hedges": [
+  {
+   "outcome": "def",
+   "word": "very likely",
+   "p": [
+    189504,
+    234971
+   ]
+  }
+ ],
+ "adherence": {
+  "planned": "continue",
+  "status": "open-ended"
+ },
+ "facts": [
+  {
+   "kind": "outline",
+   "step": 5,
+   "path": "src/black/mode.py",
+   "filter": "Mode",
+   "header": {
+    "lines": 357,
+    "dynamic": false,
+    "all_status": "none",
+    "all_line": null
+   },
+   "bindings": [
+    {
+     "module": "src/black/mode.py",
+     "name": "Mode",
+     "line": 282,
+     "kind": "class",
+     "src": null,
+     "src_name": null,
+     "conditional": false,
+     "col": 0,
+     "bases": []
+    }
+   ],
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "phase": "resolve",
+  "step": 1,
+  "of": 1,
+  "chain": [
+   [
+    "tests/test_concurrency_manager_shutdown.py",
+    "Mode",
+    "reexport",
+    [
+     "black",
+     "src/black/__init__.py"
+    ]
+   ],
+   [
+    "src/black/__init__.py",
+    "Mode",
+    "reexport",
+    [
+     "black.mode",
+     "src/black/mode.py"
+    ]
+   ],
+   [
+    "src/black/mode.py",
+    "Mode",
+    "class",
+    282
+   ]
+  ]
+ }
+}
+```
+</details>
+
+## Final
+
+`Mode` is the class at `src/black/mode.py:282`. Looking back, all 5 calls were needed.
+
+**Answer:** `{"final_kind": "resolve", "final": {"kind": "def", "path": "src/black/mode.py", "line": 282, "name": "Mode", "detail": "class"}, "steps": [{"op": "resolve", "output": {"kind": "def", "path": "src/black/mode.py", "line": 282, "name": "Mode", "detail": "class"}}], "stuck": null}`  
+**Stopped:** certificate after 5 calls

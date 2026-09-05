@@ -1,0 +1,3383 @@
+{
+ "task": {
+  "family": "importers",
+  "repo": "flask",
+  "chain": [
+   {
+    "op": "resolve",
+    "module": "tests/test_request.py",
+    "line": 6,
+    "name": "FlaskClient",
+    "spec": "flask.testing",
+    "src_name": "FlaskClient"
+   },
+   {
+    "op": "importers"
+   }
+  ],
+  "given": {
+   "module": "tests/test_request.py",
+   "line": 6,
+   "name": "FlaskClient",
+   "spec": "flask.testing",
+   "src_name": "FlaskClient"
+  },
+  "text": "In `tests/test_request.py` line 6, `FlaskClient` is imported from `flask.testing`. Which definition does the module-level name `FlaskClient` actually refer to? Give `path:line`. Then list every module-level import statement in the repository that brings in that definition, including through re-exports and star imports, as `path:line`.",
+  "semantics": "A module is a .py file; source roots are the repository root and, if present, src/ and lib/. `from M import N` binds N to M's single module-level binding of N, else to the submodule M/N, else to the single star-import source of M that exports N; bindings take effect in source order. A module exports N if its literal __all__ lists N or, without __all__, if N is public and bound in it. A class derives from a definition when a base written as a bare name or `module.Name` resolves to it. A call site is `name(...)` where the bare name refers to the module-level binding (not a parameter or local). Multiple bindings, non-literal __all__, external star imports and dynamic namespace code make a name ambiguous; tasks never ask about ambiguous names.",
+  "skeleton": {
+   "hops": "2",
+   "star": false,
+   "alias": false,
+   "decoys": "0",
+   "relative": false,
+   "importers": "6-12",
+   "decoy_sources": "0",
+   "chain": "resolve\u2192importers"
+  },
+  "floor": 11,
+  "id": "flask-importers-4322d92d",
+  "cell": "alias=False|chain=resolve\u2192importers|decoy_sources=0|decoys=0|hops=2|importers=6-12|relative=False|star=False"
+ },
+ "seed": 0,
+ "depth": 2,
+ "theta_hash": "4ad7c2823d0ab783",
+ "budget": 40,
+ "steps": [
+  {
+   "step": 1,
+   "phase": "resolve",
+   "thought": "I need to find what `FlaskClient` really is in `tests/test_request.py`: line 6 imports it from `flask.testing`, so the definition is at least one hop away. Then I have to find every module-level import of that definition, which means a complete search, not a sample.\n\nNext I will check `tests/test_request.py` for any other binding of `FlaskClient` besides the import on line 6; almost certainly the import is the only one, and then `flask.testing` is the place to follow.",
+   "hedges": [
+    {
+     "outcome": "reexport",
+     "word": "almost certainly",
+     "p": [
+      93,
+      100
+     ]
+    }
+   ],
+   "items": [
+    {
+     "kind": "bindings",
+     "key": [
+      "bindings",
+      "tests/test_request.py",
+      "FlaskClient"
+     ],
+     "desc": "check the top-level names of `tests/test_request.py` for `FlaskClient`"
+    }
+   ],
+   "candidates": [
+    {
+     "call": "symbols('tests/test_request.py', 'FlaskClient')",
+     "key": "[\"symbols\", [\"tests/test_request.py\", \"FlaskClient\"]]",
+     "v1": [
+      136310841,
+      46659700
+     ],
+     "v2": [
+      136310841,
+      46659700
+     ],
+     "p_cap": [
+      0,
+      1
+     ],
+     "forecast": {
+      "def": [
+       1,
+       100
+      ],
+      "reexport": [
+       93,
+       100
+      ],
+      "star": [
+       1,
+       100
+      ],
+      "none": [
+       1,
+       20
+      ]
+     },
+     "serves": [
+      [
+       "bindings",
+       "tests/test_request.py",
+       "FlaskClient"
+      ]
+     ]
+    },
+    {
+     "call": "symbols('tests/test_request.py')",
+     "key": "[\"symbols\", [\"tests/test_request.py\"]]",
+     "v1": [
+      3642734873,
+      1189822350
+     ],
+     "v2": [
+      3642734873,
+      1189822350
+     ],
+     "p_cap": [
+      143,
+      1020
+     ],
+     "forecast": {
+      "def": [
+       877,
+       102000
+      ],
+      "reexport": [
+       27187,
+       34000
+      ],
+      "star": [
+       877,
+       102000
+      ],
+      "none": [
+       877,
+       20400
+      ],
+      "cap": [
+       143,
+       1020
+      ]
+     },
+     "serves": [
+      [
+       "bindings",
+       "tests/test_request.py",
+       "FlaskClient"
+      ]
+     ]
+    }
+   ],
+   "choice": {
+    "call": "symbols('tests/test_request.py', 'FlaskClient')",
+    "key": "[\"symbols\", [\"tests/test_request.py\", \"FlaskClient\"]]",
+    "provenance": "module `tests/test_request.py` (task), name `FlaskClient` (task)",
+    "v2": [
+     136310841,
+     46659700
+    ]
+   },
+   "forecast": {
+    "def": [
+     1,
+     100
+    ],
+    "reexport": [
+     93,
+     100
+    ],
+    "star": [
+     1,
+     100
+    ],
+    "none": [
+     1,
+     20
+    ]
+   },
+   "plan": {
+    "def": "done",
+    "reexport": "continue",
+    "star": "continue",
+    "none": "done"
+   },
+   "call": {
+    "text": "symbols('tests/test_request.py', 'FlaskClient')",
+    "key": "[\"symbols\", [\"tests/test_request.py\", \"FlaskClient\"]]",
+    "tool": "symbols",
+    "args": [
+     "tests/test_request.py",
+     "FlaskClient"
+    ]
+   },
+   "response": {
+    "tool": "symbols",
+    "lines": [
+     "module tests/test_request.py lines=71 dynamic=no all=none",
+     "6 from FlaskClient <- flask.testing FlaskClient"
+    ],
+    "capped": false,
+    "error": null
+   },
+   "outcome": "reexport",
+   "facts": [
+    {
+     "kind": "outline",
+     "step": 1,
+     "path": "tests/test_request.py",
+     "filter": "FlaskClient",
+     "header": {
+      "lines": 71,
+      "dynamic": false,
+      "all_status": "none",
+      "all_line": null
+     },
+     "bindings": [
+      {
+       "module": "tests/test_request.py",
+       "name": "FlaskClient",
+       "line": 6,
+       "kind": "from",
+       "src": "flask.testing",
+       "src_name": "FlaskClient",
+       "conditional": false,
+       "col": 0,
+       "bases": []
+      }
+     ],
+     "complete": true
+    }
+   ],
+   "adherence": null,
+   "goal_state": {
+    "phase": "resolve",
+    "step": 1,
+    "of": 2,
+    "chain": [
+     [
+      "tests/test_request.py",
+      "FlaskClient",
+      "reexport",
+      [
+       "flask.testing",
+       null
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "step": 2,
+   "phase": "resolve",
+   "thought": "The test module `tests/test_request.py` does not define `FlaskClient` itself; line 6 imports it from `flask.testing`.\n\nSo far: `tests/test_request.py` takes `FlaskClient` from `flask.testing`, which I still have to locate.\n\nLet me list `./` to see what lives there; the listing settles whether the import is a module, a package, or not here at all. Very likely the listing fits. If the listing is too long, I will outline `flask/testing.py` directly, which both checks that the file exists and shows me `FlaskClient`. I could outline `flask/testing.py` directly, which both checks that the file exists and shows me `FlaskClient` instead, but it costs more calls in expectation.",
+   "hedges": [
+    {
+     "outcome": "complete",
+     "word": "very likely",
+     "p": [
+      7,
+      9
+     ]
+    }
+   ],
+   "items": [
+    {
+     "kind": "module_path",
+     "key": [
+      "module_path",
+      "tests/test_request.py",
+      "flask.testing"
+     ],
+     "desc": "find where `flask.testing` (imported by `tests/test_request.py`) lives"
+    }
+   ],
+   "candidates": [
+    {
+     "call": "ls('.')",
+     "key": "[\"ls\", [\".\"]]",
+     "v1": [
+      5147,
+      2742
+     ],
+     "v2": [
+      105424786998181,
+      54750190558338
+     ],
+     "p_cap": [
+      2,
+      9
+     ],
+     "forecast": {
+      "complete": [
+       7,
+       9
+      ],
+      "cap": [
+       2,
+       9
+      ]
+     },
+     "serves": [
+      [
+       "module_path",
+       "tests/test_request.py",
+       "flask.testing"
+      ]
+     ]
+    },
+    {
+     "call": "symbols('flask/testing.py', 'FlaskClient')",
+     "key": "[\"symbols\", [\"flask/testing.py\", \"FlaskClient\"]]",
+     "v1": [
+      6879811492879,
+      3041677253241
+     ],
+     "v2": [
+      827954200556485,
+      383251333908366
+     ],
+     "p_cap": [
+      0,
+      1
+     ],
+     "forecast": {
+      "def": [
+       7105696,
+       19556559
+      ],
+      "reexport": [
+       114608,
+       15210657
+      ],
+      "star": [
+       114608,
+       136895913
+      ],
+      "none": [
+       2635984,
+       136895913
+      ],
+      "missing": [
+       178531,
+       293139
+      ]
+     },
+     "serves": [
+      [
+       "module_path",
+       "tests/test_request.py",
+       "flask.testing"
+      ]
+     ]
+    },
+    {
+     "call": "symbols('flask/testing/__init__.py', 'FlaskClient')",
+     "key": "[\"symbols\", [\"flask/testing/__init__.py\", \"FlaskClient\"]]",
+     "v1": [
+      151787659517,
+      50370660648
+     ],
+     "v2": [
+      431302374583,
+      151111981944
+     ],
+     "p_cap": [
+      0,
+      1
+     ],
+     "forecast": {
+      "def": [
+       13091,
+       2345112
+      ],
+      "reexport": [
+       327275,
+       16415784
+      ],
+      "star": [
+       13091,
+       16415784
+      ],
+      "none": [
+       301093,
+       16415784
+      ],
+      "missing": [
+       280048,
+       293139
+      ]
+     },
+     "serves": [
+      [
+       "module_path",
+       "tests/test_request.py",
+       "flask.testing"
+      ]
+     ]
+    },
+    {
+     "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+FlaskClient\\\\b', '.')",
+     "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+FlaskClient\\\\b\", \".\"]]",
+     "v1": [
+      1391,
+      457
+     ],
+     "v2": [
+      7889,
+      2742
+     ],
+     "p_cap": [
+      1,
+      40
+     ],
+     "forecast": {
+      "zero": [
+       1,
+       40
+      ],
+      "mid": [
+       19,
+       20
+      ],
+      "cap": [
+       1,
+       40
+      ]
+     },
+     "serves": [
+      [
+       "module_path",
+       "tests/test_request.py",
+       "flask.testing"
+      ]
+     ]
+    }
+   ],
+   "choice": {
+    "call": "ls('.')",
+    "key": "[\"ls\", [\".\"]]",
+    "provenance": "`flask.testing` imported by `tests/test_request.py` should live under `.`",
+    "v2": [
+     105424786998181,
+     54750190558338
+    ]
+   },
+   "forecast": {
+    "complete": [
+     7,
+     9
+    ],
+    "cap": [
+     2,
+     9
+    ]
+   },
+   "plan": {
+    "complete": "continue",
+    "cap": "[\"symbols\", [\"flask/testing.py\", \"FlaskClient\"]]"
+   },
+   "call": {
+    "text": "ls('.')",
+    "key": "[\"ls\", [\".\"]]",
+    "tool": "ls",
+    "args": [
+     "."
+    ]
+   },
+   "response": {
+    "tool": "ls",
+    "lines": [
+     ".devcontainer/",
+     ".github/",
+     ".pre-commit-config.yaml",
+     ".readthedocs.yaml",
+     "CHANGES.rst",
+     "LICENSE.txt",
+     "README.md",
+     "docs/",
+     "examples/",
+     "pyproject.toml",
+     "src/",
+     "tests/"
+    ],
+    "capped": false,
+    "error": null
+   },
+   "outcome": "complete",
+   "facts": [
+    {
+     "kind": "listing",
+     "step": 2,
+     "dir": ".",
+     "entries": [
+      ".devcontainer/",
+      ".github/",
+      ".pre-commit-config.yaml",
+      ".readthedocs.yaml",
+      "CHANGES.rst",
+      "LICENSE.txt",
+      "README.md",
+      "docs/",
+      "examples/",
+      "pyproject.toml",
+      "src/",
+      "tests/"
+     ],
+     "complete": true
+    }
+   ],
+   "adherence": {
+    "planned": "continue",
+    "status": "open-ended"
+   },
+   "goal_state": {
+    "phase": "resolve",
+    "step": 1,
+    "of": 2,
+    "chain": [
+     [
+      "tests/test_request.py",
+      "FlaskClient",
+      "reexport",
+      [
+       "flask.testing",
+       null
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "step": 3,
+   "phase": "resolve",
+   "thought": "`./` has 12 entries: there is no `flask` here.\n\nSo far: `tests/test_request.py` takes `FlaskClient` from `flask.testing`, which I still have to locate.\n\nI'll search the whole tree for `class FlaskClient`/`def FlaskClient`; that shows where the definition lives and whether the name is reused. Almost certainly it fits under the cap. If it caps or nothing turns up, I will list `src/` to see what lives there. I could list `src/` to see what lives there instead, but it costs more calls in expectation.",
+   "hedges": [
+    {
+     "outcome": "mid",
+     "word": "almost certainly",
+     "p": [
+      19,
+      20
+     ]
+    }
+   ],
+   "items": [
+    {
+     "kind": "module_path",
+     "key": [
+      "module_path",
+      "tests/test_request.py",
+      "flask.testing"
+     ],
+     "desc": "find where `flask.testing` (imported by `tests/test_request.py`) lives"
+    }
+   ],
+   "candidates": [
+    {
+     "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+FlaskClient\\\\b', '.')",
+     "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+FlaskClient\\\\b\", \".\"]]",
+     "v1": [
+      19137,
+      9140
+     ],
+     "v2": [
+      508273,
+      242210
+     ],
+     "p_cap": [
+      1,
+      40
+     ],
+     "forecast": {
+      "zero": [
+       1,
+       40
+      ],
+      "mid": [
+       19,
+       20
+      ],
+      "cap": [
+       1,
+       40
+      ]
+     },
+     "serves": [
+      [
+       "module_path",
+       "tests/test_request.py",
+       "flask.testing"
+      ]
+     ]
+    },
+    {
+     "call": "ls('src')",
+     "key": "[\"ls\", [\"src\"]]",
+     "v1": [
+      51787,
+      24221
+     ],
+     "v2": [
+      207605,
+      96884
+     ],
+     "p_cap": [
+      5,
+      53
+     ],
+     "forecast": {
+      "complete": [
+       48,
+       53
+      ],
+      "cap": [
+       5,
+       53
+      ]
+     },
+     "serves": [
+      [
+       "module_path",
+       "tests/test_request.py",
+       "flask.testing"
+      ]
+     ]
+    },
+    {
+     "call": "symbols('src/flask/testing.py', 'FlaskClient')",
+     "key": "[\"symbols\", [\"src/flask/testing.py\", \"FlaskClient\"]]",
+     "v1": [
+      6879811492879,
+      3041677253241
+     ],
+     "v2": [
+      2928422874555449,
+      1277504446361220
+     ],
+     "p_cap": [
+      0,
+      1
+     ],
+     "forecast": {
+      "def": [
+       7105696,
+       19556559
+      ],
+      "reexport": [
+       114608,
+       15210657
+      ],
+      "star": [
+       114608,
+       136895913
+      ],
+      "none": [
+       2635984,
+       136895913
+      ],
+      "missing": [
+       178531,
+       293139
+      ]
+     },
+     "serves": [
+      [
+       "module_path",
+       "tests/test_request.py",
+       "flask.testing"
+      ]
+     ]
+    },
+    {
+     "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+FlaskClient\\\\b', 'src')",
+     "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+FlaskClient\\\\b\", \"src\"]]",
+     "v1": [
+      66351,
+      22850
+     ],
+     "v2": [
+      1346671,
+      457000
+     ],
+     "p_cap": [
+      1,
+      250
+     ],
+     "forecast": {
+      "zero": [
+       107,
+       125
+      ],
+      "mid": [
+       7,
+       50
+      ],
+      "cap": [
+       1,
+       250
+      ]
+     },
+     "serves": [
+      [
+       "module_path",
+       "tests/test_request.py",
+       "flask.testing"
+      ]
+     ]
+    },
+    {
+     "call": "symbols('src/flask/testing/__init__.py', 'FlaskClient')",
+     "key": "[\"symbols\", [\"src/flask/testing/__init__.py\", \"FlaskClient\"]]",
+     "v1": [
+      151787659517,
+      50370660648
+     ],
+     "v2": [
+      110138371367,
+      35979043320
+     ],
+     "p_cap": [
+      0,
+      1
+     ],
+     "forecast": {
+      "def": [
+       13091,
+       2345112
+      ],
+      "reexport": [
+       327275,
+       16415784
+      ],
+      "star": [
+       13091,
+       16415784
+      ],
+      "none": [
+       301093,
+       16415784
+      ],
+      "missing": [
+       280048,
+       293139
+      ]
+     },
+     "serves": [
+      [
+       "module_path",
+       "tests/test_request.py",
+       "flask.testing"
+      ]
+     ]
+    }
+   ],
+   "choice": {
+    "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+FlaskClient\\\\b', '.')",
+    "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+FlaskClient\\\\b\", \".\"]]",
+    "provenance": "a `def`/`class FlaskClient` statement would reveal the module file; `FlaskClient` task",
+    "v2": [
+     508273,
+     242210
+    ]
+   },
+   "forecast": {
+    "zero": [
+     1,
+     40
+    ],
+    "mid": [
+     19,
+     20
+    ],
+    "cap": [
+     1,
+     40
+    ]
+   },
+   "plan": {
+    "zero": "[\"ls\", [\"src\"]]",
+    "mid": "continue",
+    "cap": "[\"ls\", [\"src\"]]"
+   },
+   "call": {
+    "text": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+FlaskClient\\\\b', '.')",
+    "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+FlaskClient\\\\b\", \".\"]]",
+    "tool": "grep",
+    "args": [
+     "^\\s*(?:async\\s+)?(?:def|class)\\s+FlaskClient\\b",
+     "."
+    ]
+   },
+   "response": {
+    "tool": "grep",
+    "lines": [
+     "src/flask/testing.py:109:class FlaskClient(Client):"
+    ],
+    "capped": false,
+    "error": null
+   },
+   "outcome": "mid",
+   "facts": [
+    {
+     "kind": "grep",
+     "step": 3,
+     "pattern": "^\\s*(?:async\\s+)?(?:def|class)\\s+FlaskClient\\b",
+     "scope": ".",
+     "hits": [
+      [
+       "src/flask/testing.py",
+       109
+      ]
+     ],
+     "capped": false
+    }
+   ],
+   "adherence": {
+    "planned": "continue",
+    "status": "open-ended"
+   },
+   "goal_state": {
+    "phase": "resolve",
+    "step": 1,
+    "of": 2,
+    "chain": [
+     [
+      "tests/test_request.py",
+      "FlaskClient",
+      "reexport",
+      [
+       "flask.testing",
+       "src/flask/testing.py"
+      ]
+     ],
+     [
+      "src/flask/testing.py",
+      "FlaskClient",
+      "open",
+      null
+     ]
+    ]
+   }
+  },
+  {
+   "step": 4,
+   "phase": "resolve",
+   "thought": "There is exactly one `FlaskClient` definition in the tree, in `src/flask/testing.py`.\n\nSo far: `tests/test_request.py` takes `FlaskClient` from `flask.testing`; `src/flask/testing.py` is next.\n\nI'll look at `src/flask/testing.py`'s top-level names for `FlaskClient`; that settles what the name means there. Almost certainly it is defined right there. If the name is not bound there, that finishes it; if it is re-exported from somewhere else, I follow whatever it opens up. I could outline all of `src/flask/testing.py` instead, but it is more likely to hit the cap.",
+   "hedges": [
+    {
+     "outcome": "def",
+     "word": "almost certainly",
+     "p": [
+      47,
+      50
+     ]
+    }
+   ],
+   "items": [
+    {
+     "kind": "bindings",
+     "key": [
+      "bindings",
+      "src/flask/testing.py",
+      "FlaskClient"
+     ],
+     "desc": "check the top-level names of `src/flask/testing.py` for `FlaskClient`"
+    }
+   ],
+   "candidates": [
+    {
+     "call": "symbols('src/flask/testing.py', 'FlaskClient')",
+     "key": "[\"symbols\", [\"src/flask/testing.py\", \"FlaskClient\"]]",
+     "v1": [
+      49531967,
+      46659700
+     ],
+     "v2": [
+      49531967,
+      46659700
+     ],
+     "p_cap": [
+      0,
+      1
+     ],
+     "forecast": {
+      "def": [
+       47,
+       50
+      ],
+      "reexport": [
+       1,
+       50
+      ],
+      "star": [
+       1,
+       100
+      ],
+      "none": [
+       3,
+       100
+      ]
+     },
+     "serves": [
+      [
+       "bindings",
+       "src/flask/testing.py",
+       "FlaskClient"
+      ]
+     ]
+    },
+    {
+     "call": "symbols('src/flask/testing.py')",
+     "key": "[\"symbols\", [\"src/flask/testing.py\"]]",
+     "v1": [
+      714936793,
+      594911175
+     ],
+     "v2": [
+      714936793,
+      594911175
+     ],
+     "p_cap": [
+      143,
+      1020
+     ],
+     "forecast": {
+      "def": [
+       41219,
+       51000
+      ],
+      "reexport": [
+       877,
+       51000
+      ],
+      "star": [
+       877,
+       102000
+      ],
+      "none": [
+       877,
+       34000
+      ],
+      "cap": [
+       143,
+       1020
+      ]
+     },
+     "serves": [
+      [
+       "bindings",
+       "src/flask/testing.py",
+       "FlaskClient"
+      ]
+     ]
+    }
+   ],
+   "choice": {
+    "call": "symbols('src/flask/testing.py', 'FlaskClient')",
+    "key": "[\"symbols\", [\"src/flask/testing.py\", \"FlaskClient\"]]",
+    "provenance": "module `src/flask/testing.py` (step 3), name `FlaskClient` (task)",
+    "v2": [
+     49531967,
+     46659700
+    ]
+   },
+   "forecast": {
+    "def": [
+     47,
+     50
+    ],
+    "reexport": [
+     1,
+     50
+    ],
+    "star": [
+     1,
+     100
+    ],
+    "none": [
+     3,
+     100
+    ]
+   },
+   "plan": {
+    "def": "done",
+    "reexport": "continue",
+    "star": "continue",
+    "none": "done"
+   },
+   "call": {
+    "text": "symbols('src/flask/testing.py', 'FlaskClient')",
+    "key": "[\"symbols\", [\"src/flask/testing.py\", \"FlaskClient\"]]",
+    "tool": "symbols",
+    "args": [
+     "src/flask/testing.py",
+     "FlaskClient"
+    ]
+   },
+   "response": {
+    "tool": "symbols",
+    "lines": [
+     "module src/flask/testing.py lines=299 dynamic=no all=none",
+     "109 class FlaskClient (Client)"
+    ],
+    "capped": false,
+    "error": null
+   },
+   "outcome": "def",
+   "facts": [
+    {
+     "kind": "outline",
+     "step": 4,
+     "path": "src/flask/testing.py",
+     "filter": "FlaskClient",
+     "header": {
+      "lines": 299,
+      "dynamic": false,
+      "all_status": "none",
+      "all_line": null
+     },
+     "bindings": [
+      {
+       "module": "src/flask/testing.py",
+       "name": "FlaskClient",
+       "line": 109,
+       "kind": "class",
+       "src": null,
+       "src_name": null,
+       "conditional": false,
+       "col": 0,
+       "bases": [
+        "Client"
+       ]
+      }
+     ],
+     "complete": true
+    }
+   ],
+   "adherence": {
+    "planned": "continue",
+    "status": "open-ended"
+   },
+   "goal_state": {
+    "phase": "resolve",
+    "step": 1,
+    "of": 2,
+    "chain": [
+     [
+      "tests/test_request.py",
+      "FlaskClient",
+      "reexport",
+      [
+       "flask.testing",
+       "src/flask/testing.py"
+      ]
+     ],
+     [
+      "src/flask/testing.py",
+      "FlaskClient",
+      "class",
+      109
+     ]
+    ]
+   }
+  },
+  {
+   "step": 5,
+   "phase": "importers",
+   "thought": "There it is: `FlaskClient` is a class at `src/flask/testing.py:109`. That settles the definition; now the imports of it.\n\nLet me search the whole tree for imports of `FlaskClient` and star imports in one go; the search has to be complete before I can call the set final. Maybe it fits under the cap. If nothing turns up, that finishes it; if it caps, I follow whatever it opens up.",
+   "hedges": [
+    {
+     "outcome": "mid",
+     "word": "maybe",
+     "p": [
+      1,
+      2
+     ]
+    }
+   ],
+   "items": [
+    {
+     "kind": "cover",
+     "key": [
+      "cover",
+      "IMPORT",
+      "."
+     ],
+     "desc": "search `.` for imports of `FlaskClient`"
+    },
+    {
+     "kind": "cover",
+     "key": [
+      "cover",
+      "STAR",
+      "."
+     ],
+     "desc": "search `.` for star imports"
+    }
+   ],
+   "candidates": [
+    {
+     "call": "grep('^\\\\s*from\\\\s+\\\\S+\\\\s+import\\\\s+(?:.*\\\\bFlaskClient\\\\b|\\\\*)|^\\\\s*(?:\\\\w+(?:\\\\s+as\\\\s+\\\\w+)?\\\\s*,\\\\s*)*FlaskClient\\\\b(?:\\\\s+as\\\\s+\\\\w+)?\\\\s*,?\\\\s*\\\\)?\\\\s*$', '.')",
+     "key": "[\"grep\", [\"^\\\\s*from\\\\s+\\\\S+\\\\s+import\\\\s+(?:.*\\\\bFlaskClient\\\\b|\\\\*)|^\\\\s*(?:\\\\w+(?:\\\\s+as\\\\s+\\\\w+)?\\\\s*,\\\\s*)*FlaskClient\\\\b(?:\\\\s+as\\\\s+\\\\w+)?\\\\s*,?\\\\s*\\\\)?\\\\s*$\", \".\"]]",
+     "v1": [
+      1056946788511,
+      634401079690
+     ],
+     "v2": [
+      1056946788511,
+      634401079690
+     ],
+     "p_cap": [
+      3,
+      38
+     ],
+     "forecast": {
+      "zero": [
+       8,
+       19
+      ],
+      "mid": [
+       1,
+       2
+      ],
+      "cap": [
+       3,
+       38
+      ]
+     },
+     "serves": [
+      [
+       "cover",
+       "IMPORT",
+       "."
+      ],
+      [
+       "cover",
+       "STAR",
+       "."
+      ]
+     ]
+    },
+    {
+     "call": "grep('^\\\\s*from\\\\s+\\\\S+\\\\s+import\\\\s+.*\\\\bFlaskClient\\\\b|^\\\\s*(?:\\\\w+(?:\\\\s+as\\\\s+\\\\w+)?\\\\s*,\\\\s*)*FlaskClient\\\\b(?:\\\\s+as\\\\s+\\\\w+)?\\\\s*,?\\\\s*\\\\)?\\\\s*$', '.')",
+     "key": "[\"grep\", [\"^\\\\s*from\\\\s+\\\\S+\\\\s+import\\\\s+.*\\\\bFlaskClient\\\\b|^\\\\s*(?:\\\\w+(?:\\\\s+as\\\\s+\\\\w+)?\\\\s*,\\\\s*)*FlaskClient\\\\b(?:\\\\s+as\\\\s+\\\\w+)?\\\\s*,?\\\\s*\\\\)?\\\\s*$\", \".\"]]",
+     "v1": [
+      240774798580831,
+      41930572414458
+     ],
+     "v2": [
+      5195470997369,
+      1823068365846
+     ],
+     "p_cap": [
+      1,
+      42
+     ],
+     "forecast": {
+      "zero": [
+       31,
+       42
+      ],
+      "mid": [
+       5,
+       21
+      ],
+      "cap": [
+       1,
+       42
+      ]
+     },
+     "serves": [
+      [
+       "cover",
+       "IMPORT",
+       "."
+      ]
+     ]
+    },
+    {
+     "call": "grep('^\\\\s*from\\\\s+\\\\S+\\\\s+import\\\\s+\\\\*', '.')",
+     "key": "[\"grep\", [\"^\\\\s*from\\\\s+\\\\S+\\\\s+import\\\\s+\\\\*\", \".\"]]",
+     "v1": [
+      17568813048107,
+      5469205097538
+     ],
+     "v2": [
+      5195470997369,
+      1823068365846
+     ],
+     "p_cap": [
+      1,
+      13
+     ],
+     "forecast": {
+      "zero": [
+       6,
+       13
+      ],
+      "mid": [
+       6,
+       13
+      ],
+      "cap": [
+       1,
+       13
+      ]
+     },
+     "serves": [
+      [
+       "cover",
+       "STAR",
+       "."
+      ]
+     ]
+    }
+   ],
+   "choice": {
+    "call": "grep('^\\\\s*from\\\\s+\\\\S+\\\\s+import\\\\s+(?:.*\\\\bFlaskClient\\\\b|\\\\*)|^\\\\s*(?:\\\\w+(?:\\\\s+as\\\\s+\\\\w+)?\\\\s*,\\\\s*)*FlaskClient\\\\b(?:\\\\s+as\\\\s+\\\\w+)?\\\\s*,?\\\\s*\\\\)?\\\\s*$', '.')",
+    "key": "[\"grep\", [\"^\\\\s*from\\\\s+\\\\S+\\\\s+import\\\\s+(?:.*\\\\bFlaskClient\\\\b|\\\\*)|^\\\\s*(?:\\\\w+(?:\\\\s+as\\\\s+\\\\w+)?\\\\s*,\\\\s*)*FlaskClient\\\\b(?:\\\\s+as\\\\s+\\\\w+)?\\\\s*,?\\\\s*\\\\)?\\\\s*$\", \".\"]]",
+    "provenance": "import and star lines under `.` in one call",
+    "v2": [
+     1056946788511,
+     634401079690
+    ]
+   },
+   "forecast": {
+    "zero": [
+     8,
+     19
+    ],
+    "mid": [
+     1,
+     2
+    ],
+    "cap": [
+     3,
+     38
+    ]
+   },
+   "plan": {
+    "zero": "done",
+    "mid": "continue",
+    "cap": "continue"
+   },
+   "call": {
+    "text": "grep('^\\\\s*from\\\\s+\\\\S+\\\\s+import\\\\s+(?:.*\\\\bFlaskClient\\\\b|\\\\*)|^\\\\s*(?:\\\\w+(?:\\\\s+as\\\\s+\\\\w+)?\\\\s*,\\\\s*)*FlaskClient\\\\b(?:\\\\s+as\\\\s+\\\\w+)?\\\\s*,?\\\\s*\\\\)?\\\\s*$', '.')",
+    "key": "[\"grep\", [\"^\\\\s*from\\\\s+\\\\S+\\\\s+import\\\\s+(?:.*\\\\bFlaskClient\\\\b|\\\\*)|^\\\\s*(?:\\\\w+(?:\\\\s+as\\\\s+\\\\w+)?\\\\s*,\\\\s*)*FlaskClient\\\\b(?:\\\\s+as\\\\s+\\\\w+)?\\\\s*,?\\\\s*\\\\)?\\\\s*$\", \".\"]]",
+    "tool": "grep",
+    "args": [
+     "^\\s*from\\s+\\S+\\s+import\\s+(?:.*\\bFlaskClient\\b|\\*)|^\\s*(?:\\w+(?:\\s+as\\s+\\w+)?\\s*,\\s*)*FlaskClient\\b(?:\\s+as\\s+\\w+)?\\s*,?\\s*\\)?\\s*$",
+     "."
+    ]
+   },
+   "response": {
+    "tool": "grep",
+    "lines": [
+     "src/flask/app.py:61:    from .testing import FlaskClient",
+     "src/flask/app.py:785:            from flask.testing import FlaskClient",
+     "src/flask/app.py:811:            from .testing import FlaskClient as cls",
+     "src/flask/sansio/app.py:39:    from ..testing import FlaskClient",
+     "tests/test_appctx.py:7:from flask.testing import FlaskClient",
+     "tests/test_basic.py:25:from flask.testing import FlaskClient",
+     "tests/test_reqctx.py:12:from flask.testing import FlaskClient",
+     "tests/test_request.py:6:from flask.testing import FlaskClient",
+     "tests/test_views.py:4:from flask.testing import FlaskClient"
+    ],
+    "capped": false,
+    "error": null
+   },
+   "outcome": "mid",
+   "facts": [
+    {
+     "kind": "grep",
+     "step": 5,
+     "pattern": "^\\s*from\\s+\\S+\\s+import\\s+(?:.*\\bFlaskClient\\b|\\*)|^\\s*(?:\\w+(?:\\s+as\\s+\\w+)?\\s*,\\s*)*FlaskClient\\b(?:\\s+as\\s+\\w+)?\\s*,?\\s*\\)?\\s*$",
+     "scope": ".",
+     "hits": [
+      [
+       "src/flask/app.py",
+       61
+      ],
+      [
+       "src/flask/app.py",
+       785
+      ],
+      [
+       "src/flask/app.py",
+       811
+      ],
+      [
+       "src/flask/sansio/app.py",
+       39
+      ],
+      [
+       "tests/test_appctx.py",
+       7
+      ],
+      [
+       "tests/test_basic.py",
+       25
+      ],
+      [
+       "tests/test_reqctx.py",
+       12
+      ],
+      [
+       "tests/test_request.py",
+       6
+      ],
+      [
+       "tests/test_views.py",
+       4
+      ]
+     ],
+     "capped": false
+    }
+   ],
+   "adherence": {
+    "planned": "done",
+    "status": "deviated"
+   },
+   "goal_state": {
+    "phase": "importers",
+    "step": 2,
+    "of": 2,
+    "candidates": [
+     "src/flask/app.py",
+     "src/flask/sansio/app.py",
+     "tests/test_appctx.py",
+     "tests/test_basic.py",
+     "tests/test_reqctx.py",
+     "tests/test_request.py",
+     "tests/test_views.py"
+    ],
+    "table": [
+     [
+      "src/flask/app.py",
+      null,
+      "pending",
+      "not yet examined"
+     ],
+     [
+      "src/flask/sansio/app.py",
+      null,
+      "pending",
+      "not yet examined"
+     ],
+     [
+      "tests/test_appctx.py",
+      null,
+      "pending",
+      "not yet examined"
+     ],
+     [
+      "tests/test_basic.py",
+      null,
+      "pending",
+      "not yet examined"
+     ],
+     [
+      "tests/test_reqctx.py",
+      null,
+      "pending",
+      "not yet examined"
+     ],
+     [
+      "tests/test_request.py",
+      "tests/test_request.py:6",
+      "in",
+      "`flask.testing` resolves `FlaskClient` to the target"
+     ],
+     [
+      "tests/test_views.py",
+      null,
+      "pending",
+      "not yet examined"
+     ]
+    ],
+    "uncovered": {
+     "IMPORT": [],
+     "STAR": []
+    },
+    "n_in": 1,
+    "n_out": 0,
+    "n_pending": 6
+   }
+  },
+  {
+   "step": 6,
+   "phase": "importers",
+   "thought": "9 matching lines anywhere for imports of `FlaskClient` or star imports, in `src/flask/app.py`, `src/flask/sansio/app.py`, `tests/test_appctx.py`, `tests/test_basic.py` and 3 more files, and the search was under the cap, so that is the complete set there.\n\nTally: 1 import statements confirmed, 0 ruled out, 6 pending. The search itself is complete; what is left is checking the candidates.\n\nNext I will look at `src/flask/app.py`'s top-level names for `FlaskClient`; its outline names every import of the symbol exactly, aliases included. Almost certainly the outline shows what I need. If the outline is too long to fit, I will look at `src/flask/sansio/app.py`'s top-level names for `FlaskClient`.",
+   "hedges": [
+    {
+     "outcome": "ok",
+     "word": "almost certainly",
+     "p": [
+      49,
+      50
+     ]
+    }
+   ],
+   "items": [
+    {
+     "kind": "outline",
+     "key": [
+      "outline",
+      "src/flask/app.py",
+      "FlaskClient"
+     ],
+     "desc": "look at `src/flask/app.py`'s imports of `FlaskClient`"
+    },
+    {
+     "kind": "outline",
+     "key": [
+      "outline",
+      "src/flask/sansio/app.py",
+      "FlaskClient"
+     ],
+     "desc": "look at `src/flask/sansio/app.py`'s imports of `FlaskClient`"
+    },
+    {
+     "kind": "outline",
+     "key": [
+      "outline",
+      "tests/test_appctx.py",
+      "FlaskClient"
+     ],
+     "desc": "look at `tests/test_appctx.py`'s imports of `FlaskClient`"
+    },
+    {
+     "kind": "outline",
+     "key": [
+      "outline",
+      "tests/test_basic.py",
+      "FlaskClient"
+     ],
+     "desc": "look at `tests/test_basic.py`'s imports of `FlaskClient`"
+    },
+    {
+     "kind": "outline",
+     "key": [
+      "outline",
+      "tests/test_reqctx.py",
+      "FlaskClient"
+     ],
+     "desc": "look at `tests/test_reqctx.py`'s imports of `FlaskClient`"
+    },
+    {
+     "kind": "outline",
+     "key": [
+      "outline",
+      "tests/test_views.py",
+      "FlaskClient"
+     ],
+     "desc": "look at `tests/test_views.py`'s imports of `FlaskClient`"
+    }
+   ],
+   "candidates": [
+    {
+     "call": "symbols('src/flask/app.py', 'FlaskClient')",
+     "key": "[\"symbols\", [\"src/flask/app.py\", \"FlaskClient\"]]",
+     "v1": [
+      38072303,
+      4090150
+     ],
+     "v2": [
+      19077053,
+      2045075
+     ],
+     "p_cap": [
+      1,
+      50
+     ],
+     "forecast": {
+      "ok": [
+       49,
+       50
+      ],
+      "cap": [
+       1,
+       50
+      ]
+     },
+     "serves": [
+      [
+       "outline",
+       "src/flask/app.py",
+       "FlaskClient"
+      ]
+     ]
+    },
+    {
+     "call": "symbols('src/flask/sansio/app.py', 'FlaskClient')",
+     "key": "[\"symbols\", [\"src/flask/sansio/app.py\", \"FlaskClient\"]]",
+     "v1": [
+      38072303,
+      4090150
+     ],
+     "v2": [
+      19077053,
+      2045075
+     ],
+     "p_cap": [
+      1,
+      50
+     ],
+     "forecast": {
+      "ok": [
+       49,
+       50
+      ],
+      "cap": [
+       1,
+       50
+      ]
+     },
+     "serves": [
+      [
+       "outline",
+       "src/flask/sansio/app.py",
+       "FlaskClient"
+      ]
+     ]
+    },
+    {
+     "call": "symbols('tests/test_appctx.py', 'FlaskClient')",
+     "key": "[\"symbols\", [\"tests/test_appctx.py\", \"FlaskClient\"]]",
+     "v1": [
+      38072303,
+      4090150
+     ],
+     "v2": [
+      19077053,
+      2045075
+     ],
+     "p_cap": [
+      1,
+      50
+     ],
+     "forecast": {
+      "ok": [
+       49,
+       50
+      ],
+      "cap": [
+       1,
+       50
+      ]
+     },
+     "serves": [
+      [
+       "outline",
+       "tests/test_appctx.py",
+       "FlaskClient"
+      ]
+     ]
+    },
+    {
+     "call": "symbols('tests/test_basic.py', 'FlaskClient')",
+     "key": "[\"symbols\", [\"tests/test_basic.py\", \"FlaskClient\"]]",
+     "v1": [
+      38072303,
+      4090150
+     ],
+     "v2": [
+      19077053,
+      2045075
+     ],
+     "p_cap": [
+      1,
+      50
+     ],
+     "forecast": {
+      "ok": [
+       49,
+       50
+      ],
+      "cap": [
+       1,
+       50
+      ]
+     },
+     "serves": [
+      [
+       "outline",
+       "tests/test_basic.py",
+       "FlaskClient"
+      ]
+     ]
+    },
+    {
+     "call": "symbols('tests/test_reqctx.py', 'FlaskClient')",
+     "key": "[\"symbols\", [\"tests/test_reqctx.py\", \"FlaskClient\"]]",
+     "v1": [
+      38072303,
+      4090150
+     ],
+     "v2": [
+      19077053,
+      2045075
+     ],
+     "p_cap": [
+      1,
+      50
+     ],
+     "forecast": {
+      "ok": [
+       49,
+       50
+      ],
+      "cap": [
+       1,
+       50
+      ]
+     },
+     "serves": [
+      [
+       "outline",
+       "tests/test_reqctx.py",
+       "FlaskClient"
+      ]
+     ]
+    },
+    {
+     "call": "symbols('tests/test_views.py', 'FlaskClient')",
+     "key": "[\"symbols\", [\"tests/test_views.py\", \"FlaskClient\"]]",
+     "v1": [
+      38072303,
+      4090150
+     ],
+     "v2": [
+      19077053,
+      2045075
+     ],
+     "p_cap": [
+      1,
+      50
+     ],
+     "forecast": {
+      "ok": [
+       49,
+       50
+      ],
+      "cap": [
+       1,
+       50
+      ]
+     },
+     "serves": [
+      [
+       "outline",
+       "tests/test_views.py",
+       "FlaskClient"
+      ]
+     ]
+    }
+   ],
+   "choice": {
+    "call": "symbols('src/flask/app.py', 'FlaskClient')",
+    "key": "[\"symbols\", [\"src/flask/app.py\", \"FlaskClient\"]]",
+    "provenance": "`src/flask/app.py` had a matching line (step 5); its outline names every `FlaskClient` import exactly",
+    "v2": [
+     19077053,
+     2045075
+    ]
+   },
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "plan": {
+    "ok": "[\"symbols\", [\"src/flask/sansio/app.py\", \"FlaskClient\"]]",
+    "cap": "[\"symbols\", [\"src/flask/sansio/app.py\", \"FlaskClient\"]]"
+   },
+   "call": {
+    "text": "symbols('src/flask/app.py', 'FlaskClient')",
+    "key": "[\"symbols\", [\"src/flask/app.py\", \"FlaskClient\"]]",
+    "tool": "symbols",
+    "args": [
+     "src/flask/app.py",
+     "FlaskClient"
+    ]
+   },
+   "response": {
+    "tool": "symbols",
+    "lines": [
+     "module src/flask/app.py lines=1629 dynamic=no all=none",
+     "61 from FlaskClient <- .testing FlaskClient"
+    ],
+    "capped": false,
+    "error": null
+   },
+   "outcome": "ok",
+   "facts": [
+    {
+     "kind": "outline",
+     "step": 6,
+     "path": "src/flask/app.py",
+     "filter": "FlaskClient",
+     "header": {
+      "lines": 1629,
+      "dynamic": false,
+      "all_status": "none",
+      "all_line": null
+     },
+     "bindings": [
+      {
+       "module": "src/flask/app.py",
+       "name": "FlaskClient",
+       "line": 61,
+       "kind": "from",
+       "src": ".testing",
+       "src_name": "FlaskClient",
+       "conditional": false,
+       "col": 0,
+       "bases": []
+      }
+     ],
+     "complete": true
+    }
+   ],
+   "adherence": {
+    "planned": "continue",
+    "status": "open-ended"
+   },
+   "goal_state": {
+    "phase": "importers",
+    "step": 2,
+    "of": 2,
+    "candidates": [
+     "src/flask/app.py",
+     "src/flask/sansio/app.py",
+     "tests/test_appctx.py",
+     "tests/test_basic.py",
+     "tests/test_reqctx.py",
+     "tests/test_request.py",
+     "tests/test_views.py"
+    ],
+    "table": [
+     [
+      "src/flask/app.py",
+      "src/flask/app.py:61",
+      "in",
+      "`.testing` resolves `FlaskClient` to the target"
+     ],
+     [
+      "src/flask/sansio/app.py",
+      null,
+      "pending",
+      "not yet examined"
+     ],
+     [
+      "tests/test_appctx.py",
+      null,
+      "pending",
+      "not yet examined"
+     ],
+     [
+      "tests/test_basic.py",
+      null,
+      "pending",
+      "not yet examined"
+     ],
+     [
+      "tests/test_reqctx.py",
+      null,
+      "pending",
+      "not yet examined"
+     ],
+     [
+      "tests/test_request.py",
+      "tests/test_request.py:6",
+      "in",
+      "`flask.testing` resolves `FlaskClient` to the target"
+     ],
+     [
+      "tests/test_views.py",
+      null,
+      "pending",
+      "not yet examined"
+     ]
+    ],
+    "uncovered": {
+     "IMPORT": [],
+     "STAR": []
+    },
+    "n_in": 2,
+    "n_out": 0,
+    "n_pending": 5
+   }
+  },
+  {
+   "step": 7,
+   "phase": "importers",
+   "thought": "`src/flask/app.py`: line 61 imports it from `.testing`.\n\nTally: 2 import statements confirmed, 0 ruled out, 5 pending. The search itself is complete; what is left is checking the candidates.\n\nNext I will look at `src/flask/sansio/app.py`'s top-level names for `FlaskClient`; its outline names every import of the symbol exactly, aliases included. Almost certainly the outline shows what I need. If the outline is too long to fit, I will look at `tests/test_appctx.py`'s top-level names for `FlaskClient`.",
+   "hedges": [
+    {
+     "outcome": "ok",
+     "word": "almost certainly",
+     "p": [
+      49,
+      50
+     ]
+    }
+   ],
+   "items": [
+    {
+     "kind": "outline",
+     "key": [
+      "outline",
+      "src/flask/sansio/app.py",
+      "FlaskClient"
+     ],
+     "desc": "look at `src/flask/sansio/app.py`'s imports of `FlaskClient`"
+    },
+    {
+     "kind": "outline",
+     "key": [
+      "outline",
+      "tests/test_appctx.py",
+      "FlaskClient"
+     ],
+     "desc": "look at `tests/test_appctx.py`'s imports of `FlaskClient`"
+    },
+    {
+     "kind": "outline",
+     "key": [
+      "outline",
+      "tests/test_basic.py",
+      "FlaskClient"
+     ],
+     "desc": "look at `tests/test_basic.py`'s imports of `FlaskClient`"
+    },
+    {
+     "kind": "outline",
+     "key": [
+      "outline",
+      "tests/test_reqctx.py",
+      "FlaskClient"
+     ],
+     "desc": "look at `tests/test_reqctx.py`'s imports of `FlaskClient`"
+    },
+    {
+     "kind": "outline",
+     "key": [
+      "outline",
+      "tests/test_views.py",
+      "FlaskClient"
+     ],
+     "desc": "look at `tests/test_views.py`'s imports of `FlaskClient`"
+    }
+   ],
+   "candidates": [
+    {
+     "call": "symbols('src/flask/sansio/app.py', 'FlaskClient')",
+     "key": "[\"symbols\", [\"src/flask/sansio/app.py\", \"FlaskClient\"]]",
+     "v1": [
+      31740553,
+      4090150
+     ],
+     "v2": [
+      15911178,
+      2045075
+     ],
+     "p_cap": [
+      1,
+      50
+     ],
+     "forecast": {
+      "ok": [
+       49,
+       50
+      ],
+      "cap": [
+       1,
+       50
+      ]
+     },
+     "serves": [
+      [
+       "outline",
+       "src/flask/sansio/app.py",
+       "FlaskClient"
+      ]
+     ]
+    },
+    {
+     "call": "symbols('tests/test_appctx.py', 'FlaskClient')",
+     "key": "[\"symbols\", [\"tests/test_appctx.py\", \"FlaskClient\"]]",
+     "v1": [
+      31740553,
+      4090150
+     ],
+     "v2": [
+      15911178,
+      2045075
+     ],
+     "p_cap": [
+      1,
+      50
+     ],
+     "forecast": {
+      "ok": [
+       49,
+       50
+      ],
+      "cap": [
+       1,
+       50
+      ]
+     },
+     "serves": [
+      [
+       "outline",
+       "tests/test_appctx.py",
+       "FlaskClient"
+      ]
+     ]
+    },
+    {
+     "call": "symbols('tests/test_basic.py', 'FlaskClient')",
+     "key": "[\"symbols\", [\"tests/test_basic.py\", \"FlaskClient\"]]",
+     "v1": [
+      31740553,
+      4090150
+     ],
+     "v2": [
+      15911178,
+      2045075
+     ],
+     "p_cap": [
+      1,
+      50
+     ],
+     "forecast": {
+      "ok": [
+       49,
+       50
+      ],
+      "cap": [
+       1,
+       50
+      ]
+     },
+     "serves": [
+      [
+       "outline",
+       "tests/test_basic.py",
+       "FlaskClient"
+      ]
+     ]
+    },
+    {
+     "call": "symbols('tests/test_reqctx.py', 'FlaskClient')",
+     "key": "[\"symbols\", [\"tests/test_reqctx.py\", \"FlaskClient\"]]",
+     "v1": [
+      31740553,
+      4090150
+     ],
+     "v2": [
+      15911178,
+      2045075
+     ],
+     "p_cap": [
+      1,
+      50
+     ],
+     "forecast": {
+      "ok": [
+       49,
+       50
+      ],
+      "cap": [
+       1,
+       50
+      ]
+     },
+     "serves": [
+      [
+       "outline",
+       "tests/test_reqctx.py",
+       "FlaskClient"
+      ]
+     ]
+    },
+    {
+     "call": "symbols('tests/test_views.py', 'FlaskClient')",
+     "key": "[\"symbols\", [\"tests/test_views.py\", \"FlaskClient\"]]",
+     "v1": [
+      31740553,
+      4090150
+     ],
+     "v2": [
+      15911178,
+      2045075
+     ],
+     "p_cap": [
+      1,
+      50
+     ],
+     "forecast": {
+      "ok": [
+       49,
+       50
+      ],
+      "cap": [
+       1,
+       50
+      ]
+     },
+     "serves": [
+      [
+       "outline",
+       "tests/test_views.py",
+       "FlaskClient"
+      ]
+     ]
+    }
+   ],
+   "choice": {
+    "call": "symbols('src/flask/sansio/app.py', 'FlaskClient')",
+    "key": "[\"symbols\", [\"src/flask/sansio/app.py\", \"FlaskClient\"]]",
+    "provenance": "`src/flask/sansio/app.py` had a matching line (step 5); its outline names every `FlaskClient` import exactly",
+    "v2": [
+     15911178,
+     2045075
+    ]
+   },
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "plan": {
+    "ok": "[\"symbols\", [\"tests/test_appctx.py\", \"FlaskClient\"]]",
+    "cap": "[\"symbols\", [\"tests/test_appctx.py\", \"FlaskClient\"]]"
+   },
+   "call": {
+    "text": "symbols('src/flask/sansio/app.py', 'FlaskClient')",
+    "key": "[\"symbols\", [\"src/flask/sansio/app.py\", \"FlaskClient\"]]",
+    "tool": "symbols",
+    "args": [
+     "src/flask/sansio/app.py",
+     "FlaskClient"
+    ]
+   },
+   "response": {
+    "tool": "symbols",
+    "lines": [
+     "module src/flask/sansio/app.py lines=1014 dynamic=no all=none",
+     "39 from FlaskClient <- ..testing FlaskClient"
+    ],
+    "capped": false,
+    "error": null
+   },
+   "outcome": "ok",
+   "facts": [
+    {
+     "kind": "outline",
+     "step": 7,
+     "path": "src/flask/sansio/app.py",
+     "filter": "FlaskClient",
+     "header": {
+      "lines": 1014,
+      "dynamic": false,
+      "all_status": "none",
+      "all_line": null
+     },
+     "bindings": [
+      {
+       "module": "src/flask/sansio/app.py",
+       "name": "FlaskClient",
+       "line": 39,
+       "kind": "from",
+       "src": "..testing",
+       "src_name": "FlaskClient",
+       "conditional": false,
+       "col": 0,
+       "bases": []
+      }
+     ],
+     "complete": true
+    }
+   ],
+   "adherence": {
+    "planned": "[\"symbols\", [\"src/flask/sansio/app.py\", \"FlaskClient\"]]",
+    "status": "followed"
+   },
+   "goal_state": {
+    "phase": "importers",
+    "step": 2,
+    "of": 2,
+    "candidates": [
+     "src/flask/app.py",
+     "src/flask/sansio/app.py",
+     "tests/test_appctx.py",
+     "tests/test_basic.py",
+     "tests/test_reqctx.py",
+     "tests/test_request.py",
+     "tests/test_views.py"
+    ],
+    "table": [
+     [
+      "src/flask/app.py",
+      "src/flask/app.py:61",
+      "in",
+      "`.testing` resolves `FlaskClient` to the target"
+     ],
+     [
+      "src/flask/sansio/app.py",
+      "src/flask/sansio/app.py:39",
+      "in",
+      "`..testing` resolves `FlaskClient` to the target"
+     ],
+     [
+      "tests/test_appctx.py",
+      null,
+      "pending",
+      "not yet examined"
+     ],
+     [
+      "tests/test_basic.py",
+      null,
+      "pending",
+      "not yet examined"
+     ],
+     [
+      "tests/test_reqctx.py",
+      null,
+      "pending",
+      "not yet examined"
+     ],
+     [
+      "tests/test_request.py",
+      "tests/test_request.py:6",
+      "in",
+      "`flask.testing` resolves `FlaskClient` to the target"
+     ],
+     [
+      "tests/test_views.py",
+      null,
+      "pending",
+      "not yet examined"
+     ]
+    ],
+    "uncovered": {
+     "IMPORT": [],
+     "STAR": []
+    },
+    "n_in": 3,
+    "n_out": 0,
+    "n_pending": 4
+   }
+  },
+  {
+   "step": 8,
+   "phase": "importers",
+   "thought": "`src/flask/sansio/app.py`: line 39 imports it from `..testing`.\n\nTally: 3 import statements confirmed, 0 ruled out, 4 pending. The search itself is complete; what is left is checking the candidates.\n\nI'll look at `tests/test_appctx.py`'s top-level names for `FlaskClient`; its outline names every import of the symbol exactly, aliases included. Almost certainly the outline shows what I need. If the outline is too long to fit, I will look at `tests/test_basic.py`'s top-level names for `FlaskClient`.",
+   "hedges": [
+    {
+     "outcome": "ok",
+     "word": "almost certainly",
+     "p": [
+      49,
+      50
+     ]
+    }
+   ],
+   "items": [
+    {
+     "kind": "outline",
+     "key": [
+      "outline",
+      "tests/test_appctx.py",
+      "FlaskClient"
+     ],
+     "desc": "look at `tests/test_appctx.py`'s imports of `FlaskClient`"
+    },
+    {
+     "kind": "outline",
+     "key": [
+      "outline",
+      "tests/test_basic.py",
+      "FlaskClient"
+     ],
+     "desc": "look at `tests/test_basic.py`'s imports of `FlaskClient`"
+    },
+    {
+     "kind": "outline",
+     "key": [
+      "outline",
+      "tests/test_reqctx.py",
+      "FlaskClient"
+     ],
+     "desc": "look at `tests/test_reqctx.py`'s imports of `FlaskClient`"
+    },
+    {
+     "kind": "outline",
+     "key": [
+      "outline",
+      "tests/test_views.py",
+      "FlaskClient"
+     ],
+     "desc": "look at `tests/test_views.py`'s imports of `FlaskClient`"
+    }
+   ],
+   "candidates": [
+    {
+     "call": "symbols('tests/test_appctx.py', 'FlaskClient')",
+     "key": "[\"symbols\", [\"tests/test_appctx.py\", \"FlaskClient\"]]",
+     "v1": [
+      25408803,
+      4090150
+     ],
+     "v2": [
+      12745303,
+      2045075
+     ],
+     "p_cap": [
+      1,
+      50
+     ],
+     "forecast": {
+      "ok": [
+       49,
+       50
+      ],
+      "cap": [
+       1,
+       50
+      ]
+     },
+     "serves": [
+      [
+       "outline",
+       "tests/test_appctx.py",
+       "FlaskClient"
+      ]
+     ]
+    },
+    {
+     "call": "symbols('tests/test_basic.py', 'FlaskClient')",
+     "key": "[\"symbols\", [\"tests/test_basic.py\", \"FlaskClient\"]]",
+     "v1": [
+      25408803,
+      4090150
+     ],
+     "v2": [
+      12745303,
+      2045075
+     ],
+     "p_cap": [
+      1,
+      50
+     ],
+     "forecast": {
+      "ok": [
+       49,
+       50
+      ],
+      "cap": [
+       1,
+       50
+      ]
+     },
+     "serves": [
+      [
+       "outline",
+       "tests/test_basic.py",
+       "FlaskClient"
+      ]
+     ]
+    },
+    {
+     "call": "symbols('tests/test_reqctx.py', 'FlaskClient')",
+     "key": "[\"symbols\", [\"tests/test_reqctx.py\", \"FlaskClient\"]]",
+     "v1": [
+      25408803,
+      4090150
+     ],
+     "v2": [
+      12745303,
+      2045075
+     ],
+     "p_cap": [
+      1,
+      50
+     ],
+     "forecast": {
+      "ok": [
+       49,
+       50
+      ],
+      "cap": [
+       1,
+       50
+      ]
+     },
+     "serves": [
+      [
+       "outline",
+       "tests/test_reqctx.py",
+       "FlaskClient"
+      ]
+     ]
+    },
+    {
+     "call": "symbols('tests/test_views.py', 'FlaskClient')",
+     "key": "[\"symbols\", [\"tests/test_views.py\", \"FlaskClient\"]]",
+     "v1": [
+      25408803,
+      4090150
+     ],
+     "v2": [
+      12745303,
+      2045075
+     ],
+     "p_cap": [
+      1,
+      50
+     ],
+     "forecast": {
+      "ok": [
+       49,
+       50
+      ],
+      "cap": [
+       1,
+       50
+      ]
+     },
+     "serves": [
+      [
+       "outline",
+       "tests/test_views.py",
+       "FlaskClient"
+      ]
+     ]
+    }
+   ],
+   "choice": {
+    "call": "symbols('tests/test_appctx.py', 'FlaskClient')",
+    "key": "[\"symbols\", [\"tests/test_appctx.py\", \"FlaskClient\"]]",
+    "provenance": "`tests/test_appctx.py` had a matching line (step 5); its outline names every `FlaskClient` import exactly",
+    "v2": [
+     12745303,
+     2045075
+    ]
+   },
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "plan": {
+    "ok": "[\"symbols\", [\"tests/test_basic.py\", \"FlaskClient\"]]",
+    "cap": "[\"symbols\", [\"tests/test_basic.py\", \"FlaskClient\"]]"
+   },
+   "call": {
+    "text": "symbols('tests/test_appctx.py', 'FlaskClient')",
+    "key": "[\"symbols\", [\"tests/test_appctx.py\", \"FlaskClient\"]]",
+    "tool": "symbols",
+    "args": [
+     "tests/test_appctx.py",
+     "FlaskClient"
+    ]
+   },
+   "response": {
+    "tool": "symbols",
+    "lines": [
+     "module tests/test_appctx.py lines=266 dynamic=no all=none",
+     "7 from FlaskClient <- flask.testing FlaskClient"
+    ],
+    "capped": false,
+    "error": null
+   },
+   "outcome": "ok",
+   "facts": [
+    {
+     "kind": "outline",
+     "step": 8,
+     "path": "tests/test_appctx.py",
+     "filter": "FlaskClient",
+     "header": {
+      "lines": 266,
+      "dynamic": false,
+      "all_status": "none",
+      "all_line": null
+     },
+     "bindings": [
+      {
+       "module": "tests/test_appctx.py",
+       "name": "FlaskClient",
+       "line": 7,
+       "kind": "from",
+       "src": "flask.testing",
+       "src_name": "FlaskClient",
+       "conditional": false,
+       "col": 0,
+       "bases": []
+      }
+     ],
+     "complete": true
+    }
+   ],
+   "adherence": {
+    "planned": "[\"symbols\", [\"tests/test_appctx.py\", \"FlaskClient\"]]",
+    "status": "followed"
+   },
+   "goal_state": {
+    "phase": "importers",
+    "step": 2,
+    "of": 2,
+    "candidates": [
+     "src/flask/app.py",
+     "src/flask/sansio/app.py",
+     "tests/test_appctx.py",
+     "tests/test_basic.py",
+     "tests/test_reqctx.py",
+     "tests/test_request.py",
+     "tests/test_views.py"
+    ],
+    "table": [
+     [
+      "src/flask/app.py",
+      "src/flask/app.py:61",
+      "in",
+      "`.testing` resolves `FlaskClient` to the target"
+     ],
+     [
+      "src/flask/sansio/app.py",
+      "src/flask/sansio/app.py:39",
+      "in",
+      "`..testing` resolves `FlaskClient` to the target"
+     ],
+     [
+      "tests/test_appctx.py",
+      "tests/test_appctx.py:7",
+      "in",
+      "`flask.testing` resolves `FlaskClient` to the target"
+     ],
+     [
+      "tests/test_basic.py",
+      null,
+      "pending",
+      "not yet examined"
+     ],
+     [
+      "tests/test_reqctx.py",
+      null,
+      "pending",
+      "not yet examined"
+     ],
+     [
+      "tests/test_request.py",
+      "tests/test_request.py:6",
+      "in",
+      "`flask.testing` resolves `FlaskClient` to the target"
+     ],
+     [
+      "tests/test_views.py",
+      null,
+      "pending",
+      "not yet examined"
+     ]
+    ],
+    "uncovered": {
+     "IMPORT": [],
+     "STAR": []
+    },
+    "n_in": 4,
+    "n_out": 0,
+    "n_pending": 3
+   }
+  },
+  {
+   "step": 9,
+   "phase": "importers",
+   "thought": "The test module `tests/test_appctx.py`: line 7 imports it from `flask.testing`.\n\nTally: 4 import statements confirmed, 0 ruled out, 3 pending. The search itself is complete; what is left is checking the candidates.\n\nLet me look at `tests/test_basic.py`'s top-level names for `FlaskClient`; its outline names every import of the symbol exactly, aliases included. Almost certainly the outline shows what I need. If the outline is too long to fit, I will look at `tests/test_reqctx.py`'s top-level names for `FlaskClient`.",
+   "hedges": [
+    {
+     "outcome": "ok",
+     "word": "almost certainly",
+     "p": [
+      49,
+      50
+     ]
+    }
+   ],
+   "items": [
+    {
+     "kind": "outline",
+     "key": [
+      "outline",
+      "tests/test_basic.py",
+      "FlaskClient"
+     ],
+     "desc": "look at `tests/test_basic.py`'s imports of `FlaskClient`"
+    },
+    {
+     "kind": "outline",
+     "key": [
+      "outline",
+      "tests/test_reqctx.py",
+      "FlaskClient"
+     ],
+     "desc": "look at `tests/test_reqctx.py`'s imports of `FlaskClient`"
+    },
+    {
+     "kind": "outline",
+     "key": [
+      "outline",
+      "tests/test_views.py",
+      "FlaskClient"
+     ],
+     "desc": "look at `tests/test_views.py`'s imports of `FlaskClient`"
+    }
+   ],
+   "candidates": [
+    {
+     "call": "symbols('tests/test_basic.py', 'FlaskClient')",
+     "key": "[\"symbols\", [\"tests/test_basic.py\", \"FlaskClient\"]]",
+     "v1": [
+      19077053,
+      4090150
+     ],
+     "v2": [
+      9579428,
+      2045075
+     ],
+     "p_cap": [
+      1,
+      50
+     ],
+     "forecast": {
+      "ok": [
+       49,
+       50
+      ],
+      "cap": [
+       1,
+       50
+      ]
+     },
+     "serves": [
+      [
+       "outline",
+       "tests/test_basic.py",
+       "FlaskClient"
+      ]
+     ]
+    },
+    {
+     "call": "symbols('tests/test_reqctx.py', 'FlaskClient')",
+     "key": "[\"symbols\", [\"tests/test_reqctx.py\", \"FlaskClient\"]]",
+     "v1": [
+      19077053,
+      4090150
+     ],
+     "v2": [
+      9579428,
+      2045075
+     ],
+     "p_cap": [
+      1,
+      50
+     ],
+     "forecast": {
+      "ok": [
+       49,
+       50
+      ],
+      "cap": [
+       1,
+       50
+      ]
+     },
+     "serves": [
+      [
+       "outline",
+       "tests/test_reqctx.py",
+       "FlaskClient"
+      ]
+     ]
+    },
+    {
+     "call": "symbols('tests/test_views.py', 'FlaskClient')",
+     "key": "[\"symbols\", [\"tests/test_views.py\", \"FlaskClient\"]]",
+     "v1": [
+      19077053,
+      4090150
+     ],
+     "v2": [
+      9579428,
+      2045075
+     ],
+     "p_cap": [
+      1,
+      50
+     ],
+     "forecast": {
+      "ok": [
+       49,
+       50
+      ],
+      "cap": [
+       1,
+       50
+      ]
+     },
+     "serves": [
+      [
+       "outline",
+       "tests/test_views.py",
+       "FlaskClient"
+      ]
+     ]
+    }
+   ],
+   "choice": {
+    "call": "symbols('tests/test_basic.py', 'FlaskClient')",
+    "key": "[\"symbols\", [\"tests/test_basic.py\", \"FlaskClient\"]]",
+    "provenance": "`tests/test_basic.py` had a matching line (step 5); its outline names every `FlaskClient` import exactly",
+    "v2": [
+     9579428,
+     2045075
+    ]
+   },
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "plan": {
+    "ok": "[\"symbols\", [\"tests/test_reqctx.py\", \"FlaskClient\"]]",
+    "cap": "[\"symbols\", [\"tests/test_reqctx.py\", \"FlaskClient\"]]"
+   },
+   "call": {
+    "text": "symbols('tests/test_basic.py', 'FlaskClient')",
+    "key": "[\"symbols\", [\"tests/test_basic.py\", \"FlaskClient\"]]",
+    "tool": "symbols",
+    "args": [
+     "tests/test_basic.py",
+     "FlaskClient"
+    ]
+   },
+   "response": {
+    "tool": "symbols",
+    "lines": [
+     "module tests/test_basic.py lines=1975 dynamic=no all=none",
+     "25 from FlaskClient <- flask.testing FlaskClient"
+    ],
+    "capped": false,
+    "error": null
+   },
+   "outcome": "ok",
+   "facts": [
+    {
+     "kind": "outline",
+     "step": 9,
+     "path": "tests/test_basic.py",
+     "filter": "FlaskClient",
+     "header": {
+      "lines": 1975,
+      "dynamic": false,
+      "all_status": "none",
+      "all_line": null
+     },
+     "bindings": [
+      {
+       "module": "tests/test_basic.py",
+       "name": "FlaskClient",
+       "line": 25,
+       "kind": "from",
+       "src": "flask.testing",
+       "src_name": "FlaskClient",
+       "conditional": false,
+       "col": 0,
+       "bases": []
+      }
+     ],
+     "complete": true
+    }
+   ],
+   "adherence": {
+    "planned": "[\"symbols\", [\"tests/test_basic.py\", \"FlaskClient\"]]",
+    "status": "followed"
+   },
+   "goal_state": {
+    "phase": "importers",
+    "step": 2,
+    "of": 2,
+    "candidates": [
+     "src/flask/app.py",
+     "src/flask/sansio/app.py",
+     "tests/test_appctx.py",
+     "tests/test_basic.py",
+     "tests/test_reqctx.py",
+     "tests/test_request.py",
+     "tests/test_views.py"
+    ],
+    "table": [
+     [
+      "src/flask/app.py",
+      "src/flask/app.py:61",
+      "in",
+      "`.testing` resolves `FlaskClient` to the target"
+     ],
+     [
+      "src/flask/sansio/app.py",
+      "src/flask/sansio/app.py:39",
+      "in",
+      "`..testing` resolves `FlaskClient` to the target"
+     ],
+     [
+      "tests/test_appctx.py",
+      "tests/test_appctx.py:7",
+      "in",
+      "`flask.testing` resolves `FlaskClient` to the target"
+     ],
+     [
+      "tests/test_basic.py",
+      "tests/test_basic.py:25",
+      "in",
+      "`flask.testing` resolves `FlaskClient` to the target"
+     ],
+     [
+      "tests/test_reqctx.py",
+      null,
+      "pending",
+      "not yet examined"
+     ],
+     [
+      "tests/test_request.py",
+      "tests/test_request.py:6",
+      "in",
+      "`flask.testing` resolves `FlaskClient` to the target"
+     ],
+     [
+      "tests/test_views.py",
+      null,
+      "pending",
+      "not yet examined"
+     ]
+    ],
+    "uncovered": {
+     "IMPORT": [],
+     "STAR": []
+    },
+    "n_in": 5,
+    "n_out": 0,
+    "n_pending": 2
+   }
+  },
+  {
+   "step": 10,
+   "phase": "importers",
+   "thought": "The test module `tests/test_basic.py`: line 25 imports it from `flask.testing`.\n\nTally: 5 import statements confirmed, 0 ruled out, 2 pending. The search itself is complete; what is left is checking the candidates.\n\nLet me look at `tests/test_reqctx.py`'s top-level names for `FlaskClient`; its outline names every import of the symbol exactly, aliases included. Almost certainly the outline shows what I need. If the outline is too long to fit, I will look at `tests/test_views.py`'s top-level names for `FlaskClient`.",
+   "hedges": [
+    {
+     "outcome": "ok",
+     "word": "almost certainly",
+     "p": [
+      49,
+      50
+     ]
+    }
+   ],
+   "items": [
+    {
+     "kind": "outline",
+     "key": [
+      "outline",
+      "tests/test_reqctx.py",
+      "FlaskClient"
+     ],
+     "desc": "look at `tests/test_reqctx.py`'s imports of `FlaskClient`"
+    },
+    {
+     "kind": "outline",
+     "key": [
+      "outline",
+      "tests/test_views.py",
+      "FlaskClient"
+     ],
+     "desc": "look at `tests/test_views.py`'s imports of `FlaskClient`"
+    }
+   ],
+   "candidates": [
+    {
+     "call": "symbols('tests/test_reqctx.py', 'FlaskClient')",
+     "key": "[\"symbols\", [\"tests/test_reqctx.py\", \"FlaskClient\"]]",
+     "v1": [
+      12745303,
+      4090150
+     ],
+     "v2": [
+      6413553,
+      2045075
+     ],
+     "p_cap": [
+      1,
+      50
+     ],
+     "forecast": {
+      "ok": [
+       49,
+       50
+      ],
+      "cap": [
+       1,
+       50
+      ]
+     },
+     "serves": [
+      [
+       "outline",
+       "tests/test_reqctx.py",
+       "FlaskClient"
+      ]
+     ]
+    },
+    {
+     "call": "symbols('tests/test_views.py', 'FlaskClient')",
+     "key": "[\"symbols\", [\"tests/test_views.py\", \"FlaskClient\"]]",
+     "v1": [
+      12745303,
+      4090150
+     ],
+     "v2": [
+      6413553,
+      2045075
+     ],
+     "p_cap": [
+      1,
+      50
+     ],
+     "forecast": {
+      "ok": [
+       49,
+       50
+      ],
+      "cap": [
+       1,
+       50
+      ]
+     },
+     "serves": [
+      [
+       "outline",
+       "tests/test_views.py",
+       "FlaskClient"
+      ]
+     ]
+    }
+   ],
+   "choice": {
+    "call": "symbols('tests/test_reqctx.py', 'FlaskClient')",
+    "key": "[\"symbols\", [\"tests/test_reqctx.py\", \"FlaskClient\"]]",
+    "provenance": "`tests/test_reqctx.py` had a matching line (step 5); its outline names every `FlaskClient` import exactly",
+    "v2": [
+     6413553,
+     2045075
+    ]
+   },
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "plan": {
+    "ok": "[\"symbols\", [\"tests/test_views.py\", \"FlaskClient\"]]",
+    "cap": "[\"symbols\", [\"tests/test_views.py\", \"FlaskClient\"]]"
+   },
+   "call": {
+    "text": "symbols('tests/test_reqctx.py', 'FlaskClient')",
+    "key": "[\"symbols\", [\"tests/test_reqctx.py\", \"FlaskClient\"]]",
+    "tool": "symbols",
+    "args": [
+     "tests/test_reqctx.py",
+     "FlaskClient"
+    ]
+   },
+   "response": {
+    "tool": "symbols",
+    "lines": [
+     "module tests/test_reqctx.py lines=250 dynamic=no all=none",
+     "12 from FlaskClient <- flask.testing FlaskClient"
+    ],
+    "capped": false,
+    "error": null
+   },
+   "outcome": "ok",
+   "facts": [
+    {
+     "kind": "outline",
+     "step": 10,
+     "path": "tests/test_reqctx.py",
+     "filter": "FlaskClient",
+     "header": {
+      "lines": 250,
+      "dynamic": false,
+      "all_status": "none",
+      "all_line": null
+     },
+     "bindings": [
+      {
+       "module": "tests/test_reqctx.py",
+       "name": "FlaskClient",
+       "line": 12,
+       "kind": "from",
+       "src": "flask.testing",
+       "src_name": "FlaskClient",
+       "conditional": false,
+       "col": 0,
+       "bases": []
+      }
+     ],
+     "complete": true
+    }
+   ],
+   "adherence": {
+    "planned": "[\"symbols\", [\"tests/test_reqctx.py\", \"FlaskClient\"]]",
+    "status": "followed"
+   },
+   "goal_state": {
+    "phase": "importers",
+    "step": 2,
+    "of": 2,
+    "candidates": [
+     "src/flask/app.py",
+     "src/flask/sansio/app.py",
+     "tests/test_appctx.py",
+     "tests/test_basic.py",
+     "tests/test_reqctx.py",
+     "tests/test_request.py",
+     "tests/test_views.py"
+    ],
+    "table": [
+     [
+      "src/flask/app.py",
+      "src/flask/app.py:61",
+      "in",
+      "`.testing` resolves `FlaskClient` to the target"
+     ],
+     [
+      "src/flask/sansio/app.py",
+      "src/flask/sansio/app.py:39",
+      "in",
+      "`..testing` resolves `FlaskClient` to the target"
+     ],
+     [
+      "tests/test_appctx.py",
+      "tests/test_appctx.py:7",
+      "in",
+      "`flask.testing` resolves `FlaskClient` to the target"
+     ],
+     [
+      "tests/test_basic.py",
+      "tests/test_basic.py:25",
+      "in",
+      "`flask.testing` resolves `FlaskClient` to the target"
+     ],
+     [
+      "tests/test_reqctx.py",
+      "tests/test_reqctx.py:12",
+      "in",
+      "`flask.testing` resolves `FlaskClient` to the target"
+     ],
+     [
+      "tests/test_request.py",
+      "tests/test_request.py:6",
+      "in",
+      "`flask.testing` resolves `FlaskClient` to the target"
+     ],
+     [
+      "tests/test_views.py",
+      null,
+      "pending",
+      "not yet examined"
+     ]
+    ],
+    "uncovered": {
+     "IMPORT": [],
+     "STAR": []
+    },
+    "n_in": 6,
+    "n_out": 0,
+    "n_pending": 1
+   }
+  },
+  {
+   "step": 11,
+   "phase": "importers",
+   "thought": "The test module `tests/test_reqctx.py`: line 12 imports it from `flask.testing`.\n\nTally: 6 import statements confirmed, 0 ruled out, 1 pending. The search itself is complete; what is left is checking the candidates.\n\nI'll look at `tests/test_views.py`'s top-level names for `FlaskClient`; its outline names every import of the symbol exactly, aliases included. Almost certainly the outline shows what I need. If the outline is too long to fit, I follow whatever it opens up.",
+   "hedges": [
+    {
+     "outcome": "ok",
+     "word": "almost certainly",
+     "p": [
+      49,
+      50
+     ]
+    }
+   ],
+   "items": [
+    {
+     "kind": "outline",
+     "key": [
+      "outline",
+      "tests/test_views.py",
+      "FlaskClient"
+     ],
+     "desc": "look at `tests/test_views.py`'s imports of `FlaskClient`"
+    }
+   ],
+   "candidates": [
+    {
+     "call": "symbols('tests/test_views.py', 'FlaskClient')",
+     "key": "[\"symbols\", [\"tests/test_views.py\", \"FlaskClient\"]]",
+     "v1": [
+      6413553,
+      4090150
+     ],
+     "v2": [
+      6413553,
+      4090150
+     ],
+     "p_cap": [
+      1,
+      50
+     ],
+     "forecast": {
+      "ok": [
+       49,
+       50
+      ],
+      "cap": [
+       1,
+       50
+      ]
+     },
+     "serves": [
+      [
+       "outline",
+       "tests/test_views.py",
+       "FlaskClient"
+      ]
+     ]
+    }
+   ],
+   "choice": {
+    "call": "symbols('tests/test_views.py', 'FlaskClient')",
+    "key": "[\"symbols\", [\"tests/test_views.py\", \"FlaskClient\"]]",
+    "provenance": "`tests/test_views.py` had a matching line (step 5); its outline names every `FlaskClient` import exactly",
+    "v2": [
+     6413553,
+     4090150
+    ]
+   },
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "plan": {
+    "ok": "continue",
+    "cap": "continue"
+   },
+   "call": {
+    "text": "symbols('tests/test_views.py', 'FlaskClient')",
+    "key": "[\"symbols\", [\"tests/test_views.py\", \"FlaskClient\"]]",
+    "tool": "symbols",
+    "args": [
+     "tests/test_views.py",
+     "FlaskClient"
+    ]
+   },
+   "response": {
+    "tool": "symbols",
+    "lines": [
+     "module tests/test_views.py lines=272 dynamic=no all=none",
+     "4 from FlaskClient <- flask.testing FlaskClient"
+    ],
+    "capped": false,
+    "error": null
+   },
+   "outcome": "ok",
+   "facts": [
+    {
+     "kind": "outline",
+     "step": 11,
+     "path": "tests/test_views.py",
+     "filter": "FlaskClient",
+     "header": {
+      "lines": 272,
+      "dynamic": false,
+      "all_status": "none",
+      "all_line": null
+     },
+     "bindings": [
+      {
+       "module": "tests/test_views.py",
+       "name": "FlaskClient",
+       "line": 4,
+       "kind": "from",
+       "src": "flask.testing",
+       "src_name": "FlaskClient",
+       "conditional": false,
+       "col": 0,
+       "bases": []
+      }
+     ],
+     "complete": true
+    }
+   ],
+   "adherence": {
+    "planned": "[\"symbols\", [\"tests/test_views.py\", \"FlaskClient\"]]",
+    "status": "followed"
+   },
+   "goal_state": {
+    "phase": "importers",
+    "step": 2,
+    "of": 2,
+    "candidates": [
+     "src/flask/app.py",
+     "src/flask/sansio/app.py",
+     "tests/test_appctx.py",
+     "tests/test_basic.py",
+     "tests/test_reqctx.py",
+     "tests/test_request.py",
+     "tests/test_views.py"
+    ],
+    "table": [
+     [
+      "src/flask/app.py",
+      "src/flask/app.py:61",
+      "in",
+      "`.testing` resolves `FlaskClient` to the target"
+     ],
+     [
+      "src/flask/sansio/app.py",
+      "src/flask/sansio/app.py:39",
+      "in",
+      "`..testing` resolves `FlaskClient` to the target"
+     ],
+     [
+      "tests/test_appctx.py",
+      "tests/test_appctx.py:7",
+      "in",
+      "`flask.testing` resolves `FlaskClient` to the target"
+     ],
+     [
+      "tests/test_basic.py",
+      "tests/test_basic.py:25",
+      "in",
+      "`flask.testing` resolves `FlaskClient` to the target"
+     ],
+     [
+      "tests/test_reqctx.py",
+      "tests/test_reqctx.py:12",
+      "in",
+      "`flask.testing` resolves `FlaskClient` to the target"
+     ],
+     [
+      "tests/test_request.py",
+      "tests/test_request.py:6",
+      "in",
+      "`flask.testing` resolves `FlaskClient` to the target"
+     ],
+     [
+      "tests/test_views.py",
+      "tests/test_views.py:4",
+      "in",
+      "`flask.testing` resolves `FlaskClient` to the target"
+     ]
+    ],
+    "uncovered": {
+     "IMPORT": [],
+     "STAR": []
+    },
+    "n_in": 7,
+    "n_out": 0,
+    "n_pending": 0
+   }
+  }
+ ],
+ "answer": {
+  "final_kind": "importers",
+  "final": [
+   "src/flask/app.py:61",
+   "src/flask/sansio/app.py:39",
+   "tests/test_appctx.py:7",
+   "tests/test_basic.py:25",
+   "tests/test_reqctx.py:12",
+   "tests/test_request.py:6",
+   "tests/test_views.py:4"
+  ],
+  "steps": [
+   {
+    "op": "resolve",
+    "output": {
+     "kind": "def",
+     "path": "src/flask/testing.py",
+     "line": 109,
+     "name": "FlaskClient",
+     "detail": "class"
+    }
+   },
+   {
+    "op": "importers",
+    "output": [
+     "src/flask/app.py:61",
+     "src/flask/sansio/app.py:39",
+     "tests/test_appctx.py:7",
+     "tests/test_basic.py:25",
+     "tests/test_reqctx.py:12",
+     "tests/test_request.py:6",
+     "tests/test_views.py:4"
+    ]
+   }
+  ],
+  "stuck": null
+ },
+ "certificate": [
+  {
+   "kind": "witness-chain",
+   "hops": [
+    [
+     "tests/test_request.py",
+     "FlaskClient",
+     "reexport",
+     [
+      "flask.testing",
+      "src/flask/testing.py"
+     ]
+    ],
+    [
+     "src/flask/testing.py",
+     "FlaskClient",
+     "class",
+     109
+    ]
+   ]
+  },
+  {
+   "kind": "forall",
+   "coverage": {
+    "IMPORT": [
+     [
+      "^\\s*from\\s+\\S+\\s+import\\s+(?:.*\\bFlaskClient\\b|\\*)|^\\s*(?:\\w+(?:\\s+as\\s+\\w+)?\\s*,\\s*)*FlaskClient\\b(?:\\s+as\\s+\\w+)?\\s*,?\\s*\\)?\\s*$",
+      "."
+     ]
+    ],
+    "STAR": [
+     [
+      "^\\s*from\\s+\\S+\\s+import\\s+(?:.*\\bFlaskClient\\b|\\*)|^\\s*(?:\\w+(?:\\s+as\\s+\\w+)?\\s*,\\s*)*FlaskClient\\b(?:\\s+as\\s+\\w+)?\\s*,?\\s*\\)?\\s*$",
+      "."
+     ]
+    ]
+   },
+   "witnesses": [
+    [
+     "src/flask/app.py",
+     "src/flask/app.py:61",
+     "in",
+     "`.testing` resolves `FlaskClient` to the target"
+    ],
+    [
+     "src/flask/sansio/app.py",
+     "src/flask/sansio/app.py:39",
+     "in",
+     "`..testing` resolves `FlaskClient` to the target"
+    ],
+    [
+     "tests/test_appctx.py",
+     "tests/test_appctx.py:7",
+     "in",
+     "`flask.testing` resolves `FlaskClient` to the target"
+    ],
+    [
+     "tests/test_basic.py",
+     "tests/test_basic.py:25",
+     "in",
+     "`flask.testing` resolves `FlaskClient` to the target"
+    ],
+    [
+     "tests/test_reqctx.py",
+     "tests/test_reqctx.py:12",
+     "in",
+     "`flask.testing` resolves `FlaskClient` to the target"
+    ],
+    [
+     "tests/test_request.py",
+     "tests/test_request.py:6",
+     "in",
+     "`flask.testing` resolves `FlaskClient` to the target"
+    ],
+    [
+     "tests/test_views.py",
+     "tests/test_views.py:4",
+     "in",
+     "`flask.testing` resolves `FlaskClient` to the target"
+    ]
+   ],
+   "counterexamples": []
+  }
+ ],
+ "stopped": "certificate",
+ "n_calls": 11,
+ "final_thought": "`FlaskClient` is the class at `src/flask/testing.py:109`. 7 module-level import statements bring in this definition: `src/flask/app.py:61`, `src/flask/sansio/app.py:39`, `tests/test_appctx.py:7`, `tests/test_basic.py:25`, `tests/test_reqctx.py:12`, `tests/test_request.py:6`, `tests/test_views.py:4`. Looking back, all 11 calls were needed.",
+ "hindsight": {
+  "1": true,
+  "2": true,
+  "3": true,
+  "4": true,
+  "5": true,
+  "6": true,
+  "7": true,
+  "8": true,
+  "9": true,
+  "10": true,
+  "11": true
+ },
+ "open_at_stop": [],
+ "verification": {
+  "replay": {
+   "ok": true,
+   "detail": "bit-identical replay"
+  },
+  "world": {
+   "ok": true,
+   "n_checks": 72,
+   "n_ok": 72,
+   "failures": [],
+   "n_resolutions": 8
+  },
+  "adherence": {
+   "first": 1,
+   "open-ended": 4,
+   "deviated": 1,
+   "followed": 5
+  }
+ }
+}

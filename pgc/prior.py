@@ -14,7 +14,7 @@ from fractions import Fraction
 from .analysis import Index
 from .snapshot import CAPS, Call, Snapshot
 
-PATTERN_CLASSES = ("DEF", "IMPORT", "STAR", "IMPORT_OR_STAR")
+PATTERN_CLASSES = ("DEF", "IMPORT", "STAR", "IMPORT_OR_STAR", "SUBCLASS", "CALL")
 
 
 def pattern(pclass: str, name: str) -> str:
@@ -28,6 +28,10 @@ def pattern(pclass: str, name: str) -> str:
         return r"^\s*from\s+\S+\s+import\s+\*"
     if pclass == "IMPORT_OR_STAR":
         return rf"^\s*from\s+\S+\s+import\s+(?:.*\b{n}\b|\*)|{cont}"
+    if pclass == "SUBCLASS":
+        return rf"^\s*class\s+\w+\s*\(.*\b{n}\b"
+    if pclass == "CALL":
+        return rf"\b{n}\s*\("
     raise KeyError(pclass)
 
 
@@ -37,6 +41,24 @@ def scope_kind(scope: str, is_file: bool) -> str:
     if scope == ".":
         return "root"
     return "dir1" if "/" not in scope else "dir2"
+
+
+def dir_class(scope: str) -> str:
+    """Coarse class of a directory by its name, for the share-of-python prior."""
+    name = scope.rsplit("/", 1)[-1].lower()
+    if scope == ".":
+        return "root"
+    if name.startswith("."):
+        return "hidden"
+    if name in ("docs", "doc", "documentation", "man"):
+        return "docs"
+    if "test" in name:
+        return "tests"
+    if name in ("src", "lib"):
+        return "src"
+    if "example" in name or name in ("scripts", "tools", "bin"):
+        return "examples"
+    return "other"
 
 
 def depth_kind(d: str) -> str:
@@ -75,6 +97,7 @@ def fit_prior(repos: dict, exclude: str, seed: int = 0, samples_per_repo: int = 
     decoy = Counter2(("target", "other"))
     src_form = Counter2(("module", "package"))
     abs_ext = Counter2(("external", "internal"))
+    dir_share = {c: [0, 0] for c in ("root", "hidden", "docs", "tests", "src", "examples", "other")}  # [py files, all files]
     training = []
     for name, (snap, ix) in sorted(repos.items()):
         if name == exclude:
@@ -83,6 +106,11 @@ def fit_prior(repos: dict, exclude: str, seed: int = 0, samples_per_repo: int = 
         # directories
         for d in sorted(snap.dirs):
             ch = snap.children(d)
+            if d != ".":
+                under = snap.files_under(d)
+                dc = dir_class(d)
+                dir_share[dc][0] += sum(1 for f in under if f.endswith(".py"))
+                dir_share[dc][1] += len(under)
             k = depth_kind(d)
             lscap[k].add("cap" if len(ch) > CAPS["ls"] else "fits")
             children[k][0] += len([c for c in ch if c.endswith("/") or c.endswith(".py")])
@@ -181,6 +209,7 @@ def fit_prior(repos: dict, exclude: str, seed: int = 0, samples_per_repo: int = 
         "decoy": {l: fr(v) for l, v in decoy.dist().items()},
         "src_form": {l: fr(v) for l, v in src_form.dist().items()},
         "abs_ext": {l: fr(v) for l, v in abs_ext.dist().items()},
+        "dir_share": {c: fr(Fraction(py + 1, tot + 2)) for c, (py, tot) in dir_share.items()},
     }
     theta["hash"] = hashlib.sha256(json.dumps(theta, sort_keys=True).encode()).hexdigest()[:16]
     return theta
@@ -233,3 +262,9 @@ class Prior:
 
     def abs_external(self):
         return self._f(self.theta["abs_ext"]["external"])
+
+    def dir_share(self, scope: str):
+        """Expected share of python files under a directory, by its name class; 1 for the root."""
+        if scope == ".":
+            return Fraction(1)
+        return self._f(self.theta["dir_share"][dir_class(scope)])

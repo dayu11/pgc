@@ -1,0 +1,1863 @@
+# attrs-callers-8516d5f7
+
+**Repository:** attrs  
+**Chain:** resolve → callers  
+**Seed:** 0, prior 0ac2a510ad43644e, floor 8
+
+## Task
+
+In `tests/test_dunders.py` line 29, `simple_class` is imported from `.utils`. Which definition does the module-level name `simple_class` actually refer to? Give `path:line`. Then list every call site of it: bare-name calls whose module-level binding resolves to this definition, as `path:line`.
+
+*Declared semantics:* A module is a .py file; source roots are the repository root and, if present, src/ and lib/. `from M import N` binds N to M's single module-level binding of N, else to the submodule M/N, else to the single star-import source of M that exports N; bindings take effect in source order. A module exports N if its literal __all__ lists N or, without __all__, if N is public and bound in it. A class derives from a definition when a base written as a bare name or `module.Name` resolves to it. A call site is `name(...)` where the bare name refers to the module-level binding (not a parameter or local). Multiple bindings, non-literal __all__, external star imports and dynamic namespace code make a name ambiguous; tasks never ask about ambiguous names.
+
+## Step 1
+
+I need to find what `simple_class` really is in `tests/test_dunders.py`: line 29 imports it from `.utils`, so the definition is at least one hop away. Then every real call site of it, which means checking what the name refers to in each file that mentions it.
+
+Next I will check `tests/test_dunders.py` for any other binding of `simple_class` besides the import on line 29; almost certainly the import is the only one, and then `.utils` is the place to follow.
+
+**Call:** `symbols('tests/test_dunders.py', 'simple_class')`
+
+**Response**: outcome `reexport`
+
+```
+module tests/test_dunders.py lines=1062 dynamic=no all=none
+29 from simple_class <- .utils simple_class
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "bindings",
+   "key": [
+    "bindings",
+    "tests/test_dunders.py",
+    "simple_class"
+   ],
+   "desc": "check the top-level names of `tests/test_dunders.py` for `simple_class`"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "symbols('tests/test_dunders.py', 'simple_class')",
+   "key": "[\"symbols\", [\"tests/test_dunders.py\", \"simple_class\"]]",
+   "v1": [
+    22086579,
+    7532750
+   ],
+   "v2": [
+    22086579,
+    7532750
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     1,
+     100
+    ],
+    "reexport": [
+     93,
+     100
+    ],
+    "star": [
+     1,
+     100
+    ],
+    "none": [
+     1,
+     20
+    ]
+   },
+   "serves": [
+    [
+     "bindings",
+     "tests/test_dunders.py",
+     "simple_class"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/test_dunders.py')",
+   "key": "[\"symbols\", [\"tests/test_dunders.py\"]]",
+   "v1": [
+    11990227001,
+    3909497250
+   ],
+   "v2": [
+    11990227001,
+    3909497250
+   ],
+   "p_cap": [
+    70,
+    519
+   ],
+   "forecast": {
+    "def": [
+     449,
+     51900
+    ],
+    "reexport": [
+     13919,
+     17300
+    ],
+    "star": [
+     449,
+     51900
+    ],
+    "none": [
+     449,
+     10380
+    ],
+    "cap": [
+     70,
+     519
+    ]
+   },
+   "serves": [
+    [
+     "bindings",
+     "tests/test_dunders.py",
+     "simple_class"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "symbols('tests/test_dunders.py', 'simple_class')",
+  "key": "[\"symbols\", [\"tests/test_dunders.py\", \"simple_class\"]]",
+  "provenance": "module `tests/test_dunders.py` (task), name `simple_class` (task)",
+  "v2": [
+   22086579,
+   7532750
+  ]
+ },
+ "forecast": {
+  "def": [
+   1,
+   100
+  ],
+  "reexport": [
+   93,
+   100
+  ],
+  "star": [
+   1,
+   100
+  ],
+  "none": [
+   1,
+   20
+  ]
+ },
+ "plan": {
+  "def": "done",
+  "reexport": "continue",
+  "star": "continue",
+  "none": "done"
+ },
+ "hedges": [
+  {
+   "outcome": "reexport",
+   "word": "almost certainly",
+   "p": [
+    93,
+    100
+   ]
+  }
+ ],
+ "adherence": null,
+ "facts": [
+  {
+   "kind": "outline",
+   "step": 1,
+   "path": "tests/test_dunders.py",
+   "filter": "simple_class",
+   "header": {
+    "lines": 1062,
+    "dynamic": false,
+    "all_status": "none",
+    "all_line": null
+   },
+   "bindings": [
+    {
+     "module": "tests/test_dunders.py",
+     "name": "simple_class",
+     "line": 29,
+     "kind": "from",
+     "src": ".utils",
+     "src_name": "simple_class",
+     "conditional": false,
+     "col": 0,
+     "bases": []
+    }
+   ],
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "phase": "resolve",
+  "step": 1,
+  "of": 2,
+  "chain": [
+   [
+    "tests/test_dunders.py",
+    "simple_class",
+    "reexport",
+    [
+     ".utils",
+     null
+    ]
+   ]
+  ]
+ }
+}
+```
+</details>
+
+## Step 2
+
+The test module `tests/test_dunders.py` does not define `simple_class` itself; line 29 imports it from `.utils`.
+
+So far: `tests/test_dunders.py` takes `simple_class` from `.utils`, which I still have to locate.
+
+Let me outline `tests/utils.py` directly, which both checks that the file exists and shows me `simple_class`; if `.utils` is a plain module that is where it has to be. Very likely it is defined right there. If the file does not exist, I will search the whole tree for `class simple_class`/`def simple_class`; if the name is not bound there, that finishes it. I could search the whole tree for `class simple_class`/`def simple_class` instead, but it tends to open more follow-up work.
+
+**Call:** `symbols('tests/utils.py', 'simple_class')`
+
+**Response**: outcome `def`
+
+```
+module tests/utils.py lines=70 dynamic=no all=none
+11 def simple_class
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "module_path",
+   "key": [
+    "module_path",
+    "tests/test_dunders.py",
+    ".utils"
+   ],
+   "desc": "find where `.utils` (imported by `tests/test_dunders.py`) lives"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "symbols('tests/utils.py', 'simple_class')",
+   "key": "[\"symbols\", [\"tests/utils.py\", \"simple_class\"]]",
+   "v1": [
+    13603250257,
+    10976873955
+   ],
+   "v2": [
+    9106246163,
+    7317915970
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     61864,
+     72861
+    ],
+    "reexport": [
+     1628,
+     72861
+    ],
+    "star": [
+     148,
+     72861
+    ],
+    "none": [
+     2516,
+     72861
+    ],
+    "missing": [
+     15,
+     163
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_dunders.py",
+     ".utils"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+simple_class\\\\b', '.')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+simple_class\\\\b\", \".\"]]",
+   "v1": [
+    5509,
+    2610
+   ],
+   "v2": [
+    204044694713,
+    98791865595
+   ],
+   "p_cap": [
+    1,
+    36
+   ],
+   "forecast": {
+    "zero": [
+     1,
+     36
+    ],
+    "mid": [
+     17,
+     18
+    ],
+    "cap": [
+     1,
+     36
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_dunders.py",
+     ".utils"
+    ]
+   ]
+  },
+  {
+   "call": "ls('tests')",
+   "key": "[\"ls\", [\"tests\"]]",
+   "v1": [
+    16221,
+    7540
+   ],
+   "v2": [
+    591595471267,
+    285398722830
+   ],
+   "p_cap": [
+    5,
+    52
+   ],
+   "forecast": {
+    "complete": [
+     47,
+     52
+    ],
+    "cap": [
+     5,
+     52
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_dunders.py",
+     ".utils"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/utils/__init__.py', 'simple_class')",
+   "key": "[\"symbols\", [\"tests/utils/__init__.py\", \"simple_class\"]]",
+   "v1": [
+    31637297,
+    10588480
+   ],
+   "v2": [
+    1801198508720323,
+    801575243689920
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     55,
+     2608
+    ],
+    "reexport": [
+     15,
+     326
+    ],
+    "star": [
+     5,
+     2608
+    ],
+    "none": [
+     15,
+     652
+    ],
+    "missing": [
+     148,
+     163
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_dunders.py",
+     ".utils"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "symbols('tests/utils.py', 'simple_class')",
+  "key": "[\"symbols\", [\"tests/utils.py\", \"simple_class\"]]",
+  "provenance": "`.utils` would be `tests/utils.py` if that file exists; one call both checks and closes it",
+  "v2": [
+   9106246163,
+   7317915970
+  ]
+ },
+ "forecast": {
+  "def": [
+   61864,
+   72861
+  ],
+  "reexport": [
+   1628,
+   72861
+  ],
+  "star": [
+   148,
+   72861
+  ],
+  "none": [
+   2516,
+   72861
+  ],
+  "missing": [
+   15,
+   163
+  ]
+ },
+ "plan": {
+  "def": "done",
+  "reexport": "continue",
+  "star": "continue",
+  "none": "done",
+  "missing": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+simple_class\\\\b\", \".\"]]"
+ },
+ "hedges": [
+  {
+   "outcome": "def",
+   "word": "very likely",
+   "p": [
+    61864,
+    72861
+   ]
+  }
+ ],
+ "adherence": {
+  "planned": "continue",
+  "status": "open-ended"
+ },
+ "facts": [
+  {
+   "kind": "outline",
+   "step": 2,
+   "path": "tests/utils.py",
+   "filter": "simple_class",
+   "header": {
+    "lines": 70,
+    "dynamic": false,
+    "all_status": "none",
+    "all_line": null
+   },
+   "bindings": [
+    {
+     "module": "tests/utils.py",
+     "name": "simple_class",
+     "line": 11,
+     "kind": "def",
+     "src": null,
+     "src_name": null,
+     "conditional": false,
+     "col": 0,
+     "bases": []
+    }
+   ],
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "phase": "resolve",
+  "step": 1,
+  "of": 2,
+  "chain": [
+   [
+    "tests/test_dunders.py",
+    "simple_class",
+    "reexport",
+    [
+     ".utils",
+     "tests/utils.py"
+    ]
+   ],
+   [
+    "tests/utils.py",
+    "simple_class",
+    "def",
+    11
+   ]
+  ]
+ }
+}
+```
+</details>
+
+## Step 3
+
+There it is: `simple_class` is a function at `tests/utils.py:11`. That settles the definition; now its call sites.
+
+I'll search the whole tree for calls of `simple_class`; the search has to be complete before I can call the set final. Almost certainly it fits under the cap. If it caps, I follow whatever it opens up; if nothing turns up, that finishes it.
+
+**Call:** `grep('\\bsimple_class\\s*\\(', '.')`
+
+**Response**: outcome `mid`
+
+```
+tests/test_dunders.py:32:EqC = simple_class(name="EqC", eq=True)
+tests/test_dunders.py:33:EqCSlots = simple_class(name="EqCSlots", eq=True, slots=True)
+tests/test_dunders.py:34:OrderC = simple_class(name="OrderC", order=True)
+tests/test_dunders.py:35:OrderCSlots = simple_class(name="OrderCSlots", order=True, slots=True)
+tests/test_dunders.py:36:ReprC = simple_class(repr=True)
+tests/test_dunders.py:37:ReprCSlots = simple_class(repr=True, slots=True)
+tests/test_dunders.py:67:HashC = simple_class(name="HashC", unsafe_hash=True)
+tests/test_dunders.py:68:HashCSlots = simple_class(
+tests/test_dunders.py:71:HashCCached = simple_class(
+tests/test_dunders.py:74:HashCSlotsCached = simple_class(
+tests/test_dunders.py:84:HashCFrozenNotSlotsCached = simple_class(
+tests/test_dunders.py:455:            simple_class(repr=False, str=True)
+tests/test_utils.py:13:        assert type is simple_class().__class__
+tests/test_utils.py:19:        assert simple_class() is not simple_class()
+tests/utils.py:11:def simple_class(
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "cover",
+   "key": [
+    "cover",
+    "CALL",
+    "."
+   ],
+   "desc": "search `.` for calls of `simple_class`"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "grep('\\\\bsimple_class\\\\s*\\\\(', '.')",
+   "key": "[\"grep\", [\"\\\\bsimple_class\\\\s*\\\\(\", \".\"]]",
+   "v1": [
+    2063487991,
+    1577878400
+   ],
+   "v2": [
+    2063487991,
+    1577878400
+   ],
+   "p_cap": [
+    1,
+    27
+   ],
+   "forecast": {
+    "zero": [
+     1,
+     27
+    ],
+    "mid": [
+     25,
+     27
+    ],
+    "cap": [
+     1,
+     27
+    ]
+   },
+   "serves": [
+    [
+     "cover",
+     "CALL",
+     "."
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "grep('\\\\bsimple_class\\\\s*\\\\(', '.')",
+  "key": "[\"grep\", [\"\\\\bsimple_class\\\\s*\\\\(\", \".\"]]",
+  "provenance": "call lines naming `simple_class` under `.` (derived)",
+  "v2": [
+   2063487991,
+   1577878400
+  ]
+ },
+ "forecast": {
+  "zero": [
+   1,
+   27
+  ],
+  "mid": [
+   25,
+   27
+  ],
+  "cap": [
+   1,
+   27
+  ]
+ },
+ "plan": {
+  "zero": "done",
+  "mid": "continue",
+  "cap": "continue"
+ },
+ "hedges": [
+  {
+   "outcome": "mid",
+   "word": "almost certainly",
+   "p": [
+    25,
+    27
+   ]
+  }
+ ],
+ "adherence": {
+  "planned": "done",
+  "status": "deviated"
+ },
+ "facts": [
+  {
+   "kind": "grep",
+   "step": 3,
+   "pattern": "\\bsimple_class\\s*\\(",
+   "scope": ".",
+   "hits": [
+    [
+     "tests/test_dunders.py",
+     32
+    ],
+    [
+     "tests/test_dunders.py",
+     33
+    ],
+    [
+     "tests/test_dunders.py",
+     34
+    ],
+    [
+     "tests/test_dunders.py",
+     35
+    ],
+    [
+     "tests/test_dunders.py",
+     36
+    ],
+    [
+     "tests/test_dunders.py",
+     37
+    ],
+    [
+     "tests/test_dunders.py",
+     67
+    ],
+    [
+     "tests/test_dunders.py",
+     68
+    ],
+    [
+     "tests/test_dunders.py",
+     71
+    ],
+    [
+     "tests/test_dunders.py",
+     74
+    ],
+    [
+     "tests/test_dunders.py",
+     84
+    ],
+    [
+     "tests/test_dunders.py",
+     455
+    ],
+    [
+     "tests/test_utils.py",
+     13
+    ],
+    [
+     "tests/test_utils.py",
+     19
+    ],
+    [
+     "tests/utils.py",
+     11
+    ]
+   ],
+   "capped": false
+  }
+ ],
+ "goal_state": {
+  "phase": "callers",
+  "step": 2,
+  "of": 2,
+  "candidates": [
+   "tests/test_dunders.py",
+   "tests/test_utils.py",
+   "tests/utils.py"
+  ],
+  "table": [
+   [
+    "tests/test_dunders.py",
+    null,
+    "pending",
+    "not yet examined"
+   ],
+   [
+    "tests/test_utils.py",
+    null,
+    "pending",
+    "not yet examined"
+   ],
+   [
+    "tests/utils.py",
+    null,
+    "pending",
+    "not yet examined"
+   ]
+  ],
+  "uncovered": {
+   "CALL": []
+  },
+  "n_in": 0,
+  "n_out": 0,
+  "n_pending": 3
+ }
+}
+```
+</details>
+
+## Step 4
+
+15 matching lines anywhere for calls of `simple_class`, in `tests/test_dunders.py`, `tests/test_utils.py`, `tests/utils.py`, and the search was under the cap, so that is the complete set there.
+
+I'll list the call sites of `simple_class` in `tests/test_dunders.py`; the name is ours there, so each call site counts. Almost certainly the call sites fit. If there are too many call sites, I will look at `tests/test_utils.py`'s top-level names for `simple_class`.
+
+**Call:** `calls('tests/test_dunders.py', 'simple_class')`
+
+**Response**: outcome `ok`
+
+```
+calls of simple_class in tests/test_dunders.py count=12
+32:EqC = simple_class(name="EqC", eq=True)
+33:EqCSlots = simple_class(name="EqCSlots", eq=True, slots=True)
+34:OrderC = simple_class(name="OrderC", order=True)
+35:OrderCSlots = simple_class(name="OrderCSlots", order=True, slots=True)
+36:ReprC = simple_class(repr=True)
+37:ReprCSlots = simple_class(repr=True, slots=True)
+67:HashC = simple_class(name="HashC", unsafe_hash=True)
+68:HashCSlots = simple_class(
+71:HashCCached = simple_class(
+74:HashCSlotsCached = simple_class(
+84:HashCFrozenNotSlotsCached = simple_class(
+455:            simple_class(repr=False, str=True)
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "calls",
+   "key": [
+    "calls",
+    "tests/test_dunders.py",
+    "simple_class"
+   ],
+   "desc": "list the call sites of `simple_class` in `tests/test_dunders.py`"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "tests/test_utils.py",
+    "simple_class"
+   ],
+   "desc": "check what `simple_class` means inside `tests/test_utils.py`"
+  },
+  {
+   "kind": "calls",
+   "key": [
+    "calls",
+    "tests/utils.py",
+    "simple_class"
+   ],
+   "desc": "list the call sites of `simple_class` in `tests/utils.py`"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "calls('tests/test_dunders.py', 'simple_class')",
+   "key": "[\"calls\", [\"tests/test_dunders.py\", \"simple_class\"]]",
+   "v1": [
+    149231,
+    40252
+   ],
+   "v2": [
+    3750901,
+    1006300
+   ],
+   "p_cap": [
+    1,
+    20
+   ],
+   "forecast": {
+    "ok": [
+     19,
+     20
+    ],
+    "cap": [
+     1,
+     20
+    ]
+   },
+   "serves": [
+    [
+     "calls",
+     "tests/test_dunders.py",
+     "simple_class"
+    ]
+   ]
+  },
+  {
+   "call": "calls('tests/utils.py', 'simple_class')",
+   "key": "[\"calls\", [\"tests/utils.py\", \"simple_class\"]]",
+   "v1": [
+    149231,
+    40252
+   ],
+   "v2": [
+    3750901,
+    1006300
+   ],
+   "p_cap": [
+    1,
+    20
+   ],
+   "forecast": {
+    "ok": [
+     19,
+     20
+    ],
+    "cap": [
+     1,
+     20
+    ]
+   },
+   "serves": [
+    [
+     "calls",
+     "tests/utils.py",
+     "simple_class"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/test_utils.py', 'simple_class')",
+   "key": "[\"symbols\", [\"tests/test_utils.py\", \"simple_class\"]]",
+   "v1": [
+    1850293,
+    503150
+   ],
+   "v2": [
+    3750901,
+    1006300
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "tests/test_utils.py",
+     "simple_class"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "calls('tests/test_dunders.py', 'simple_class')",
+  "key": "[\"calls\", [\"tests/test_dunders.py\", \"simple_class\"]]",
+  "provenance": "call sites of `simple_class` in `tests/test_dunders.py` that refer to the module-level binding",
+  "v2": [
+   3750901,
+   1006300
+  ]
+ },
+ "forecast": {
+  "ok": [
+   19,
+   20
+  ],
+  "cap": [
+   1,
+   20
+  ]
+ },
+ "plan": {
+  "ok": "[\"symbols\", [\"tests/test_utils.py\", \"simple_class\"]]",
+  "cap": "[\"symbols\", [\"tests/test_utils.py\", \"simple_class\"]]"
+ },
+ "hedges": [
+  {
+   "outcome": "ok",
+   "word": "almost certainly",
+   "p": [
+    19,
+    20
+   ]
+  }
+ ],
+ "adherence": {
+  "planned": "continue",
+  "status": "open-ended"
+ },
+ "facts": [
+  {
+   "kind": "calls",
+   "step": 4,
+   "path": "tests/test_dunders.py",
+   "name": "simple_class",
+   "lines": [
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    67,
+    68,
+    71,
+    74,
+    84,
+    455
+   ],
+   "count": 12,
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "phase": "callers",
+  "step": 2,
+  "of": 2,
+  "candidates": [
+   "tests/test_dunders.py",
+   "tests/test_utils.py",
+   "tests/utils.py"
+  ],
+  "table": [
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:32",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:33",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:34",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:35",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:36",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:37",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:67",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:68",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:71",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:74",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:84",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:455",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_utils.py",
+    null,
+    "pending",
+    "not yet examined"
+   ],
+   [
+    "tests/utils.py",
+    null,
+    "pending",
+    "not yet examined"
+   ]
+  ],
+  "uncovered": {
+   "CALL": []
+  },
+  "n_in": 12,
+  "n_out": 0,
+  "n_pending": 2
+ }
+}
+```
+</details>
+
+## Step 5
+
+`tests/test_dunders.py` calls `simple_class` at lines 32, 33, 34, 35, 36, 37 and 6 more, and those are real calls of the module-level name, not a shadowed local.
+
+Tally: 12 call sites confirmed, 0 ruled out, 2 pending. The search itself is complete; what is left is checking the candidates.
+
+Let me look at `tests/test_utils.py`'s top-level names for `simple_class`; before counting calls I need to know the name refers to our definition there. Almost certainly the outline shows what I need. If the outline is too long to fit, I will list the call sites of `simple_class` in `tests/utils.py`.
+
+**Call:** `symbols('tests/test_utils.py', 'simple_class')`
+
+**Response**: outcome `ok`
+
+```
+module tests/test_utils.py lines=20 dynamic=no all=none
+1 from simple_class <- .utils simple_class
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "tests/test_utils.py",
+    "simple_class"
+   ],
+   "desc": "check what `simple_class` means inside `tests/test_utils.py`"
+  },
+  {
+   "kind": "calls",
+   "key": [
+    "calls",
+    "tests/utils.py",
+    "simple_class"
+   ],
+   "desc": "list the call sites of `simple_class` in `tests/utils.py`"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "calls('tests/utils.py', 'simple_class')",
+   "key": "[\"calls\", [\"tests/utils.py\", \"simple_class\"]]",
+   "v1": [
+    108979,
+    40252
+   ],
+   "v2": [
+    2744601,
+    1006300
+   ],
+   "p_cap": [
+    1,
+    20
+   ],
+   "forecast": {
+    "ok": [
+     19,
+     20
+    ],
+    "cap": [
+     1,
+     20
+    ]
+   },
+   "serves": [
+    [
+     "calls",
+     "tests/utils.py",
+     "simple_class"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/test_utils.py', 'simple_class')",
+   "key": "[\"symbols\", [\"tests/test_utils.py\", \"simple_class\"]]",
+   "v1": [
+    1347143,
+    503150
+   ],
+   "v2": [
+    2744601,
+    1006300
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "tests/test_utils.py",
+     "simple_class"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "symbols('tests/test_utils.py', 'simple_class')",
+  "key": "[\"symbols\", [\"tests/test_utils.py\", \"simple_class\"]]",
+  "provenance": "`tests/test_utils.py` had a matching line (step 3); its outline names every `simple_class` import exactly",
+  "v2": [
+   2744601,
+   1006300
+  ]
+ },
+ "forecast": {
+  "ok": [
+   49,
+   50
+  ],
+  "cap": [
+   1,
+   50
+  ]
+ },
+ "plan": {
+  "ok": "[\"calls\", [\"tests/utils.py\", \"simple_class\"]]",
+  "cap": "[\"calls\", [\"tests/utils.py\", \"simple_class\"]]"
+ },
+ "hedges": [
+  {
+   "outcome": "ok",
+   "word": "almost certainly",
+   "p": [
+    49,
+    50
+   ]
+  }
+ ],
+ "adherence": {
+  "planned": "[\"symbols\", [\"tests/test_utils.py\", \"simple_class\"]]",
+  "status": "followed"
+ },
+ "facts": [
+  {
+   "kind": "outline",
+   "step": 5,
+   "path": "tests/test_utils.py",
+   "filter": "simple_class",
+   "header": {
+    "lines": 20,
+    "dynamic": false,
+    "all_status": "none",
+    "all_line": null
+   },
+   "bindings": [
+    {
+     "module": "tests/test_utils.py",
+     "name": "simple_class",
+     "line": 1,
+     "kind": "from",
+     "src": ".utils",
+     "src_name": "simple_class",
+     "conditional": false,
+     "col": 0,
+     "bases": []
+    }
+   ],
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "phase": "callers",
+  "step": 2,
+  "of": 2,
+  "candidates": [
+   "tests/test_dunders.py",
+   "tests/test_utils.py",
+   "tests/utils.py"
+  ],
+  "table": [
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:32",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:33",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:34",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:35",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:36",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:37",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:67",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:68",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:71",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:74",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:84",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:455",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_utils.py",
+    null,
+    "pending",
+    "not yet examined"
+   ],
+   [
+    "tests/utils.py",
+    null,
+    "pending",
+    "not yet examined"
+   ]
+  ],
+  "uncovered": {
+   "CALL": []
+  },
+  "n_in": 12,
+  "n_out": 0,
+  "n_pending": 2
+ }
+}
+```
+</details>
+
+## Step 6
+
+The test module `tests/test_utils.py` does not define `simple_class` itself; line 1 imports it from `.utils`.
+
+Tally: 12 call sites confirmed, 0 ruled out, 2 pending. The search itself is complete; what is left is checking the candidates.
+
+Next I will list the call sites of `simple_class` in `tests/utils.py`; the name is ours there, so each call site counts. Almost certainly the call sites fit. If there are too many call sites, I will list the call sites of `simple_class` in `tests/test_utils.py`.
+
+**Call:** `calls('tests/utils.py', 'simple_class')`
+
+**Response**: outcome `ok`
+
+```
+calls of simple_class in tests/utils.py count=0
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "calls",
+   "key": [
+    "calls",
+    "tests/test_utils.py",
+    "simple_class"
+   ],
+   "desc": "list the call sites of `simple_class` in `tests/test_utils.py`"
+  },
+  {
+   "kind": "calls",
+   "key": [
+    "calls",
+    "tests/utils.py",
+    "simple_class"
+   ],
+   "desc": "list the call sites of `simple_class` in `tests/utils.py`"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "calls('tests/test_utils.py', 'simple_class')",
+   "key": "[\"calls\", [\"tests/test_utils.py\", \"simple_class\"]]",
+   "v1": [
+    41,
+    20
+   ],
+   "v2": [
+    21,
+    10
+   ],
+   "p_cap": [
+    1,
+    20
+   ],
+   "forecast": {
+    "ok": [
+     19,
+     20
+    ],
+    "cap": [
+     1,
+     20
+    ]
+   },
+   "serves": [
+    [
+     "calls",
+     "tests/test_utils.py",
+     "simple_class"
+    ]
+   ]
+  },
+  {
+   "call": "calls('tests/utils.py', 'simple_class')",
+   "key": "[\"calls\", [\"tests/utils.py\", \"simple_class\"]]",
+   "v1": [
+    41,
+    20
+   ],
+   "v2": [
+    21,
+    10
+   ],
+   "p_cap": [
+    1,
+    20
+   ],
+   "forecast": {
+    "ok": [
+     19,
+     20
+    ],
+    "cap": [
+     1,
+     20
+    ]
+   },
+   "serves": [
+    [
+     "calls",
+     "tests/utils.py",
+     "simple_class"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "calls('tests/utils.py', 'simple_class')",
+  "key": "[\"calls\", [\"tests/utils.py\", \"simple_class\"]]",
+  "provenance": "call sites of `simple_class` in `tests/utils.py` that refer to the module-level binding",
+  "v2": [
+   21,
+   10
+  ]
+ },
+ "forecast": {
+  "ok": [
+   19,
+   20
+  ],
+  "cap": [
+   1,
+   20
+  ]
+ },
+ "plan": {
+  "ok": "[\"calls\", [\"tests/test_utils.py\", \"simple_class\"]]",
+  "cap": "[\"calls\", [\"tests/test_utils.py\", \"simple_class\"]]"
+ },
+ "hedges": [
+  {
+   "outcome": "ok",
+   "word": "almost certainly",
+   "p": [
+    19,
+    20
+   ]
+  }
+ ],
+ "adherence": {
+  "planned": "[\"calls\", [\"tests/utils.py\", \"simple_class\"]]",
+  "status": "followed"
+ },
+ "facts": [
+  {
+   "kind": "calls",
+   "step": 6,
+   "path": "tests/utils.py",
+   "name": "simple_class",
+   "lines": [],
+   "count": 0,
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "phase": "callers",
+  "step": 2,
+  "of": 2,
+  "candidates": [
+   "tests/test_dunders.py",
+   "tests/test_utils.py",
+   "tests/utils.py"
+  ],
+  "table": [
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:32",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:33",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:34",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:35",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:36",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:37",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:67",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:68",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:71",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:74",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:84",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:455",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_utils.py",
+    null,
+    "pending",
+    "not yet examined"
+   ],
+   [
+    "tests/utils.py",
+    "tests/utils.py",
+    "out",
+    "the module binds the name but never calls it by bare name"
+   ]
+  ],
+  "uncovered": {
+   "CALL": []
+  },
+  "n_in": 12,
+  "n_out": 1,
+  "n_pending": 1
+ }
+}
+```
+</details>
+
+## Step 7
+
+`tests/utils.py` binds `simple_class` but never actually calls it by that name.
+
+Tally: 12 call sites confirmed, 1 ruled out, 1 pending. The search itself is complete; what is left is checking the candidates.
+
+Next I will list the call sites of `simple_class` in `tests/test_utils.py`; the name is ours there, so each call site counts. Almost certainly the call sites fit. If there are too many call sites, I follow whatever it opens up.
+
+**Call:** `calls('tests/test_utils.py', 'simple_class')`
+
+**Response**: outcome `ok`
+
+```
+calls of simple_class in tests/test_utils.py count=2
+13:        assert type is simple_class().__class__
+19:        assert simple_class() is not simple_class()
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "calls",
+   "key": [
+    "calls",
+    "tests/test_utils.py",
+    "simple_class"
+   ],
+   "desc": "list the call sites of `simple_class` in `tests/test_utils.py`"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "calls('tests/test_utils.py', 'simple_class')",
+   "key": "[\"calls\", [\"tests/test_utils.py\", \"simple_class\"]]",
+   "v1": [
+    21,
+    20
+   ],
+   "v2": [
+    21,
+    20
+   ],
+   "p_cap": [
+    1,
+    20
+   ],
+   "forecast": {
+    "ok": [
+     19,
+     20
+    ],
+    "cap": [
+     1,
+     20
+    ]
+   },
+   "serves": [
+    [
+     "calls",
+     "tests/test_utils.py",
+     "simple_class"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "calls('tests/test_utils.py', 'simple_class')",
+  "key": "[\"calls\", [\"tests/test_utils.py\", \"simple_class\"]]",
+  "provenance": "call sites of `simple_class` in `tests/test_utils.py` that refer to the module-level binding",
+  "v2": [
+   21,
+   20
+  ]
+ },
+ "forecast": {
+  "ok": [
+   19,
+   20
+  ],
+  "cap": [
+   1,
+   20
+  ]
+ },
+ "plan": {
+  "ok": "done",
+  "cap": "continue"
+ },
+ "hedges": [
+  {
+   "outcome": "ok",
+   "word": "almost certainly",
+   "p": [
+    19,
+    20
+   ]
+  }
+ ],
+ "adherence": {
+  "planned": "[\"calls\", [\"tests/test_utils.py\", \"simple_class\"]]",
+  "status": "followed"
+ },
+ "facts": [
+  {
+   "kind": "calls",
+   "step": 7,
+   "path": "tests/test_utils.py",
+   "name": "simple_class",
+   "lines": [
+    13,
+    19
+   ],
+   "count": 2,
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "phase": "callers",
+  "step": 2,
+  "of": 2,
+  "candidates": [
+   "tests/test_dunders.py",
+   "tests/test_utils.py",
+   "tests/utils.py"
+  ],
+  "table": [
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:32",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:33",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:34",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:35",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:36",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:37",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:67",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:68",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:71",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:74",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:84",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_dunders.py",
+    "tests/test_dunders.py:455",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_utils.py",
+    "tests/test_utils.py:13",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/test_utils.py",
+    "tests/test_utils.py:19",
+    "in",
+    "bare-name call of the module-level binding, which resolves to the target"
+   ],
+   [
+    "tests/utils.py",
+    "tests/utils.py",
+    "out",
+    "the module binds the name but never calls it by bare name"
+   ]
+  ],
+  "uncovered": {
+   "CALL": []
+  },
+  "n_in": 14,
+  "n_out": 1,
+  "n_pending": 0
+ }
+}
+```
+</details>
+
+## Final
+
+`simple_class` is the def at `tests/utils.py:11`. 14 call sites in 2 modules: `tests/test_dunders.py:32`, `tests/test_dunders.py:33`, `tests/test_dunders.py:34`, `tests/test_dunders.py:35`, `tests/test_dunders.py:36`, `tests/test_dunders.py:37`, `tests/test_dunders.py:67`, `tests/test_dunders.py:68`, `tests/test_dunders.py:71`, `tests/test_dunders.py:74` and 4 more. Ruled out along the way: `tests/utils.py` (the module binds the name but never calls it by bare name). Looking back, all 7 calls were needed.
+
+**Answer:** `{"final_kind": "callers", "final": ["tests/test_dunders.py:32", "tests/test_dunders.py:33", "tests/test_dunders.py:34", "tests/test_dunders.py:35", "tests/test_dunders.py:36", "tests/test_dunders.py:37", "tests/test_dunders.py:67", "tests/test_dunders.py:68", "tests/test_dunders.py:71", "tests/test_dunders.py:74", "tests/test_dunders.py:84", "tests/test_dunders.py:455", "tests/test_utils.py:13", "tests/test_utils.py:19"], "steps": [{"op": "resolve", "output": {"kind": "def", "path": "tests/utils.py", "line": 11, "name": "simple_class", "detail": "def"}}, {"op": "callers", "output": ["tests/test_dunders.py:32", "tests/test_dunders.py:33", "tests/test_dunders.py:34", "tests/test_dunders.py:35", "tests/test_dunders.py:36", "tests/test_dunders.py:37", "tests/test_dunders.py:67", "tests/test_dunders.py:68", "tests/test_dunders.py:71", "tests/test_dunders.py:74", "tests/test_dunders.py:84", "tests/test_dunders.py:455", "tests/test_utils.py:13", "tests/test_utils.py:19"]}], "stuck": null}`  
+**Stopped:** certificate after 7 calls

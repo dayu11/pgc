@@ -1,0 +1,1331 @@
+# requests-expose-f79ae652
+
+**Repository:** requests  
+**Chain:** resolve → expose  
+**Seed:** 0, prior 736169d01b033d9f, floor 4
+
+## Task
+
+In `tests/test_utils.py` line 13, `unicode_is_ascii` is imported from `requests._internal_utils`. Which definition does the module-level name `unicode_is_ascii` actually refer to? Give `path:line`. Then propose the one-line change to `src/requests/__init__.py` that makes `from requests import unicode_is_ascii` resolve to this definition; give the exact line to append.
+
+*Declared semantics:* A module is a .py file; source roots are the repository root and, if present, src/ and lib/. `from M import N` binds N to M's single module-level binding of N, else to the submodule M/N, else to the single star-import source of M that exports N; bindings take effect in source order. A module exports N if its literal __all__ lists N or, without __all__, if N is public and bound in it. A class derives from a definition when a base written as a bare name or `module.Name` resolves to it. A call site is `name(...)` where the bare name refers to the module-level binding (not a parameter or local). Multiple bindings, non-literal __all__, external star imports and dynamic namespace code make a name ambiguous; tasks never ask about ambiguous names.
+
+## Step 1
+
+I need to find what `unicode_is_ascii` really is in `tests/test_utils.py`: line 13 imports it from `requests._internal_utils`, so the definition is at least one hop away. Then I have to propose the one-line import that exposes it from the package.
+
+Next I will check `tests/test_utils.py` for any other binding of `unicode_is_ascii` besides the import on line 13; almost certainly the import is the only one, and then `requests._internal_utils` is the place to follow.
+
+**Call:** `symbols('tests/test_utils.py', 'unicode_is_ascii')`
+
+**Response**: outcome `reexport`
+
+```
+module tests/test_utils.py lines=1014 dynamic=no all=none
+13 from unicode_is_ascii <- requests._internal_utils unicode_is_ascii
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "bindings",
+   "key": [
+    "bindings",
+    "tests/test_utils.py",
+    "unicode_is_ascii"
+   ],
+   "desc": "check the top-level names of `tests/test_utils.py` for `unicode_is_ascii`"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "symbols('tests/test_utils.py', 'unicode_is_ascii')",
+   "key": "[\"symbols\", [\"tests/test_utils.py\", \"unicode_is_ascii\"]]",
+   "v1": [
+    68387133,
+    23571100
+   ],
+   "v2": [
+    68387133,
+    23571100
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     1,
+     100
+    ],
+    "reexport": [
+     93,
+     100
+    ],
+    "star": [
+     1,
+     100
+    ],
+    "none": [
+     1,
+     20
+    ]
+   },
+   "serves": [
+    [
+     "bindings",
+     "tests/test_utils.py",
+     "unicode_is_ascii"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/test_utils.py')",
+   "key": "[\"symbols\", [\"tests/test_utils.py\"]]",
+   "v1": [
+    6295028129,
+    2074256800
+   ],
+   "v2": [
+    6295028129,
+    2074256800
+   ],
+   "p_cap": [
+    47,
+    352
+   ],
+   "forecast": {
+    "def": [
+     61,
+     7040
+    ],
+    "reexport": [
+     5673,
+     7040
+    ],
+    "star": [
+     61,
+     7040
+    ],
+    "none": [
+     61,
+     1408
+    ],
+    "cap": [
+     47,
+     352
+    ]
+   },
+   "serves": [
+    [
+     "bindings",
+     "tests/test_utils.py",
+     "unicode_is_ascii"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "symbols('tests/test_utils.py', 'unicode_is_ascii')",
+  "key": "[\"symbols\", [\"tests/test_utils.py\", \"unicode_is_ascii\"]]",
+  "provenance": "module `tests/test_utils.py` (task), name `unicode_is_ascii` (task)",
+  "v2": [
+   68387133,
+   23571100
+  ]
+ },
+ "forecast": {
+  "def": [
+   1,
+   100
+  ],
+  "reexport": [
+   93,
+   100
+  ],
+  "star": [
+   1,
+   100
+  ],
+  "none": [
+   1,
+   20
+  ]
+ },
+ "plan": {
+  "def": "done",
+  "reexport": "continue",
+  "star": "continue",
+  "none": "done"
+ },
+ "hedges": [
+  {
+   "outcome": "reexport",
+   "word": "almost certainly",
+   "p": [
+    93,
+    100
+   ]
+  }
+ ],
+ "adherence": null,
+ "facts": [
+  {
+   "kind": "outline",
+   "step": 1,
+   "path": "tests/test_utils.py",
+   "filter": "unicode_is_ascii",
+   "header": {
+    "lines": 1014,
+    "dynamic": false,
+    "all_status": "none",
+    "all_line": null
+   },
+   "bindings": [
+    {
+     "module": "tests/test_utils.py",
+     "name": "unicode_is_ascii",
+     "line": 13,
+     "kind": "from",
+     "src": "requests._internal_utils",
+     "src_name": "unicode_is_ascii",
+     "conditional": false,
+     "col": 0,
+     "bases": []
+    }
+   ],
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "phase": "resolve",
+  "step": 1,
+  "of": 2,
+  "chain": [
+   [
+    "tests/test_utils.py",
+    "unicode_is_ascii",
+    "reexport",
+    [
+     "requests._internal_utils",
+     null
+    ]
+   ]
+  ]
+ }
+}
+```
+</details>
+
+## Step 2
+
+The test module `tests/test_utils.py` does not define `unicode_is_ascii` itself; line 13 imports it from `requests._internal_utils`.
+
+So far: `tests/test_utils.py` takes `unicode_is_ascii` from `requests._internal_utils`, which I still have to locate.
+
+Let me list `./` to see what lives there; the listing settles whether the import is a module, a package, or not here at all. Very likely the listing fits. If the listing is too long, I will outline `requests/_internal_utils.py` directly, which both checks that the file exists and shows me `unicode_is_ascii`. I could outline `requests/_internal_utils.py` directly, which both checks that the file exists and shows me `unicode_is_ascii` instead, but it costs more calls in expectation.
+
+**Call:** `ls('.')`
+
+**Response**: outcome `complete`
+
+```
+.github/
+.pre-commit-config.yaml
+.readthedocs.yaml
+AUTHORS.rst
+HISTORY.md
+MANIFEST.in
+README.md
+docs/
+pyproject.toml
+requirements-dev.txt
+setup.py
+src/
+tests/
+tox.ini
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "module_path",
+   "key": [
+    "module_path",
+    "tests/test_utils.py",
+    "requests._internal_utils"
+   ],
+   "desc": "find where `requests._internal_utils` (imported by `tests/test_utils.py`) lives"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "ls('.')",
+   "key": "[\"ls\", [\".\"]]",
+   "v1": [
+    2483,
+    1338
+   ],
+   "v2": [
+    151199873951155,
+    79022981311362
+   ],
+   "p_cap": [
+    2,
+    9
+   ],
+   "forecast": {
+    "complete": [
+     7,
+     9
+    ],
+    "cap": [
+     2,
+     9
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_utils.py",
+     "requests._internal_utils"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('requests/_internal_utils.py', 'unicode_is_ascii')",
+   "key": "[\"symbols\", [\"requests/_internal_utils.py\", \"unicode_is_ascii\"]]",
+   "v1": [
+    10016913586030,
+    4390165628409
+   ],
+   "v2": [
+    57337367278427,
+    26340993770454
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     45826816,
+     130376433
+    ],
+    "reexport": [
+     428288,
+     130376433
+    ],
+    "star": [
+     107072,
+     130376433
+    ],
+    "none": [
+     642432,
+     43458811
+    ],
+    "missing": [
+     182011,
+     289083
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_utils.py",
+     "requests._internal_utils"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('requests/_internal_utils/__init__.py', 'unicode_is_ascii')",
+   "key": "[\"symbols\", [\"requests/_internal_utils/__init__.py\", \"unicode_is_ascii\"]]",
+   "v1": [
+    406884442105,
+    135957758481
+   ],
+   "v2": [
+    42839435808,
+    15106417609
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     50907,
+     7130714
+    ],
+    "reexport": [
+     254535,
+     7130714
+    ],
+    "star": [
+     16969,
+     21392142
+    ],
+    "none": [
+     322411,
+     21392142
+    ],
+    "missing": [
+     272114,
+     289083
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_utils.py",
+     "requests._internal_utils"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+unicode_is_ascii\\\\b', '.')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+unicode_is_ascii\\\\b\", \".\"]]",
+   "v1": [
+    674,
+    223
+   ],
+   "v2": [
+    3821,
+    1338
+   ],
+   "p_cap": [
+    1,
+    35
+   ],
+   "forecast": {
+    "zero": [
+     1,
+     35
+    ],
+    "mid": [
+     33,
+     35
+    ],
+    "cap": [
+     1,
+     35
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_utils.py",
+     "requests._internal_utils"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+unicode_is_ascii\\\\b', 'src')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+unicode_is_ascii\\\\b\", \"src\"]]",
+   "v1": [
+    674,
+    223
+   ],
+   "v2": [
+    3821,
+    1338
+   ],
+   "p_cap": [
+    1,
+    244
+   ],
+   "forecast": {
+    "zero": [
+     205,
+     244
+    ],
+    "mid": [
+     19,
+     122
+    ],
+    "cap": [
+     1,
+     244
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_utils.py",
+     "requests._internal_utils"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "ls('.')",
+  "key": "[\"ls\", [\".\"]]",
+  "provenance": "`requests._internal_utils` imported by `tests/test_utils.py` should live under `.`",
+  "v2": [
+   151199873951155,
+   79022981311362
+  ]
+ },
+ "forecast": {
+  "complete": [
+   7,
+   9
+  ],
+  "cap": [
+   2,
+   9
+  ]
+ },
+ "plan": {
+  "complete": "continue",
+  "cap": "[\"symbols\", [\"requests/_internal_utils.py\", \"unicode_is_ascii\"]]"
+ },
+ "hedges": [
+  {
+   "outcome": "complete",
+   "word": "very likely",
+   "p": [
+    7,
+    9
+   ]
+  }
+ ],
+ "adherence": {
+  "planned": "continue",
+  "status": "open-ended"
+ },
+ "facts": [
+  {
+   "kind": "listing",
+   "step": 2,
+   "dir": ".",
+   "entries": [
+    ".github/",
+    ".pre-commit-config.yaml",
+    ".readthedocs.yaml",
+    "AUTHORS.rst",
+    "HISTORY.md",
+    "MANIFEST.in",
+    "README.md",
+    "docs/",
+    "pyproject.toml",
+    "requirements-dev.txt",
+    "setup.py",
+    "src/",
+    "tests/",
+    "tox.ini"
+   ],
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "phase": "resolve",
+  "step": 1,
+  "of": 2,
+  "chain": [
+   [
+    "tests/test_utils.py",
+    "unicode_is_ascii",
+    "reexport",
+    [
+     "requests._internal_utils",
+     null
+    ]
+   ]
+  ]
+ }
+}
+```
+</details>
+
+## Step 3
+
+`./` has 14 entries: there is no `requests` here.
+
+So far: `tests/test_utils.py` takes `unicode_is_ascii` from `requests._internal_utils`, which I still have to locate.
+
+I'll outline `src/requests/_internal_utils.py` directly, which both checks that the file exists and shows me `unicode_is_ascii`; if `requests._internal_utils` is a plain module that is where it has to be. Very likely it is defined right there. If the file does not exist, I will list `src/requests/` to see what lives there; if the name is not bound there, that finishes it. I could list `src/requests/` to see what lives there instead, but it tends to open more follow-up work.
+
+**Call:** `symbols('src/requests/_internal_utils.py', 'unicode_is_ascii')`
+
+**Response**: outcome `def`
+
+```
+module src/requests/_internal_utils.py lines=52 dynamic=no all=none
+39 def unicode_is_ascii
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "module_path",
+   "key": [
+    "module_path",
+    "tests/test_utils.py",
+    "requests._internal_utils"
+   ],
+   "desc": "find where `requests._internal_utils` (imported by `tests/test_utils.py`) lives"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "symbols('src/requests/_internal_utils.py', 'unicode_is_ascii')",
+   "key": "[\"symbols\", [\"src/requests/_internal_utils.py\", \"unicode_is_ascii\"]]",
+   "v1": [
+    10215370598,
+    7881805437
+   ],
+   "v2": [
+    430123808249,
+    331035828354
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     191744,
+     234069
+    ],
+    "reexport": [
+     1792,
+     234069
+    ],
+    "star": [
+     448,
+     234069
+    ],
+    "none": [
+     2688,
+     78023
+    ],
+    "missing": [
+     71,
+     519
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_utils.py",
+     "requests._internal_utils"
+    ]
+   ]
+  },
+  {
+   "call": "ls('src/requests')",
+   "key": "[\"ls\", [\"src/requests\"]]",
+   "v1": [
+    19165,
+    9366
+   ],
+   "v2": [
+    47975059126,
+    23645416311
+   ],
+   "p_cap": [
+    1,
+    42
+   ],
+   "forecast": {
+    "complete": [
+     41,
+     42
+    ],
+    "cap": [
+     1,
+     42
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_utils.py",
+     "requests._internal_utils"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+unicode_is_ascii\\\\b', '.')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+unicode_is_ascii\\\\b\", \".\"]]",
+   "v1": [
+    16231,
+    7805
+   ],
+   "v2": [
+    80317905721,
+    39409027185
+   ],
+   "p_cap": [
+    1,
+    35
+   ],
+   "forecast": {
+    "zero": [
+     1,
+     35
+    ],
+    "mid": [
+     33,
+     35
+    ],
+    "cap": [
+     1,
+     35
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_utils.py",
+     "requests._internal_utils"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+unicode_is_ascii\\\\b', 'src')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+unicode_is_ascii\\\\b\", \"src\"]]",
+   "v1": [
+    77991,
+    27206
+   ],
+   "v2": [
+    1083437729008,
+    480790131657
+   ],
+   "p_cap": [
+    1,
+    244
+   ],
+   "forecast": {
+    "zero": [
+     205,
+     244
+    ],
+    "mid": [
+     19,
+     122
+    ],
+    "cap": [
+     1,
+     244
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_utils.py",
+     "requests._internal_utils"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/requests/_internal_utils/__init__.py', 'unicode_is_ascii')",
+   "key": "[\"symbols\", [\"src/requests/_internal_utils/__init__.py\", \"unicode_is_ascii\"]]",
+   "v1": [
+    720848747,
+    244089333
+   ],
+   "v2": [
+    2229872500297369,
+    958577295442503
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     213,
+     12802
+    ],
+    "reexport": [
+     1065,
+     12802
+    ],
+    "star": [
+     71,
+     38406
+    ],
+    "none": [
+     1349,
+     38406
+    ],
+    "missing": [
+     448,
+     519
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_utils.py",
+     "requests._internal_utils"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "symbols('src/requests/_internal_utils.py', 'unicode_is_ascii')",
+  "key": "[\"symbols\", [\"src/requests/_internal_utils.py\", \"unicode_is_ascii\"]]",
+  "provenance": "`requests._internal_utils` would be `src/requests/_internal_utils.py` if that file exists; one call both checks and closes it",
+  "v2": [
+   430123808249,
+   331035828354
+  ]
+ },
+ "forecast": {
+  "def": [
+   191744,
+   234069
+  ],
+  "reexport": [
+   1792,
+   234069
+  ],
+  "star": [
+   448,
+   234069
+  ],
+  "none": [
+   2688,
+   78023
+  ],
+  "missing": [
+   71,
+   519
+  ]
+ },
+ "plan": {
+  "def": "done",
+  "reexport": "continue",
+  "star": "continue",
+  "none": "done",
+  "missing": "[\"ls\", [\"src/requests\"]]"
+ },
+ "hedges": [
+  {
+   "outcome": "def",
+   "word": "very likely",
+   "p": [
+    191744,
+    234069
+   ]
+  }
+ ],
+ "adherence": {
+  "planned": "continue",
+  "status": "open-ended"
+ },
+ "facts": [
+  {
+   "kind": "outline",
+   "step": 3,
+   "path": "src/requests/_internal_utils.py",
+   "filter": "unicode_is_ascii",
+   "header": {
+    "lines": 52,
+    "dynamic": false,
+    "all_status": "none",
+    "all_line": null
+   },
+   "bindings": [
+    {
+     "module": "src/requests/_internal_utils.py",
+     "name": "unicode_is_ascii",
+     "line": 39,
+     "kind": "def",
+     "src": null,
+     "src_name": null,
+     "conditional": false,
+     "col": 0,
+     "bases": []
+    }
+   ],
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "phase": "resolve",
+  "step": 1,
+  "of": 2,
+  "chain": [
+   [
+    "tests/test_utils.py",
+    "unicode_is_ascii",
+    "reexport",
+    [
+     "requests._internal_utils",
+     "src/requests/_internal_utils.py"
+    ]
+   ],
+   [
+    "src/requests/_internal_utils.py",
+    "unicode_is_ascii",
+    "def",
+    39
+   ]
+  ]
+ }
+}
+```
+</details>
+
+## Step 4
+
+There it is: `unicode_is_ascii` is a function at `src/requests/_internal_utils.py:39`. That settles the definition; now the package that should expose it.
+
+I'll look at `src/requests/__init__.py`'s top-level names for `unicode_is_ascii`; that settles what the name means there. Probably it is re-exported from somewhere else. If the name is not bound there, I follow whatever it opens up; if it is defined right there, that finishes it. I could outline all of `src/requests/__init__.py` instead, but it is more likely to hit the cap.
+
+**Call:** `symbols('src/requests/__init__.py', 'unicode_is_ascii')`
+
+**Response**: outcome `none`
+
+```
+module src/requests/__init__.py lines=220 dynamic=no all=static@188
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "bindings",
+   "key": [
+    "bindings",
+    "src/requests/__init__.py",
+    "unicode_is_ascii"
+   ],
+   "desc": "check the top-level names of `src/requests/__init__.py` for `unicode_is_ascii`"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "symbols('src/requests/__init__.py', 'unicode_is_ascii')",
+   "key": "[\"symbols\", [\"src/requests/__init__.py\", \"unicode_is_ascii\"]]",
+   "v1": [
+    1183549,
+    470307
+   ],
+   "v2": [
+    1183549,
+    470307
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     9,
+     74
+    ],
+    "reexport": [
+     45,
+     74
+    ],
+    "star": [
+     1,
+     74
+    ],
+    "none": [
+     19,
+     74
+    ]
+   },
+   "serves": [
+    [
+     "bindings",
+     "src/requests/__init__.py",
+     "unicode_is_ascii"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/requests/__init__.py')",
+   "key": "[\"symbols\", [\"src/requests/__init__.py\"]]",
+   "v1": [
+    8755150,
+    3292149
+   ],
+   "v2": [
+    8755150,
+    3292149
+   ],
+   "p_cap": [
+    1,
+    7
+   ],
+   "forecast": {
+    "def": [
+     27,
+     259
+    ],
+    "reexport": [
+     135,
+     259
+    ],
+    "star": [
+     3,
+     259
+    ],
+    "none": [
+     57,
+     259
+    ],
+    "cap": [
+     1,
+     7
+    ]
+   },
+   "serves": [
+    [
+     "bindings",
+     "src/requests/__init__.py",
+     "unicode_is_ascii"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "symbols('src/requests/__init__.py', 'unicode_is_ascii')",
+  "key": "[\"symbols\", [\"src/requests/__init__.py\", \"unicode_is_ascii\"]]",
+  "provenance": "module `src/requests/__init__.py` (task), name `unicode_is_ascii` (task)",
+  "v2": [
+   1183549,
+   470307
+  ]
+ },
+ "forecast": {
+  "def": [
+   9,
+   74
+  ],
+  "reexport": [
+   45,
+   74
+  ],
+  "star": [
+   1,
+   74
+  ],
+  "none": [
+   19,
+   74
+  ]
+ },
+ "plan": {
+  "def": "done",
+  "reexport": "continue",
+  "star": "continue",
+  "none": "continue"
+ },
+ "hedges": [
+  {
+   "outcome": "reexport",
+   "word": "probably",
+   "p": [
+    45,
+    74
+   ]
+  }
+ ],
+ "adherence": {
+  "planned": "done",
+  "status": "deviated"
+ },
+ "facts": [
+  {
+   "kind": "outline",
+   "step": 4,
+   "path": "src/requests/__init__.py",
+   "filter": "unicode_is_ascii",
+   "header": {
+    "lines": 220,
+    "dynamic": false,
+    "all_status": "static",
+    "all_line": 188
+   },
+   "bindings": [],
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "phase": "expose",
+  "step": 2,
+  "of": 2,
+  "package": "src/requests/__init__.py",
+  "bound": null,
+  "spec": "._internal_utils"
+ }
+}
+```
+</details>
+
+## Step 5
+
+The package `src/requests` does not bind `unicode_is_ascii`; for a package that leaves a submodule called `unicode_is_ascii` as the only option.
+
+Let me list `src/requests/` to see what lives there; a package that does not bind the name could still have a submodule called that. Almost certainly the listing fits. If the listing is too long, I will outline `src/requests/unicode_is_ascii.py` directly, which both checks that the file exists and shows me `unicode_is_ascii`. I could outline `src/requests/unicode_is_ascii.py` directly, which both checks that the file exists and shows me `unicode_is_ascii` instead, but it tends to open more follow-up work.
+
+**Call:** `ls('src/requests')`
+
+**Response**: outcome `complete`
+
+```
+__init__.py
+__version__.py
+_internal_utils.py
+_types.py
+adapters.py
+api.py
+auth.py
+certs.py
+compat.py
+cookies.py
+exceptions.py
+help.py
+hooks.py
+models.py
+packages.py
+sessions.py
+status_codes.py
+structures.py
+utils.py
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "submodule",
+   "key": [
+    "submodule",
+    "src/requests/__init__.py",
+    "unicode_is_ascii"
+   ],
+   "desc": "check whether `src/requests` has a submodule `unicode_is_ascii`"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "ls('src/requests')",
+   "key": "[\"ls\", [\"src/requests\"]]",
+   "v1": [
+    43,
+    42
+   ],
+   "v2": [
+    24296341426,
+    23645416311
+   ],
+   "p_cap": [
+    1,
+    42
+   ],
+   "forecast": {
+    "complete": [
+     41,
+     42
+    ],
+    "cap": [
+     1,
+     42
+    ]
+   },
+   "serves": [
+    [
+     "submodule",
+     "src/requests/__init__.py",
+     "unicode_is_ascii"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/requests/unicode_is_ascii.py', 'unicode_is_ascii')",
+   "key": "[\"symbols\", [\"src/requests/unicode_is_ascii.py\", \"unicode_is_ascii\"]]",
+   "v1": [
+    9112951610,
+    7881805437
+   ],
+   "v2": [
+    383822210753,
+    331035828354
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     191744,
+     234069
+    ],
+    "reexport": [
+     1792,
+     234069
+    ],
+    "star": [
+     448,
+     234069
+    ],
+    "none": [
+     2688,
+     78023
+    ],
+    "missing": [
+     71,
+     519
+    ]
+   },
+   "serves": [
+    [
+     "submodule",
+     "src/requests/__init__.py",
+     "unicode_is_ascii"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/requests/unicode_is_ascii/__init__.py', 'unicode_is_ascii')",
+   "key": "[\"symbols\", [\"src/requests/unicode_is_ascii/__init__.py\", \"unicode_is_ascii\"]]",
+   "v1": [
+    505427051,
+    244089333
+   ],
+   "v2": [
+    510443659,
+    244089333
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     213,
+     12802
+    ],
+    "reexport": [
+     1065,
+     12802
+    ],
+    "star": [
+     71,
+     38406
+    ],
+    "none": [
+     1349,
+     38406
+    ],
+    "missing": [
+     448,
+     519
+    ]
+   },
+   "serves": [
+    [
+     "submodule",
+     "src/requests/__init__.py",
+     "unicode_is_ascii"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "ls('src/requests')",
+  "key": "[\"ls\", [\"src/requests\"]]",
+  "provenance": "package directory of `src/requests/__init__.py`",
+  "v2": [
+   24296341426,
+   23645416311
+  ]
+ },
+ "forecast": {
+  "complete": [
+   41,
+   42
+  ],
+  "cap": [
+   1,
+   42
+  ]
+ },
+ "plan": {
+  "complete": "done",
+  "cap": "[\"symbols\", [\"src/requests/unicode_is_ascii.py\", \"unicode_is_ascii\"]]"
+ },
+ "hedges": [
+  {
+   "outcome": "complete",
+   "word": "almost certainly",
+   "p": [
+    41,
+    42
+   ]
+  }
+ ],
+ "adherence": {
+  "planned": "continue",
+  "status": "open-ended"
+ },
+ "facts": [
+  {
+   "kind": "listing",
+   "step": 5,
+   "dir": "src/requests",
+   "entries": [
+    "__init__.py",
+    "__version__.py",
+    "_internal_utils.py",
+    "_types.py",
+    "adapters.py",
+    "api.py",
+    "auth.py",
+    "certs.py",
+    "compat.py",
+    "cookies.py",
+    "exceptions.py",
+    "help.py",
+    "hooks.py",
+    "models.py",
+    "packages.py",
+    "sessions.py",
+    "status_codes.py",
+    "structures.py",
+    "utils.py"
+   ],
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "phase": "expose",
+  "step": 2,
+  "of": 2,
+  "package": "src/requests/__init__.py",
+  "bound": false,
+  "spec": "._internal_utils"
+ }
+}
+```
+</details>
+
+## Final
+
+`unicode_is_ascii` is the def at `src/requests/_internal_utils.py:39`. Patch: append `from ._internal_utils import unicode_is_ascii` to `src/requests/__init__.py`. The package does not bind `unicode_is_ascii` today and is not dynamic, so after that line `from requests import unicode_is_ascii` resolves to the definition. Looking back, all 5 calls were needed.
+
+**Answer:** `{"final_kind": "expose", "final": {"patch": {"path": "src/requests/__init__.py", "append": "from ._internal_utils import unicode_is_ascii"}, "claim": "after the patch, `unicode_is_ascii` in `src/requests/__init__.py` resolves to src/requests/_internal_utils.py:39"}, "steps": [{"op": "resolve", "output": {"kind": "def", "path": "src/requests/_internal_utils.py", "line": 39, "name": "unicode_is_ascii", "detail": "def"}}, {"op": "expose", "output": {"patch": {"path": "src/requests/__init__.py", "append": "from ._internal_utils import unicode_is_ascii"}, "claim": "after the patch, `unicode_is_ascii` in `src/requests/__init__.py` resolves to src/requests/_internal_utils.py:39"}}], "stuck": null}`  
+**Stopped:** certificate after 5 calls
