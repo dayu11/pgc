@@ -1,0 +1,4778 @@
+# flask-composite-6d6303d9
+
+**Repository:** flask  
+**Family:** composite  
+**Seed:** 0, prior b7977e45b67266d2
+
+## Task
+
+In `tests/test_apps/blueprintapp/apps/frontend/__init__.py`, line 1 imports `Blueprint` from `flask`. Under the declared semantics, which definition does the module-level name `Blueprint` bound by this statement resolve to? Answer with `path:line`. Then list every module-level import statement in the snapshot that imports that definition (from-imports naming it, directly or with `as`, and star imports of modules that export it), as `path:line` entries.
+
+*Declared semantics:* A module is a .py file; source roots are the repository root and, if present, src/ and lib/. `from M import N` binds N to M's single module-level binding of N, else to the submodule M/N, else to the single star-import source of M that exports N. A module exports N if its literal __all__ lists N or, without __all__, if N is public and bound in it. Multiple bindings, non-literal __all__, external star imports and dynamic namespace code make a name ambiguous; tasks never ask about ambiguous names.
+
+## Step 1
+
+Nothing seen yet beyond the task text.
+
+Chain: `tests/test_apps/blueprintapp/apps/frontend/__init__.py` is not yet closed for `Blueprint`.
+
+Outstanding: close the namespace of `tests/test_apps/blueprintapp/apps/frontend/__init__.py` for `Blueprint`.
+
+Next: outline `tests/test_apps/blueprintapp/apps/frontend/__init__.py`, because module `tests/test_apps/blueprintapp/apps/frontend/__init__.py` (task). I expect: a re-export continues the chain to its source (about 35%); a definition there ends the chain (about 20%); no binding at all points at a submodule or an unresolved name (about 20%); a capped outline means filtering by name (about 20%); no binding but a star import means checking what that source exports (under 5%). The alternative, outline `tests/test_apps/blueprintapp/apps/frontend/__init__.py` filtered to `Blueprint`, is expected to open more follow-up work. Plan by outcome: def: done; reexport: locate and outline the source it names; star: check what the star source exports; none: check for a submodule of that name; cap: outline `tests/test_apps/blueprintapp/apps/frontend/__init__.py` filtered to `Blueprint`.
+
+**Call:** `symbols('tests/test_apps/blueprintapp/apps/frontend/__init__.py')`
+
+**Response**: outcome `def`
+
+```
+module tests/test_apps/blueprintapp/apps/frontend/__init__.py lines=15 dynamic=no all=none
+1 from Blueprint <- flask Blueprint
+2 from render_template <- flask render_template
+4 assign frontend
+8 def index
+13 def missing_template
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "bindings",
+   "key": [
+    "bindings",
+    "tests/test_apps/blueprintapp/apps/frontend/__init__.py",
+    "Blueprint"
+   ],
+   "desc": "close the namespace of `tests/test_apps/blueprintapp/apps/frontend/__init__.py` for `Blueprint`"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "symbols('tests/test_apps/blueprintapp/apps/frontend/__init__.py')",
+   "key": "[\"symbols\", [\"tests/test_apps/blueprintapp/apps/frontend/__init__.py\"]]",
+   "v1": [
+    3370875,
+    1396652
+   ],
+   "v2": [
+    2058453813,
+    803074900
+   ],
+   "p_cap": [
+    9,
+    46
+   ],
+   "forecast": {
+    "def": [
+     703,
+     3128
+    ],
+    "reexport": [
+     1147,
+     3128
+    ],
+    "star": [
+     37,
+     3128
+    ],
+    "none": [
+     37,
+     184
+    ],
+    "cap": [
+     9,
+     46
+    ]
+   },
+   "serves": [
+    [
+     "bindings",
+     "tests/test_apps/blueprintapp/apps/frontend/__init__.py",
+     "Blueprint"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/test_apps/blueprintapp/apps/frontend/__init__.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"tests/test_apps/blueprintapp/apps/frontend/__init__.py\", \"Blueprint\"]]",
+   "v1": [
+    6120367,
+    2053900
+   ],
+   "v2": [
+    6120367,
+    2053900
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     1,
+     100
+    ],
+    "reexport": [
+     93,
+     100
+    ],
+    "star": [
+     1,
+     100
+    ],
+    "none": [
+     1,
+     20
+    ]
+   },
+   "serves": [
+    [
+     "bindings",
+     "tests/test_apps/blueprintapp/apps/frontend/__init__.py",
+     "Blueprint"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "symbols('tests/test_apps/blueprintapp/apps/frontend/__init__.py')",
+  "key": "[\"symbols\", [\"tests/test_apps/blueprintapp/apps/frontend/__init__.py\"]]",
+  "provenance": "module `tests/test_apps/blueprintapp/apps/frontend/__init__.py` (task)",
+  "v2": [
+   2058453813,
+   803074900
+  ]
+ },
+ "forecast": {
+  "def": [
+   703,
+   3128
+  ],
+  "reexport": [
+   1147,
+   3128
+  ],
+  "star": [
+   37,
+   3128
+  ],
+  "none": [
+   37,
+   184
+  ],
+  "cap": [
+   9,
+   46
+  ]
+ },
+ "plan": {
+  "def": "done",
+  "reexport": "continue",
+  "star": "continue",
+  "none": "continue",
+  "cap": "[\"symbols\", [\"tests/test_apps/blueprintapp/apps/frontend/__init__.py\", \"Blueprint\"]]"
+ },
+ "adherence": null,
+ "facts": [
+  {
+   "kind": "outline",
+   "step": 1,
+   "path": "tests/test_apps/blueprintapp/apps/frontend/__init__.py",
+   "filter": null,
+   "header": {
+    "lines": 15,
+    "dynamic": false,
+    "all_status": "none",
+    "all_line": null
+   },
+   "bindings": [
+    {
+     "module": "tests/test_apps/blueprintapp/apps/frontend/__init__.py",
+     "name": "Blueprint",
+     "line": 1,
+     "kind": "from",
+     "src": "flask",
+     "src_name": "Blueprint",
+     "conditional": false,
+     "col": 0
+    },
+    {
+     "module": "tests/test_apps/blueprintapp/apps/frontend/__init__.py",
+     "name": "render_template",
+     "line": 2,
+     "kind": "from",
+     "src": "flask",
+     "src_name": "render_template",
+     "conditional": false,
+     "col": 0
+    },
+    {
+     "module": "tests/test_apps/blueprintapp/apps/frontend/__init__.py",
+     "name": "frontend",
+     "line": 4,
+     "kind": "assign",
+     "src": null,
+     "src_name": null,
+     "conditional": false,
+     "col": 0
+    },
+    {
+     "module": "tests/test_apps/blueprintapp/apps/frontend/__init__.py",
+     "name": "index",
+     "line": 8,
+     "kind": "def",
+     "src": null,
+     "src_name": null,
+     "conditional": false,
+     "col": 0
+    },
+    {
+     "module": "tests/test_apps/blueprintapp/apps/frontend/__init__.py",
+     "name": "missing_template",
+     "line": 13,
+     "kind": "def",
+     "src": null,
+     "src_name": null,
+     "conditional": false,
+     "col": 0
+    }
+   ],
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "chain": [
+   [
+    "tests/test_apps/blueprintapp/apps/frontend/__init__.py",
+    "Blueprint",
+    "reexport",
+    [
+     "flask",
+     null
+    ]
+   ]
+  ]
+ }
+}
+```
+</details>
+
+## Step 2
+
+The outline of `tests/test_apps/blueprintapp/apps/frontend/__init__.py` has 5 bindings; no `__all__`; no dynamic namespace tricks. This is not the branch I planned for that outcome; the open items changed more than expected.
+
+Chain: `tests/test_apps/blueprintapp/apps/frontend/__init__.py` takes `Blueprint` from `flask` (module not yet located).
+
+Still to settle: locate the module `flask` imported by `tests/test_apps/blueprintapp/apps/frontend/__init__.py`.
+
+Next: list `.`, because `flask` imported by `tests/test_apps/blueprintapp/apps/frontend/__init__.py` should live under `.`. I expect: a complete listing settles which files exist (about 80%); a capped listing settles nothing (about 20%). The alternative, outline `flask.py` filtered to `Blueprint`, costs more in expectation. Plan by outcome: complete: outline the module it reveals; cap: outline `flask.py` filtered to `Blueprint`.
+
+**Call:** `ls('.')`
+
+**Response**: outcome `complete`
+
+```
+.devcontainer/
+.github/
+.pre-commit-config.yaml
+.readthedocs.yaml
+CHANGES.rst
+LICENSE.txt
+README.md
+docs/
+examples/
+pyproject.toml
+src/
+tests/
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "module_path",
+   "key": [
+    "module_path",
+    "tests/test_apps/blueprintapp/apps/frontend/__init__.py",
+    "flask"
+   ],
+   "desc": "locate the module `flask` imported by `tests/test_apps/blueprintapp/apps/frontend/__init__.py`"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "ls('.')",
+   "key": "[\"ls\", [\".\"]]",
+   "v1": [
+    8938,
+    3933
+   ],
+   "v2": [
+    252607175601971,
+    104776523042688
+   ],
+   "p_cap": [
+    2,
+    9
+   ],
+   "forecast": {
+    "complete": [
+     7,
+     9
+    ],
+    "cap": [
+     2,
+     9
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_apps/blueprintapp/apps/frontend/__init__.py",
+     "flask"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('flask.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"flask.py\", \"Blueprint\"]]",
+   "v1": [
+    62235186366515,
+    23283671787264
+   ],
+   "v2": [
+    597895776017227,
+    209553046085376
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     109915,
+     621248
+    ],
+    "reexport": [
+     109915,
+     26092416
+    ],
+    "star": [
+     21983,
+     52184832
+    ],
+    "none": [
+     21983,
+     3069696
+    ],
+    "missing": [
+     94501,
+     116484
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_apps/blueprintapp/apps/frontend/__init__.py",
+     "flask"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('flask/__init__.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"flask/__init__.py\", \"Blueprint\"]]",
+   "v1": [
+    492523079837,
+    162687611568
+   ],
+   "v2": [
+    4749113642525,
+    1464188504112
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     61009,
+     7920912
+    ],
+    "reexport": [
+     99541,
+     7920912
+    ],
+    "star": [
+     3211,
+     7920912
+    ],
+    "none": [
+     3211,
+     465936
+    ],
+    "missing": [
+     113273,
+     116484
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_apps/blueprintapp/apps/frontend/__init__.py",
+     "flask"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+Blueprint\\\\b', '.')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+Blueprint\\\\b\", \".\"]]",
+   "v1": [
+    1333,
+    437
+   ],
+   "v2": [
+    12871,
+    3933
+   ],
+   "p_cap": [
+    1,
+    25
+   ],
+   "forecast": {
+    "zero": [
+     1,
+     25
+    ],
+    "mid": [
+     23,
+     25
+    ],
+    "cap": [
+     1,
+     25
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_apps/blueprintapp/apps/frontend/__init__.py",
+     "flask"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "ls('.')",
+  "key": "[\"ls\", [\".\"]]",
+  "provenance": "`flask` imported by `tests/test_apps/blueprintapp/apps/frontend/__init__.py` should live under `.`",
+  "v2": [
+   252607175601971,
+   104776523042688
+  ]
+ },
+ "forecast": {
+  "complete": [
+   7,
+   9
+  ],
+  "cap": [
+   2,
+   9
+  ]
+ },
+ "plan": {
+  "complete": "continue",
+  "cap": "[\"symbols\", [\"flask.py\", \"Blueprint\"]]"
+ },
+ "adherence": {
+  "planned": "done",
+  "status": "deviated"
+ },
+ "facts": [
+  {
+   "kind": "listing",
+   "step": 2,
+   "dir": ".",
+   "entries": [
+    ".devcontainer/",
+    ".github/",
+    ".pre-commit-config.yaml",
+    ".readthedocs.yaml",
+    "CHANGES.rst",
+    "LICENSE.txt",
+    "README.md",
+    "docs/",
+    "examples/",
+    "pyproject.toml",
+    "src/",
+    "tests/"
+   ],
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "chain": [
+   [
+    "tests/test_apps/blueprintapp/apps/frontend/__init__.py",
+    "Blueprint",
+    "reexport",
+    [
+     "flask",
+     null
+    ]
+   ]
+  ]
+ }
+}
+```
+</details>
+
+## Step 3
+
+`.` lists 12 entries (complete): `.devcontainer/`, `.github/`, `docs/`, `examples/`, `src/`, `tests/`.
+
+Chain: `tests/test_apps/blueprintapp/apps/frontend/__init__.py` takes `Blueprint` from `flask` (module not yet located).
+
+Outstanding: locate the module `flask` imported by `tests/test_apps/blueprintapp/apps/frontend/__init__.py`.
+
+Next: list `src`, because `flask` imported by `tests/test_apps/blueprintapp/apps/frontend/__init__.py` should live under `src`. I expect: a complete listing settles which files exist (about 90%); a capped listing settles nothing (about 10%). The alternative, outline `src/flask.py` filtered to `Blueprint`, costs more in expectation. Plan by outcome: complete: outline the module it reveals; cap: outline `src/flask.py` filtered to `Blueprint`.
+
+**Call:** `ls('src')`
+
+**Response**: outcome `complete`
+
+```
+flask/
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "module_path",
+   "key": [
+    "module_path",
+    "tests/test_apps/blueprintapp/apps/frontend/__init__.py",
+    "flask"
+   ],
+   "desc": "locate the module `flask` imported by `tests/test_apps/blueprintapp/apps/frontend/__init__.py`"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "ls('src')",
+   "key": "[\"ls\", [\"src\"]]",
+   "v1": [
+    49673,
+    23161
+   ],
+   "v2": [
+    1337575596157183,
+    617017302362496
+   ],
+   "p_cap": [
+    5,
+    53
+   ],
+   "forecast": {
+    "complete": [
+     48,
+     53
+    ],
+    "cap": [
+     5,
+     53
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_apps/blueprintapp/apps/frontend/__init__.py",
+     "flask"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/flask.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"src/flask.py\", \"Blueprint\"]]",
+   "v1": [
+    26723590837427,
+    11641835893632
+   ],
+   "v2": [
+    1452588881711951,
+    617017302362496
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     109915,
+     310624
+    ],
+    "reexport": [
+     109915,
+     13046208
+    ],
+    "star": [
+     21983,
+     26092416
+    ],
+    "none": [
+     21983,
+     1534848
+    ],
+    "missing": [
+     36259,
+     58242
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_apps/blueprintapp/apps/frontend/__init__.py",
+     "flask"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/flask/__init__.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"src/flask/__init__.py\", \"Blueprint\"]]",
+   "v1": [
+    244396550981,
+    81343805784
+   ],
+   "v2": [
+    4445770994351,
+    1437073902184
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     61009,
+     3960456
+    ],
+    "reexport": [
+     99541,
+     3960456
+    ],
+    "star": [
+     3211,
+     3960456
+    ],
+    "none": [
+     3211,
+     232968
+    ],
+    "missing": [
+     55031,
+     58242
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_apps/blueprintapp/apps/frontend/__init__.py",
+     "flask"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+Blueprint\\\\b', '.')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+Blueprint\\\\b\", \".\"]]",
+   "v1": [
+    1333,
+    437
+   ],
+   "v2": [
+    72834,
+    23161
+   ],
+   "p_cap": [
+    1,
+    25
+   ],
+   "forecast": {
+    "zero": [
+     1,
+     25
+    ],
+    "mid": [
+     23,
+     25
+    ],
+    "cap": [
+     1,
+     25
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_apps/blueprintapp/apps/frontend/__init__.py",
+     "flask"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+Blueprint\\\\b', 'src')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+Blueprint\\\\b\", \"src\"]]",
+   "v1": [
+    1333,
+    437
+   ],
+   "v2": [
+    72834,
+    23161
+   ],
+   "p_cap": [
+    2,
+    267
+   ],
+   "forecast": {
+    "zero": [
+     223,
+     267
+    ],
+    "mid": [
+     14,
+     89
+    ],
+    "cap": [
+     2,
+     267
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_apps/blueprintapp/apps/frontend/__init__.py",
+     "flask"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "ls('src')",
+  "key": "[\"ls\", [\"src\"]]",
+  "provenance": "`flask` imported by `tests/test_apps/blueprintapp/apps/frontend/__init__.py` should live under `src`",
+  "v2": [
+   1337575596157183,
+   617017302362496
+  ]
+ },
+ "forecast": {
+  "complete": [
+   48,
+   53
+  ],
+  "cap": [
+   5,
+   53
+  ]
+ },
+ "plan": {
+  "complete": "continue",
+  "cap": "[\"symbols\", [\"src/flask.py\", \"Blueprint\"]]"
+ },
+ "adherence": {
+  "planned": "continue",
+  "status": "open-ended"
+ },
+ "facts": [
+  {
+   "kind": "listing",
+   "step": 3,
+   "dir": "src",
+   "entries": [
+    "flask/"
+   ],
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "chain": [
+   [
+    "tests/test_apps/blueprintapp/apps/frontend/__init__.py",
+    "Blueprint",
+    "reexport",
+    [
+     "flask",
+     null
+    ]
+   ]
+  ]
+ }
+}
+```
+</details>
+
+## Step 4
+
+`src` lists 1 entries (complete): `flask/`.
+
+Chain: `tests/test_apps/blueprintapp/apps/frontend/__init__.py` takes `Blueprint` from `flask` (module not yet located).
+
+Outstanding: locate the module `flask` imported by `tests/test_apps/blueprintapp/apps/frontend/__init__.py`.
+
+Next: outline `src/flask/__init__.py` filtered to `Blueprint`, because `flask` would be `src/flask/__init__.py` if that file exists; one call both checks and closes it. I expect: a re-export continues the chain to its source (about 45%); a definition there ends the chain (about 25%); no binding at all points at a submodule or an unresolved name (about 25%); the file does not exist (under 5%); no binding but a star import means checking what that source exports (under 5%). The alternative, list `src/flask`, is expected to open more follow-up work. Plan by outcome: def: done; reexport: locate and outline the source it names; star: check what the star source exports; none: check for a submodule of that name; missing: list `src/flask`.
+
+**Call:** `symbols('src/flask/__init__.py', 'Blueprint')`
+
+**Response**: outcome `reexport`
+
+```
+module src/flask/__init__.py lines=40 dynamic=no all=none
+3 from Blueprint <- .blueprints Blueprint
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "module_path",
+   "key": [
+    "module_path",
+    "tests/test_apps/blueprintapp/apps/frontend/__init__.py",
+    "flask"
+   ],
+   "desc": "locate the module `flask` imported by `tests/test_apps/blueprintapp/apps/frontend/__init__.py`"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "symbols('src/flask/__init__.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"src/flask/__init__.py\", \"Blueprint\"]]",
+   "v1": [
+    15772021,
+    6983260
+   ],
+   "v2": [
+    2886978169,
+    1277936580
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     931,
+     3400
+    ],
+    "reexport": [
+     1519,
+     3400
+    ],
+    "star": [
+     49,
+     3400
+    ],
+    "none": [
+     49,
+     200
+    ],
+    "missing": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_apps/blueprintapp/apps/frontend/__init__.py",
+     "flask"
+    ]
+   ]
+  },
+  {
+   "call": "ls('src/flask')",
+   "key": "[\"ls\", [\"src/flask\"]]",
+   "v1": [
+    17631119,
+    5438028
+   ],
+   "v2": [
+    821984359,
+    255587316
+   ],
+   "p_cap": [
+    5,
+    183
+   ],
+   "forecast": {
+    "complete": [
+     178,
+     183
+    ],
+    "cap": [
+     5,
+     183
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_apps/blueprintapp/apps/frontend/__init__.py",
+     "flask"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+Blueprint\\\\b', '.')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+Blueprint\\\\b\", \".\"]]",
+   "v1": [
+    125249,
+    29716
+   ],
+   "v2": [
+    22755281,
+    6983260
+   ],
+   "p_cap": [
+    1,
+    25
+   ],
+   "forecast": {
+    "zero": [
+     1,
+     25
+    ],
+    "mid": [
+     23,
+     25
+    ],
+    "cap": [
+     1,
+     25
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_apps/blueprintapp/apps/frontend/__init__.py",
+     "flask"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+Blueprint\\\\b', 'src')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+Blueprint\\\\b\", \"src\"]]",
+   "v1": [
+    125249,
+    29716
+   ],
+   "v2": [
+    22755281,
+    6983260
+   ],
+   "p_cap": [
+    2,
+    267
+   ],
+   "forecast": {
+    "zero": [
+     223,
+     267
+    ],
+    "mid": [
+     14,
+     89
+    ],
+    "cap": [
+     2,
+     267
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_apps/blueprintapp/apps/frontend/__init__.py",
+     "flask"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "symbols('src/flask/__init__.py', 'Blueprint')",
+  "key": "[\"symbols\", [\"src/flask/__init__.py\", \"Blueprint\"]]",
+  "provenance": "`flask` would be `src/flask/__init__.py` if that file exists; one call both checks and closes it",
+  "v2": [
+   2886978169,
+   1277936580
+  ]
+ },
+ "forecast": {
+  "def": [
+   931,
+   3400
+  ],
+  "reexport": [
+   1519,
+   3400
+  ],
+  "star": [
+   49,
+   3400
+  ],
+  "none": [
+   49,
+   200
+  ],
+  "missing": [
+   1,
+   50
+  ]
+ },
+ "plan": {
+  "def": "done",
+  "reexport": "continue",
+  "star": "continue",
+  "none": "continue",
+  "missing": "[\"ls\", [\"src/flask\"]]"
+ },
+ "adherence": {
+  "planned": "continue",
+  "status": "open-ended"
+ },
+ "facts": [
+  {
+   "kind": "outline",
+   "step": 4,
+   "path": "src/flask/__init__.py",
+   "filter": "Blueprint",
+   "header": {
+    "lines": 40,
+    "dynamic": false,
+    "all_status": "none",
+    "all_line": null
+   },
+   "bindings": [
+    {
+     "module": "src/flask/__init__.py",
+     "name": "Blueprint",
+     "line": 3,
+     "kind": "from",
+     "src": ".blueprints",
+     "src_name": "Blueprint",
+     "conditional": false,
+     "col": 0
+    }
+   ],
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "chain": [
+   [
+    "tests/test_apps/blueprintapp/apps/frontend/__init__.py",
+    "Blueprint",
+    "reexport",
+    [
+     "flask",
+     "src/flask/__init__.py"
+    ]
+   ],
+   [
+    "src/flask/__init__.py",
+    "Blueprint",
+    "reexport",
+    [
+     ".blueprints",
+     null
+    ]
+   ]
+  ]
+ }
+}
+```
+</details>
+
+## Step 5
+
+In `src/flask/__init__.py`, `Blueprint` has exactly one binding: line 3 imports it as `Blueprint` from `.blueprints`. No dynamic namespace tricks, no `__all__`.
+
+Chain: `tests/test_apps/blueprintapp/apps/frontend/__init__.py` takes `Blueprint` from `flask` (`src/flask/__init__.py`); `src/flask/__init__.py` takes `Blueprint` from `.blueprints` (module not yet located).
+
+Still to settle: locate the module `.blueprints` imported by `src/flask/__init__.py`.
+
+Next: outline `src/flask/blueprints.py` filtered to `Blueprint`, because `.blueprints` would be `src/flask/blueprints.py` if that file exists; one call both checks and closes it. I expect: a definition there ends the chain (about 80%); the file does not exist (about 15%); no binding at all points at a submodule or an unresolved name (about 5%); a re-export continues the chain to its source (under 5%); no binding but a star import means checking what that source exports (under 5%). The alternative, list `src/flask`, is expected to open more follow-up work. Plan by outcome: def: done; reexport: locate and outline the source it names; star: check what the star source exports; none: done; missing: list `src/flask`.
+
+**Call:** `symbols('src/flask/blueprints.py', 'Blueprint')`
+
+**Response**: outcome `def`
+
+```
+module src/flask/blueprints.py lines=129 dynamic=no all=none
+10 from SansioBlueprint <- .sansio.blueprints Blueprint
+18 class Blueprint
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "module_path",
+   "key": [
+    "module_path",
+    "src/flask/__init__.py",
+    ".blueprints"
+   ],
+   "desc": "locate the module `.blueprints` imported by `src/flask/__init__.py`"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "symbols('src/flask/blueprints.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"src/flask/blueprints.py\", \"Blueprint\"]]",
+   "v1": [
+    26612969765,
+    20388504192
+   ],
+   "v2": [
+    4883166141235,
+    3731096267136
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     445,
+     544
+    ],
+    "reexport": [
+     445,
+     22848
+    ],
+    "star": [
+     89,
+     45696
+    ],
+    "none": [
+     89,
+     2688
+    ],
+    "missing": [
+     13,
+     102
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "src/flask/__init__.py",
+     ".blueprints"
+    ]
+   ]
+  },
+  {
+   "call": "ls('src/flask')",
+   "key": "[\"ls\", [\"src/flask\"]]",
+   "v1": [
+    166153,
+    79971
+   ],
+   "v2": [
+    7676018254393,
+    3731096267136
+   ],
+   "p_cap": [
+    5,
+    183
+   ],
+   "forecast": {
+    "complete": [
+     178,
+     183
+    ],
+    "cap": [
+     5,
+     183
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "src/flask/__init__.py",
+     ".blueprints"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+Blueprint\\\\b', '.')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+Blueprint\\\\b\", \".\"]]",
+   "v1": [
+    23274,
+    10925
+   ],
+   "v2": [
+    527740941221,
+    254856302400
+   ],
+   "p_cap": [
+    1,
+    25
+   ],
+   "forecast": {
+    "zero": [
+     1,
+     25
+    ],
+    "mid": [
+     23,
+     25
+    ],
+    "cap": [
+     1,
+     25
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "src/flask/__init__.py",
+     ".blueprints"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+Blueprint\\\\b', 'src')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+Blueprint\\\\b\", \"src\"]]",
+   "v1": [
+    112519,
+    38893
+   ],
+   "v2": [
+    1370119531293,
+    604858957696
+   ],
+   "p_cap": [
+    2,
+    267
+   ],
+   "forecast": {
+    "zero": [
+     223,
+     267
+    ],
+    "mid": [
+     14,
+     89
+    ],
+    "cap": [
+     2,
+     267
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "src/flask/__init__.py",
+     ".blueprints"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/flask/blueprints/__init__.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"src/flask/blueprints/__init__.py\", \"Blueprint\"]]",
+   "v1": [
+    419446211,
+    142458504
+   ],
+   "v2": [
+    224245375460339,
+    97742489096448
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     247,
+     6936
+    ],
+    "reexport": [
+     403,
+     6936
+    ],
+    "star": [
+     13,
+     6936
+    ],
+    "none": [
+     13,
+     408
+    ],
+    "missing": [
+     89,
+     102
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "src/flask/__init__.py",
+     ".blueprints"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "symbols('src/flask/blueprints.py', 'Blueprint')",
+  "key": "[\"symbols\", [\"src/flask/blueprints.py\", \"Blueprint\"]]",
+  "provenance": "`.blueprints` would be `src/flask/blueprints.py` if that file exists; one call both checks and closes it",
+  "v2": [
+   4883166141235,
+   3731096267136
+  ]
+ },
+ "forecast": {
+  "def": [
+   445,
+   544
+  ],
+  "reexport": [
+   445,
+   22848
+  ],
+  "star": [
+   89,
+   45696
+  ],
+  "none": [
+   89,
+   2688
+  ],
+  "missing": [
+   13,
+   102
+  ]
+ },
+ "plan": {
+  "def": "done",
+  "reexport": "continue",
+  "star": "continue",
+  "none": "done",
+  "missing": "[\"ls\", [\"src/flask\"]]"
+ },
+ "adherence": {
+  "planned": "continue",
+  "status": "open-ended"
+ },
+ "facts": [
+  {
+   "kind": "outline",
+   "step": 5,
+   "path": "src/flask/blueprints.py",
+   "filter": "Blueprint",
+   "header": {
+    "lines": 129,
+    "dynamic": false,
+    "all_status": "none",
+    "all_line": null
+   },
+   "bindings": [
+    {
+     "module": "src/flask/blueprints.py",
+     "name": "SansioBlueprint",
+     "line": 10,
+     "kind": "from",
+     "src": ".sansio.blueprints",
+     "src_name": "Blueprint",
+     "conditional": false,
+     "col": 0
+    },
+    {
+     "module": "src/flask/blueprints.py",
+     "name": "Blueprint",
+     "line": 18,
+     "kind": "class",
+     "src": null,
+     "src_name": null,
+     "conditional": false,
+     "col": 0
+    }
+   ],
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "chain": [
+   [
+    "tests/test_apps/blueprintapp/apps/frontend/__init__.py",
+    "Blueprint",
+    "reexport",
+    [
+     "flask",
+     "src/flask/__init__.py"
+    ]
+   ],
+   [
+    "src/flask/__init__.py",
+    "Blueprint",
+    "reexport",
+    [
+     ".blueprints",
+     "src/flask/blueprints.py"
+    ]
+   ],
+   [
+    "src/flask/blueprints.py",
+    "Blueprint",
+    "class",
+    18
+   ]
+  ]
+ }
+}
+```
+</details>
+
+## Step 6
+
+In `src/flask/blueprints.py`, `Blueprint` has exactly one binding: a class at line 18. No dynamic namespace tricks, no `__all__`. It also imports it under another name: `SansioBlueprint` at line 10. This is not the branch I planned for that outcome; the open items changed more than expected.
+
+Candidate modules so far: 0; statements confirmed: 0, ruled out: 0, modules with no such import: 0, pending: 0. import coverage open at `.`; star coverage open at `.`.
+
+Open: cover `.` for import lines; cover `.` for star lines.
+
+Next: grep from-imports naming `Blueprint` or star imports under `.`, because import and star lines under `.` in one call. I expect: hits under the cap (about 60%); no hits (about 35%); a capped result (about 5%). The alternative, grep from-imports naming `Blueprint` under `.`, serves fewer of the open items. Plan by outcome: zero: done; mid: outline each module that appears; cap: list the scope and split it.
+
+**Call:** `grep('^\\s*from\\s+\\S+\\s+import\\s+(?:.*\\bBlueprint\\b|\\*)|^\\s*(?:\\w+(?:\\s+as\\s+\\w+)?\\s*,\\s*)*Blueprint\\b(?:\\s+as\\s+\\w+)?\\s*,?\\s*\\)?\\s*$', '.')`
+
+**Response**: outcome `mid`
+
+```
+docs/blueprints.rst:62:    from flask import Blueprint, render_template, abort
+docs/cli.rst:377:    from flask import Blueprint
+docs/errorhandling.rst:378:    from flask import Blueprint
+docs/patterns/appfactories.rst:46:    from flask import current_app, Blueprint, render_template
+docs/patterns/urlprocessors.rst:108:    from flask import Blueprint, g
+examples/celery/src/task_app/views.py:2:from flask import Blueprint
+examples/tutorial/flaskr/auth.py:3:from flask import Blueprint
+examples/tutorial/flaskr/blog.py:1:from flask import Blueprint
+src/flask/__init__.py:3:from .blueprints import Blueprint as Blueprint
+src/flask/blueprints.py:10:from .sansio.blueprints import Blueprint as SansioBlueprint
+src/flask/debughelpers.py:8:from .blueprints import Blueprint
+src/flask/sansio/app.py:41:    from .blueprints import Blueprint
+tests/test_apps/blueprintapp/apps/admin/__init__.py:1:from flask import Blueprint
+tests/test_apps/blueprintapp/apps/frontend/__init__.py:1:from flask import Blueprint
+tests/test_async.py:5:from flask import Blueprint
+tests/test_cli.py:16:from flask import Blueprint
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "cover",
+   "key": [
+    "cover",
+    "IMPORT",
+    "."
+   ],
+   "desc": "cover `.` for import lines"
+  },
+  {
+   "kind": "cover",
+   "key": [
+    "cover",
+    "STAR",
+    "."
+   ],
+   "desc": "cover `.` for star lines"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "grep('^\\\\s*from\\\\s+\\\\S+\\\\s+import\\\\s+(?:.*\\\\bBlueprint\\\\b|\\\\*)|^\\\\s*(?:\\\\w+(?:\\\\s+as\\\\s+\\\\w+)?\\\\s*,\\\\s*)*Blueprint\\\\b(?:\\\\s+as\\\\s+\\\\w+)?\\\\s*,?\\\\s*\\\\)?\\\\s*$', '.')",
+   "key": "[\"grep\", [\"^\\\\s*from\\\\s+\\\\S+\\\\s+import\\\\s+(?:.*\\\\bBlueprint\\\\b|\\\\*)|^\\\\s*(?:\\\\w+(?:\\\\s+as\\\\s+\\\\w+)?\\\\s*,\\\\s*)*Blueprint\\\\b(?:\\\\s+as\\\\s+\\\\w+)?\\\\s*,?\\\\s*\\\\)?\\\\s*$\", \".\"]]",
+   "v1": [
+    6471836048,
+    1371013875
+   ],
+   "v2": [
+    6471836048,
+    1371013875
+   ],
+   "p_cap": [
+    1,
+    15
+   ],
+   "forecast": {
+    "zero": [
+     16,
+     45
+    ],
+    "mid": [
+     26,
+     45
+    ],
+    "cap": [
+     1,
+     15
+    ]
+   },
+   "serves": [
+    [
+     "cover",
+     "IMPORT",
+     "."
+    ],
+    [
+     "cover",
+     "STAR",
+     "."
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*from\\\\s+\\\\S+\\\\s+import\\\\s+.*\\\\bBlueprint\\\\b|^\\\\s*(?:\\\\w+(?:\\\\s+as\\\\s+\\\\w+)?\\\\s*,\\\\s*)*Blueprint\\\\b(?:\\\\s+as\\\\s+\\\\w+)?\\\\s*,?\\\\s*\\\\)?\\\\s*$', '.')",
+   "key": "[\"grep\", [\"^\\\\s*from\\\\s+\\\\S+\\\\s+import\\\\s+.*\\\\bBlueprint\\\\b|^\\\\s*(?:\\\\w+(?:\\\\s+as\\\\s+\\\\w+)?\\\\s*,\\\\s*)*Blueprint\\\\b(?:\\\\s+as\\\\s+\\\\w+)?\\\\s*,?\\\\s*\\\\)?\\\\s*$\", \".\"]]",
+   "v1": [
+    66921763781,
+    10724375200
+   ],
+   "v2": [
+    272647873171,
+    43872444000
+   ],
+   "p_cap": [
+    1,
+    32
+   ],
+   "forecast": {
+    "zero": [
+     25,
+     32
+    ],
+    "mid": [
+     3,
+     16
+    ],
+    "cap": [
+     1,
+     32
+    ]
+   },
+   "serves": [
+    [
+     "cover",
+     "IMPORT",
+     "."
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*from\\\\s+\\\\S+\\\\s+import\\\\s+\\\\*', '.')",
+   "key": "[\"grep\", [\"^\\\\s*from\\\\s+\\\\S+\\\\s+import\\\\s+\\\\*\", \".\"]]",
+   "v1": [
+    66921763781,
+    10724375200
+   ],
+   "v2": [
+    66921763781,
+    10724375200
+   ],
+   "p_cap": [
+    1,
+    22
+   ],
+   "forecast": {
+    "zero": [
+     21,
+     44
+    ],
+    "mid": [
+     21,
+     44
+    ],
+    "cap": [
+     1,
+     22
+    ]
+   },
+   "serves": [
+    [
+     "cover",
+     "STAR",
+     "."
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "grep('^\\\\s*from\\\\s+\\\\S+\\\\s+import\\\\s+(?:.*\\\\bBlueprint\\\\b|\\\\*)|^\\\\s*(?:\\\\w+(?:\\\\s+as\\\\s+\\\\w+)?\\\\s*,\\\\s*)*Blueprint\\\\b(?:\\\\s+as\\\\s+\\\\w+)?\\\\s*,?\\\\s*\\\\)?\\\\s*$', '.')",
+  "key": "[\"grep\", [\"^\\\\s*from\\\\s+\\\\S+\\\\s+import\\\\s+(?:.*\\\\bBlueprint\\\\b|\\\\*)|^\\\\s*(?:\\\\w+(?:\\\\s+as\\\\s+\\\\w+)?\\\\s*,\\\\s*)*Blueprint\\\\b(?:\\\\s+as\\\\s+\\\\w+)?\\\\s*,?\\\\s*\\\\)?\\\\s*$\", \".\"]]",
+  "provenance": "import and star lines under `.` in one call",
+  "v2": [
+   6471836048,
+   1371013875
+  ]
+ },
+ "forecast": {
+  "zero": [
+   16,
+   45
+  ],
+  "mid": [
+   26,
+   45
+  ],
+  "cap": [
+   1,
+   15
+  ]
+ },
+ "plan": {
+  "zero": "done",
+  "mid": "continue",
+  "cap": "continue"
+ },
+ "adherence": {
+  "planned": "done",
+  "status": "deviated"
+ },
+ "facts": [
+  {
+   "kind": "grep",
+   "step": 6,
+   "pattern": "^\\s*from\\s+\\S+\\s+import\\s+(?:.*\\bBlueprint\\b|\\*)|^\\s*(?:\\w+(?:\\s+as\\s+\\w+)?\\s*,\\s*)*Blueprint\\b(?:\\s+as\\s+\\w+)?\\s*,?\\s*\\)?\\s*$",
+   "scope": ".",
+   "hits": [
+    [
+     "docs/blueprints.rst",
+     62
+    ],
+    [
+     "docs/cli.rst",
+     377
+    ],
+    [
+     "docs/errorhandling.rst",
+     378
+    ],
+    [
+     "docs/patterns/appfactories.rst",
+     46
+    ],
+    [
+     "docs/patterns/urlprocessors.rst",
+     108
+    ],
+    [
+     "examples/celery/src/task_app/views.py",
+     2
+    ],
+    [
+     "examples/tutorial/flaskr/auth.py",
+     3
+    ],
+    [
+     "examples/tutorial/flaskr/blog.py",
+     1
+    ],
+    [
+     "src/flask/__init__.py",
+     3
+    ],
+    [
+     "src/flask/blueprints.py",
+     10
+    ],
+    [
+     "src/flask/debughelpers.py",
+     8
+    ],
+    [
+     "src/flask/sansio/app.py",
+     41
+    ],
+    [
+     "tests/test_apps/blueprintapp/apps/admin/__init__.py",
+     1
+    ],
+    [
+     "tests/test_apps/blueprintapp/apps/frontend/__init__.py",
+     1
+    ],
+    [
+     "tests/test_async.py",
+     5
+    ],
+    [
+     "tests/test_cli.py",
+     16
+    ]
+   ],
+   "capped": false
+  }
+ ],
+ "goal_state": {
+  "verdicts": [
+   [
+    "examples/celery/src/task_app/views.py",
+    0,
+    "pending",
+    "outline not yet seen"
+   ],
+   [
+    "examples/tutorial/flaskr/auth.py",
+    0,
+    "pending",
+    "outline not yet seen"
+   ],
+   [
+    "examples/tutorial/flaskr/blog.py",
+    0,
+    "pending",
+    "outline not yet seen"
+   ],
+   [
+    "src/flask/__init__.py",
+    3,
+    "in",
+    "`.blueprints` resolves `Blueprint` to the target"
+   ],
+   [
+    "src/flask/blueprints.py",
+    10,
+    "pending",
+    ""
+   ],
+   [
+    "src/flask/debughelpers.py",
+    0,
+    "pending",
+    "outline not yet seen"
+   ],
+   [
+    "src/flask/sansio/app.py",
+    0,
+    "pending",
+    "outline not yet seen"
+   ],
+   [
+    "tests/test_apps/blueprintapp/apps/admin/__init__.py",
+    0,
+    "pending",
+    "outline not yet seen"
+   ],
+   [
+    "tests/test_apps/blueprintapp/apps/frontend/__init__.py",
+    1,
+    "in",
+    "`flask` resolves `Blueprint` to the target"
+   ],
+   [
+    "tests/test_async.py",
+    0,
+    "pending",
+    "outline not yet seen"
+   ],
+   [
+    "tests/test_cli.py",
+    0,
+    "pending",
+    "outline not yet seen"
+   ]
+  ],
+  "uncovered": {
+   "IMPORT": [],
+   "STAR": []
+  }
+ }
+}
+```
+</details>
+
+## Step 7
+
+The grep under `.` returned 16 lines, under the cap, so these are all of them: `docs/blueprints.rst`, `docs/cli.rst`, `docs/errorhandling.rst`, `docs/patterns/appfactories.rst` and 12 more files.
+
+Candidate modules so far: 11; statements confirmed: 2, ruled out: 0, modules with no such import: 0, pending: 9. import coverage complete; star coverage complete.
+
+Open: outline `examples/celery/src/task_app/views.py` for its `Blueprint` imports; outline `examples/tutorial/flaskr/auth.py` for its `Blueprint` imports; outline `examples/tutorial/flaskr/blog.py` for its `Blueprint` imports; locate the module `.sansio.blueprints` imported by `src/flask/blueprints.py`; and 5 more.
+
+Next: outline `tests/test_cli.py` filtered to `Blueprint`, because `tests/test_cli.py` had a matching line (step 6); its outline names every `Blueprint` import exactly. I expect: the outline lists its imports of the name (near certain); a capped outline means filtering by name (under 5%). The alternative, outline `examples/celery/src/task_app/views.py` filtered to `Blueprint`, scores the same; the seed broke the tie. Plan by outcome: ok: outline `src/flask/sansio/blueprints.py` filtered to `Blueprint`; cap: outline `src/flask/sansio/blueprints.py` filtered to `Blueprint`.
+
+**Call:** `symbols('tests/test_cli.py', 'Blueprint')`
+
+**Response**: outcome `ok`
+
+```
+module tests/test_cli.py lines=704 dynamic=no all=none
+16 from Blueprint <- flask Blueprint
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "examples/celery/src/task_app/views.py",
+    "Blueprint"
+   ],
+   "desc": "outline `examples/celery/src/task_app/views.py` for its `Blueprint` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "examples/tutorial/flaskr/auth.py",
+    "Blueprint"
+   ],
+   "desc": "outline `examples/tutorial/flaskr/auth.py` for its `Blueprint` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "examples/tutorial/flaskr/blog.py",
+    "Blueprint"
+   ],
+   "desc": "outline `examples/tutorial/flaskr/blog.py` for its `Blueprint` imports"
+  },
+  {
+   "kind": "module_path",
+   "key": [
+    "module_path",
+    "src/flask/blueprints.py",
+    ".sansio.blueprints"
+   ],
+   "desc": "locate the module `.sansio.blueprints` imported by `src/flask/blueprints.py`"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "src/flask/debughelpers.py",
+    "Blueprint"
+   ],
+   "desc": "outline `src/flask/debughelpers.py` for its `Blueprint` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "src/flask/sansio/app.py",
+    "Blueprint"
+   ],
+   "desc": "outline `src/flask/sansio/app.py` for its `Blueprint` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "tests/test_apps/blueprintapp/apps/admin/__init__.py",
+    "Blueprint"
+   ],
+   "desc": "outline `tests/test_apps/blueprintapp/apps/admin/__init__.py` for its `Blueprint` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "tests/test_async.py",
+    "Blueprint"
+   ],
+   "desc": "outline `tests/test_async.py` for its `Blueprint` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "tests/test_cli.py",
+    "Blueprint"
+   ],
+   "desc": "outline `tests/test_cli.py` for its `Blueprint` imports"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "symbols('examples/celery/src/task_app/views.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"examples/celery/src/task_app/views.py\", \"Blueprint\"]]",
+   "v1": [
+    3598007,
+    240350
+   ],
+   "v2": [
+    79756239381631,
+    5606838652800
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "examples/celery/src/task_app/views.py",
+     "Blueprint"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('examples/tutorial/flaskr/auth.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"examples/tutorial/flaskr/auth.py\", \"Blueprint\"]]",
+   "v1": [
+    3598007,
+    240350
+   ],
+   "v2": [
+    79756239381631,
+    5606838652800
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "examples/tutorial/flaskr/auth.py",
+     "Blueprint"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('examples/tutorial/flaskr/blog.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"examples/tutorial/flaskr/blog.py\", \"Blueprint\"]]",
+   "v1": [
+    3598007,
+    240350
+   ],
+   "v2": [
+    79756239381631,
+    5606838652800
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "examples/tutorial/flaskr/blog.py",
+     "Blueprint"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/flask/debughelpers.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"src/flask/debughelpers.py\", \"Blueprint\"]]",
+   "v1": [
+    3598007,
+    240350
+   ],
+   "v2": [
+    79756239381631,
+    5606838652800
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "src/flask/debughelpers.py",
+     "Blueprint"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/flask/sansio/app.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"src/flask/sansio/app.py\", \"Blueprint\"]]",
+   "v1": [
+    3598007,
+    240350
+   ],
+   "v2": [
+    79756239381631,
+    5606838652800
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "src/flask/sansio/app.py",
+     "Blueprint"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/flask/sansio/blueprints.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"src/flask/sansio/blueprints.py\", \"Blueprint\"]]",
+   "v1": [
+    3185764104343,
+    224273546112
+   ],
+   "v2": [
+    79756239381631,
+    5606838652800
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     445,
+     544
+    ],
+    "reexport": [
+     445,
+     22848
+    ],
+    "star": [
+     89,
+     45696
+    ],
+    "none": [
+     89,
+     2688
+    ],
+    "missing": [
+     13,
+     102
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "src/flask/blueprints.py",
+     ".sansio.blueprints"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/test_apps/blueprintapp/apps/admin/__init__.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"tests/test_apps/blueprintapp/apps/admin/__init__.py\", \"Blueprint\"]]",
+   "v1": [
+    3598007,
+    240350
+   ],
+   "v2": [
+    79756239381631,
+    5606838652800
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "tests/test_apps/blueprintapp/apps/admin/__init__.py",
+     "Blueprint"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/test_async.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"tests/test_async.py\", \"Blueprint\"]]",
+   "v1": [
+    3598007,
+    240350
+   ],
+   "v2": [
+    79756239381631,
+    5606838652800
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "tests/test_async.py",
+     "Blueprint"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/test_cli.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"
+```
+</details>
+
+## Step 8
+
+In `tests/test_cli.py`, `Blueprint` has exactly one binding: line 16 imports it as `Blueprint` from `flask`. No dynamic namespace tricks, no `__all__`.
+
+Candidate modules so far: 11; statements confirmed: 3, ruled out: 0, modules with no such import: 0, pending: 8. import coverage complete; star coverage complete.
+
+Outstanding: outline `examples/celery/src/task_app/views.py` for its `Blueprint` imports; outline `examples/tutorial/flaskr/auth.py` for its `Blueprint` imports; outline `examples/tutorial/flaskr/blog.py` for its `Blueprint` imports; locate the module `.sansio.blueprints` imported by `src/flask/blueprints.py`; and 4 more.
+
+Next: outline `src/flask/sansio/blueprints.py` filtered to `Blueprint`, because `.sansio.blueprints` would be `src/flask/sansio/blueprints.py` if that file exists; one call both checks and closes it. I expect: a definition there ends the chain (about 80%); the file does not exist (about 15%); no binding at all points at a submodule or an unresolved name (about 5%); a re-export continues the chain to its source (under 5%); no binding but a star import means checking what that source exports (under 5%). The alternative, outline `examples/celery/src/task_app/views.py` filtered to `Blueprint`, is expected to open more follow-up work. Plan by outcome: def: outline `examples/celery/src/task_app/views.py` filtered to `Blueprint`; reexport: outline `examples/celery/src/task_app/views.py` filtered to `Blueprint`; star: outline `examples/celery/src/task_app/views.py` filtered to `Blueprint`; none: outline `examples/celery/src/task_app/views.py` filtered to `Blueprint`; missing: outline `examples/celery/src/task_app/views.py` filtered to `Blueprint`.
+
+**Call:** `symbols('src/flask/sansio/blueprints.py', 'Blueprint')`
+
+**Response**: outcome `def`
+
+```
+module src/flask/sansio/blueprints.py lines=693 dynamic=no all=none
+119 class Blueprint
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "examples/celery/src/task_app/views.py",
+    "Blueprint"
+   ],
+   "desc": "outline `examples/celery/src/task_app/views.py` for its `Blueprint` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "examples/tutorial/flaskr/auth.py",
+    "Blueprint"
+   ],
+   "desc": "outline `examples/tutorial/flaskr/auth.py` for its `Blueprint` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "examples/tutorial/flaskr/blog.py",
+    "Blueprint"
+   ],
+   "desc": "outline `examples/tutorial/flaskr/blog.py` for its `Blueprint` imports"
+  },
+  {
+   "kind": "module_path",
+   "key": [
+    "module_path",
+    "src/flask/blueprints.py",
+    ".sansio.blueprints"
+   ],
+   "desc": "locate the module `.sansio.blueprints` imported by `src/flask/blueprints.py`"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "src/flask/debughelpers.py",
+    "Blueprint"
+   ],
+   "desc": "outline `src/flask/debughelpers.py` for its `Blueprint` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "src/flask/sansio/app.py",
+    "Blueprint"
+   ],
+   "desc": "outline `src/flask/sansio/app.py` for its `Blueprint` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "tests/test_apps/blueprintapp/apps/admin/__init__.py",
+    "Blueprint"
+   ],
+   "desc": "outline `tests/test_apps/blueprintapp/apps/admin/__init__.py` for its `Blueprint` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "tests/test_async.py",
+    "Blueprint"
+   ],
+   "desc": "outline `tests/test_async.py` for its `Blueprint` imports"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "symbols('examples/celery/src/task_app/views.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"examples/celery/src/task_app/views.py\", \"Blueprint\"]]",
+   "v1": [
+    3210457,
+    240350
+   ],
+   "v2": [
+    70715547391231,
+    5606838652800
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "examples/celery/src/task_app/views.py",
+     "Blueprint"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('examples/tutorial/flaskr/auth.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"examples/tutorial/flaskr/auth.py\", \"Blueprint\"]]",
+   "v1": [
+    3210457,
+    240350
+   ],
+   "v2": [
+    70715547391231,
+    5606838652800
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "examples/tutorial/flaskr/auth.py",
+     "Blueprint"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('examples/tutorial/flaskr/blog.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"examples/tutorial/flaskr/blog.py\", \"Blueprint\"]]",
+   "v1": [
+    3210457,
+    240350
+   ],
+   "v2": [
+    70715547391231,
+    5606838652800
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "examples/tutorial/flaskr/blog.py",
+     "Blueprint"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/flask/debughelpers.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"src/flask/debughelpers.py\", \"Blueprint\"]]",
+   "v1": [
+    3210457,
+    240350
+   ],
+   "v2": [
+    70715547391231,
+    5606838652800
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "src/flask/debughelpers.py",
+     "Blueprint"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/flask/sansio/app.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"src/flask/sansio/app.py\", \"Blueprint\"]]",
+   "v1": [
+    3210457,
+    240350
+   ],
+   "v2": [
+    70715547391231,
+    5606838652800
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "src/flask/sansio/app.py",
+     "Blueprint"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/flask/sansio/blueprints.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"src/flask/sansio/blueprints.py\", \"Blueprint\"]]",
+   "v1": [
+    2824136424727,
+    224273546112
+   ],
+   "v2": [
+    70715547391231,
+    5606838652800
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     445,
+     544
+    ],
+    "reexport": [
+     445,
+     22848
+    ],
+    "star": [
+     89,
+     45696
+    ],
+    "none": [
+     89,
+     2688
+    ],
+    "missing": [
+     13,
+     102
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "src/flask/blueprints.py",
+     ".sansio.blueprints"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/test_apps/blueprintapp/apps/admin/__init__.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"tests/test_apps/blueprintapp/apps/admin/__init__.py\", \"Blueprint\"]]",
+   "v1": [
+    3210457,
+    240350
+   ],
+   "v2": [
+    70715547391231,
+    5606838652800
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "tests/test_apps/blueprintapp/apps/admin/__init__.py",
+     "Blueprint"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/test_async.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"tests/test_async.py\", \"Blueprint\"]]",
+   "v1": [
+    3210457,
+    240350
+   ],
+   "v2": [
+    70715547391231,
+    5606838652800
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "tests/test_async.py",
+     "Blueprint"
+    ]
+   ]
+  },
+  {
+   "call": "ls('src/flask/sansio')",
+   "key": "[\"ls\", [\"src/flask/sansio\"]]",
+   "v1": [
+    11756714,
+    879681
+   ],
+   "v2": [
+    13711991805264443,
+    1026051473462400
+   ],
+   "p_cap": [
+    5,
+    183
+   ],
+   "forecast": {
+    "complete": [
+  
+```
+</details>
+
+## Step 9
+
+In `src/flask/sansio/blueprints.py`, `Blueprint` has exactly one binding: a class at line 119. No dynamic namespace tricks, no `__all__`.
+
+Candidate modules so far: 11; statements confirmed: 3, ruled out: 1, modules with no such import: 0, pending: 7. import coverage complete; star coverage complete. Latest ruled out: `src/flask/blueprints.py`:10, `.sansio.blueprints` resolves `Blueprint` to src/flask/sansio/blueprints.py:119.
+
+Still to settle: outline `examples/celery/src/task_app/views.py` for its `Blueprint` imports; outline `examples/tutorial/flaskr/auth.py` for its `Blueprint` imports; outline `examples/tutorial/flaskr/blog.py` for its `Blueprint` imports; outline `src/flask/debughelpers.py` for its `Blueprint` imports; and 3 more.
+
+Next: outline `examples/celery/src/task_app/views.py` filtered to `Blueprint`, because `examples/celery/src/task_app/views.py` had a matching line (step 6); its outline names every `Blueprint` import exactly. I expect: the outline lists its imports of the name (near certain); a capped outline means filtering by name (under 5%). The alternative, outline `examples/tutorial/flaskr/auth.py` filtered to `Blueprint`, scores the same; the seed broke the tie. Plan by outcome: ok: outline `examples/tutorial/flaskr/auth.py` filtered to `Blueprint`; cap: outline `examples/tutorial/flaskr/auth.py` filtered to `Blueprint`.
+
+**Call:** `symbols('examples/celery/src/task_app/views.py', 'Blueprint')`
+
+**Response**: outcome `ok`
+
+```
+module examples/celery/src/task_app/views.py lines=39 dynamic=no all=none
+2 from Blueprint <- flask Blueprint
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "examples/celery/src/task_app/views.py",
+    "Blueprint"
+   ],
+   "desc": "outline `examples/celery/src/task_app/views.py` for its `Blueprint` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "examples/tutorial/flaskr/auth.py",
+    "Blueprint"
+   ],
+   "desc": "outline `examples/tutorial/flaskr/auth.py` for its `Blueprint` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "examples/tutorial/flaskr/blog.py",
+    "Blueprint"
+   ],
+   "desc": "outline `examples/tutorial/flaskr/blog.py` for its `Blueprint` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "src/flask/debughelpers.py",
+    "Blueprint"
+   ],
+   "desc": "outline `src/flask/debughelpers.py` for its `Blueprint` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "src/flask/sansio/app.py",
+    "Blueprint"
+   ],
+   "desc": "outline `src/flask/sansio/app.py` for its `Blueprint` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "tests/test_apps/blueprintapp/apps/admin/__init__.py",
+    "Blueprint"
+   ],
+   "desc": "outline `tests/test_apps/blueprintapp/apps/admin/__init__.py` for its `Blueprint` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "tests/test_async.py",
+    "Blueprint"
+   ],
+   "desc": "outline `tests/test_async.py` for its `Blueprint` imports"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "symbols('examples/celery/src/task_app/views.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"examples/celery/src/task_app/views.py\", \"Blueprint\"]]",
+   "v1": [
+    118159,
+    10450
+   ],
+   "v2": [
+    59184,
+    5225
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "examples/celery/src/task_app/views.py",
+     "Blueprint"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('examples/tutorial/flaskr/auth.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"examples/tutorial/flaskr/auth.py\", \"Blueprint\"]]",
+   "v1": [
+    118159,
+    10450
+   ],
+   "v2": [
+    59184,
+    5225
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "examples/tutorial/flaskr/auth.py",
+     "Blueprint"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('examples/tutorial/flaskr/blog.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"examples/tutorial/flaskr/blog.py\", \"Blueprint\"]]",
+   "v1": [
+    118159,
+    10450
+   ],
+   "v2": [
+    59184,
+    5225
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "examples/tutorial/flaskr/blog.py",
+     "Blueprint"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/flask/debughelpers.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"src/flask/debughelpers.py\", \"Blueprint\"]]",
+   "v1": [
+    118159,
+    10450
+   ],
+   "v2": [
+    59184,
+    5225
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "src/flask/debughelpers.py",
+     "Blueprint"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/flask/sansio/app.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"src/flask/sansio/app.py\", \"Blueprint\"]]",
+   "v1": [
+    118159,
+    10450
+   ],
+   "v2": [
+    59184,
+    5225
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "src/flask/sansio/app.py",
+     "Blueprint"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/test_apps/blueprintapp/apps/admin/__init__.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"tests/test_apps/blueprintapp/apps/admin/__init__.py\", \"Blueprint\"]]",
+   "v1": [
+    118159,
+    10450
+   ],
+   "v2": [
+    59184,
+    5225
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "tests/test_apps/blueprintapp/apps/admin/__init__.py",
+     "Blueprint"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/test_async.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"tests/test_async.py\", \"Blueprint\"]]",
+   "v1": [
+    118159,
+    10450
+   ],
+   "v2": [
+    59184,
+    5225
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "tests/test_async.py",
+     "Blueprint"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "symbols('examples/celery/src/task_app/views.py', 'Blueprint')",
+  "key": "[\"symbols\", [\"examples/celery/src/task_app/views.py\", \"Blueprint\"]]",
+  "provenance": "`examples/celery/src/task_app/views.py` had a matching line (step 6); its outline names every `Blueprint` import exactly",
+  "v2": [
+   59184,
+   5225
+  ]
+ },
+ "forecast": {
+  "ok": [
+   49,
+   50
+  ],
+  "cap": [
+   1,
+   50
+  ]
+ },
+ "plan": {
+  "ok": "[\"symbols\", [\"examples/tutorial/flaskr/auth.py\", \"Blueprint\"]]",
+  "cap": "[\"symbols\", [\"examples/tutorial/flaskr/auth.py\", \"Blueprint\"]]"
+ },
+ "adherence": {
+  "planned": "[\"symbols\", [\"examples/celery/src/task_app/views.py\", \"Blueprint\"]]",
+  "status": "followed"
+ },
+ "facts": [
+  {
+   "kind": "outline",
+   "step": 9,
+   "path": "examples/celery/src/task_app/views.py",
+   "filter": "Blueprint",
+   "header": {
+    "lines": 39,
+    "dynamic": false,
+    "all_status": "none",
+    "all_line": null
+   },
+   "bindings": [
+    {
+     "module": "examples/celery/src/task_app/views.py",
+     "name": "Blueprint",
+     "line": 2,
+     "kind": "from",
+     "src": "flask",
+     "src_name": "Blueprint",
+     "conditional": false,
+     "col": 0
+    }
+   ],
+   "complete": true
+  }
+ ],
+ "goal_state"
+```
+</details>
+
+## Step 10
+
+In `examples/celery/src/task_app/views.py`, `Blueprint` has exactly one binding: line 2 imports it as `Blueprint` from `flask`. No dynamic namespace tricks, no `__all__`.
+
+Candidate modules so far: 11; statements confirmed: 4, ruled out: 1, modules with no such import: 0, pending: 6. import coverage complete; star coverage complete. Latest ruled out: `src/flask/blueprints.py`:10, `.sansio.blueprints` resolves `Blueprint` to src/flask/sansio/blueprints.py:119.
+
+Still to settle: outline `examples/tutorial/flaskr/auth.py` for its `Blueprint` imports; outline `examples/tutorial/flaskr/blog.py` for its `Blueprint` imports; outline `src/flask/debughelpers.py` for its `Blueprint` imports; outline `src/flask/sansio/app.py` for its `Blueprint` imports; and 2 more.
+
+Next: outline `examples/tutorial/flaskr/auth.py` filtered to `Blueprint`, because `examples/tutorial/flaskr/auth.py` had a matching line (step 6); its outline names every `Blueprint` import exactly. I expect: the outline lists its imports of the name (near certain); a capped outline means filtering by name (under 5%). The alternative, outline `examples/tutorial/flaskr/blog.py` filtered to `Blueprint`, scores the same; the seed broke the tie. Plan by outcome: ok: outline `examples/tutorial/flaskr/blog.py` filtered to `Blueprint`; cap: outline `examples/tutorial/flaskr/blog.py` filtered to `Blueprint`.
+
+**Call:** `symbols('examples/tutorial/flaskr/auth.py', 'Blueprint')`
+
+**Response**: outcome `ok`
+
+```
+module examples/tutorial/flaskr/auth.py lines=117 dynamic=no all=none
+3 from Blueprint <- flask Blueprint
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "examples/tutorial/flaskr/auth.py",
+    "Blueprint"
+   ],
+   "desc": "outline `examples/tutorial/flaskr/auth.py` for its `Blueprint` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "examples/tutorial/flaskr/blog.py",
+    "Blueprint"
+   ],
+   "desc": "outline `examples/tutorial/flaskr/blog.py` for its `Blueprint` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "src/flask/debughelpers.py",
+    "Blueprint"
+   ],
+   "desc": "outline `src/flask/debughelpers.py` for its `Blueprint` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "src/flask/sansio/app.py",
+    "Blueprint"
+   ],
+   "desc": "outline `src/flask/sansio/app.py` for its `Blueprint` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "tests/test_apps/blueprintapp/apps/admin/__init__.py",
+    "Blueprint"
+   ],
+   "desc": "outline `tests/test_apps/blueprintapp/apps/admin/__init__.py` for its `Blueprint` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "tests/test_async.py",
+    "Blueprint"
+   ],
+   "desc": "outline `tests/test_async.py` for its `Blueprint` imports"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "symbols('examples/tutorial/flaskr/auth.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"examples/tutorial/flaskr/auth.py\", \"Blueprint\"]]",
+   "v1": [
+    101309,
+    10450
+   ],
+   "v2": [
+    50759,
+    5225
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "examples/tutorial/flaskr/auth.py",
+     "Blueprint"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('examples/tutorial/flaskr/blog.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"examples/tutorial/flaskr/blog.py\", \"Blueprint\"]]",
+   "v1": [
+    101309,
+    10450
+   ],
+   "v2": [
+    50759,
+    5225
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "examples/tutorial/flaskr/blog.py",
+     "Blueprint"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/flask/debughelpers.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"src/flask/debughelpers.py\", \"Blueprint\"]]",
+   "v1": [
+    101309,
+    10450
+   ],
+   "v2": [
+    50759,
+    5225
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "src/flask/debughelpers.py",
+     "Blueprint"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/flask/sansio/app.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"src/flask/sansio/app.py\", \"Blueprint\"]]",
+   "v1": [
+    101309,
+    10450
+   ],
+   "v2": [
+    50759,
+    5225
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "src/flask/sansio/app.py",
+     "Blueprint"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/test_apps/blueprintapp/apps/admin/__init__.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"tests/test_apps/blueprintapp/apps/admin/__init__.py\", \"Blueprint\"]]",
+   "v1": [
+    101309,
+    10450
+   ],
+   "v2": [
+    50759,
+    5225
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "tests/test_apps/blueprintapp/apps/admin/__init__.py",
+     "Blueprint"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/test_async.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"tests/test_async.py\", \"Blueprint\"]]",
+   "v1": [
+    101309,
+    10450
+   ],
+   "v2": [
+    50759,
+    5225
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "tests/test_async.py",
+     "Blueprint"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "symbols('examples/tutorial/flaskr/auth.py', 'Blueprint')",
+  "key": "[\"symbols\", [\"examples/tutorial/flaskr/auth.py\", \"Blueprint\"]]",
+  "provenance": "`examples/tutorial/flaskr/auth.py` had a matching line (step 6); its outline names every `Blueprint` import exactly",
+  "v2": [
+   50759,
+   5225
+  ]
+ },
+ "forecast": {
+  "ok": [
+   49,
+   50
+  ],
+  "cap": [
+   1,
+   50
+  ]
+ },
+ "plan": {
+  "ok": "[\"symbols\", [\"examples/tutorial/flaskr/blog.py\", \"Blueprint\"]]",
+  "cap": "[\"symbols\", [\"examples/tutorial/flaskr/blog.py\", \"Blueprint\"]]"
+ },
+ "adherence": {
+  "planned": "[\"symbols\", [\"examples/tutorial/flaskr/auth.py\", \"Blueprint\"]]",
+  "status": "followed"
+ },
+ "facts": [
+  {
+   "kind": "outline",
+   "step": 10,
+   "path": "examples/tutorial/flaskr/auth.py",
+   "filter": "Blueprint",
+   "header": {
+    "lines": 117,
+    "dynamic": false,
+    "all_status": "none",
+    "all_line": null
+   },
+   "bindings": [
+    {
+     "module": "examples/tutorial/flaskr/auth.py",
+     "name": "Blueprint",
+     "line": 3,
+     "kind": "from",
+     "src": "flask",
+     "src_name": "Blueprint",
+     "conditional": false,
+     "col": 0
+    }
+   ],
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "verdicts": [
+   [
+    "examples/celery/src/task_app/views.py",
+    2,
+    "in",
+    "`flask` resolves `Blueprint` to the target"
+   ],
+   [
+    "examples/tutorial/flaskr/auth.py",
+    3,
+    "in",
+    "`flask` resolves `Blueprint` to the target"
+   ],
+   [
+    "examples/tutorial/flaskr/blog.py",
+    0,
+    "pending",
+    "outline not yet seen"
+   ],
+   [
+    "src/flask/__init__.py",
+    3,
+    "in",
+    "`.blueprints` resolves `Blueprint` to the target"
+   ],
+   [
+    "src/flask/blueprints.py",
+    10,
+    "out",
+    "`.sansio.blueprints` resolves `Blueprint` to src/flask/sansio/blueprints.py:119"
+   ],
+   [
+    "src/flask/debughelpers.py",
+    0,
+    "pending",
+    "outline not yet seen"
+   ],
+   [
+    "src/flas
+```
+</details>
+
+## Step 11
+
+In `examples/tutorial/flaskr/auth.py`, `Blueprint` has exactly one binding: line 3 imports it as `Blueprint` from `flask`. No dynamic namespace tricks, no `__all__`.
+
+Candidate modules so far: 11; statements confirmed: 5, ruled out: 1, modules with no such import: 0, pending: 5. import coverage complete; star coverage complete. Latest ruled out: `src/flask/blueprints.py`:10, `.sansio.blueprints` resolves `Blueprint` to src/flask/sansio/blueprints.py:119.
+
+Outstanding: outline `examples/tutorial/flaskr/blog.py` for its `Blueprint` imports; outline `src/flask/debughelpers.py` for its `Blueprint` imports; outline `src/flask/sansio/app.py` for its `Blueprint` imports; outline `tests/test_apps/blueprintapp/apps/admin/__init__.py` for its `Blueprint` imports; and 1 more.
+
+Next: outline `examples/tutorial/flaskr/blog.py` filtered to `Blueprint`, because `examples/tutorial/flaskr/blog.py` had a matching line (step 6); its outline names every `Blueprint` import exactly. I expect: the outline lists its imports of the name (near certain); a capped outline means filtering by name (under 5%). The alternative, outline `src/flask/debughelpers.py` filtered to `Blueprint`, scores the same; the seed broke the tie. Plan by outcome: ok: outline `src/flask/debughelpers.py` filtered to `Blueprint`; cap: outline `src/flask/debughelpers.py` filtered to `Blueprint`.
+
+**Call:** `symbols('examples/tutorial/flaskr/blog.py', 'Blueprint')`
+
+**Response**: outcome `ok`
+
+```
+module examples/tutorial/flaskr/blog.py lines=126 dynamic=no all=none
+1 from Blueprint <- flask Blueprint
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "examples/tutorial/flaskr/blog.py",
+    "Blueprint"
+   ],
+   "desc": "outline `examples/tutorial/flaskr/blog.py` for its `Blueprint` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "src/flask/debughelpers.py",
+    "Blueprint"
+   ],
+   "desc": "outline `src/flask/debughelpers.py` for its `Blueprint` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "src/flask/sansio/app.py",
+    "Blueprint"
+   ],
+   "desc": "outline `src/flask/sansio/app.py` for its `Blueprint` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "tests/test_apps/blueprintapp/apps/admin/__init__.py",
+    "Blueprint"
+   ],
+   "desc": "outline `tests/test_apps/blueprintapp/apps/admin/__init__.py` for its `Blueprint` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "tests/test_async.py",
+    "Blueprint"
+   ],
+   "desc": "outline `tests/test_async.py` for its `Blueprint` imports"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "symbols('examples/tutorial/flaskr/blog.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"examples/tutorial/flaskr/blog.py\", \"Blueprint\"]]",
+   "v1": [
+    84459,
+    10450
+   ],
+   "v2": [
+    42334,
+    5225
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "examples/tutorial/flaskr/blog.py",
+     "Blueprint"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/flask/debughelpers.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"src/flask/debughelpers.py\", \"Blueprint\"]]",
+   "v1": [
+    84459,
+    10450
+   ],
+   "v2": [
+    42334,
+    5225
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "src/flask/debughelpers.py",
+     "Blueprint"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/flask/sansio/app.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"src/flask/sansio/app.py\", \"Blueprint\"]]",
+   "v1": [
+    84459,
+    10450
+   ],
+   "v2": [
+    42334,
+    5225
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "src/flask/sansio/app.py",
+     "Blueprint"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/test_apps/blueprintapp/apps/admin/__init__.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"tests/test_apps/blueprintapp/apps/admin/__init__.py\", \"Blueprint\"]]",
+   "v1": [
+    84459,
+    10450
+   ],
+   "v2": [
+    42334,
+    5225
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "tests/test_apps/blueprintapp/apps/admin/__init__.py",
+     "Blueprint"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/test_async.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"tests/test_async.py\", \"Blueprint\"]]",
+   "v1": [
+    84459,
+    10450
+   ],
+   "v2": [
+    42334,
+    5225
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "tests/test_async.py",
+     "Blueprint"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "symbols('examples/tutorial/flaskr/blog.py', 'Blueprint')",
+  "key": "[\"symbols\", [\"examples/tutorial/flaskr/blog.py\", \"Blueprint\"]]",
+  "provenance": "`examples/tutorial/flaskr/blog.py` had a matching line (step 6); its outline names every `Blueprint` import exactly",
+  "v2": [
+   42334,
+   5225
+  ]
+ },
+ "forecast": {
+  "ok": [
+   49,
+   50
+  ],
+  "cap": [
+   1,
+   50
+  ]
+ },
+ "plan": {
+  "ok": "[\"symbols\", [\"src/flask/debughelpers.py\", \"Blueprint\"]]",
+  "cap": "[\"symbols\", [\"src/flask/debughelpers.py\", \"Blueprint\"]]"
+ },
+ "adherence": {
+  "planned": "[\"symbols\", [\"examples/tutorial/flaskr/blog.py\", \"Blueprint\"]]",
+  "status": "followed"
+ },
+ "facts": [
+  {
+   "kind": "outline",
+   "step": 11,
+   "path": "examples/tutorial/flaskr/blog.py",
+   "filter": "Blueprint",
+   "header": {
+    "lines": 126,
+    "dynamic": false,
+    "all_status": "none",
+    "all_line": null
+   },
+   "bindings": [
+    {
+     "module": "examples/tutorial/flaskr/blog.py",
+     "name": "Blueprint",
+     "line": 1,
+     "kind": "from",
+     "src": "flask",
+     "src_name": "Blueprint",
+     "conditional": false,
+     "col": 0
+    }
+   ],
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "verdicts": [
+   [
+    "examples/celery/src/task_app/views.py",
+    2,
+    "in",
+    "`flask` resolves `Blueprint` to the target"
+   ],
+   [
+    "examples/tutorial/flaskr/auth.py",
+    3,
+    "in",
+    "`flask` resolves `Blueprint` to the target"
+   ],
+   [
+    "examples/tutorial/flaskr/blog.py",
+    1,
+    "in",
+    "`flask` resolves `Blueprint` to the target"
+   ],
+   [
+    "src/flask/__init__.py",
+    3,
+    "in",
+    "`.blueprints` resolves `Blueprint` to the target"
+   ],
+   [
+    "src/flask/blueprints.py",
+    10,
+    "out",
+    "`.sansio.blueprints` resolves `Blueprint` to src/flask/sansio/blueprints.py:119"
+   ],
+   [
+    "src/flask/debughelpers.py",
+    0,
+    "pending",
+    "outline not yet seen"
+   ],
+   [
+    "src/flask/sansio/app.py",
+    0,
+    "pending",
+    "outline not yet seen"
+   ],
+   [
+    "tests/test_apps/blueprintapp/apps/admin/__init__.py",
+    0,
+    "pending",
+    "outline not yet seen"
+   ],
+   [
+    "tests/test_apps/blueprintapp/apps/frontend/__init__.py",
+    1,
+    "in",
+    "`flask` resolves `Blueprint` to the target"
+   ],
+   [
+    "tests/test_async.py",
+    0,
+    "pending",
+    "outline not yet seen"
+   ],
+   [
+    "tests/test_cli.py",
+    16,
+    "in",
+    "`flask` resolves `Blueprint` to the target"
+   ]
+  ],
+  "uncovered": {
+   "IMPORT": [],
+   "STAR": []
+  }
+ }
+}
+```
+</details>
+
+## Step 12
+
+In `examples/tutorial/flaskr/blog.py`, `Blueprint` has exactly one binding: line 1 imports it as `Blueprint` from `flask`. No dynamic namespace tricks, no `__all__`.
+
+Candidate modules so far: 11; statements confirmed: 6, ruled out: 1, modules with no such import: 0, pending: 4. import coverage complete; star coverage complete. Latest ruled out: `src/flask/blueprints.py`:10, `.sansio.blueprints` resolves `Blueprint` to src/flask/sansio/blueprints.py:119.
+
+Open: outline `src/flask/debughelpers.py` for its `Blueprint` imports; outline `src/flask/sansio/app.py` for its `Blueprint` imports; outline `tests/test_apps/blueprintapp/apps/admin/__init__.py` for its `Blueprint` imports; outline `tests/test_async.py` for its `Blueprint` imports.
+
+Next: outline `src/flask/debughelpers.py` filtered to `Blueprint`, because `src/flask/debughelpers.py` had a matching line (step 6); its outline names every `Blueprint` import exactly. I expect: the outline lists its imports of the name (near certain); a capped outline means filtering by name (under 5%). The alternative, outline `src/flask/sansio/app.py` filtered to `Blueprint`, scores the same; the seed broke the tie. Plan by outcome: ok: outline `src/flask/sansio/app.py` filtered to `Blueprint`; cap: outline `src/flask/sansio/app.py` filtered to `Blueprint`.
+
+**Call:** `symbols('src/flask/debughelpers.py', 'Blueprint')`
+
+**Response**: outcome `ok`
+
+```
+module src/flask/debughelpers.py lines=180 dynamic=no all=none
+8 from Blueprint <- .blueprints Blueprint
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "src/flask/debughelpers.py",
+    "Blueprint"
+   ],
+   "desc": "outline `src/flask/debughelpers.py` for its `Blueprint` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "src/flask/sansio/app.py",
+    "Blueprint"
+   ],
+   "desc": "outline `src/flask/sansio/app.py` for its `Blueprint` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "tests/test_apps/blueprintapp/apps/admin/__init__.py",
+    "Blueprint"
+   ],
+   "desc": "outline `tests/test_apps/blueprintapp/apps/admin/__init__.py` for its `Blueprint` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "tests/test_async.py",
+    "Blueprint"
+   ],
+   "desc": "outline `tests/test_async.py` for its `Blueprint` imports"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "symbols('src/flask/debughelpers.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"src/flask/debughelpers.py\", \"Blueprint\"]]",
+   "v1": [
+    67609,
+    10450
+   ],
+   "v2": [
+    33909,
+    5225
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "src/flask/debughelpers.py",
+     "Blueprint"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/flask/sansio/app.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"src/flask/sansio/app.py\", \"Blueprint\"]]",
+   "v1": [
+    67609,
+    10450
+   ],
+   "v2": [
+    33909,
+    5225
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "src/flask/sansio/app.py",
+     "Blueprint"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/test_apps/blueprintapp/apps/admin/__init__.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"tests/test_apps/blueprintapp/apps/admin/__init__.py\", \"Blueprint\"]]",
+   "v1": [
+    67609,
+    10450
+   ],
+   "v2": [
+    33909,
+    5225
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "tests/test_apps/blueprintapp/apps/admin/__init__.py",
+     "Blueprint"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/test_async.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"tests/test_async.py\", \"Blueprint\"]]",
+   "v1": [
+    67609,
+    10450
+   ],
+   "v2": [
+    33909,
+    5225
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "tests/test_async.py",
+     "Blueprint"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "symbols('src/flask/debughelpers.py', 'Blueprint')",
+  "key": "[\"symbols\", [\"src/flask/debughelpers.py\", \"Blueprint\"]]",
+  "provenance": "`src/flask/debughelpers.py` had a matching line (step 6); its outline names every `Blueprint` import exactly",
+  "v2": [
+   33909,
+   5225
+  ]
+ },
+ "forecast": {
+  "ok": [
+   49,
+   50
+  ],
+  "cap": [
+   1,
+   50
+  ]
+ },
+ "plan": {
+  "ok": "[\"symbols\", [\"src/flask/sansio/app.py\", \"Blueprint\"]]",
+  "cap": "[\"symbols\", [\"src/flask/sansio/app.py\", \"Blueprint\"]]"
+ },
+ "adherence": {
+  "planned": "[\"symbols\", [\"src/flask/debughelpers.py\", \"Blueprint\"]]",
+  "status": "followed"
+ },
+ "facts": [
+  {
+   "kind": "outline",
+   "step": 12,
+   "path": "src/flask/debughelpers.py",
+   "filter": "Blueprint",
+   "header": {
+    "lines": 180,
+    "dynamic": false,
+    "all_status": "none",
+    "all_line": null
+   },
+   "bindings": [
+    {
+     "module": "src/flask/debughelpers.py",
+     "name": "Blueprint",
+     "line": 8,
+     "kind": "from",
+     "src": ".blueprints",
+     "src_name": "Blueprint",
+     "conditional": false,
+     "col": 0
+    }
+   ],
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "verdicts": [
+   [
+    "examples/celery/src/task_app/views.py",
+    2,
+    "in",
+    "`flask` resolves `Blueprint` to the target"
+   ],
+   [
+    "examples/tutorial/flaskr/auth.py",
+    3,
+    "in",
+    "`flask` resolves `Blueprint` to the target"
+   ],
+   [
+    "examples/tutorial/flaskr/blog.py",
+    1,
+    "in",
+    "`flask` resolves `Blueprint` to the target"
+   ],
+   [
+    "src/flask/__init__.py",
+    3,
+    "in",
+    "`.blueprints` resolves `Blueprint` to the target"
+   ],
+   [
+    "src/flask/blueprints.py",
+    10,
+    "out",
+    "`.sansio.blueprints` resolves `Blueprint` to src/flask/sansio/blueprints.py:119"
+   ],
+   [
+    "src/flask/debughelpers.py",
+    8,
+    "in",
+    "`.blueprints` resolves `Blueprint` to the target"
+   ],
+   [
+    "src/flask/sansio/app.py",
+    0,
+    "pending",
+    "outline not yet seen"
+   ],
+   [
+    "tests/test_apps/blueprintapp/apps/admin/__init__.py",
+    0,
+    "pending",
+    "outline not yet seen"
+   ],
+   [
+    "tests/test_apps/blueprintapp/apps/frontend/__init__.py",
+    1,
+    "in",
+    "`flask` resolves `Blueprint` to the target"
+   ],
+   [
+    "tests/test_async.py",
+    0,
+    "pending",
+    "outline not yet seen"
+   ],
+   [
+    "tests/test_cli.py",
+    16,
+    "in",
+    "`flask` resolves `Blueprint` to the target"
+   ]
+  ],
+  "uncovered": {
+   "IMPORT": [],
+   "STAR": []
+  }
+ }
+}
+```
+</details>
+
+## Step 13
+
+In `src/flask/debughelpers.py`, `Blueprint` has exactly one binding: line 8 imports it as `Blueprint` from `.blueprints`. No dynamic namespace tricks, no `__all__`.
+
+Candidate modules so far: 11; statements confirmed: 7, ruled out: 1, modules with no such import: 0, pending: 3. import coverage complete; star coverage complete. Latest ruled out: `src/flask/blueprints.py`:10, `.sansio.blueprints` resolves `Blueprint` to src/flask/sansio/blueprints.py:119.
+
+Outstanding: outline `src/flask/sansio/app.py` for its `Blueprint` imports; outline `tests/test_apps/blueprintapp/apps/admin/__init__.py` for its `Blueprint` imports; outline `tests/test_async.py` for its `Blueprint` imports.
+
+Next: outline `src/flask/sansio/app.py` filtered to `Blueprint`, because `src/flask/sansio/app.py` had a matching line (step 6); its outline names every `Blueprint` import exactly. I expect: the outline lists its imports of the name (near certain); a capped outline means filtering by name (under 5%). The alternative, outline `tests/test_apps/blueprintapp/apps/admin/__init__.py` filtered to `Blueprint`, scores the same; the seed broke the tie. Plan by outcome: ok: outline `tests/test_apps/blueprintapp/apps/admin/__init__.py` filtered to `Blueprint`; cap: outline `tests/test_apps/blueprintapp/apps/admin/__init__.py` filtered to `Blueprint`.
+
+**Call:** `symbols('src/flask/sansio/app.py', 'Blueprint')`
+
+**Response**: outcome `ok`
+
+```
+module src/flask/sansio/app.py lines=1014 dynamic=no all=none
+41 from Blueprint <- .blueprints Blueprint
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "src/flask/sansio/app.py",
+    "Blueprint"
+   ],
+   "desc": "outline `src/flask/sansio/app.py` for its `Blueprint` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "tests/test_apps/blueprintapp/apps/admin/__init__.py",
+    "Blueprint"
+   ],
+   "desc": "outline `tests/test_apps/blueprintapp/apps/admin/__init__.py` for its `Blueprint` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "tests/test_async.py",
+    "Blueprint"
+   ],
+   "desc": "outline `tests/test_async.py` for its `Blueprint` imports"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "symbols('src/flask/sansio/app.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"src/flask/sansio/app.py\", \"Blueprint\"]]",
+   "v1": [
+    50759,
+    10450
+   ],
+   "v2": [
+    25484,
+    5225
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "src/flask/sansio/app.py",
+     "Blueprint"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/test_apps/blueprintapp/apps/admin/__init__.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"tests/test_apps/blueprintapp/apps/admin/__init__.py\", \"Blueprint\"]]",
+   "v1": [
+    50759,
+    10450
+   ],
+   "v2": [
+    25484,
+    5225
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "tests/test_apps/blueprintapp/apps/admin/__init__.py",
+     "Blueprint"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/test_async.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"tests/test_async.py\", \"Blueprint\"]]",
+   "v1": [
+    50759,
+    10450
+   ],
+   "v2": [
+    25484,
+    5225
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "tests/test_async.py",
+     "Blueprint"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "symbols('src/flask/sansio/app.py', 'Blueprint')",
+  "key": "[\"symbols\", [\"src/flask/sansio/app.py\", \"Blueprint\"]]",
+  "provenance": "`src/flask/sansio/app.py` had a matching line (step 6); its outline names every `Blueprint` import exactly",
+  "v2": [
+   25484,
+   5225
+  ]
+ },
+ "forecast": {
+  "ok": [
+   49,
+   50
+  ],
+  "cap": [
+   1,
+   50
+  ]
+ },
+ "plan": {
+  "ok": "[\"symbols\", [\"tests/test_apps/blueprintapp/apps/admin/__init__.py\", \"Blueprint\"]]",
+  "cap": "[\"symbols\", [\"tests/test_apps/blueprintapp/apps/admin/__init__.py\", \"Blueprint\"]]"
+ },
+ "adherence": {
+  "planned": "[\"symbols\", [\"src/flask/sansio/app.py\", \"Blueprint\"]]",
+  "status": "followed"
+ },
+ "facts": [
+  {
+   "kind": "outline",
+   "step": 13,
+   "path": "src/flask/sansio/app.py",
+   "filter": "Blueprint",
+   "header": {
+    "lines": 1014,
+    "dynamic": false,
+    "all_status": "none",
+    "all_line": null
+   },
+   "bindings": [
+    {
+     "module": "src/flask/sansio/app.py",
+     "name": "Blueprint",
+     "line": 41,
+     "kind": "from",
+     "src": ".blueprints",
+     "src_name": "Blueprint",
+     "conditional": false,
+     "col": 0
+    }
+   ],
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "verdicts": [
+   [
+    "examples/celery/src/task_app/views.py",
+    2,
+    "in",
+    "`flask` resolves `Blueprint` to the target"
+   ],
+   [
+    "examples/tutorial/flaskr/auth.py",
+    3,
+    "in",
+    "`flask` resolves `Blueprint` to the target"
+   ],
+   [
+    "examples/tutorial/flaskr/blog.py",
+    1,
+    "in",
+    "`flask` resolves `Blueprint` to the target"
+   ],
+   [
+    "src/flask/__init__.py",
+    3,
+    "in",
+    "`.blueprints` resolves `Blueprint` to the target"
+   ],
+   [
+    "src/flask/blueprints.py",
+    10,
+    "out",
+    "`.sansio.blueprints` resolves `Blueprint` to src/flask/sansio/blueprints.py:119"
+   ],
+   [
+    "src/flask/debughelpers.py",
+    8,
+    "in",
+    "`.blueprints` resolves `Blueprint` to the target"
+   ],
+   [
+    "src/flask/sansio/app.py",
+    41,
+    "out",
+    "`.blueprints` resolves `Blueprint` to src/flask/sansio/blueprints.py:119"
+   ],
+   [
+    "tests/test_apps/blueprintapp/apps/admin/__init__.py",
+    0,
+    "pending",
+    "outline not yet seen"
+   ],
+   [
+    "tests/test_apps/blueprintapp/apps/frontend/__init__.py",
+    1,
+    "in",
+    "`flask` resolves `Blueprint` to the target"
+   ],
+   [
+    "tests/test_async.py",
+    0,
+    "pending",
+    "outline not yet seen"
+   ],
+   [
+    "tests/test_cli.py",
+    16,
+    "in",
+    "`flask` resolves `Blueprint` to the target"
+   ]
+  ],
+  "uncovered": {
+   "IMPORT": [],
+   "STAR": []
+  }
+ }
+}
+```
+</details>
+
+## Step 14
+
+In `src/flask/sansio/app.py`, `Blueprint` has exactly one binding: line 41 imports it as `Blueprint` from `.blueprints`. No dynamic namespace tricks, no `__all__`.
+
+Candidate modules so far: 11; statements confirmed: 7, ruled out: 2, modules with no such import: 0, pending: 2. import coverage complete; star coverage complete. Latest ruled out: `src/flask/sansio/app.py`:41, `.blueprints` resolves `Blueprint` to src/flask/sansio/blueprints.py:119.
+
+Open: outline `tests/test_apps/blueprintapp/apps/admin/__init__.py` for its `Blueprint` imports; outline `tests/test_async.py` for its `Blueprint` imports.
+
+Next: outline `tests/test_apps/blueprintapp/apps/admin/__init__.py` filtered to `Blueprint`, because `tests/test_apps/blueprintapp/apps/admin/__init__.py` had a matching line (step 6); its outline names every `Blueprint` import exactly. I expect: the outline lists its imports of the name (near certain); a capped outline means filtering by name (under 5%). The alternative, outline `tests/test_async.py` filtered to `Blueprint`, scores the same; the seed broke the tie. Plan by outcome: ok: outline `tests/test_async.py` filtered to `Blueprint`; cap: outline `tests/test_async.py` filtered to `Blueprint`.
+
+**Call:** `symbols('tests/test_apps/blueprintapp/apps/admin/__init__.py', 'Blueprint')`
+
+**Response**: outcome `ok`
+
+```
+module tests/test_apps/blueprintapp/apps/admin/__init__.py lines=21 dynamic=no all=none
+1 from Blueprint <- flask Blueprint
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "tests/test_apps/blueprintapp/apps/admin/__init__.py",
+    "Blueprint"
+   ],
+   "desc": "outline `tests/test_apps/blueprintapp/apps/admin/__init__.py` for its `Blueprint` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "tests/test_async.py",
+    "Blueprint"
+   ],
+   "desc": "outline `tests/test_async.py` for its `Blueprint` imports"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "symbols('tests/test_apps/blueprintapp/apps/admin/__init__.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"tests/test_apps/blueprintapp/apps/admin/__init__.py\", \"Blueprint\"]]",
+   "v1": [
+    33909,
+    10450
+   ],
+   "v2": [
+    17059,
+    5225
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "tests/test_apps/blueprintapp/apps/admin/__init__.py",
+     "Blueprint"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/test_async.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"tests/test_async.py\", \"Blueprint\"]]",
+   "v1": [
+    33909,
+    10450
+   ],
+   "v2": [
+    17059,
+    5225
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "tests/test_async.py",
+     "Blueprint"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "symbols('tests/test_apps/blueprintapp/apps/admin/__init__.py', 'Blueprint')",
+  "key": "[\"symbols\", [\"tests/test_apps/blueprintapp/apps/admin/__init__.py\", \"Blueprint\"]]",
+  "provenance": "`tests/test_apps/blueprintapp/apps/admin/__init__.py` had a matching line (step 6); its outline names every `Blueprint` import exactly",
+  "v2": [
+   17059,
+   5225
+  ]
+ },
+ "forecast": {
+  "ok": [
+   49,
+   50
+  ],
+  "cap": [
+   1,
+   50
+  ]
+ },
+ "plan": {
+  "ok": "[\"symbols\", [\"tests/test_async.py\", \"Blueprint\"]]",
+  "cap": "[\"symbols\", [\"tests/test_async.py\", \"Blueprint\"]]"
+ },
+ "adherence": {
+  "planned": "[\"symbols\", [\"tests/test_apps/blueprintapp/apps/admin/__init__.py\", \"Blueprint\"]]",
+  "status": "followed"
+ },
+ "facts": [
+  {
+   "kind": "outline",
+   "step": 14,
+   "path": "tests/test_apps/blueprintapp/apps/admin/__init__.py",
+   "filter": "Blueprint",
+   "header": {
+    "lines": 21,
+    "dynamic": false,
+    "all_status": "none",
+    "all_line": null
+   },
+   "bindings": [
+    {
+     "module": "tests/test_apps/blueprintapp/apps/admin/__init__.py",
+     "name": "Blueprint",
+     "line": 1,
+     "kind": "from",
+     "src": "flask",
+     "src_name": "Blueprint",
+     "conditional": false,
+     "col": 0
+    }
+   ],
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "verdicts": [
+   [
+    "examples/celery/src/task_app/views.py",
+    2,
+    "in",
+    "`flask` resolves `Blueprint` to the target"
+   ],
+   [
+    "examples/tutorial/flaskr/auth.py",
+    3,
+    "in",
+    "`flask` resolves `Blueprint` to the target"
+   ],
+   [
+    "examples/tutorial/flaskr/blog.py",
+    1,
+    "in",
+    "`flask` resolves `Blueprint` to the target"
+   ],
+   [
+    "src/flask/__init__.py",
+    3,
+    "in",
+    "`.blueprints` resolves `Blueprint` to the target"
+   ],
+   [
+    "src/flask/blueprints.py",
+    10,
+    "out",
+    "`.sansio.blueprints` resolves `Blueprint` to src/flask/sansio/blueprints.py:119"
+   ],
+   [
+    "src/flask/debughelpers.py",
+    8,
+    "in",
+    "`.blueprints` resolves `Blueprint` to the target"
+   ],
+   [
+    "src/flask/sansio/app.py",
+    41,
+    "out",
+    "`.blueprints` resolves `Blueprint` to src/flask/sansio/blueprints.py:119"
+   ],
+   [
+    "tests/test_apps/blueprintapp/apps/admin/__init__.py",
+    1,
+    "in",
+    "`flask` resolves `Blueprint` to the target"
+   ],
+   [
+    "tests/test_apps/blueprintapp/apps/frontend/__init__.py",
+    1,
+    "in",
+    "`flask` resolves `Blueprint` to the target"
+   ],
+   [
+    "tests/test_async.py",
+    0,
+    "pending",
+    "outline not yet seen"
+   ],
+   [
+    "tests/test_cli.py",
+    16,
+    "in",
+    "`flask` resolves `Blueprint` to the target"
+   ]
+  ],
+  "uncovered": {
+   "IMPORT": [],
+   "STAR": []
+  }
+ }
+}
+```
+</details>
+
+## Step 15
+
+In `tests/test_apps/blueprintapp/apps/admin/__init__.py`, `Blueprint` has exactly one binding: line 1 imports it as `Blueprint` from `flask`. No dynamic namespace tricks, no `__all__`.
+
+Candidate modules so far: 11; statements confirmed: 8, ruled out: 2, modules with no such import: 0, pending: 1. import coverage complete; star coverage complete. Latest ruled out: `src/flask/sansio/app.py`:41, `.blueprints` resolves `Blueprint` to src/flask/sansio/blueprints.py:119.
+
+Still to settle: outline `tests/test_async.py` for its `Blueprint` imports.
+
+Next: outline `tests/test_async.py` filtered to `Blueprint`, because `tests/test_async.py` had a matching line (step 6); its outline names every `Blueprint` import exactly. I expect: the outline lists its imports of the name (near certain); a capped outline means filtering by name (under 5%). Plan by outcome: ok: resolve the sources its import statements name; cap: work the items it opens.
+
+**Call:** `symbols('tests/test_async.py', 'Blueprint')`
+
+**Response**: outcome `ok`
+
+```
+module tests/test_async.py lines=146 dynamic=no all=none
+5 from Blueprint <- flask Blueprint
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "tests/test_async.py",
+    "Blueprint"
+   ],
+   "desc": "outline `tests/test_async.py` for its `Blueprint` imports"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "symbols('tests/test_async.py', 'Blueprint')",
+   "key": "[\"symbols\", [\"tests/test_async.py\", \"Blueprint\"]]",
+   "v1": [
+    17059,
+    10450
+   ],
+   "v2": [
+    17059,
+    10450
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "tests/test_async.py",
+     "Blueprint"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "symbols('tests/test_async.py', 'Blueprint')",
+  "key": "[\"symbols\", [\"tests/test_async.py\", \"Blueprint\"]]",
+  "provenance": "`tests/test_async.py` had a matching line (step 6); its outline names every `Blueprint` import exactly",
+  "v2": [
+   17059,
+   10450
+  ]
+ },
+ "forecast": {
+  "ok": [
+   49,
+   50
+  ],
+  "cap": [
+   1,
+   50
+  ]
+ },
+ "plan": {
+  "ok": "continue",
+  "cap": "continue"
+ },
+ "adherence": {
+  "planned": "[\"symbols\", [\"tests/test_async.py\", \"Blueprint\"]]",
+  "status": "followed"
+ },
+ "facts": [
+  {
+   "kind": "outline",
+   "step": 15,
+   "path": "tests/test_async.py",
+   "filter": "Blueprint",
+   "header": {
+    "lines": 146,
+    "dynamic": false,
+    "all_status": "none",
+    "all_line": null
+   },
+   "bindings": [
+    {
+     "module": "tests/test_async.py",
+     "name": "Blueprint",
+     "line": 5,
+     "kind": "from",
+     "src": "flask",
+     "src_name": "Blueprint",
+     "conditional": false,
+     "col": 0
+    }
+   ],
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "verdicts": [
+   [
+    "examples/celery/src/task_app/views.py",
+    2,
+    "in",
+    "`flask` resolves `Blueprint` to the target"
+   ],
+   [
+    "examples/tutorial/flaskr/auth.py",
+    3,
+    "in",
+    "`flask` resolves `Blueprint` to the target"
+   ],
+   [
+    "examples/tutorial/flaskr/blog.py",
+    1,
+    "in",
+    "`flask` resolves `Blueprint` to the target"
+   ],
+   [
+    "src/flask/__init__.py",
+    3,
+    "in",
+    "`.blueprints` resolves `Blueprint` to the target"
+   ],
+   [
+    "src/flask/blueprints.py",
+    10,
+    "out",
+    "`.sansio.blueprints` resolves `Blueprint` to src/flask/sansio/blueprints.py:119"
+   ],
+   [
+    "src/flask/debughelpers.py",
+    8,
+    "in",
+    "`.blueprints` resolves `Blueprint` to the target"
+   ],
+   [
+    "src/flask/sansio/app.py",
+    41,
+    "out",
+    "`.blueprints` resolves `Blueprint` to src/flask/sansio/blueprints.py:119"
+   ],
+   [
+    "tests/test_apps/blueprintapp/apps/admin/__init__.py",
+    1,
+    "in",
+    "`flask` resolves `Blueprint` to the target"
+   ],
+   [
+    "tests/test_apps/blueprintapp/apps/frontend/__init__.py",
+    1,
+    "in",
+    "`flask` resolves `Blueprint` to the target"
+   ],
+   [
+    "tests/test_async.py",
+    5,
+    "in",
+    "`flask` resolves `Blueprint` to the target"
+   ],
+   [
+    "tests/test_cli.py",
+    16,
+    "in",
+    "`flask` resolves `Blueprint` to the target"
+   ]
+  ],
+  "uncovered": {
+   "IMPORT": [],
+   "STAR": []
+  }
+ }
+}
+```
+</details>
+
+## Final
+
+Certificate complete. 9 import statements import this definition: `examples/celery/src/task_app/views.py:2`, `examples/tutorial/flaskr/auth.py:3`, `examples/tutorial/flaskr/blog.py:1`, `src/flask/__init__.py:3`, `src/flask/debughelpers.py:8`, `tests/test_apps/blueprintapp/apps/admin/__init__.py:1`, `tests/test_apps/blueprintapp/apps/frontend/__init__.py:1`, `tests/test_async.py:5`, `tests/test_cli.py:16`. In hindsight every one of the 15 calls was needed for the certificate.
+
+**Answer:** `{"target": {"kind": "def", "path": "src/flask/blueprints.py", "line": 18, "name": "Blueprint", "detail": "class"}, "text": "src/flask/blueprints.py:18", "statements": ["examples/celery/src/task_app/views.py:2", "examples/tutorial/flaskr/auth.py:3", "examples/tutorial/flaskr/blog.py:1", "src/flask/__init__.py:3", "src/flask/debughelpers.py:8", "tests/test_apps/blueprintapp/apps/admin/__init__.py:1", "tests/test_apps/blueprintapp/apps/frontend/__init__.py:1", "tests/test_async.py:5", "tests/test_cli.py:16"], "count": 9}`  
+**Stopped:** certificate after 15 calls

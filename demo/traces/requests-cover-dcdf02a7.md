@@ -1,0 +1,4762 @@
+# requests-cover-dcdf02a7
+
+**Repository:** requests  
+**Family:** cover  
+**Seed:** 0, prior 89d4e155c6e8b2e4
+
+## Task
+
+`CaseInsensitiveDict` is defined at `src/requests/structures.py:20` (class). List every module-level import statement in the snapshot that imports this definition: `from ... import` statements naming it (directly or with `as`), and star imports of modules that export it. Answer as `path:line` entries.
+
+*Declared semantics:* A module is a .py file; source roots are the repository root and, if present, src/ and lib/. `from M import N` binds N to M's single module-level binding of N, else to the submodule M/N, else to the single star-import source of M that exports N. A module exports N if its literal __all__ lists N or, without __all__, if N is public and bound in it. Multiple bindings, non-literal __all__, external star imports and dynamic namespace code make a name ambiguous; tasks never ask about ambiguous names.
+
+## Step 1
+
+Nothing seen yet beyond the task text.
+
+Candidate modules so far: 0; statements confirmed: 0, ruled out: 0, modules with no such import: 0, pending: 0. import coverage open at `.`; star coverage open at `.`.
+
+Outstanding: cover `.` for import lines; cover `.` for star lines.
+
+Next: grep from-imports naming `CaseInsensitiveDict` or star imports under `.`, because import and star lines under `.` in one call. I expect: hits under the cap (about 65%); no hits (about 30%); a capped result (about 10%). The alternative, grep from-imports naming `CaseInsensitiveDict` under `.`, serves fewer of the open items. Plan by outcome: zero: done; mid: outline each module that appears; cap: list the scope and split it.
+
+**Call:** `grep('^\\s*from\\s+\\S+\\s+import\\s+(?:.*\\bCaseInsensitiveDict\\b|\\*)|^\\s*(?:\\w+(?:\\s+as\\s+\\w+)?\\s*,\\s*)*CaseInsensitiveDict\\b(?:\\s+as\\s+\\w+)?\\s*,?\\s*\\)?\\s*$', '.')`
+
+**Response**: outcome `mid`
+
+```
+src/requests/_types.py:67:    from .structures import CaseInsensitiveDict
+src/requests/adapters.py:52:from .structures import CaseInsensitiveDict
+src/requests/models.py:71:from .structures import CaseInsensitiveDict
+src/requests/sessions.py:47:from .structures import CaseInsensitiveDict
+src/requests/utils.py:69:from .structures import CaseInsensitiveDict
+tests/test_requests.py:55:from requests.structures import CaseInsensitiveDict
+tests/test_structures.py:3:from requests.structures import CaseInsensitiveDict, LookupDict
+tests/test_utils.py:15:from requests.structures import CaseInsensitiveDict
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "cover",
+   "key": [
+    "cover",
+    "IMPORT",
+    "."
+   ],
+   "desc": "cover `.` for import lines"
+  },
+  {
+   "kind": "cover",
+   "key": [
+    "cover",
+    "STAR",
+    "."
+   ],
+   "desc": "cover `.` for star lines"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "grep('^\\\\s*from\\\\s+\\\\S+\\\\s+import\\\\s+(?:.*\\\\bCaseInsensitiveDict\\\\b|\\\\*)|^\\\\s*(?:\\\\w+(?:\\\\s+as\\\\s+\\\\w+)?\\\\s*,\\\\s*)*CaseInsensitiveDict\\\\b(?:\\\\s+as\\\\s+\\\\w+)?\\\\s*,?\\\\s*\\\\)?\\\\s*$', '.')",
+   "key": "[\"grep\", [\"^\\\\s*from\\\\s+\\\\S+\\\\s+import\\\\s+(?:.*\\\\bCaseInsensitiveDict\\\\b|\\\\*)|^\\\\s*(?:\\\\w+(?:\\\\s+as\\\\s+\\\\w+)?\\\\s*,\\\\s*)*CaseInsensitiveDict\\\\b(?:\\\\s+as\\\\s+\\\\w+)?\\\\s*,?\\\\s*\\\\)?\\\\s*$\", \".\"]]",
+   "v1": [
+    14597935207,
+    2752553440
+   ],
+   "v2": [
+    14597935207,
+    2752553440
+   ],
+   "p_cap": [
+    3,
+    35
+   ],
+   "forecast": {
+    "zero": [
+     2,
+     7
+    ],
+    "mid": [
+     22,
+     35
+    ],
+    "cap": [
+     3,
+     35
+    ]
+   },
+   "serves": [
+    [
+     "cover",
+     "IMPORT",
+     "."
+    ],
+    [
+     "cover",
+     "STAR",
+     "."
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*from\\\\s+\\\\S+\\\\s+import\\\\s+.*\\\\bCaseInsensitiveDict\\\\b|^\\\\s*(?:\\\\w+(?:\\\\s+as\\\\s+\\\\w+)?\\\\s*,\\\\s*)*CaseInsensitiveDict\\\\b(?:\\\\s+as\\\\s+\\\\w+)?\\\\s*,?\\\\s*\\\\)?\\\\s*$', '.')",
+   "key": "[\"grep\", [\"^\\\\s*from\\\\s+\\\\S+\\\\s+import\\\\s+.*\\\\bCaseInsensitiveDict\\\\b|^\\\\s*(?:\\\\w+(?:\\\\s+as\\\\s+\\\\w+)?\\\\s*,\\\\s*)*CaseInsensitiveDict\\\\b(?:\\\\s+as\\\\s+\\\\w+)?\\\\s*,?\\\\s*\\\\)?\\\\s*$\", \".\"]]",
+   "v1": [
+    10231155043481,
+    1509803649120
+   ],
+   "v2": [
+    10231155043481,
+    1509803649120
+   ],
+   "p_cap": [
+    1,
+    31
+   ],
+   "forecast": {
+    "zero": [
+     24,
+     31
+    ],
+    "mid": [
+     6,
+     31
+    ],
+    "cap": [
+     1,
+     31
+    ]
+   },
+   "serves": [
+    [
+     "cover",
+     "IMPORT",
+     "."
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*from\\\\s+\\\\S+\\\\s+import\\\\s+\\\\*', '.')",
+   "key": "[\"grep\", [\"^\\\\s*from\\\\s+\\\\S+\\\\s+import\\\\s+\\\\*\", \".\"]]",
+   "v1": [
+    10231155043481,
+    1509803649120
+   ],
+   "v2": [
+    10231155043481,
+    1509803649120
+   ],
+   "p_cap": [
+    1,
+    17
+   ],
+   "forecast": {
+    "zero": [
+     7,
+     17
+    ],
+    "mid": [
+     9,
+     17
+    ],
+    "cap": [
+     1,
+     17
+    ]
+   },
+   "serves": [
+    [
+     "cover",
+     "STAR",
+     "."
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "grep('^\\\\s*from\\\\s+\\\\S+\\\\s+import\\\\s+(?:.*\\\\bCaseInsensitiveDict\\\\b|\\\\*)|^\\\\s*(?:\\\\w+(?:\\\\s+as\\\\s+\\\\w+)?\\\\s*,\\\\s*)*CaseInsensitiveDict\\\\b(?:\\\\s+as\\\\s+\\\\w+)?\\\\s*,?\\\\s*\\\\)?\\\\s*$', '.')",
+  "key": "[\"grep\", [\"^\\\\s*from\\\\s+\\\\S+\\\\s+import\\\\s+(?:.*\\\\bCaseInsensitiveDict\\\\b|\\\\*)|^\\\\s*(?:\\\\w+(?:\\\\s+as\\\\s+\\\\w+)?\\\\s*,\\\\s*)*CaseInsensitiveDict\\\\b(?:\\\\s+as\\\\s+\\\\w+)?\\\\s*,?\\\\s*\\\\)?\\\\s*$\", \".\"]]",
+  "provenance": "import and star lines under `.` in one call",
+  "v2": [
+   14597935207,
+   2752553440
+  ]
+ },
+ "forecast": {
+  "zero": [
+   2,
+   7
+  ],
+  "mid": [
+   22,
+   35
+  ],
+  "cap": [
+   3,
+   35
+  ]
+ },
+ "plan": {
+  "zero": "done",
+  "mid": "continue",
+  "cap": "continue"
+ },
+ "adherence": null,
+ "facts": [
+  {
+   "kind": "grep",
+   "step": 1,
+   "pattern": "^\\s*from\\s+\\S+\\s+import\\s+(?:.*\\bCaseInsensitiveDict\\b|\\*)|^\\s*(?:\\w+(?:\\s+as\\s+\\w+)?\\s*,\\s*)*CaseInsensitiveDict\\b(?:\\s+as\\s+\\w+)?\\s*,?\\s*\\)?\\s*$",
+   "scope": ".",
+   "hits": [
+    [
+     "src/requests/_types.py",
+     67
+    ],
+    [
+     "src/requests/adapters.py",
+     52
+    ],
+    [
+     "src/requests/models.py",
+     71
+    ],
+    [
+     "src/requests/sessions.py",
+     47
+    ],
+    [
+     "src/requests/utils.py",
+     69
+    ],
+    [
+     "tests/test_requests.py",
+     55
+    ],
+    [
+     "tests/test_structures.py",
+     3
+    ],
+    [
+     "tests/test_utils.py",
+     15
+    ]
+   ],
+   "capped": false
+  }
+ ],
+ "goal_state": {
+  "verdicts": [
+   [
+    "src/requests/_types.py",
+    0,
+    "pending",
+    "outline not yet seen"
+   ],
+   [
+    "src/requests/adapters.py",
+    0,
+    "pending",
+    "outline not yet seen"
+   ],
+   [
+    "src/requests/models.py",
+    0,
+    "pending",
+    "outline not yet seen"
+   ],
+   [
+    "src/requests/sessions.py",
+    0,
+    "pending",
+    "outline not yet seen"
+   ],
+   [
+    "src/requests/utils.py",
+    0,
+    "pending",
+    "outline not yet seen"
+   ],
+   [
+    "tests/test_requests.py",
+    0,
+    "pending",
+    "outline not yet seen"
+   ],
+   [
+    "tests/test_structures.py",
+    0,
+    "pending",
+    "outline not yet seen"
+   ],
+   [
+    "tests/test_utils.py",
+    0,
+    "pending",
+    "outline not yet seen"
+   ]
+  ],
+  "uncovered": {
+   "IMPORT": [],
+   "STAR": []
+  }
+ }
+}
+```
+</details>
+
+## Step 2
+
+The grep under `.` returned 8 lines, under the cap, so these are all of them: `src/requests/_types.py`, `src/requests/adapters.py`, `src/requests/models.py`, `src/requests/sessions.py` and 4 more files.
+
+Candidate modules so far: 8; statements confirmed: 0, ruled out: 0, modules with no such import: 0, pending: 8. import coverage complete; star coverage complete.
+
+Still to settle: outline `src/requests/_types.py` for its `CaseInsensitiveDict` imports; outline `src/requests/adapters.py` for its `CaseInsensitiveDict` imports; outline `src/requests/models.py` for its `CaseInsensitiveDict` imports; outline `src/requests/sessions.py` for its `CaseInsensitiveDict` imports; and 4 more.
+
+Next: outline `tests/test_structures.py` filtered to `CaseInsensitiveDict`, because `tests/test_structures.py` had a matching line (step 1); its outline names every `CaseInsensitiveDict` import exactly. I expect: the outline lists its imports of the name (near certain); a capped outline means filtering by name (under 5%). The alternative, outline `src/requests/_types.py` filtered to `CaseInsensitiveDict`, scores the same; the seed broke the tie. Plan by outcome: ok: outline `src/requests/_types.py` filtered to `CaseInsensitiveDict`; cap: outline `src/requests/_types.py` filtered to `CaseInsensitiveDict`.
+
+**Call:** `symbols('tests/test_structures.py', 'CaseInsensitiveDict')`
+
+**Response**: outcome `ok`
+
+```
+module tests/test_structures.py lines=92 dynamic=no all=none
+3 from CaseInsensitiveDict <- requests.structures CaseInsensitiveDict
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "src/requests/_types.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `src/requests/_types.py` for its `CaseInsensitiveDict` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "src/requests/adapters.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `src/requests/adapters.py` for its `CaseInsensitiveDict` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "src/requests/models.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `src/requests/models.py` for its `CaseInsensitiveDict` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "src/requests/sessions.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `src/requests/sessions.py` for its `CaseInsensitiveDict` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "src/requests/utils.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `src/requests/utils.py` for its `CaseInsensitiveDict` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "tests/test_requests.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `tests/test_requests.py` for its `CaseInsensitiveDict` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "tests/test_structures.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `tests/test_structures.py` for its `CaseInsensitiveDict` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "tests/test_utils.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `tests/test_utils.py` for its `CaseInsensitiveDict` imports"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "symbols('src/requests/_types.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"src/requests/_types.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    897931,
+    67800
+   ],
+   "v2": [
+    899287,
+    67800
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "src/requests/_types.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/requests/adapters.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"src/requests/adapters.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    897931,
+    67800
+   ],
+   "v2": [
+    899287,
+    67800
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "src/requests/adapters.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/requests/models.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"src/requests/models.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    897931,
+    67800
+   ],
+   "v2": [
+    899287,
+    67800
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "src/requests/models.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/requests/sessions.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"src/requests/sessions.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    897931,
+    67800
+   ],
+   "v2": [
+    899287,
+    67800
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "src/requests/sessions.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/requests/utils.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"src/requests/utils.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    897931,
+    67800
+   ],
+   "v2": [
+    899287,
+    67800
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "src/requests/utils.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/test_requests.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"tests/test_requests.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    897931,
+    67800
+   ],
+   "v2": [
+    899287,
+    67800
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "tests/test_requests.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/test_structures.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"tests/test_structures.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    897931,
+    67800
+   ],
+   "v2": [
+    899287,
+    67800
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "tests/test_structures.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/test_utils.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"tests/test_utils.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    897931,
+    67800
+   ],
+   "v2": [
+    899287,
+    67800
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "tests/test_utils.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "symbols('tests/test_structures.py', 'CaseInsensitiveDict')",
+  "key": "[\"symbols\", [\"tests/test_structures.py\", \"CaseInsensitiveDict\"]]",
+  "provenance": "`tests/test_structures.py` had a matching line (step 1); its outline names every `CaseInsensitiveDict` import exactly",
+  "v2": [
+   899287,
+   67800
+  ]
+ },
+ "forecast": {
+  "ok": [
+   49,
+   50
+  ],
+  "cap": [
+   1,
+   50
+  ]
+ },
+ "plan": {
+  "ok": "[\"symbols\", [\"src/requests/_types.py\", \"CaseInsensitiveDict\"]]",
+  "cap": "[\"symbols\
+```
+</details>
+
+## Step 3
+
+In `tests/test_structures.py`, `CaseInsensitiveDict` has exactly one binding: line 3 imports it as `CaseInsensitiveDict` from `requests.structures`. No dynamic namespace tricks, no `__all__`.
+
+Candidate modules so far: 8; statements confirmed: 0, ruled out: 0, modules with no such import: 0, pending: 8. import coverage complete; star coverage complete.
+
+Outstanding: outline `src/requests/_types.py` for its `CaseInsensitiveDict` imports; outline `src/requests/adapters.py` for its `CaseInsensitiveDict` imports; outline `src/requests/models.py` for its `CaseInsensitiveDict` imports; outline `src/requests/sessions.py` for its `CaseInsensitiveDict` imports; and 4 more.
+
+Next: outline `src/requests/_types.py` filtered to `CaseInsensitiveDict`, because `src/requests/_types.py` had a matching line (step 1); its outline names every `CaseInsensitiveDict` import exactly. I expect: the outline lists its imports of the name (near certain); a capped outline means filtering by name (under 5%). The alternative, outline `src/requests/adapters.py` filtered to `CaseInsensitiveDict`, scores the same; the seed broke the tie. Plan by outcome: ok: outline `src/requests/adapters.py` filtered to `CaseInsensitiveDict`; cap: outline `src/requests/adapters.py` filtered to `CaseInsensitiveDict`.
+
+**Call:** `symbols('src/requests/_types.py', 'CaseInsensitiveDict')`
+
+**Response**: outcome `ok`
+
+```
+module src/requests/_types.py lines=189 dynamic=no all=none
+67 from CaseInsensitiveDict <- .structures CaseInsensitiveDict
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "src/requests/_types.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `src/requests/_types.py` for its `CaseInsensitiveDict` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "src/requests/adapters.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `src/requests/adapters.py` for its `CaseInsensitiveDict` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "src/requests/models.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `src/requests/models.py` for its `CaseInsensitiveDict` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "src/requests/sessions.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `src/requests/sessions.py` for its `CaseInsensitiveDict` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "src/requests/utils.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `src/requests/utils.py` for its `CaseInsensitiveDict` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "tests/test_requests.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `tests/test_requests.py` for its `CaseInsensitiveDict` imports"
+  },
+  {
+   "kind": "module_path",
+   "key": [
+    "module_path",
+    "tests/test_structures.py",
+    "requests.structures"
+   ],
+   "desc": "locate the module `requests.structures` imported by `tests/test_structures.py`"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "tests/test_utils.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `tests/test_utils.py` for its `CaseInsensitiveDict` imports"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "symbols('src/requests/_types.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"src/requests/_types.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    7383673,
+    542400
+   ],
+   "v2": [
+    7394521,
+    542400
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "src/requests/_types.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/requests/adapters.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"src/requests/adapters.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    7383673,
+    542400
+   ],
+   "v2": [
+    7394521,
+    542400
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "src/requests/adapters.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/requests/models.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"src/requests/models.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    7383673,
+    542400
+   ],
+   "v2": [
+    7394521,
+    542400
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "src/requests/models.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/requests/sessions.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"src/requests/sessions.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    7383673,
+    542400
+   ],
+   "v2": [
+    7394521,
+    542400
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "src/requests/sessions.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/requests/utils.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"src/requests/utils.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    7383673,
+    542400
+   ],
+   "v2": [
+    7394521,
+    542400
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "src/requests/utils.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/test_requests.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"tests/test_requests.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    7383673,
+    542400
+   ],
+   "v2": [
+    7394521,
+    542400
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "tests/test_requests.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/test_utils.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"tests/test_utils.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    7383673,
+    542400
+   ],
+   "v2": [
+    7394521,
+    542400
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "tests/test_utils.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+CaseInsensitiveDict\\\\b', '.')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+CaseInsensitiveDict\\\\b\", \".\"]]",
+   "v1": [
+    10365347,
+    759360
+   ],
+   "v2": [
+    51902671,
+    3796800
+   ],
+   "p_cap": [
+    1,
+    35
+   ],
+   "forecast": {
+    "zero": [
+     1,
+     35
+    ],
+    "mid": [
+     33,
+     35
+    ],
+    "cap": [
+     1,
+     35
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_structures.py",
+     "requests.structures"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('requests/structures.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"requests/structures.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    14429225889268493,
+    1045727939788224
+   ],
+   "v2": [
+    361253511201606437,
+    26143198494705600
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     4757920,
+     12436341
+    ],
+    "reexport": [
+  
+```
+</details>
+
+## Step 4
+
+In `src/requests/_types.py`, `CaseInsensitiveDict` has exactly one binding: line 67 imports it as `CaseInsensitiveDict` from `.structures`. No dynamic namespace tricks, no `__all__`.
+
+Candidate modules so far: 8; statements confirmed: 0, ruled out: 0, modules with no such import: 0, pending: 8. import coverage complete; star coverage complete.
+
+Outstanding: close the namespace of `src/requests/structures.py` for `CaseInsensitiveDict`; outline `src/requests/adapters.py` for its `CaseInsensitiveDict` imports; outline `src/requests/models.py` for its `CaseInsensitiveDict` imports; outline `src/requests/sessions.py` for its `CaseInsensitiveDict` imports; and 4 more.
+
+Next: outline `src/requests/adapters.py` filtered to `CaseInsensitiveDict`, because `src/requests/adapters.py` had a matching line (step 1); its outline names every `CaseInsensitiveDict` import exactly. I expect: the outline lists its imports of the name (near certain); a capped outline means filtering by name (under 5%). The alternative, outline `src/requests/models.py` filtered to `CaseInsensitiveDict`, scores the same; the seed broke the tie. Plan by outcome: ok: outline `src/requests/structures.py` filtered to `CaseInsensitiveDict`; cap: outline `src/requests/structures.py` filtered to `CaseInsensitiveDict`.
+
+**Call:** `symbols('src/requests/adapters.py', 'CaseInsensitiveDict')`
+
+**Response**: outcome `ok`
+
+```
+module src/requests/adapters.py lines=749 dynamic=no all=none
+52 from CaseInsensitiveDict <- .structures CaseInsensitiveDict
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "bindings",
+   "key": [
+    "bindings",
+    "src/requests/structures.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "close the namespace of `src/requests/structures.py` for `CaseInsensitiveDict`"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "src/requests/adapters.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `src/requests/adapters.py` for its `CaseInsensitiveDict` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "src/requests/models.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `src/requests/models.py` for its `CaseInsensitiveDict` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "src/requests/sessions.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `src/requests/sessions.py` for its `CaseInsensitiveDict` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "src/requests/utils.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `src/requests/utils.py` for its `CaseInsensitiveDict` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "tests/test_requests.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `tests/test_requests.py` for its `CaseInsensitiveDict` imports"
+  },
+  {
+   "kind": "module_path",
+   "key": [
+    "module_path",
+    "tests/test_structures.py",
+    "requests.structures"
+   ],
+   "desc": "locate the module `requests.structures` imported by `tests/test_structures.py`"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "tests/test_utils.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `tests/test_utils.py` for its `CaseInsensitiveDict` imports"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "symbols('src/requests/adapters.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"src/requests/adapters.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    1173583,
+    90400
+   ],
+   "v2": [
+    566900354567,
+    43667629600
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "src/requests/adapters.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/requests/models.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"src/requests/models.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    1173583,
+    90400
+   ],
+   "v2": [
+    566900354567,
+    43667629600
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "src/requests/models.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/requests/sessions.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"src/requests/sessions.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    1173583,
+    90400
+   ],
+   "v2": [
+    566900354567,
+    43667629600
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "src/requests/sessions.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/requests/structures.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"src/requests/structures.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    22641080079,
+    1746705184
+   ],
+   "v2": [
+    566900354567,
+    43667629600
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     440,
+     457
+    ],
+    "reexport": [
+     4,
+     457
+    ],
+    "star": [
+     1,
+     457
+    ],
+    "none": [
+     12,
+     457
+    ]
+   },
+   "serves": [
+    [
+     "bindings",
+     "src/requests/structures.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/requests/utils.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"src/requests/utils.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    1173583,
+    90400
+   ],
+   "v2": [
+    566900354567,
+    43667629600
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "src/requests/utils.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/test_requests.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"tests/test_requests.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    1173583,
+    90400
+   ],
+   "v2": [
+    566900354567,
+    43667629600
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "tests/test_requests.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/test_utils.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"tests/test_utils.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    1173583,
+    90400
+   ],
+   "v2": [
+    566900354567,
+    43667629600
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "tests/test_utils.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+CaseInsensitiveDict\\\\b', '.')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+CaseInsensitiveDict\\\\b\", \".\"]]",
+   "v1": [
+    1647717,
+    126560
+   ],
+   "v2": [
+    113704459019,
+    8733525920
+   ],
+   "p_cap": [
+    1,
+    35
+   ],
+   "forecast": {
+    "zero": [
+     1,
+     35
+    ],
+    "mid": [
+     33,
+     35
+    ],
+    "cap": [
+     1,
+     35
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_structures.py",
+     "requests.structures"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/requests/structures.py')",
+   "key": "[\"symbols\", [\"src/requests/structures.py\"]]",
+   "v1": [
+    251617221333,
+    19213757024
+   ],
+   "v2": [
+    2519503197837,
+    19213757
+```
+</details>
+
+## Step 5
+
+In `src/requests/adapters.py`, `CaseInsensitiveDict` has exactly one binding: line 52 imports it as `CaseInsensitiveDict` from `.structures`. No dynamic namespace tricks, no `__all__`.
+
+Candidate modules so far: 8; statements confirmed: 0, ruled out: 0, modules with no such import: 0, pending: 8. import coverage complete; star coverage complete.
+
+Still to settle: close the namespace of `src/requests/structures.py` for `CaseInsensitiveDict`; outline `src/requests/models.py` for its `CaseInsensitiveDict` imports; outline `src/requests/sessions.py` for its `CaseInsensitiveDict` imports; outline `src/requests/utils.py` for its `CaseInsensitiveDict` imports; and 3 more.
+
+Next: outline `src/requests/structures.py` filtered to `CaseInsensitiveDict`, because module `src/requests/structures.py` (task), name `CaseInsensitiveDict` (task). I expect: a definition there ends the chain (about 95%); no binding at all points at a submodule or an unresolved name (about 5%); a re-export continues the chain to its source (under 5%); no binding but a star import means checking what that source exports (under 5%). The alternative, outline `src/requests/models.py` filtered to `CaseInsensitiveDict`, is expected to open more follow-up work. Plan by outcome: def: outline `src/requests/models.py` filtered to `CaseInsensitiveDict`; reexport: outline `src/requests/models.py` filtered to `CaseInsensitiveDict`; star: outline `src/requests/models.py` filtered to `CaseInsensitiveDict`; none: outline `src/requests/models.py` filtered to `CaseInsensitiveDict`.
+
+**Call:** `symbols('src/requests/structures.py', 'CaseInsensitiveDict')`
+
+**Response**: outcome `def`
+
+```
+module src/requests/structures.py lines=131 dynamic=no all=none
+20 class CaseInsensitiveDict
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "bindings",
+   "key": [
+    "bindings",
+    "src/requests/structures.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "close the namespace of `src/requests/structures.py` for `CaseInsensitiveDict`"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "src/requests/models.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `src/requests/models.py` for its `CaseInsensitiveDict` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "src/requests/sessions.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `src/requests/sessions.py` for its `CaseInsensitiveDict` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "src/requests/utils.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `src/requests/utils.py` for its `CaseInsensitiveDict` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "tests/test_requests.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `tests/test_requests.py` for its `CaseInsensitiveDict` imports"
+  },
+  {
+   "kind": "module_path",
+   "key": [
+    "module_path",
+    "tests/test_structures.py",
+    "requests.structures"
+   ],
+   "desc": "locate the module `requests.structures` imported by `tests/test_structures.py`"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "tests/test_utils.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `tests/test_utils.py` for its `CaseInsensitiveDict` imports"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "symbols('src/requests/models.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"src/requests/models.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    6144923,
+    542400
+   ],
+   "v2": [
+    2968312470227,
+    262005777600
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "src/requests/models.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/requests/sessions.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"src/requests/sessions.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    6144923,
+    542400
+   ],
+   "v2": [
+    2968312470227,
+    262005777600
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "src/requests/sessions.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/requests/structures.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"src/requests/structures.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    118522894187,
+    10480231104
+   ],
+   "v2": [
+    2968312470227,
+    262005777600
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     440,
+     457
+    ],
+    "reexport": [
+     4,
+     457
+    ],
+    "star": [
+     1,
+     457
+    ],
+    "none": [
+     12,
+     457
+    ]
+   },
+   "serves": [
+    [
+     "bindings",
+     "src/requests/structures.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/requests/utils.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"src/requests/utils.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    6144923,
+    542400
+   ],
+   "v2": [
+    2968312470227,
+    262005777600
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "src/requests/utils.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/test_requests.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"tests/test_requests.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    6144923,
+    542400
+   ],
+   "v2": [
+    2968312470227,
+    262005777600
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "tests/test_requests.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/test_utils.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"tests/test_utils.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    6144923,
+    542400
+   ],
+   "v2": [
+    2968312470227,
+    262005777600
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "tests/test_utils.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+CaseInsensitiveDict\\\\b', '.')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+CaseInsensitiveDict\\\\b\", \".\"]]",
+   "v1": [
+    8631097,
+    759360
+   ],
+   "v2": [
+    595608822679,
+    52401155520
+   ],
+   "p_cap": [
+    1,
+    35
+   ],
+   "forecast": {
+    "zero": [
+     1,
+     35
+    ],
+    "mid": [
+     33,
+     35
+    ],
+    "cap": [
+     1,
+     35
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_structures.py",
+     "requests.structures"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/requests/structures.py')",
+   "key": "[\"symbols\", [\"src/requests/structures.py\"]]",
+   "v1": [
+    1319143878841,
+    115282542144
+   ],
+   "v2": [
+    3302856173863,
+    288206355360
+   ],
+   "p_cap": [
+    47,
+    352
+   ],
+   "forecast": {
+    "def": [
+     1525,
+     1828
+    ],
+    "reexport": [
+     305,
+     40216
+    ],
+    "star": [
+     305,
+     160864
+    ],
+    "none": [
+     915,
+     40216
+    ],
+    "cap": [
+     47,
+     352
+    ]
+   },
+   "serves": [
+    [
+     "bindings",
+     "src/requests/structures.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('requests/structures.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"requests/structures.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    4013653292113181,
+    348575979929408
+   ],
+   "v2": [
+    4013671332517981,
+    348575979929408
+   ],
+   "p_cap
+```
+</details>
+
+## Step 6
+
+In `src/requests/structures.py`, `CaseInsensitiveDict` has exactly one binding: a class at line 20. No dynamic namespace tricks, no `__all__`.
+
+Candidate modules so far: 8; statements confirmed: 2, ruled out: 0, modules with no such import: 0, pending: 6. import coverage complete; star coverage complete.
+
+Open: outline `src/requests/models.py` for its `CaseInsensitiveDict` imports; outline `src/requests/sessions.py` for its `CaseInsensitiveDict` imports; outline `src/requests/utils.py` for its `CaseInsensitiveDict` imports; outline `tests/test_requests.py` for its `CaseInsensitiveDict` imports; and 2 more.
+
+Next: outline `src/requests/models.py` filtered to `CaseInsensitiveDict`, because `src/requests/models.py` had a matching line (step 1); its outline names every `CaseInsensitiveDict` import exactly. I expect: the outline lists its imports of the name (near certain); a capped outline means filtering by name (under 5%). The alternative, outline `src/requests/sessions.py` filtered to `CaseInsensitiveDict`, scores the same; the seed broke the tie. Plan by outcome: ok: outline `src/requests/sessions.py` filtered to `CaseInsensitiveDict`; cap: outline `src/requests/sessions.py` filtered to `CaseInsensitiveDict`.
+
+**Call:** `symbols('src/requests/models.py', 'CaseInsensitiveDict')`
+
+**Response**: outcome `ok`
+
+```
+module src/requests/models.py lines=1185 dynamic=no all=none
+71 from CaseInsensitiveDict <- .structures CaseInsensitiveDict
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "src/requests/models.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `src/requests/models.py` for its `CaseInsensitiveDict` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "src/requests/sessions.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `src/requests/sessions.py` for its `CaseInsensitiveDict` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "src/requests/utils.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `src/requests/utils.py` for its `CaseInsensitiveDict` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "tests/test_requests.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `tests/test_requests.py` for its `CaseInsensitiveDict` imports"
+  },
+  {
+   "kind": "module_path",
+   "key": [
+    "module_path",
+    "tests/test_structures.py",
+    "requests.structures"
+   ],
+   "desc": "locate the module `requests.structures` imported by `tests/test_structures.py`"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "tests/test_utils.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `tests/test_utils.py` for its `CaseInsensitiveDict` imports"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "symbols('src/requests/models.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"src/requests/models.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    5590523,
+    542400
+   ],
+   "v2": [
+    5601371,
+    542400
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "src/requests/models.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/requests/sessions.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"src/requests/sessions.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    5590523,
+    542400
+   ],
+   "v2": [
+    5601371,
+    542400
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "src/requests/sessions.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/requests/utils.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"src/requests/utils.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    5590523,
+    542400
+   ],
+   "v2": [
+    5601371,
+    542400
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "src/requests/utils.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/test_requests.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"tests/test_requests.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    5590523,
+    542400
+   ],
+   "v2": [
+    5601371,
+    542400
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "tests/test_requests.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/test_utils.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"tests/test_utils.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    5590523,
+    542400
+   ],
+   "v2": [
+    5601371,
+    542400
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "tests/test_utils.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+CaseInsensitiveDict\\\\b', '.')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+CaseInsensitiveDict\\\\b\", \".\"]]",
+   "v1": [
+    7854937,
+    759360
+   ],
+   "v2": [
+    39350621,
+    3796800
+   ],
+   "p_cap": [
+    1,
+    35
+   ],
+   "forecast": {
+    "zero": [
+     1,
+     35
+    ],
+    "mid": [
+     33,
+     35
+    ],
+    "cap": [
+     1,
+     35
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_structures.py",
+     "requests.structures"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('requests/structures.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"requests/structures.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    3657365454220733,
+    348575979929408
+   ],
+   "v2": [
+    91608424345483029,
+    8714399498235200
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     4757920,
+     12436341
+    ],
+    "reexport": [
+     475792,
+     136799751
+    ],
+    "star": [
+     118948,
+     136799751
+    ],
+    "none": [
+     475792,
+     45599917
+    ],
+    "missing": [
+     180395,
+     299343
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_structures.py",
+     "requests.structures"
+    ]
+   ]
+  },
+  {
+   "call": "ls('.')",
+   "key": "[\"ls\", [\".\"]]",
+   "v1": [
+    684025,
+    65088
+   ],
+   "v2": [
+    17133169,
+    1627200
+   ],
+   "p_cap": [
+    2,
+    9
+   ],
+   "forecast": {
+    "complete": [
+     7,
+     9
+    ],
+    "cap": [
+     2,
+     9
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_structures.py",
+     "requests.structures"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+CaseInsensitiveDict\\\\b', 'src')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+CaseInsensitiveDict\\\\b\", \"src\"]]",
+   "v1": [
+    7515437,
+    672576
+   ],
+   "v2": [
+    188222213,
+    16814400
+   ],
+   "p_cap": [
+    1,
+    124
+   ],
+   "forecast": {
+    "zero": [
+     109,
+     124
+    ],
+    "mid": [
+     7,
+     62
+    ],
+    "cap": [
+     1,
+     124
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_structures.py",
+     "requests.structures"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('requests/structures/__init__.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"
+```
+</details>
+
+## Step 7
+
+In `src/requests/models.py`, `CaseInsensitiveDict` has exactly one binding: line 71 imports it as `CaseInsensitiveDict` from `.structures`. No dynamic namespace tricks, no `__all__`.
+
+Candidate modules so far: 8; statements confirmed: 3, ruled out: 0, modules with no such import: 0, pending: 5. import coverage complete; star coverage complete.
+
+Open: outline `src/requests/sessions.py` for its `CaseInsensitiveDict` imports; outline `src/requests/utils.py` for its `CaseInsensitiveDict` imports; outline `tests/test_requests.py` for its `CaseInsensitiveDict` imports; locate the module `requests.structures` imported by `tests/test_structures.py`; and 1 more.
+
+Next: outline `src/requests/sessions.py` filtered to `CaseInsensitiveDict`, because `src/requests/sessions.py` had a matching line (step 1); its outline names every `CaseInsensitiveDict` import exactly. I expect: the outline lists its imports of the name (near certain); a capped outline means filtering by name (under 5%). The alternative, outline `src/requests/utils.py` filtered to `CaseInsensitiveDict`, scores the same; the seed broke the tie. Plan by outcome: ok: outline `src/requests/utils.py` filtered to `CaseInsensitiveDict`; cap: outline `src/requests/utils.py` filtered to `CaseInsensitiveDict`.
+
+**Call:** `symbols('src/requests/sessions.py', 'CaseInsensitiveDict')`
+
+**Response**: outcome `ok`
+
+```
+module src/requests/sessions.py lines=921 dynamic=no all=none
+47 from CaseInsensitiveDict <- .structures CaseInsensitiveDict
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "src/requests/sessions.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `src/requests/sessions.py` for its `CaseInsensitiveDict` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "src/requests/utils.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `src/requests/utils.py` for its `CaseInsensitiveDict` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "tests/test_requests.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `tests/test_requests.py` for its `CaseInsensitiveDict` imports"
+  },
+  {
+   "kind": "module_path",
+   "key": [
+    "module_path",
+    "tests/test_structures.py",
+    "requests.structures"
+   ],
+   "desc": "locate the module `requests.structures` imported by `tests/test_structures.py`"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "tests/test_utils.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `tests/test_utils.py` for its `CaseInsensitiveDict` imports"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "symbols('src/requests/sessions.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"src/requests/sessions.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    1173487,
+    135600
+   ],
+   "v2": [
+    1176199,
+    135600
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "src/requests/sessions.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('src/requests/utils.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"src/requests/utils.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    1173487,
+    135600
+   ],
+   "v2": [
+    1176199,
+    135600
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "src/requests/utils.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/test_requests.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"tests/test_requests.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    1173487,
+    135600
+   ],
+   "v2": [
+    1176199,
+    135600
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "tests/test_requests.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/test_utils.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"tests/test_utils.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    1173487,
+    135600
+   ],
+   "v2": [
+    1176199,
+    135600
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "tests/test_utils.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+CaseInsensitiveDict\\\\b', '.')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+CaseInsensitiveDict\\\\b\", \".\"]]",
+   "v1": [
+    1649933,
+    189840
+   ],
+   "v2": [
+    8268649,
+    949200
+   ],
+   "p_cap": [
+    1,
+    35
+   ],
+   "forecast": {
+    "zero": [
+     1,
+     35
+    ],
+    "mid": [
+     33,
+     35
+    ],
+    "cap": [
+     1,
+     35
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_structures.py",
+     "requests.structures"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('requests/structures.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"requests/structures.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    2310882899839763,
+    261431984947056
+   ],
+   "v2": [
+    57902788488467603,
+    6535799623676400
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     4757920,
+     12436341
+    ],
+    "reexport": [
+     475792,
+     136799751
+    ],
+    "star": [
+     118948,
+     136799751
+    ],
+    "none": [
+     475792,
+     45599917
+    ],
+    "missing": [
+     180395,
+     299343
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_structures.py",
+     "requests.structures"
+    ]
+   ]
+  },
+  {
+   "call": "ls('.')",
+   "key": "[\"ls\", [\".\"]]",
+   "v1": [
+    144109,
+    16272
+   ],
+   "v2": [
+    3610861,
+    406800
+   ],
+   "p_cap": [
+    2,
+    9
+   ],
+   "forecast": {
+    "complete": [
+     7,
+     9
+    ],
+    "cap": [
+     2,
+     9
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_structures.py",
+     "requests.structures"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+CaseInsensitiveDict\\\\b', 'src')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+CaseInsensitiveDict\\\\b\", \"src\"]]",
+   "v1": [
+    1600921,
+    168144
+   ],
+   "v2": [
+    40107097,
+    4203600
+   ],
+   "p_cap": [
+    1,
+    124
+   ],
+   "forecast": {
+    "zero": [
+     109,
+     124
+    ],
+    "mid": [
+     7,
+     62
+    ],
+    "cap": [
+     1,
+     124
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_structures.py",
+     "requests.structures"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('requests/structures/__init__.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"requests/structures/__init__.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    1085627558995,
+    113113338096
+   ],
+   "v2": [
+    27197245643923,
+    2827833452400
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     11004,
+     1097591
+    ],
+    "reexport": [
+     31178,
+     1097591
+    ],
+    "star": [
+     917,
+     1097591
+    ],
+    "none": [
+     17423,
+     1097591
+    ],
+    "missing": [
+     94279,
+     99781
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_structures.py",
+     "requests.structures"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "symbols('src/requests/sessions.py', 'CaseInsensitiveDict')",
+  "key": "[\"symbols\", [
+```
+</details>
+
+## Step 8
+
+In `src/requests/sessions.py`, `CaseInsensitiveDict` has exactly one binding: line 47 imports it as `CaseInsensitiveDict` from `.structures`. No dynamic namespace tricks, no `__all__`.
+
+Candidate modules so far: 8; statements confirmed: 4, ruled out: 0, modules with no such import: 0, pending: 4. import coverage complete; star coverage complete.
+
+Outstanding: outline `src/requests/utils.py` for its `CaseInsensitiveDict` imports; outline `tests/test_requests.py` for its `CaseInsensitiveDict` imports; locate the module `requests.structures` imported by `tests/test_structures.py`; outline `tests/test_utils.py` for its `CaseInsensitiveDict` imports.
+
+Next: outline `src/requests/utils.py` filtered to `CaseInsensitiveDict`, because `src/requests/utils.py` had a matching line (step 1); its outline names every `CaseInsensitiveDict` import exactly. I expect: the outline lists its imports of the name (near certain); a capped outline means filtering by name (under 5%). The alternative, outline `tests/test_requests.py` filtered to `CaseInsensitiveDict`, scores the same; the seed broke the tie. Plan by outcome: ok: outline `tests/test_requests.py` filtered to `CaseInsensitiveDict`; cap: outline `tests/test_requests.py` filtered to `CaseInsensitiveDict`.
+
+**Call:** `symbols('src/requests/utils.py', 'CaseInsensitiveDict')`
+
+**Response**: outcome `ok`
+
+```
+module src/requests/utils.py lines=1156 dynamic=no all=none
+69 from CaseInsensitiveDict <- .structures CaseInsensitiveDict
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "src/requests/utils.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `src/requests/utils.py` for its `CaseInsensitiveDict` imports"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "tests/test_requests.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `tests/test_requests.py` for its `CaseInsensitiveDict` imports"
+  },
+  {
+   "kind": "module_path",
+   "key": [
+    "module_path",
+    "tests/test_structures.py",
+    "requests.structures"
+   ],
+   "desc": "locate the module `requests.structures` imported by `tests/test_structures.py`"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "tests/test_utils.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `tests/test_utils.py` for its `CaseInsensitiveDict` imports"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "symbols('src/requests/utils.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"src/requests/utils.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    1265791,
+    180800
+   ],
+   "v2": [
+    1269407,
+    180800
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "src/requests/utils.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/test_requests.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"tests/test_requests.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    1265791,
+    180800
+   ],
+   "v2": [
+    1269407,
+    180800
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "tests/test_requests.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/test_utils.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"tests/test_utils.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    1265791,
+    180800
+   ],
+   "v2": [
+    1269407,
+    180800
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "tests/test_utils.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+CaseInsensitiveDict\\\\b', '.')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+CaseInsensitiveDict\\\\b\", \".\"]]",
+   "v1": [
+    1781509,
+    253120
+   ],
+   "v2": [
+    8932857,
+    1265600
+   ],
+   "p_cap": [
+    1,
+    35
+   ],
+   "forecast": {
+    "zero": [
+     1,
+     35
+    ],
+    "mid": [
+     33,
+     35
+    ],
+    "cap": [
+     1,
+     35
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_structures.py",
+     "requests.structures"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('requests/structures.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"requests/structures.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    7514966836055905,
+    1045727939788224
+   ],
+   "v2": [
+    188397034871291737,
+    26143198494705600
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     4757920,
+     12436341
+    ],
+    "reexport": [
+     475792,
+     136799751
+    ],
+    "star": [
+     118948,
+     136799751
+    ],
+    "none": [
+     475792,
+     45599917
+    ],
+    "missing": [
+     180395,
+     299343
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_structures.py",
+     "requests.structures"
+    ]
+   ]
+  },
+  {
+   "call": "ls('.')",
+   "key": "[\"ls\", [\".\"]]",
+   "v1": [
+    468847,
+    65088
+   ],
+   "v2": [
+    11753719,
+    1627200
+   ],
+   "p_cap": [
+    2,
+    9
+   ],
+   "forecast": {
+    "complete": [
+     7,
+     9
+    ],
+    "cap": [
+     2,
+     9
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_structures.py",
+     "requests.structures"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+CaseInsensitiveDict\\\\b', 'src')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+CaseInsensitiveDict\\\\b\", \"src\"]]",
+   "v1": [
+    1763977,
+    224192
+   ],
+   "v2": [
+    44211521,
+    5604800
+   ],
+   "p_cap": [
+    1,
+    124
+   ],
+   "forecast": {
+    "zero": [
+     109,
+     124
+    ],
+    "mid": [
+     7,
+     62
+    ],
+    "cap": [
+     1,
+     124
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_structures.py",
+     "requests.structures"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('requests/structures/__init__.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"requests/structures/__init__.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    3594615021353,
+    452453352384
+   ],
+   "v2": [
+    90091602210017,
+    11311333809600
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     11004,
+     1097591
+    ],
+    "reexport": [
+     31178,
+     1097591
+    ],
+    "star": [
+     917,
+     1097591
+    ],
+    "none": [
+     17423,
+     1097591
+    ],
+    "missing": [
+     94279,
+     99781
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_structures.py",
+     "requests.structures"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "symbols('src/requests/utils.py', 'CaseInsensitiveDict')",
+  "key": "[\"symbols\", [\"src/requests/utils.py\", \"CaseInsensitiveDict\"]]",
+  "provenance": "`src/requests/utils.py` had a matching line (step 1); its outline names every `CaseInsensitiveDict` import exactly",
+  "v2": [
+   1269407,
+   180800
+  ]
+ },
+ "forecast": {
+  "ok": [
+   49,
+   50
+  ],
+  "cap": [
+   1,
+   50
+  ]
+ },
+ "plan": {
+  "ok": "[\"symbols\", [\"tests/test_requests.py\", \"CaseInsensitiveDict\"]]",
+  "cap": "[\"symbols\", [\"tests/test_requests.py\", \"CaseInsensitiveDict\"]]"
+ },
+ "adherence": {
+  "planned": "[\"symbols\", [\"src/requests/utils.py\", \"CaseInsensitiveDict\"]]",
+  "status": "followed"
+ },
+ "facts": [
+  {
+   "kind": "outline",
+   "step": 8,
+   "path": "src/requests/utils.
+```
+</details>
+
+## Step 9
+
+In `src/requests/utils.py`, `CaseInsensitiveDict` has exactly one binding: line 69 imports it as `CaseInsensitiveDict` from `.structures`. No dynamic namespace tricks, no `__all__`.
+
+Candidate modules so far: 8; statements confirmed: 5, ruled out: 0, modules with no such import: 0, pending: 3. import coverage complete; star coverage complete.
+
+Still to settle: outline `tests/test_requests.py` for its `CaseInsensitiveDict` imports; locate the module `requests.structures` imported by `tests/test_structures.py`; outline `tests/test_utils.py` for its `CaseInsensitiveDict` imports.
+
+Next: outline `tests/test_requests.py` filtered to `CaseInsensitiveDict`, because `tests/test_requests.py` had a matching line (step 1); its outline names every `CaseInsensitiveDict` import exactly. I expect: the outline lists its imports of the name (near certain); a capped outline means filtering by name (under 5%). The alternative, outline `tests/test_utils.py` filtered to `CaseInsensitiveDict`, scores the same; the seed broke the tie. Plan by outcome: ok: outline `tests/test_utils.py` filtered to `CaseInsensitiveDict`; cap: outline `tests/test_utils.py` filtered to `CaseInsensitiveDict`.
+
+**Call:** `symbols('tests/test_requests.py', 'CaseInsensitiveDict')`
+
+**Response**: outcome `ok`
+
+```
+module tests/test_requests.py lines=3095 dynamic=no all=none
+55 from CaseInsensitiveDict <- requests.structures CaseInsensitiveDict
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "tests/test_requests.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `tests/test_requests.py` for its `CaseInsensitiveDict` imports"
+  },
+  {
+   "kind": "module_path",
+   "key": [
+    "module_path",
+    "tests/test_structures.py",
+    "requests.structures"
+   ],
+   "desc": "locate the module `requests.structures` imported by `tests/test_structures.py`"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "tests/test_utils.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `tests/test_utils.py` for its `CaseInsensitiveDict` imports"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "symbols('tests/test_requests.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"tests/test_requests.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    1450399,
+    271200
+   ],
+   "v2": [
+    1455823,
+    271200
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "tests/test_requests.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/test_utils.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"tests/test_utils.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    1450399,
+    271200
+   ],
+   "v2": [
+    1455823,
+    271200
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "tests/test_utils.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+CaseInsensitiveDict\\\\b', '.')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+CaseInsensitiveDict\\\\b\", \".\"]]",
+   "v1": [
+    2044661,
+    379680
+   ],
+   "v2": [
+    10261273,
+    1898400
+   ],
+   "p_cap": [
+    1,
+    35
+   ],
+   "forecast": {
+    "zero": [
+     1,
+     35
+    ],
+    "mid": [
+     33,
+     35
+    ],
+    "cap": [
+     1,
+     35
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_structures.py",
+     "requests.structures"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('requests/structures.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"requests/structures.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    964400345458793,
+    174287989964704
+   ],
+   "v2": [
+    24197152631452177,
+    4357199749117600
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     4757920,
+     12436341
+    ],
+    "reexport": [
+     475792,
+     136799751
+    ],
+    "star": [
+     118948,
+     136799751
+    ],
+    "none": [
+     475792,
+     45599917
+    ],
+    "missing": [
+     180395,
+     299343
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_structures.py",
+     "requests.structures"
+    ]
+   ]
+  },
+  {
+   "call": "ls('.')",
+   "key": "[\"ls\", [\".\"]]",
+   "v1": [
+    180629,
+    32544
+   ],
+   "v2": [
+    4531997,
+    813600
+   ],
+   "p_cap": [
+    2,
+    9
+   ],
+   "forecast": {
+    "complete": [
+     7,
+     9
+    ],
+    "cap": [
+     2,
+     9
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_structures.py",
+     "requests.structures"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+CaseInsensitiveDict\\\\b', 'src')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+CaseInsensitiveDict\\\\b\", \"src\"]]",
+   "v1": [
+    2090089,
+    336288
+   ],
+   "v2": [
+    52420369,
+    8407200
+   ],
+   "p_cap": [
+    1,
+    124
+   ],
+   "forecast": {
+    "zero": [
+     109,
+     124
+    ],
+    "mid": [
+     7,
+     62
+    ],
+    "cap": [
+     1,
+     124
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_structures.py",
+     "requests.structures"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('requests/structures/__init__.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"requests/structures/__init__.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    474453301121,
+    75408892064
+   ],
+   "v2": [
+    11899036974057,
+    1885222301600
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     11004,
+     1097591
+    ],
+    "reexport": [
+     31178,
+     1097591
+    ],
+    "star": [
+     917,
+     1097591
+    ],
+    "none": [
+     17423,
+     1097591
+    ],
+    "missing": [
+     94279,
+     99781
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_structures.py",
+     "requests.structures"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "symbols('tests/test_requests.py', 'CaseInsensitiveDict')",
+  "key": "[\"symbols\", [\"tests/test_requests.py\", \"CaseInsensitiveDict\"]]",
+  "provenance": "`tests/test_requests.py` had a matching line (step 1); its outline names every `CaseInsensitiveDict` import exactly",
+  "v2": [
+   1455823,
+   271200
+  ]
+ },
+ "forecast": {
+  "ok": [
+   49,
+   50
+  ],
+  "cap": [
+   1,
+   50
+  ]
+ },
+ "plan": {
+  "ok": "[\"symbols\", [\"tests/test_utils.py\", \"CaseInsensitiveDict\"]]",
+  "cap": "[\"symbols\", [\"tests/test_utils.py\", \"CaseInsensitiveDict\"]]"
+ },
+ "adherence": {
+  "planned": "[\"symbols\", [\"tests/test_requests.py\", \"CaseInsensitiveDict\"]]",
+  "status": "followed"
+ },
+ "facts": [
+  {
+   "kind": "outline",
+   "step": 9,
+   "path": "tests/test_requests.py",
+   "filter": "CaseInsensitiveDict",
+   "header": {
+    "lines": 3095,
+    "dynamic": false,
+    "all_status": "none",
+    "all_line": null
+   },
+   "bindings": [
+    {
+     "module": "tests/test_requests.py",
+     "name": "CaseInsensitiveDict",
+     "line": 55,
+     "kind": "from",
+     "src": "requests.structures",
+     "src_name": "CaseInsensitiveDict",
+     "conditional": false,
+     "col": 0
+    }
+   ],
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "verdicts": [
+   [
+    "src/requests/_types.py",
+    67,
+    "in",
+    "`.structures` resolves `CaseInsensitiveDict` to the target"
+   ],
+   [
+    "src/requests/adapters.py",
+    52,
+    "in",
+    "`.structures` resolves `C
+```
+</details>
+
+## Step 10
+
+In `tests/test_requests.py`, `CaseInsensitiveDict` has exactly one binding: line 55 imports it as `CaseInsensitiveDict` from `requests.structures`. No dynamic namespace tricks, no `__all__`. The call I had planned for this outcome is no longer useful, so I am re-planning.
+
+Candidate modules so far: 8; statements confirmed: 5, ruled out: 0, modules with no such import: 0, pending: 3. import coverage complete; star coverage complete.
+
+Still to settle: locate the module `requests.structures` imported by `tests/test_requests.py`; locate the module `requests.structures` imported by `tests/test_structures.py`; outline `tests/test_utils.py` for its `CaseInsensitiveDict` imports.
+
+Next: outline `requests/structures.py` filtered to `CaseInsensitiveDict`, because `requests.structures` would be `requests/structures.py` if that file exists; one call both checks and closes it. I expect: the file does not exist (about 60%); a definition there ends the chain (about 40%); no binding at all points at a submodule or an unresolved name (under 5%); a re-export continues the chain to its source (under 5%); no binding but a star import means checking what that source exports (under 5%). The alternative, grep `def`/`class CaseInsensitiveDict` statements under `.`, is expected to open more follow-up work. Plan by outcome: def: outline `tests/test_utils.py` filtered to `CaseInsensitiveDict`; reexport: outline `tests/test_utils.py` filtered to `CaseInsensitiveDict`; star: outline `tests/test_utils.py` filtered to `CaseInsensitiveDict`; none: outline `tests/test_utils.py` filtered to `CaseInsensitiveDict`; missing: grep `def`/`class CaseInsensitiveDict` statements under `.`.
+
+**Call:** `symbols('requests/structures.py', 'CaseInsensitiveDict')`
+
+**Response**: outcome `missing`
+
+```
+error: not a python file: requests/structures.py
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "module_path",
+   "key": [
+    "module_path",
+    "tests/test_requests.py",
+    "requests.structures"
+   ],
+   "desc": "locate the module `requests.structures` imported by `tests/test_requests.py`"
+  },
+  {
+   "kind": "module_path",
+   "key": [
+    "module_path",
+    "tests/test_structures.py",
+    "requests.structures"
+   ],
+   "desc": "locate the module `requests.structures` imported by `tests/test_structures.py`"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "tests/test_utils.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `tests/test_utils.py` for its `CaseInsensitiveDict` imports"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "symbols('requests/structures.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"requests/structures.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    37816788482391,
+    7416510211264
+   ],
+   "v2": [
+    119557656014800307,
+    26143198494705600
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     4757920,
+     12436341
+    ],
+    "reexport": [
+     475792,
+     136799751
+    ],
+    "star": [
+     118948,
+     136799751
+    ],
+    "none": [
+     475792,
+     45599917
+    ],
+    "missing": [
+     180395,
+     299343
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_requests.py",
+     "requests.structures"
+    ],
+    [
+     "module_path",
+     "tests/test_structures.py",
+     "requests.structures"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+CaseInsensitiveDict\\\\b', '.')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+CaseInsensitiveDict\\\\b\", \".\"]]",
+   "v1": [
+    3653669,
+    759360
+   ],
+   "v2": [
+    31124578329182781,
+    6489446434856000
+   ],
+   "p_cap": [
+    1,
+    35
+   ],
+   "forecast": {
+    "zero": [
+     1,
+     35
+    ],
+    "mid": [
+     33,
+     35
+    ],
+    "cap": [
+     1,
+     35
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_requests.py",
+     "requests.structures"
+    ],
+    [
+     "module_path",
+     "tests/test_structures.py",
+     "requests.structures"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/test_utils.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"tests/test_utils.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    3101023,
+    542400
+   ],
+   "v2": [
+    18344281,
+    3796800
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "tests/test_utils.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "ls('.')",
+   "key": "[\"ls\", [\".\"]]",
+   "v1": [
+    334661,
+    65088
+   ],
+   "v2": [
+    56500939,
+    11390400
+   ],
+   "p_cap": [
+    2,
+    9
+   ],
+   "forecast": {
+    "complete": [
+     7,
+     9
+    ],
+    "cap": [
+     2,
+     9
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_requests.py",
+     "requests.structures"
+    ],
+    [
+     "module_path",
+     "tests/test_structures.py",
+     "requests.structures"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+CaseInsensitiveDict\\\\b', 'src')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+CaseInsensitiveDict\\\\b\", \"src\"]]",
+   "v1": [
+    4352521,
+    672576
+   ],
+   "v2": [
+    669477751,
+    117700800
+   ],
+   "p_cap": [
+    1,
+    124
+   ],
+   "forecast": {
+    "zero": [
+     109,
+     124
+    ],
+    "mid": [
+     7,
+     62
+    ],
+    "cap": [
+     1,
+     124
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_requests.py",
+     "requests.structures"
+    ],
+    [
+     "module_path",
+     "tests/test_structures.py",
+     "requests.structures"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('requests/structures/__init__.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"requests/structures/__init__.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    2963292124291,
+    452453352384
+   ],
+   "v2": [
+    452400208548493,
+    79179336667200
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     11004,
+     1097591
+    ],
+    "reexport": [
+     31178,
+     1097591
+    ],
+    "star": [
+     917,
+     1097591
+    ],
+    "none": [
+     17423,
+     1097591
+    ],
+    "missing": [
+     94279,
+     99781
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_requests.py",
+     "requests.structures"
+    ],
+    [
+     "module_path",
+     "tests/test_structures.py",
+     "requests.structures"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "symbols('requests/structures.py', 'CaseInsensitiveDict')",
+  "key": "[\"symbols\", [\"requests/structures.py\", \"CaseInsensitiveDict\"]]",
+  "provenance": "`requests.structures` would be `requests/structures.py` if that file exists; one call both checks and closes it",
+  "v2": [
+   119557656014800307,
+   26143198494705600
+  ]
+ },
+ "forecast": {
+  "def": [
+   4757920,
+   12436341
+  ],
+  "reexport": [
+   475792,
+   136799751
+  ],
+  "star": [
+   118948,
+   136799751
+  ],
+  "none": [
+   475792,
+   45599917
+  ],
+  "missing": [
+   180395,
+   299343
+  ]
+ },
+ "plan": {
+  "def": "[\"symbols\", [\"tests/test_utils.py\", \"CaseInsensitiveDict\"]]",
+  "reexport": "[\"symbols\", [\"tests/test_utils.py\", \"CaseInsensitiveDict\"]]",
+  "star": "[\"symbols\", [\"tests/test_utils.py\", \"CaseInsensitiveDict\"]]",
+  "none": "[\"symbols\", [\"tests/test_utils.py\", \"CaseInsensitiveDict\"]]",
+  "missing": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+CaseInsensitiveDict\\\\b\", \".\"]]"
+ },
+ "adherence": {
+  "planned": "[\"symbols\", [\"tests/test_utils.py\", \"CaseInsensitiveDict\"]]",
+  "status": "replanned"
+ },
+ "facts": [
+  {
+   "kind": "error",
+   "step": 10,
+   "call": "[\"symbols\", [\"requests/structures.py\", \"CaseInsensitiveDict\"]]",
+   "error": "not a python file: requests/structures.py",
+   "missing": "requests/structures.py"
+  }
+ ],
+ "goal_state": {
+  "verdicts": [
+   [
+    "src/requests/_types.py",
+    6
+```
+</details>
+
+## Step 11
+
+`requests/structures.py` does not exist, so that path is ruled out.
+
+Candidate modules so far: 8; statements confirmed: 5, ruled out: 0, modules with no such import: 0, pending: 3. import coverage complete; star coverage complete.
+
+Outstanding: locate the module `requests.structures` imported by `tests/test_requests.py`; locate the module `requests.structures` imported by `tests/test_structures.py`; outline `tests/test_utils.py` for its `CaseInsensitiveDict` imports.
+
+Next: grep `def`/`class CaseInsensitiveDict` statements under `.`, because a `def`/`class CaseInsensitiveDict` statement would reveal the module file; `CaseInsensitiveDict` task. I expect: hits under the cap (about 95%); a capped result (about 5%); no hits (about 5%). The alternative, outline `tests/test_utils.py` filtered to `CaseInsensitiveDict`, serves fewer of the open items. Plan by outcome: zero: list `.`; mid: outline `tests/test_utils.py` filtered to `CaseInsensitiveDict`; cap: list `.`.
+
+**Call:** `grep('^\\s*(?:async\\s+)?(?:def|class)\\s+CaseInsensitiveDict\\b', '.')`
+
+**Response**: outcome `mid`
+
+```
+src/requests/structures.py:20:class CaseInsensitiveDict(MutableMapping[str, _VT], Generic[_VT]):
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "module_path",
+   "key": [
+    "module_path",
+    "tests/test_requests.py",
+    "requests.structures"
+   ],
+   "desc": "locate the module `requests.structures` imported by `tests/test_requests.py`"
+  },
+  {
+   "kind": "module_path",
+   "key": [
+    "module_path",
+    "tests/test_structures.py",
+    "requests.structures"
+   ],
+   "desc": "locate the module `requests.structures` imported by `tests/test_structures.py`"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "tests/test_utils.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `tests/test_utils.py` for its `CaseInsensitiveDict` imports"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+CaseInsensitiveDict\\\\b', '.')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+CaseInsensitiveDict\\\\b\", \".\"]]",
+   "v1": [
+    62544439,
+    8352960
+   ],
+   "v2": [
+    4682758397,
+    626472000
+   ],
+   "p_cap": [
+    1,
+    35
+   ],
+   "forecast": {
+    "zero": [
+     1,
+     35
+    ],
+    "mid": [
+     33,
+     35
+    ],
+    "cap": [
+     1,
+     35
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_requests.py",
+     "requests.structures"
+    ],
+    [
+     "module_path",
+     "tests/test_structures.py",
+     "requests.structures"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/test_utils.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"tests/test_utils.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    50078453,
+    5966400
+   ],
+   "v2": [
+    313557491,
+    41764800
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "tests/test_utils.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "ls('.')",
+   "key": "[\"ls\", [\".\"]]",
+   "v1": [
+    5597335,
+    715968
+   ],
+   "v2": [
+    956821529,
+    125294400
+   ],
+   "p_cap": [
+    2,
+    9
+   ],
+   "forecast": {
+    "complete": [
+     7,
+     9
+    ],
+    "cap": [
+     2,
+     9
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_requests.py",
+     "requests.structures"
+    ],
+    [
+     "module_path",
+     "tests/test_structures.py",
+     "requests.structures"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('requests/structures/__init__.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"requests/structures/__init__.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    4107374577379,
+    452453352384
+   ],
+   "v2": [
+    652614637838893,
+    79179336667200
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     11004,
+     1097591
+    ],
+    "reexport": [
+     31178,
+     1097591
+    ],
+    "star": [
+     917,
+     1097591
+    ],
+    "none": [
+     17423,
+     1097591
+    ],
+    "missing": [
+     94279,
+     99781
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_requests.py",
+     "requests.structures"
+    ],
+    [
+     "module_path",
+     "tests/test_structures.py",
+     "requests.structures"
+    ]
+   ]
+  },
+  {
+   "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+CaseInsensitiveDict\\\\b', 'src')",
+   "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+CaseInsensitiveDict\\\\b\", \"src\"]]",
+   "v1": [
+    67677059,
+    7398336
+   ],
+   "v2": [
+    10829137661,
+    1294708800
+   ],
+   "p_cap": [
+    1,
+    124
+   ],
+   "forecast": {
+    "zero": [
+     109,
+     124
+    ],
+    "mid": [
+     7,
+     62
+    ],
+    "cap": [
+     1,
+     124
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_requests.py",
+     "requests.structures"
+    ],
+    [
+     "module_path",
+     "tests/test_structures.py",
+     "requests.structures"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "grep('^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+CaseInsensitiveDict\\\\b', '.')",
+  "key": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+CaseInsensitiveDict\\\\b\", \".\"]]",
+  "provenance": "a `def`/`class CaseInsensitiveDict` statement would reveal the module file; `CaseInsensitiveDict` task",
+  "v2": [
+   4682758397,
+   626472000
+  ]
+ },
+ "forecast": {
+  "zero": [
+   1,
+   35
+  ],
+  "mid": [
+   33,
+   35
+  ],
+  "cap": [
+   1,
+   35
+  ]
+ },
+ "plan": {
+  "zero": "[\"ls\", [\".\"]]",
+  "mid": "[\"symbols\", [\"tests/test_utils.py\", \"CaseInsensitiveDict\"]]",
+  "cap": "[\"ls\", [\".\"]]"
+ },
+ "adherence": {
+  "planned": "[\"grep\", [\"^\\\\s*(?:async\\\\s+)?(?:def|class)\\\\s+CaseInsensitiveDict\\\\b\", \".\"]]",
+  "status": "followed"
+ },
+ "facts": [
+  {
+   "kind": "grep",
+   "step": 11,
+   "pattern": "^\\s*(?:async\\s+)?(?:def|class)\\s+CaseInsensitiveDict\\b",
+   "scope": ".",
+   "hits": [
+    [
+     "src/requests/structures.py",
+     20
+    ]
+   ],
+   "capped": false
+  }
+ ],
+ "goal_state": {
+  "verdicts": [
+   [
+    "src/requests/_types.py",
+    67,
+    "in",
+    "`.structures` resolves `CaseInsensitiveDict` to the target"
+   ],
+   [
+    "src/requests/adapters.py",
+    52,
+    "in",
+    "`.structures` resolves `CaseInsensitiveDict` to the target"
+   ],
+   [
+    "src/requests/models.py",
+    71,
+    "in",
+    "`.structures` resolves `CaseInsensitiveDict` to the target"
+   ],
+   [
+    "src/requests/sessions.py",
+    47,
+    "in",
+    "`.structures` resolves `CaseInsensitiveDict` to the target"
+   ],
+   [
+    "src/requests/utils.py",
+    69,
+    "in",
+    "`.structures` resolves `CaseInsensitiveDict` to the target"
+   ],
+   [
+    "tests/test_requests.py",
+    55,
+    "pending",
+    ""
+   ],
+   [
+    "tests/test_structures.py",
+    3,
+    "pending",
+    ""
+   ],
+   [
+    "tests/test_utils.py",
+    0,
+    "pending",
+    "outline not yet seen"
+   ]
+  ],
+  "uncovered": {
+   "IMPORT": [],
+   "STAR": []
+  }
+ }
+}
+```
+</details>
+
+## Step 12
+
+The grep under `.` returned 1 lines, under the cap, so these are all of them: `src/requests/structures.py`.
+
+Candidate modules so far: 8; statements confirmed: 5, ruled out: 0, modules with no such import: 0, pending: 3. import coverage complete; star coverage complete.
+
+Open: locate the module `requests.structures` imported by `tests/test_requests.py`; locate the module `requests.structures` imported by `tests/test_structures.py`; outline `tests/test_utils.py` for its `CaseInsensitiveDict` imports.
+
+Next: outline `tests/test_utils.py` filtered to `CaseInsensitiveDict`, because `tests/test_utils.py` had a matching line (step 1); its outline names every `CaseInsensitiveDict` import exactly. I expect: the outline lists its imports of the name (near certain); a capped outline means filtering by name (under 5%). The alternative, list `.`, is more likely to hit the cap (about 20% against under 5%). Plan by outcome: ok: list `.`; cap: list `.`.
+
+**Call:** `symbols('tests/test_utils.py', 'CaseInsensitiveDict')`
+
+**Response**: outcome `ok`
+
+```
+module tests/test_utils.py lines=1014 dynamic=no all=none
+15 from CaseInsensitiveDict <- requests.structures CaseInsensitiveDict
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "module_path",
+   "key": [
+    "module_path",
+    "tests/test_requests.py",
+    "requests.structures"
+   ],
+   "desc": "locate the module `requests.structures` imported by `tests/test_requests.py`"
+  },
+  {
+   "kind": "module_path",
+   "key": [
+    "module_path",
+    "tests/test_structures.py",
+    "requests.structures"
+   ],
+   "desc": "locate the module `requests.structures` imported by `tests/test_structures.py`"
+  },
+  {
+   "kind": "outline",
+   "key": [
+    "outline",
+    "tests/test_utils.py",
+    "CaseInsensitiveDict"
+   ],
+   "desc": "outline `tests/test_utils.py` for its `CaseInsensitiveDict` imports"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "ls('.')",
+   "key": "[\"ls\", [\".\"]]",
+   "v1": [
+    5597335,
+    715968
+   ],
+   "v2": [
+    140291359,
+    17899200
+   ],
+   "p_cap": [
+    2,
+    9
+   ],
+   "forecast": {
+    "complete": [
+     7,
+     9
+    ],
+    "cap": [
+     2,
+     9
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_requests.py",
+     "requests.structures"
+    ],
+    [
+     "module_path",
+     "tests/test_structures.py",
+     "requests.structures"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('tests/test_utils.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"tests/test_utils.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    50078453,
+    5966400
+   ],
+   "v2": [
+    140291359,
+    17899200
+   ],
+   "p_cap": [
+    1,
+    50
+   ],
+   "forecast": {
+    "ok": [
+     49,
+     50
+    ],
+    "cap": [
+     1,
+     50
+    ]
+   },
+   "serves": [
+    [
+     "outline",
+     "tests/test_utils.py",
+     "CaseInsensitiveDict"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('requests/structures/__init__.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"requests/structures/__init__.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    4107374577379,
+    452453352384
+   ],
+   "v2": [
+    290277819090817,
+    33934001428800
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     11004,
+     1097591
+    ],
+    "reexport": [
+     31178,
+     1097591
+    ],
+    "star": [
+     917,
+     1097591
+    ],
+    "none": [
+     17423,
+     1097591
+    ],
+    "missing": [
+     94279,
+     99781
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_requests.py",
+     "requests.structures"
+    ],
+    [
+     "module_path",
+     "tests/test_structures.py",
+     "requests.structures"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "symbols('tests/test_utils.py', 'CaseInsensitiveDict')",
+  "key": "[\"symbols\", [\"tests/test_utils.py\", \"CaseInsensitiveDict\"]]",
+  "provenance": "`tests/test_utils.py` had a matching line (step 1); its outline names every `CaseInsensitiveDict` import exactly",
+  "v2": [
+   140291359,
+   17899200
+  ]
+ },
+ "forecast": {
+  "ok": [
+   49,
+   50
+  ],
+  "cap": [
+   1,
+   50
+  ]
+ },
+ "plan": {
+  "ok": "[\"ls\", [\".\"]]",
+  "cap": "[\"ls\", [\".\"]]"
+ },
+ "adherence": {
+  "planned": "[\"symbols\", [\"tests/test_utils.py\", \"CaseInsensitiveDict\"]]",
+  "status": "followed"
+ },
+ "facts": [
+  {
+   "kind": "outline",
+   "step": 12,
+   "path": "tests/test_utils.py",
+   "filter": "CaseInsensitiveDict",
+   "header": {
+    "lines": 1014,
+    "dynamic": false,
+    "all_status": "none",
+    "all_line": null
+   },
+   "bindings": [
+    {
+     "module": "tests/test_utils.py",
+     "name": "CaseInsensitiveDict",
+     "line": 15,
+     "kind": "from",
+     "src": "requests.structures",
+     "src_name": "CaseInsensitiveDict",
+     "conditional": false,
+     "col": 0
+    }
+   ],
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "verdicts": [
+   [
+    "src/requests/_types.py",
+    67,
+    "in",
+    "`.structures` resolves `CaseInsensitiveDict` to the target"
+   ],
+   [
+    "src/requests/adapters.py",
+    52,
+    "in",
+    "`.structures` resolves `CaseInsensitiveDict` to the target"
+   ],
+   [
+    "src/requests/models.py",
+    71,
+    "in",
+    "`.structures` resolves `CaseInsensitiveDict` to the target"
+   ],
+   [
+    "src/requests/sessions.py",
+    47,
+    "in",
+    "`.structures` resolves `CaseInsensitiveDict` to the target"
+   ],
+   [
+    "src/requests/utils.py",
+    69,
+    "in",
+    "`.structures` resolves `CaseInsensitiveDict` to the target"
+   ],
+   [
+    "tests/test_requests.py",
+    55,
+    "pending",
+    ""
+   ],
+   [
+    "tests/test_structures.py",
+    3,
+    "pending",
+    ""
+   ],
+   [
+    "tests/test_utils.py",
+    15,
+    "pending",
+    ""
+   ]
+  ],
+  "uncovered": {
+   "IMPORT": [],
+   "STAR": []
+  }
+ }
+}
+```
+</details>
+
+## Step 13
+
+In `tests/test_utils.py`, `CaseInsensitiveDict` has exactly one binding: line 15 imports it as `CaseInsensitiveDict` from `requests.structures`. No dynamic namespace tricks, no `__all__`.
+
+Candidate modules so far: 8; statements confirmed: 5, ruled out: 0, modules with no such import: 0, pending: 3. import coverage complete; star coverage complete.
+
+Outstanding: locate the module `requests.structures` imported by `tests/test_requests.py`; locate the module `requests.structures` imported by `tests/test_structures.py`; locate the module `requests.structures` imported by `tests/test_utils.py`.
+
+Next: list `.`, because `requests.structures` imported by `tests/test_requests.py` should live under `.`. I expect: a complete listing settles which files exist (about 80%); a capped listing settles nothing (about 20%). The alternative, outline `requests/structures/__init__.py` filtered to `CaseInsensitiveDict`, costs more in expectation. Plan by outcome: complete: outline the module it reveals; cap: outline `requests/structures/__init__.py` filtered to `CaseInsensitiveDict`.
+
+**Call:** `ls('.')`
+
+**Response**: outcome `complete`
+
+```
+.github/
+.pre-commit-config.yaml
+.readthedocs.yaml
+AUTHORS.rst
+HISTORY.md
+MANIFEST.in
+README.md
+docs/
+pyproject.toml
+requirements-dev.txt
+setup.py
+src/
+tests/
+tox.ini
+```
+
+<details><summary>sidecar</summary>
+
+```json
+{
+ "items": [
+  {
+   "kind": "module_path",
+   "key": [
+    "module_path",
+    "tests/test_requests.py",
+    "requests.structures"
+   ],
+   "desc": "locate the module `requests.structures` imported by `tests/test_requests.py`"
+  },
+  {
+   "kind": "module_path",
+   "key": [
+    "module_path",
+    "tests/test_structures.py",
+    "requests.structures"
+   ],
+   "desc": "locate the module `requests.structures` imported by `tests/test_structures.py`"
+  },
+  {
+   "kind": "module_path",
+   "key": [
+    "module_path",
+    "tests/test_utils.py",
+    "requests.structures"
+   ],
+   "desc": "locate the module `requests.structures` imported by `tests/test_utils.py`"
+  }
+ ],
+ "candidates": [
+  {
+   "call": "ls('.')",
+   "key": "[\"ls\", [\".\"]]",
+   "v1": [
+    130475,
+    14916
+   ],
+   "v2": [
+    2255606777797,
+    254505010716
+   ],
+   "p_cap": [
+    2,
+    9
+   ],
+   "forecast": {
+    "complete": [
+     7,
+     9
+    ],
+    "cap": [
+     2,
+     9
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_requests.py",
+     "requests.structures"
+    ],
+    [
+     "module_path",
+     "tests/test_structures.py",
+     "requests.structures"
+    ],
+    [
+     "module_path",
+     "tests/test_utils.py",
+     "requests.structures"
+    ]
+   ]
+  },
+  {
+   "call": "symbols('requests/structures/__init__.py', 'CaseInsensitiveDict')",
+   "key": "[\"symbols\", [\"requests/structures/__init__.py\", \"CaseInsensitiveDict\"]]",
+   "v1": [
+    299749257593,
+    28278334524
+   ],
+   "v2": [
+    264123863305,
+    28278334524
+   ],
+   "p_cap": [
+    0,
+    1
+   ],
+   "forecast": {
+    "def": [
+     11004,
+     1097591
+    ],
+    "reexport": [
+     31178,
+     1097591
+    ],
+    "star": [
+     917,
+     1097591
+    ],
+    "none": [
+     17423,
+     1097591
+    ],
+    "missing": [
+     94279,
+     99781
+    ]
+   },
+   "serves": [
+    [
+     "module_path",
+     "tests/test_requests.py",
+     "requests.structures"
+    ],
+    [
+     "module_path",
+     "tests/test_structures.py",
+     "requests.structures"
+    ],
+    [
+     "module_path",
+     "tests/test_utils.py",
+     "requests.structures"
+    ]
+   ]
+  }
+ ],
+ "choice": {
+  "call": "ls('.')",
+  "key": "[\"ls\", [\".\"]]",
+  "provenance": "`requests.structures` imported by `tests/test_requests.py` should live under `.`",
+  "v2": [
+   2255606777797,
+   254505010716
+  ]
+ },
+ "forecast": {
+  "complete": [
+   7,
+   9
+  ],
+  "cap": [
+   2,
+   9
+  ]
+ },
+ "plan": {
+  "complete": "continue",
+  "cap": "[\"symbols\", [\"requests/structures/__init__.py\", \"CaseInsensitiveDict\"]]"
+ },
+ "adherence": {
+  "planned": "[\"ls\", [\".\"]]",
+  "status": "followed"
+ },
+ "facts": [
+  {
+   "kind": "listing",
+   "step": 13,
+   "dir": ".",
+   "entries": [
+    ".github/",
+    ".pre-commit-config.yaml",
+    ".readthedocs.yaml",
+    "AUTHORS.rst",
+    "HISTORY.md",
+    "MANIFEST.in",
+    "README.md",
+    "docs/",
+    "pyproject.toml",
+    "requirements-dev.txt",
+    "setup.py",
+    "src/",
+    "tests/",
+    "tox.ini"
+   ],
+   "complete": true
+  }
+ ],
+ "goal_state": {
+  "verdicts": [
+   [
+    "src/requests/_types.py",
+    67,
+    "in",
+    "`.structures` resolves `CaseInsensitiveDict` to the target"
+   ],
+   [
+    "src/requests/adapters.py",
+    52,
+    "in",
+    "`.structures` resolves `CaseInsensitiveDict` to the target"
+   ],
+   [
+    "src/requests/models.py",
+    71,
+    "in",
+    "`.structures` resolves `CaseInsensitiveDict` to the target"
+   ],
+   [
+    "src/requests/sessions.py",
+    47,
+    "in",
+    "`.structures` resolves `CaseInsensitiveDict` to the target"
+   ],
+   [
+    "src/requests/utils.py",
+    69,
+    "in",
+    "`.structures` resolves `CaseInsensitiveDict` to the target"
+   ],
+   [
+    "tests/test_requests.py",
+    55,
+    "in",
+    "`requests.structures` resolves `CaseInsensitiveDict` to the target"
+   ],
+   [
+    "tests/test_structures.py",
+    3,
+    "in",
+    "`requests.structures` resolves `CaseInsensitiveDict` to the target"
+   ],
+   [
+    "tests/test_utils.py",
+    15,
+    "in",
+    "`requests.structures` resolves `CaseInsensitiveDict` to the target"
+   ]
+  ],
+  "uncovered": {
+   "IMPORT": [],
+   "STAR": []
+  }
+ }
+}
+```
+</details>
+
+## Final
+
+Certificate complete. 8 import statements import this definition: `src/requests/_types.py:67`, `src/requests/adapters.py:52`, `src/requests/models.py:71`, `src/requests/sessions.py:47`, `src/requests/utils.py:69`, `tests/test_requests.py:55`, `tests/test_structures.py:3`, `tests/test_utils.py:15`. In hindsight, 2 of 13 calls were not needed for the certificate: steps 10, 11.
+
+**Answer:** `{"statements": ["src/requests/_types.py:67", "src/requests/adapters.py:52", "src/requests/models.py:71", "src/requests/sessions.py:47", "src/requests/utils.py:69", "tests/test_requests.py:55", "tests/test_structures.py:3", "tests/test_utils.py:15"], "count": 8}`  
+**Stopped:** certificate after 13 calls

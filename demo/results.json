@@ -1,0 +1,891 @@
+{
+ "rows": [
+  {
+   "id": "attrs-composite-7836bbf5",
+   "repo": "attrs",
+   "family": "composite",
+   "cell": "alias=False|decoys=0|family=composite|from_init=False|hops=2|importers=5|relative=False|root_caps=False|star=False",
+   "floor": 19,
+   "calls_search": 25,
+   "calls_greedy": 25,
+   "stopped": "certificate",
+   "stopped_greedy": "certificate",
+   "replay_ok": true,
+   "world_ok": true,
+   "world_checks": 88,
+   "greedy_world_ok": true,
+   "adherence": {
+    "first": 1,
+    "followed": 19,
+    "open-ended": 4,
+    "deviated": 1
+   },
+   "answer_ok": true
+  },
+  {
+   "id": "attrs-composite-8719a906",
+   "repo": "attrs",
+   "family": "composite",
+   "cell": "alias=False|decoys=1|family=composite|from_init=False|hops=3|importers=5|relative=False|root_caps=False|star=False",
+   "floor": 19,
+   "calls_search": 23,
+   "calls_greedy": 23,
+   "stopped": "certificate",
+   "stopped_greedy": "certificate",
+   "replay_ok": true,
+   "world_ok": true,
+   "world_checks": 102,
+   "greedy_world_ok": true,
+   "adherence": {
+    "first": 1,
+    "deviated": 3,
+    "open-ended": 4,
+    "followed": 15
+   },
+   "answer_ok": true
+  },
+  {
+   "id": "attrs-cover-4a8ce702",
+   "repo": "attrs",
+   "family": "cover",
+   "cell": "decoy_sources=2+|family=cover|importers=5|root_caps=False|sources=2-3|star=False",
+   "floor": 19,
+   "calls_search": 25,
+   "calls_greedy": 25,
+   "stopped": "certificate",
+   "stopped_greedy": "certificate",
+   "replay_ok": true,
+   "world_ok": true,
+   "world_checks": 97,
+   "greedy_world_ok": true,
+   "adherence": {
+    "first": 1,
+    "open-ended": 1,
+    "followed": 21,
+    "deviated": 2
+   },
+   "answer_ok": true
+  },
+  {
+   "id": "attrs-resolve-b134577c",
+   "repo": "attrs",
+   "family": "resolve",
+   "cell": "alias=False|decoys=1|family=resolve|from_init=False|hops=2|relative=True|star=False",
+   "floor": 2,
+   "calls_search": 2,
+   "calls_greedy": 2,
+   "stopped": "certificate",
+   "stopped_greedy": "certificate",
+   "replay_ok": true,
+   "world_ok": true,
+   "world_checks": 10,
+   "greedy_world_ok": true,
+   "adherence": {
+    "first": 1,
+    "deviated": 1
+   },
+   "answer_ok": true
+  },
+  {
+   "id": "black-resolve-1daa42f9",
+   "repo": "black",
+   "family": "resolve",
+   "cell": "alias=False|decoys=2+|family=resolve|from_init=True|hops=2|relative=False|star=False",
+   "floor": 2,
+   "calls_search": 5,
+   "calls_greedy": 5,
+   "stopped": "certificate",
+   "stopped_greedy": "certificate",
+   "replay_ok": true,
+   "world_ok": true,
+   "world_checks": 15,
+   "greedy_world_ok": true,
+   "adherence": {
+    "first": 1,
+    "followed": 2,
+    "open-ended": 2
+   },
+   "answer_ok": true
+  },
+  {
+   "id": "black-resolve-93dc74fa",
+   "repo": "black",
+   "family": "resolve",
+   "cell": "alias=False|decoys=2+|family=resolve|from_init=False|hops=2|relative=False|star=False",
+   "floor": 2,
+   "calls_search": 5,
+   "calls_greedy": 5,
+   "stopped": "certificate",
+   "stopped_greedy": "certificate",
+   "replay_ok": true,
+   "world_ok": true,
+   "world_checks": 30,
+   "greedy_world_ok": true,
+   "adherence": {
+    "first": 1,
+    "followed": 1,
+    "open-ended": 3
+   },
+   "answer_ok": true
+  },
+  {
+   "id": "click-composite-459950f2",
+   "repo": "click",
+   "family": "composite",
+   "cell": "alias=False|decoys=0|family=composite|from_init=False|hops=2|importers=5|relative=False|root_caps=False|star=False",
+   "floor": 8,
+   "calls_search": 10,
+   "calls_greedy": 10,
+   "stopped": "certificate",
+   "stopped_greedy": "certificate",
+   "replay_ok": true,
+   "world_ok": true,
+   "world_checks": 40,
+   "greedy_world_ok": true,
+   "adherence": {
+    "first": 1,
+    "followed": 5,
+    "open-ended": 3,
+    "deviated": 1
+   },
+   "answer_ok": true
+  },
+  {
+   "id": "click-composite-ca81075c",
+   "repo": "click",
+   "family": "composite",
+   "cell": "alias=False|decoys=0|family=composite|from_init=False|hops=2|importers=5|relative=True|root_caps=False|star=False",
+   "floor": 8,
+   "calls_search": 10,
+   "calls_greedy": 10,
+   "stopped": "certificate",
+   "stopped_greedy": "certificate",
+   "replay_ok": true,
+   "world_ok": true,
+   "world_checks": 41,
+   "greedy_world_ok": true,
+   "adherence": {
+    "first": 1,
+    "followed": 5,
+    "open-ended": 3,
+    "deviated": 1
+   },
+   "answer_ok": true
+  },
+  {
+   "id": "click-cover-1ae0c26a",
+   "repo": "click",
+   "family": "cover",
+   "cell": "decoy_sources=0|family=cover|importers=5|root_caps=False|sources=1|star=False",
+   "floor": 6,
+   "calls_search": 9,
+   "calls_greedy": 9,
+   "stopped": "certificate",
+   "stopped_greedy": "certificate",
+   "replay_ok": true,
+   "world_ok": true,
+   "world_checks": 36,
+   "greedy_world_ok": true,
+   "adherence": {
+    "first": 1,
+    "followed": 6,
+    "open-ended": 2
+   },
+   "answer_ok": true
+  },
+  {
+   "id": "click-resolve-4cf9b346",
+   "repo": "click",
+   "family": "resolve",
+   "cell": "alias=False|decoys=0|family=resolve|from_init=False|hops=2|relative=False|star=False",
+   "floor": 2,
+   "calls_search": 5,
+   "calls_greedy": 5,
+   "stopped": "certificate",
+   "stopped_greedy": "certificate",
+   "replay_ok": true,
+   "world_ok": true,
+   "world_checks": 15,
+   "greedy_world_ok": true,
+   "adherence": {
+    "first": 1,
+    "followed": 1,
+    "open-ended": 3
+   },
+   "answer_ok": true
+  },
+  {
+   "id": "flask-composite-6d6303d9",
+   "repo": "flask",
+   "family": "composite",
+   "cell": "alias=False|decoys=1|family=composite|from_init=True|hops=3|importers=6-12|relative=False|root_caps=False|star=False",
+   "floor": 16,
+   "calls_search": 15,
+   "calls_greedy": 15,
+   "stopped": "certificate",
+   "stopped_greedy": "certificate",
+   "replay_ok": true,
+   "world_ok": true,
+   "world_checks": 98,
+   "greedy_world_ok": true,
+   "adherence": {
+    "first": 1,
+    "deviated": 2,
+    "open-ended": 4,
+    "followed": 8
+   },
+   "answer_ok": true
+  },
+  {
+   "id": "flask-composite-9bc1d97c",
+   "repo": "flask",
+   "family": "composite",
+   "cell": "alias=False|decoys=0|family=composite|from_init=False|hops=3|importers=6-12|relative=False|root_caps=True|star=False",
+   "floor": 20,
+   "calls_search": 18,
+   "calls_greedy": 18,
+   "stopped": "certificate",
+   "stopped_greedy": "certificate",
+   "replay_ok": true,
+   "world_ok": true,
+   "world_checks": 124,
+   "greedy_world_ok": true,
+   "adherence": {
+    "first": 1,
+    "deviated": 2,
+    "open-ended": 4,
+    "followed": 11
+   },
+   "answer_ok": true
+  },
+  {
+   "id": "flask-resolve-069472a0",
+   "repo": "flask",
+   "family": "resolve",
+   "cell": "alias=False|decoys=1|family=resolve|from_init=True|hops=2|relative=True|star=False",
+   "floor": 2,
+   "calls_search": 2,
+   "calls_greedy": 2,
+   "stopped": "certificate",
+   "stopped_greedy": "certificate",
+   "replay_ok": true,
+   "world_ok": true,
+   "world_checks": 9,
+   "greedy_world_ok": true,
+   "adherence": {
+    "first": 1,
+    "deviated": 1
+   },
+   "answer_ok": true
+  },
+  {
+   "id": "flask-resolve-f8d5cd59",
+   "repo": "flask",
+   "family": "resolve",
+   "cell": "alias=False|decoys=1|family=resolve|from_init=False|hops=3|relative=False|star=False",
+   "floor": 3,
+   "calls_search": 5,
+   "calls_greedy": 5,
+   "stopped": "certificate",
+   "stopped_greedy": "certificate",
+   "replay_ok": true,
+   "world_ok": true,
+   "world_checks": 32,
+   "greedy_world_ok": true,
+   "adherence": {
+    "first": 1,
+    "deviated": 1,
+    "open-ended": 3
+   },
+   "answer_ok": true
+  },
+  {
+   "id": "httpx-composite-3652b9a2",
+   "repo": "httpx",
+   "family": "composite",
+   "cell": "alias=False|decoys=0|family=composite|from_init=False|hops=2|importers=6-12|relative=True|root_caps=False|star=False",
+   "floor": 20,
+   "calls_search": 38,
+   "calls_greedy": 38,
+   "stopped": "certificate",
+   "stopped_greedy": "certificate",
+   "replay_ok": true,
+   "world_ok": true,
+   "world_checks": 179,
+   "greedy_world_ok": true,
+   "adherence": {
+    "first": 1,
+    "followed": 29,
+    "open-ended": 2,
+    "deviated": 2,
+    "replanned": 1,
+    "unplanned": 3
+   },
+   "answer_ok": true
+  },
+  {
+   "id": "httpx-composite-b2ad6580",
+   "repo": "httpx",
+   "family": "composite",
+   "cell": "alias=False|decoys=0|family=composite|from_init=False|hops=2|importers=6-12|relative=True|root_caps=True|star=False",
+   "floor": 22,
+   "calls_search": 40,
+   "calls_greedy": 40,
+   "stopped": "budget",
+   "stopped_greedy": "budget",
+   "replay_ok": true,
+   "world_ok": true,
+   "world_checks": 141,
+   "greedy_world_ok": true,
+   "adherence": {
+    "first": 1,
+    "deviated": 2,
+    "open-ended": 2,
+    "replanned": 1,
+    "followed": 30,
+    "unplanned": 4
+   },
+   "answer_ok": false
+  },
+  {
+   "id": "httpx-cover-48c28c46",
+   "repo": "httpx",
+   "family": "cover",
+   "cell": "decoy_sources=2+|family=cover|importers=5|root_caps=False|sources=1|star=True",
+   "floor": 18,
+   "calls_search": 37,
+   "calls_greedy": 37,
+   "stopped": "certificate",
+   "stopped_greedy": "certificate",
+   "replay_ok": true,
+   "world_ok": true,
+   "world_checks": 114,
+   "greedy_world_ok": true,
+   "adherence": {
+    "first": 1,
+    "open-ended": 1,
+    "followed": 32,
+    "replanned": 1,
+    "unplanned": 2
+   },
+   "answer_ok": true
+  },
+  {
+   "id": "httpx-resolve-81b1af7d",
+   "repo": "httpx",
+   "family": "resolve",
+   "cell": "alias=False|decoys=0|family=resolve|from_init=False|hops=2|relative=True|star=False",
+   "floor": 2,
+   "calls_search": 3,
+   "calls_greedy": 3,
+   "stopped": "certificate",
+   "stopped_greedy": "certificate",
+   "replay_ok": true,
+   "world_ok": true,
+   "world_checks": 10,
+   "greedy_world_ok": true,
+   "adherence": {
+    "first": 1,
+    "followed": 1,
+    "open-ended": 1
+   },
+   "answer_ok": true
+  },
+  {
+   "id": "pytest-composite-4d6e4844",
+   "repo": "pytest",
+   "family": "composite",
+   "cell": "alias=False|decoys=0|family=composite|from_init=False|hops=2|importers=13+|relative=False|root_caps=False|star=False",
+   "floor": 19,
+   "calls_search": 20,
+   "calls_greedy": 20,
+   "stopped": "certificate",
+   "stopped_greedy": "certificate",
+   "replay_ok": true,
+   "world_ok": true,
+   "world_checks": 100,
+   "greedy_world_ok": true,
+   "adherence": {
+    "first": 1,
+    "followed": 14,
+    "open-ended": 4,
+    "deviated": 1
+   },
+   "answer_ok": true
+  },
+  {
+   "id": "pytest-composite-984fcea8",
+   "repo": "pytest",
+   "family": "composite",
+   "cell": "alias=False|decoys=0|family=composite|from_init=False|hops=2|importers=13+|relative=False|root_caps=True|star=False",
+   "floor": 24,
+   "calls_search": 32,
+   "calls_greedy": 32,
+   "stopped": "certificate",
+   "stopped_greedy": "certificate",
+   "replay_ok": true,
+   "world_ok": true,
+   "world_checks": 155,
+   "greedy_world_ok": true,
+   "adherence": {
+    "first": 1,
+    "deviated": 2,
+    "open-ended": 3,
+    "followed": 24,
+    "replanned": 2
+   },
+   "answer_ok": true
+  },
+  {
+   "id": "pytest-resolve-09b34f57",
+   "repo": "pytest",
+   "family": "resolve",
+   "cell": "alias=True|decoys=0|family=resolve|from_init=True|hops=2|relative=False|star=False",
+   "floor": 2,
+   "calls_search": 5,
+   "calls_greedy": 5,
+   "stopped": "certificate",
+   "stopped_greedy": "certificate",
+   "replay_ok": true,
+   "world_ok": true,
+   "world_checks": 15,
+   "greedy_world_ok": true,
+   "adherence": {
+    "first": 1,
+    "followed": 1,
+    "open-ended": 3
+   },
+   "answer_ok": true
+  },
+  {
+   "id": "pytest-resolve-426f0f0a",
+   "repo": "pytest",
+   "family": "resolve",
+   "cell": "alias=False|decoys=0|family=resolve|from_init=True|hops=2|relative=True|star=False",
+   "floor": 2,
+   "calls_search": 2,
+   "calls_greedy": 2,
+   "stopped": "certificate",
+   "stopped_greedy": "certificate",
+   "replay_ok": true,
+   "world_ok": true,
+   "world_checks": 34,
+   "greedy_world_ok": true,
+   "adherence": {
+    "first": 1,
+    "deviated": 1
+   },
+   "answer_ok": true
+  },
+  {
+   "id": "requests-composite-a66a6553",
+   "repo": "requests",
+   "family": "composite",
+   "cell": "alias=True|decoys=0|family=composite|from_init=False|hops=2|importers=5|relative=False|root_caps=False|star=False",
+   "floor": 7,
+   "calls_search": 11,
+   "calls_greedy": 11,
+   "stopped": "certificate",
+   "stopped_greedy": "certificate",
+   "replay_ok": true,
+   "world_ok": true,
+   "world_checks": 69,
+   "greedy_world_ok": true,
+   "adherence": {
+    "first": 1,
+    "followed": 4,
+    "open-ended": 4,
+    "deviated": 1,
+    "replanned": 1
+   },
+   "answer_ok": true
+  },
+  {
+   "id": "requests-composite-ad564edd",
+   "repo": "requests",
+   "family": "composite",
+   "cell": "alias=False|decoys=0|family=composite|from_init=False|hops=2|importers=5|relative=False|root_caps=False|star=False",
+   "floor": 7,
+   "calls_search": 8,
+   "calls_greedy": 9,
+   "stopped": "certificate",
+   "stopped_greedy": "certificate",
+   "replay_ok": true,
+   "world_ok": true,
+   "world_checks": 42,
+   "greedy_world_ok": true,
+   "adherence": {
+    "first": 1,
+    "followed": 2,
+    "open-ended": 4,
+    "deviated": 1
+   },
+   "answer_ok": true
+  },
+  {
+   "id": "requests-cover-dcdf02a7",
+   "repo": "requests",
+   "family": "cover",
+   "cell": "decoy_sources=0|family=cover|importers=6-12|root_caps=False|sources=1|star=False",
+   "floor": 10,
+   "calls_search": 13,
+   "calls_greedy": 13,
+   "stopped": "certificate",
+   "stopped_greedy": "certificate",
+   "replay_ok": true,
+   "world_ok": true,
+   "world_checks": 63,
+   "greedy_world_ok": true,
+   "adherence": {
+    "first": 1,
+    "open-ended": 1,
+    "followed": 10,
+    "replanned": 1
+   },
+   "answer_ok": true
+  },
+  {
+   "id": "requests-resolve-03759f96",
+   "repo": "requests",
+   "family": "resolve",
+   "cell": "alias=False|decoys=0|family=resolve|from_init=False|hops=3|relative=False|star=False",
+   "floor": 3,
+   "calls_search": 6,
+   "calls_greedy": 7,
+   "stopped": "certificate",
+   "stopped_greedy": "certificate",
+   "replay_ok": true,
+   "world_ok": true,
+   "world_checks": 48,
+   "greedy_world_ok": true,
+   "adherence": {
+    "first": 1,
+    "followed": 1,
+    "open-ended": 4
+   },
+   "answer_ok": true
+  },
+  {
+   "id": "rich-composite-697440ee",
+   "repo": "rich",
+   "family": "composite",
+   "cell": "alias=False|decoys=0|family=composite|from_init=False|hops=3|importers=6-12|relative=False|root_caps=False|star=False",
+   "floor": 17,
+   "calls_search": 16,
+   "calls_greedy": 16,
+   "stopped": "certificate",
+   "stopped_greedy": "certificate",
+   "replay_ok": true,
+   "world_ok": true,
+   "world_checks": 101,
+   "greedy_world_ok": true,
+   "adherence": {
+    "first": 1,
+    "followed": 10,
+    "open-ended": 4,
+    "deviated": 1
+   },
+   "answer_ok": true
+  },
+  {
+   "id": "rich-cover-331b66a2",
+   "repo": "rich",
+   "family": "cover",
+   "cell": "decoy_sources=0|family=cover|importers=13+|root_caps=False|sources=1|star=False",
+   "floor": 16,
+   "calls_search": 16,
+   "calls_greedy": 16,
+   "stopped": "certificate",
+   "stopped_greedy": "certificate",
+   "replay_ok": true,
+   "world_ok": true,
+   "world_checks": 114,
+   "greedy_world_ok": true,
+   "adherence": {
+    "first": 1,
+    "open-ended": 1,
+    "followed": 14
+   },
+   "answer_ok": true
+  },
+  {
+   "id": "rich-cover-ad4aa569",
+   "repo": "rich",
+   "family": "cover",
+   "cell": "decoy_sources=0|family=cover|importers=6-12|root_caps=False|sources=1|star=False",
+   "floor": 9,
+   "calls_search": 9,
+   "calls_greedy": 9,
+   "stopped": "certificate",
+   "stopped_greedy": "certificate",
+   "replay_ok": true,
+   "world_ok": true,
+   "world_checks": 55,
+   "greedy_world_ok": true,
+   "adherence": {
+    "first": 1,
+    "open-ended": 1,
+    "followed": 7
+   },
+   "answer_ok": true
+  },
+  {
+   "id": "rich-resolve-68cad6dd",
+   "repo": "rich",
+   "family": "resolve",
+   "cell": "alias=False|decoys=0|family=resolve|from_init=True|hops=2|relative=False|star=False",
+   "floor": 2,
+   "calls_search": 2,
+   "calls_greedy": 2,
+   "stopped": "certificate",
+   "stopped_greedy": "certificate",
+   "replay_ok": true,
+   "world_ok": true,
+   "world_checks": 14,
+   "greedy_world_ok": true,
+   "adherence": {
+    "first": 1,
+    "deviated": 1
+   },
+   "answer_ok": true
+  }
+ ],
+ "calibration": [
+  {
+   "bin": "0.0-0.2",
+   "n": 687,
+   "mean_forecast": 0.035404605550639956,
+   "realized": 0.11790393013100436
+  },
+  {
+   "bin": "0.2-0.4",
+   "n": 106,
+   "mean_forecast": 0.24106187575703547,
+   "realized": 0.0660377358490566
+  },
+  {
+   "bin": "0.4-0.6",
+   "n": 26,
+   "mean_forecast": 0.49205902985233946,
+   "realized": 0.5
+  },
+  {
+   "bin": "0.6-0.8",
+   "n": 38,
+   "mean_forecast": 0.7357806043935152,
+   "realized": 0.7631578947368421
+  },
+  {
+   "bin": "0.8-1.0",
+   "n": 355,
+   "mean_forecast": 0.9193557166573245,
+   "realized": 0.7830985915492957
+  }
+ ],
+ "pool": {
+  "attrs": {
+   "pool_size": {
+    "resolve": 98,
+    "cover": 13,
+    "composite": 33
+   },
+   "pool_cells": 18,
+   "chosen": 4,
+   "theta": "df2023878106d754",
+   "training": [
+    "black",
+    "click",
+    "flask",
+    "httpx",
+    "pytest",
+    "requests",
+    "rich"
+   ]
+  },
+  "black": {
+   "pool_size": {
+    "resolve": 363,
+    "cover": 14,
+    "composite": 88
+   },
+   "pool_cells": 10,
+   "chosen": 2,
+   "theta": "55c929686ca1d56a",
+   "training": [
+    "attrs",
+    "click",
+    "flask",
+    "httpx",
+    "pytest",
+    "requests",
+    "rich"
+   ]
+  },
+  "click": {
+   "pool_size": {
+    "resolve": 61,
+    "cover": 7,
+    "composite": 18
+   },
+   "pool_cells": 5,
+   "chosen": 4,
+   "theta": "93954b294cf7311e",
+   "training": [
+    "attrs",
+    "black",
+    "flask",
+    "httpx",
+    "pytest",
+    "requests",
+    "rich"
+   ]
+  },
+  "flask": {
+   "pool_size": {
+    "resolve": 180,
+    "cover": 16,
+    "composite": 97
+   },
+   "pool_cells": 33,
+   "chosen": 4,
+   "theta": "b7977e45b67266d2",
+   "training": [
+    "attrs",
+    "black",
+    "click",
+    "httpx",
+    "pytest",
+    "requests",
+    "rich"
+   ]
+  },
+  "httpx": {
+   "pool_size": {
+    "resolve": 187,
+    "cover": 11,
+    "composite": 55
+   },
+   "pool_cells": 8,
+   "chosen": 4,
+   "theta": "d99074a5d38bc2d8",
+   "training": [
+    "attrs",
+    "black",
+    "click",
+    "flask",
+    "pytest",
+    "requests",
+    "rich"
+   ]
+  },
+  "pytest": {
+   "pool_size": {
+    "resolve": 867,
+    "cover": 69,
+    "composite": 586
+   },
+   "pool_cells": 46,
+   "chosen": 4,
+   "theta": "0140c5bd99319f8c",
+   "training": [
+    "attrs",
+    "black",
+    "click",
+    "flask",
+    "httpx",
+    "requests",
+    "rich"
+   ]
+  },
+  "requests": {
+   "pool_size": {
+    "resolve": 204,
+    "cover": 18,
+    "composite": 72
+   },
+   "pool_cells": 18,
+   "chosen": 4,
+   "theta": "89d4e155c6e8b2e4",
+   "training": [
+    "attrs",
+    "black",
+    "click",
+    "flask",
+    "httpx",
+    "pytest",
+    "rich"
+   ]
+  },
+  "rich": {
+   "pool_size": {
+    "resolve": 947,
+    "cover": 55,
+    "composite": 529
+   },
+   "pool_cells": 22,
+   "chosen": 4,
+   "theta": "6d694b621dbf13a2",
+   "training": [
+    "attrs",
+    "black",
+    "click",
+    "flask",
+    "httpx",
+    "pytest",
+    "requests"
+   ]
+  }
+ },
+ "manifest": {
+  "attrs": {
+   "commit": "8f767776326faaed11e6c2974798787f6e19b343",
+   "py_files": 56,
+   "files": 113
+  },
+  "black": {
+   "commit": "20622e1259c29bda81831962ace1348ba1921c84",
+   "py_files": 345,
+   "files": 438
+  },
+  "click": {
+   "commit": "36baa15ff831b939a22bc527cd76ce653ef6f66d",
+   "py_files": 79,
+   "files": 144
+  },
+  "flask": {
+   "commit": "d318b683471101618febed18996405ad26462110",
+   "py_files": 83,
+   "files": 193
+  },
+  "httpx": {
+   "commit": "b5addb64f0161ff6bfe94c124ef76f6a1fba5254",
+   "py_files": 60,
+   "files": 98
+  },
+  "pytest": {
+   "commit": "51e9a9f148cd2509a31e3fa0d2b1b3204c2b0dd7",
+   "py_files": 272,
+   "files": 649
+  },
+  "requests": {
+   "commit": "dae7ef63b4df6eded86637f251fc4e3a06c3b479",
+   "py_files": 37,
+   "files": 83
+  },
+  "rich": {
+   "commit": "9d8f9a372cc5916fd4781fec207ced7ddac2f08f",
+   "py_files": 213,
+   "files": 517
+  }
+ },
+ "args": {
+  "cmd": "demo",
+  "corpus": "/tmp/claude-0/-home-user-pgc/f54d2344-2280-5ef8-b0f5-1771a67a4b87/scratchpad/corpus",
+  "out": "demo",
+  "repos": "",
+  "per_repo": 4,
+  "seed": 0,
+  "budget": 40,
+  "prior_samples": 40
+ }
+}
